@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c244f912_2e0c796c",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/AttachVolumeServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-01T21:05:02Z",
+      "side": 1,
+      "message": "did you mean to use isBlank()?",
+      "revId": "00ad70c92bf8714eb3e8abdd2b889e62aafbb9ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ae4ebc4_c8994147",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/AttachVolumeServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-01T21:05:02Z",
+      "side": 1,
+      "message": "could change this whole conditional to:\n!\"true\".equalsIgnoreCase(skipHypervisorCheck)\n\nsame comment applies to each file",
+      "revId": "00ad70c92bf8714eb3e8abdd2b889e62aafbb9ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "872d9af3_df555988",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/AttachVolumeServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-01T21:05:02Z",
+      "side": 1,
+      "message": "change \"Volumes\" to \"Volumes \"",
+      "revId": "00ad70c92bf8714eb3e8abdd2b889e62aafbb9ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "164bb63f_2db05714",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/AttachVolumeServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-01T21:05:02Z",
+      "side": 1,
+      "message": "change \"Volumes\" to \"Volumes \"",
+      "revId": "00ad70c92bf8714eb3e8abdd2b889e62aafbb9ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdb38106_0c92662d",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/CreateSnapshot.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-01T21:05:02Z",
+      "side": 1,
+      "message": "add a space after \",\"",
+      "revId": "00ad70c92bf8714eb3e8abdd2b889e62aafbb9ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5f8c172_0431d4bb",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/DettachVolumeServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-01T21:05:02Z",
+      "side": 1,
+      "message": "indentation of these lines does not match context",
+      "revId": "00ad70c92bf8714eb3e8abdd2b889e62aafbb9ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4fe1a0f_aaf3ddcb",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/RebootServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-01T21:05:02Z",
+      "side": 1,
+      "message": "could simply use:\nServer.Status.ERROR.equals(server.getStatus())",
+      "revId": "00ad70c92bf8714eb3e8abdd2b889e62aafbb9ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aba503fd_7375e469",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/RebootServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-01T21:05:02Z",
+      "side": 1,
+      "message": "can getStatus() be null?  If so, need to invert these \"equals()\" calls like above",
+      "revId": "00ad70c92bf8714eb3e8abdd2b889e62aafbb9ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aec55b9c_edf4347a",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/RebuildServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-01T21:05:02Z",
+      "side": 1,
+      "message": "don\u0027t remove the IBM copyright unless IBM has not touched this file",
+      "revId": "00ad70c92bf8714eb3e8abdd2b889e62aafbb9ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efa8484_0beb9931",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/RebuildServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-01T21:05:02Z",
+      "side": 1,
+      "message": "need the interrupt() call",
+      "revId": "00ad70c92bf8714eb3e8abdd2b889e62aafbb9ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b223471a_3182b181",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/RebuildServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-01T21:05:02Z",
+      "side": 1,
+      "message": "change to !imgFound",
+      "revId": "00ad70c92bf8714eb3e8abdd2b889e62aafbb9ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61bcdd15_525e0a43",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/RebuildServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-01T21:05:02Z",
+      "side": 1,
+      "message": "remove \"\u003d\u003d true\"",
+      "revId": "00ad70c92bf8714eb3e8abdd2b889e62aafbb9ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3ff6f73_f527791c",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/RebuildServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-01T21:05:02Z",
+      "side": 1,
+      "message": "this chunk of code is the same as for the snapshot list.  Extract a common method and use that instead of cloning the code.  Once that\u0027s done, the \"imageFound\" variable will no longer be needed",
+      "revId": "00ad70c92bf8714eb3e8abdd2b889e62aafbb9ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
