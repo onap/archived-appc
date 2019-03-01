@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2019 IBM
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -27,6 +29,7 @@ package org.onap.appc.pool;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -271,5 +274,22 @@ public class CachedElementTest implements Allocator<Testable>, Destructor<Testab
     @Override
     public void destroy(Testable obj, Pool<Testable> pool) {
         destroyCount++;
+    }
+    
+    @Test
+    public void testGetWrappedObject()
+    {
+        Testable element = new Element(index++);
+        CachedElement cachedElement = new CachedElement(pool, element);
+        assertNotNull(cachedElement.getWrappedObject());
+        assertSame(element, cachedElement.getWrappedObject());
+    }
+    
+    @Test
+    public void testToString()
+    {
+        Testable element = new Element(index++);
+        CachedElement cachedElement = new CachedElement(pool, element);
+        assertTrue(cachedElement.toString() instanceof String);
     }
 }
