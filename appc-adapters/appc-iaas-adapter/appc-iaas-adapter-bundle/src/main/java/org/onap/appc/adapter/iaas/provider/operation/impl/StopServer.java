@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -49,6 +49,7 @@ import java.util.Map;
 import org.slf4j.MDC;
 import static org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation.STOP_SERVICE;
 import static org.onap.appc.adapter.utils.Constants.ADAPTER_NAME;
+import org.onap.appc.adapter.iaas.provider.operation.common.constants.Property;
 
 public class StopServer extends ProviderServerOperation {
 
@@ -78,12 +79,23 @@ public class StopServer extends ProviderServerOperation {
             String identStr = (ident == null) ? null : ident.toString();
             Context context = null;
             ctx.setAttribute("STOP_STATUS", "ERROR");
+            // Is the skip Hypervisor check attribute populated?
+            String skipHypervisorCheck = configuration.getProperty(Property.SKIP_HYPERVISOR_CHECK);
+            if (skipHypervisorCheck == null && ctx != null) {
+                skipHypervisorCheck = ctx.getAttribute(ProviderAdapter.SKIP_HYPERVISOR_CHECK);
+            }
             try {
                 context = getContext(rc, vm_url, identStr);
                 if (context != null) {
                     rc.reset();
                     server = lookupServer(rc, context, vm.getServerId());
                     logger.debug(Msg.SERVER_FOUND, vm_url, context.getTenantName(), server.getStatus().toString());
+                    // Always perform Hypervisor check
+                    // unless the skip is set to true
+                    if (skipHypervisorCheck == null || (!skipHypervisorCheck.equalsIgnoreCase("true"))) {
+                        // Check of the Hypervisor for the VM Server is UP and reachable
+                        checkHypervisor(server);
+                    }
                     String msg;
                     /*
                      * We determine what to do based on the current state of the server
@@ -183,6 +195,7 @@ public class StopServer extends ProviderServerOperation {
         logOperation(Msg.STOPPING_SERVER, params, context);
         return stopServer(params, context);
     }
+
     private void setTimeForMetricsLogger() {
         String timestamp = LoggingUtils.generateTimestampStr(((Date) new Date()).toInstant());
         MDC.put(LoggingConstants.MDCKeys.BEGIN_TIMESTAMP, timestamp);

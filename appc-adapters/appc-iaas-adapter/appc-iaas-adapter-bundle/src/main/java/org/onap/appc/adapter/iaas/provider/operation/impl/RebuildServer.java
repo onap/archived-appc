@@ -2,24 +2,22 @@
 * ============LICENSE_START=======================================================
 * ONAP : APPC
 * ================================================================================
-* Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+* Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
 * ================================================================================
 * Copyright (C) 2017 Amdocs
-* =============================================================================
-* Modifications Copyright (C) 2019 IBM
 * =============================================================================
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
-*
+* 
 *      http://www.apache.org/licenses/LICENSE-2.0
-*
+* 
 * Unless required by applicable law or agreed to in writing, software
 * distributed under the License is distributed on an "AS IS" BASIS,
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License.
-*
+* 
 * ============LICENSE_END=========================================================
 */
 
@@ -79,7 +77,7 @@ public class RebuildServer extends ProviderServerOperation {
     // processing the request"
     private long rebuildSleepTime = 10L * 1000L;
 
-    /*
+    /**
      * Rebuild the indicated server with the indicated image. This method assumes
      * the server has been determined to be in the correct state to do the rebuild.
      *
@@ -127,7 +125,6 @@ public class RebuildServer extends ProviderServerOperation {
             } catch (InterruptedException e) {
                 logger.trace("Sleep threw interrupted exception, should never occur");
                 metricsLogger.trace("Sleep threw interrupted exception, should never occur");
-                Thread.currentThread().interrupt();
             }
         } catch (ZoneException e) {
             msg = EELFResourceManager.format(Msg.REBUILD_SERVER_FAILED, server.getName(), server.getId(),
@@ -174,23 +171,25 @@ public class RebuildServer extends ProviderServerOperation {
     private void rebuildServer(RequestContext rc, Server server, SvcLogicContext ctx)
             throws ZoneException, RequestFailedException {
         ServerBootSource builtFrom = server.getBootSource();
-        /*
+         /*
          * Set Time for Metrics Logger
          */
         setTimeForMetricsLogger();
         String msg;
-        //Throw error if boot source is unknown
+        // Throw error if boot source is unknown
         if (ServerBootSource.UNKNOWN.equals(builtFrom)) {
-            logger.debug("Boot Source Unknown" );
+            logger.debug("Boot Source Unknown");
             msg = String.format("Error occured when retrieving server boot source [%s]!!!", server.getId());
             logger.error(msg);
-            generateEvent(rc, false,msg);
+            generateEvent(rc, false, msg);
             metricsLogger.error(msg);
             throw new RequestFailedException("Rebuild Server", msg, HttpStatus.INTERNAL_SERVER_ERROR_500, server);
         }
 
+        
         // Throw exception for non image/snap boot source
         if (ServerBootSource.VOLUME.equals(builtFrom)) {
+            logger.debug("Boot Source Not Supported built from bootable volume");
             msg = String.format("Rebuilding is currently not supported for servers built from bootable volumes [%s]",
                     server.getId());
             generateEvent(rc, false, msg);
@@ -242,13 +241,25 @@ public class RebuildServer extends ProviderServerOperation {
             logger.debug("Exception attempting to pull snapshot-id from the payload: " + e.toString());
         }
         List<Image> snapshots = server.getSnapshots();
+        ImageService imageService = server.getContext().getImageService();
+        List<Image> imageList = imageService.listImages();
         if (!imageToUse.isEmpty()) {
             logger.debug("Using snapshot-id " + imageToUse + " for the rebuild request");
+            boolean imgFound = validateSnapshotId(imageToUse, snapshots, imageList);
+
+            if (imgFound == false) {
+                logger.debug("Image Snapshot Not Found");
+                msg = EELFResourceManager.format(Msg.REBUILD_SERVER_FAILED, server.getName(), server.getId(),
+                        "Invalid Snapshot-Id");
+                logger.error(msg);
+                metricsLogger.error(msg);
+                throw new RequestFailedException("Rebuild Server", msg, HttpStatus.FORBIDDEN_403, server);
+            }
         } else if (snapshots != null && !snapshots.isEmpty()) {
+            logger.debug("Using snapshot-id when image is Empty" + imageToUse + " for the rebuild request");
             imageToUse = snapshots.get(0).getId();
         } else {
             imageToUse = server.getImage();
-            ImageService imageService = server.getContext().getImageService();
             rc.reset();
             try {
                 while (rc.attempt()) {
@@ -370,7 +381,6 @@ public class RebuildServer extends ProviderServerOperation {
         try {
             validateParametersExist(params, ProviderAdapter.PROPERTY_INSTANCE_URL,
                     ProviderAdapter.PROPERTY_PROVIDER_NAME);
-
             String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
             String vm_url = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
             VMURL vm = VMURL.parseURL(vm_url);
@@ -408,8 +418,7 @@ public class RebuildServer extends ProviderServerOperation {
                 logger.error(ex.getMessage());
                 ctx.setAttribute("REBUILD_STATUS", "ERROR");
                 doFailure(rc, HttpStatus.CONFLICT_409, ex.getMessage());
-            }
-            catch (RequestFailedException e) {
+            } catch (RequestFailedException e) {
                 doFailure(rc, e.getStatus(), e.getMessage());
                 ctx.setAttribute("REBUILD_STATUS", "ERROR");
             } catch (ResourceNotFoundException e) {
@@ -427,7 +436,6 @@ public class RebuildServer extends ProviderServerOperation {
                 doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
             }
         } catch (RequestFailedException e) {
-
             ctx.setAttribute("REBUILD_STATUS", "ERROR");
             doFailure(rc, e.getStatus(), e.getMessage());
         }
@@ -467,4 +475,51 @@ public class RebuildServer extends ProviderServerOperation {
     public void setRebuildSleepTime(long millis) {
         this.rebuildSleepTime = millis;
     }
+
+    private boolean validateSnapshotId(String imageToUse, List<Image> snapshotList, List<Image> imageList) {
+
+        logger.debug("Validating snapshot-id " + imageToUse + " for the rebuild request from payload");
+        boolean imageFound = false;
+        // If image is empty , the validation si not required . Hence return false.
+        // Ideally function should not be called with empty image Id
+        if (imageToUse.isEmpty()) {
+            return imageFound;
+        }
+
+        // The supplied snapshot id can be a snapshot id or an image Id. Check both
+        // available for the vnf.
+        // Check against snapshot id list
+        logger.debug("Available snapshot-ids : Start\n");
+        for (Image img : snapshotList) {
+            String imgId = img.getId();
+            logger.debug("Snapshot Id - " + imgId + "\n");
+        }
+        logger.debug("Available snapshot-ids : End\n");
+        for (Image img : snapshotList) {
+            String imgId = img.getId();
+            if (imgId.equals(imageToUse)) {
+                logger.debug("Image found in available snapshot id list  ");
+                imageFound = true;
+                break;
+            }
+        }
+        // return if already found in snapshot List
+        if (imageFound == true) {
+            return imageFound;
+        }
+        
+         for (Image img : imageList) {
+            String imgId = img.getId();
+            logger.debug("Available Image-ids : Start\n");
+            logger.debug("Image Id - " + imgId + "\n");
+            logger.debug("Available Image-ids : End\n");
+         if (imgId.equals(imageToUse)) {
+                logger.debug("Image found in available image id list");
+                imageFound = true;
+                break;
+            }
+        }
+        return imageFound;
+    }
+
 }
