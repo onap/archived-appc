@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "17248b47_733e5c0c",
+        "filename": "appc-core/appc-common-bundle/src/test/java/org/onap/appc/pool/CachedElementTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-01T13:44:55Z",
+      "side": 1,
+      "message": "maybe add assertSame(element, ...)?",
+      "revId": "8e4206cc675054b8e9333ebab1abc5e49ab4f1ab",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "78fd5bd1_dc43498b",
         "filename": "appc-core/appc-common-bundle/src/test/java/org/onap/appc/pool/CachedElementTest.java",
         "patchSetId": 1
