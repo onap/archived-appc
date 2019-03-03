@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
@@ -109,30 +109,119 @@ public class TransactionRecorderImpl implements TransactionRecorder {
     }
 
     @Override
-    public void update(String key, Map<TransactionConstants.TRANSACTION_ATTRIBUTES, String> updateColumns) throws
-        APPCException {
+    public void update(String key,
+                       String requestId,
+                       Map<TransactionConstants.TRANSACTION_ATTRIBUTES, String> updateColumns) throws APPCException {
+        logger.debug("Inside update in TransactionRecorderImpl");
+
+        if (appcInstanceId != null && checkIfNullInstanceEntryExist(key, requestId)) {
+            updateNullInstanceEntry(key, requestId, updateColumns);
+        } else {
+            updateTransactionEntry(key, updateColumns);
+        }
+        if (logger.isTraceEnabled()) {
+            logger.trace("End of Update Transaction table.");
+        }
+    }
+
+    private void updateTransactionEntry(String key, Map<TRANSACTION_ATTRIBUTES, String> updateColumns)
+        throws APPCException {
         ArrayList<String> values = new ArrayList<>();
+        logger.debug("Inside updateTransactionEntry");
 
         StringBuilder queryBuilder = new StringBuilder("UPDATE TRANSACTIONS SET ");
         for (Map.Entry<TransactionConstants.TRANSACTION_ATTRIBUTES, String> entry : updateColumns.entrySet()) {
             queryBuilder.append(entry.getKey().getColumnName() + " = ? ,");
             values.add(entry.getValue());
+            logger.debug("Value for " + entry.getKey().getColumnName() + " in Transaction table: " + entry.getValue());
         }
         queryBuilder.deleteCharAt(queryBuilder.lastIndexOf(","));
-        queryBuilder.append(WHERE + TRANSACTION_ID.getColumnName() + " = ?");
+        queryBuilder.append(WHERE + TRANSACTION_ID.getColumnName() + " = ? AND "
+                            + REQUEST_ID.getColumnName() + " = ? ");
         values.add(appcInstanceId + "~" + key);
 
         String query = queryBuilder.toString();
         try {
-            dbLibService.writeData(query, values, SCHEMA);
+            if (logger.isDebugEnabled()) {
+                logger.debug("Before updating Transaction table the Query is: " + query);
+                for (String value : values) {
+                    logger.debug("Value for Transaction table: " + value);
+                }
+            }
+            Boolean result = dbLibService.writeData(query, values, SCHEMA);
+            logger.debug("Transactions table data update, writeData() result: " + result);
         } catch (SQLException e) {
-            logger.error("Error in updating records " + e);
+            logger.error("Error in updating records in updateTransactionEntry " + e);
             throw new APPCException(ERROR_ACCESSING_DATABASE, e);
         }
         if (logger.isTraceEnabled()) {
             logger.trace("Transaction data updated successfully");
         }
 
+    }
+
+    private void updateNullInstanceEntry(String key,
+                                         String requestId,
+                                         Map<TRANSACTION_ATTRIBUTES, String> updateColumns) throws APPCException {
+        logger.debug("Inside updateNullInstanceEntry");
+
+        ArrayList<String> values = new ArrayList<>();
+        StringBuilder queryBuilder = new StringBuilder("UPDATE TRANSACTIONS SET ");
+        for (Map.Entry<TransactionConstants.TRANSACTION_ATTRIBUTES, String> entry : updateColumns.entrySet()) {
+            queryBuilder.append(entry.getKey().getColumnName() + " = ? ,");
+            values.add(entry.getValue());
+        }
+                // queryBuilder.deleteCharAt(queryBuilder.lastIndexOf(","));
+                queryBuilder.append(TRANSACTION_ID.getColumnName() + " = ?");
+                queryBuilder.append(WHERE + TRANSACTION_ID.getColumnName() + " = ? AND "
+                                    + REQUEST_ID.getColumnName() + " = ? ");
+                values.add(appcInstanceId + "~" + key);
+                values.add(null + "~" + key);
+                values.add(requestId);
+                String query = queryBuilder.toString();
+                try {
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("Before updating Transaction table the Query is: " + query);
+                        for (String value : values) {
+                                logger.debug("Value for Transaction table: " + value);
+                        }
+                    }
+                    Boolean result = dbLibService.writeData(query, values, SCHEMA);
+                    logger.debug("Transactions table data update, writeData() result: " + result);
+
+                } catch (SQLException e) {
+                    logger.error("Error in updating records in updateNullInstanceEntry " + e);
+                    throw new APPCException(ERROR_ACCESSING_DATABASE, e);
+                }
+
+        }
+
+    private boolean checkIfNullInstanceEntryExist(String key, String requestId) throws APPCException {
+        logger.debug("Entered checkIfNullInstanceEntryExist");
+        String nullInstanceCheckQuery = new String("SELECT COUNT(*) as ROWS  FROM " +
+                                                   TransactionConstants.TRANSACTIONS + WHERE +
+                                                   TRANSACTION_ID.getColumnName() + " = ? AND " +
+                                                   REQUEST_ID.getColumnName() + " = ? ");
+
+        ArrayList<String> nullInstanceCheckParams = new ArrayList<>();
+        nullInstanceCheckParams.add(null + "~" + key);
+        nullInstanceCheckParams.add(requestId);
+
+        try{
+            CachedRowSet rowSet = dbLibService.getData(nullInstanceCheckQuery, nullInstanceCheckParams, SCHEMA);
+            int noRows = 0;
+            if (rowSet.first()) {
+                noRows = rowSet.getInt("ROWS");
+                logger.info("No of Rows in Transactions Table with TRANSACTION_ID: " +
+                            null + "~" + key + " and REQUEST_ID " + requestId + " is: " + noRows);
+            }
+            if(noRows > 0)
+                return true;
+        } catch (SQLException e) {
+            logger.error("Error in checkIfNullInstanceEntryExist in the transaction table", e);
+            throw new APPCException(ERROR_ACCESSING_DATABASE, e);
+        }
+        return false;
     }
 
     @Override
