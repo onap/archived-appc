@@ -78,6 +78,11 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.onap.ccsdk.sli.adaptors</groupId>
             <artifactId>aai-service-provider</artifactId>
         </dependency>

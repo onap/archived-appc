@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
@@ -145,7 +145,7 @@ public class TransactionRecorderImplTest {
     }
 
     /**
-     * Verify the transactionRecorderImpl.sore() store the TransactionRecord correctly in the database.
+     * Verify the transactionRecorderImpl.store() store the TransactionRecord correctly in the database.
      */
     @Test
     public void testStore() throws Exception {
@@ -274,9 +274,13 @@ public class TransactionRecorderImplTest {
         insertRecord(input);
         Map<TransactionConstants.TRANSACTION_ATTRIBUTES, String> updateColumns = new HashMap<>();
         updateColumns.put(TransactionConstants.TRANSACTION_ATTRIBUTES.TARGET_TYPE, "Firewall");
+        Mockito.when(dbLibService.getData(anyString(), anyObject(), anyString())).thenAnswer(invocation ->
+                returnResult(invocation.getArguments()));
         Mockito.when(dbLibService.writeData(anyString(), anyObject(), anyString())).thenAnswer(invocation ->
                 testUpdateInMemory(invocation.getArguments()));
-        transactionRecorderImpl.update(input.getTransactionId(), updateColumns);
+        transactionRecorderImpl.update(input.getTransactionId(), input.getRequestId(), updateColumns);
+	Mockito.verify(dbLibService).getData(anyString(), anyObject(), anyString());
+	Mockito.verify(dbLibService).writeData(anyString(), anyObject(), anyString());
     }
 
     @Test
@@ -289,7 +293,97 @@ public class TransactionRecorderImplTest {
         expectedEx.expect(APPCException.class);
         expectedEx.expectMessage(TransactionConstants.ERROR_ACCESSING_DATABASE);
         expectedEx.expectCause(isA(SQLException.class));
-        transactionRecorderImpl.update(input.getTransactionId(), updateColumns);
+        transactionRecorderImpl.update(input.getTransactionId(), input.getRequestId(), updateColumns);
+    }
+
+    @Test
+    public void testUpdatewithNullInstance() throws APPCException, SQLException {
+        TransactionRecord input = prepareTransactionsInput();
+        Map<TransactionConstants.TRANSACTION_ATTRIBUTES, String> updateColumns = new HashMap<>();
+        updateColumns.put(TransactionConstants.TRANSACTION_ATTRIBUTES.TARGET_TYPE, "Firewall");
+        Mockito.when(dbLibService.getData(anyString(), anyObject(), anyString())).thenAnswer(invocation ->
+                returnPositiveResult(invocation.getArguments()));
+        Mockito.when(dbLibService.writeData(anyString(), anyObject(), anyString())).thenAnswer(invocation ->
+                testUpdateInMemory(invocation.getArguments()));
+
+        transactionRecorderImpl.update(input.getTransactionId(), input.getRequestId(), updateColumns);
+	Mockito.verify(dbLibService).getData(anyString(), anyObject(), anyString());
+	Mockito.verify(dbLibService).writeData(anyString(), anyObject(), anyString());
+    }
+
+    private Object returnPositiveResult(Object[] obj) throws Exception {
+        String query = (String) obj[0];
+        ArrayList<String> args = (ArrayList<String>) obj[1];
+        System.out.println("returnPositiveResult: Query: " + query + "\nArgs: " + args);
+
+        insertNullInstanceData(args.get(0));
+
+	try (
+             Connection con = dbConnectionPool.getConnection();
+             PreparedStatement ps_second = con.prepareStatement(query)
+	     ) {
+            for (int i = 1; i <= args.size(); i++) {
+                ps_second.setString(i, args.get(i - 1));
+            }
+            CachedRowSet rowSet = new CachedRowSetImpl();
+            rowSet.populate(ps_second.executeQuery());
+            return rowSet;
+        }
+    }
+
+    private void insertNullInstanceData(String transactionId) throws Exception {
+        final String nullInstanceQuery = (TransactionConstants.INSERT_INTO + TransactionConstants.TRANSACTIONS +
+                                          " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+	try (
+             Connection con = dbConnectionPool.getConnection();
+             PreparedStatement ps = con.prepareStatement(nullInstanceQuery)
+	     ) {
+            ArrayList<String> input = new ArrayList<String>();
+            input.add(transactionId);
+            input.add(dateToStringConverterMillis(Instant.parse("2017-09-12T00:00:01.00Z")));
+            input.add("REQUEST_ID");
+            input.add("SUB_REQUEST_ID");
+            input.add("ORIGINATOR_ID");
+            input.add(dateToStringConverterMillis(Instant.parse("2018-09-12T00:00:02.00Z")));
+            input.add(dateToStringConverterMillis(Instant.parse("2018-09-12T20:00:02.00Z")));
+            input.add("TARGET_ID");
+            input.add("TARGET_TYPE");
+            input.add("Audit");
+            input.add(String.valueOf(200));
+            input.add("SERVICE_INSTANCE_ID");
+            input.add("ACCEPTED");
+            input.add("DESCRIPTION");
+            input.add("test");
+            input.add("test");
+            input.add("test");
+            input.add("EXCLUSIVE");
+    
+            for (int i = 1; i <= input.size(); i++) {
+                ps.setString(i, input.get(i-1));
+            }
+            ps.execute();
+    
+            if (checkIfRowIsPresent(input.get(0))) {
+                System.out.println("RECORD INSERTED " + input.get(0));
+            }
+        }
+    }
+
+    private ResultSet returnResult(Object[] obj) throws Exception {
+        String query = (String) obj[0];
+        ArrayList<String> args = (ArrayList<String>) obj[1];
+        System.out.println("Query: " + query + "\nArgs: " + args);
+	try (
+             Connection con = dbConnectionPool.getConnection();
+             PreparedStatement ps = con.prepareStatement(query)
+	     ) {
+            for (int i = 1; i <= args.size(); i++) {
+                ps.setString(i, args.get(i - 1));
+            }
+            CachedRowSet rowSet = new CachedRowSetImpl();
+            rowSet.populate(ps.executeQuery());
+            return rowSet;
+        }
     }
 
     @Test
@@ -334,74 +428,94 @@ public class TransactionRecorderImplTest {
     private ResultSet inMemoryExecutionWithResultSet(Object[] obj) throws Exception {
         String query = (String) obj[0];
         ArrayList<String> args = (ArrayList<String>) obj[1];
-        Connection con = dbConnectionPool.getConnection();
-        PreparedStatement ps = con.prepareStatement(query);
-        for (int i = 1; i <= args.size(); i++) {
-            ps.setString(i, args.get(i - 1));
+        // System.out.println("Query: " + query + "\nArgs: " + args);
+	try (
+             Connection con = dbConnectionPool.getConnection();
+             PreparedStatement ps = con.prepareStatement(query)
+	     ) {
+            for (int i = 1; i <= args.size(); i++) {
+                ps.setString(i, args.get(i - 1));
+            }
+            CachedRowSet rowSet = new CachedRowSetImpl();
+            rowSet.populate(ps.executeQuery());
+            return rowSet;
         }
-        CachedRowSet rowSet = new CachedRowSetImpl();
-        rowSet.populate(ps.executeQuery());
-        return rowSet;
     }
 
     private boolean testMarkAbortedInMemory(Object[] obj) throws Exception {
         String query = (String) obj[0];
         ArrayList<String> args = (ArrayList<String>) obj[1];
-        Connection con = dbConnectionPool.getConnection();
-        PreparedStatement ps = con.prepareStatement(query);
-        for (int i = 1; i <= args.size(); i++) {
-            ps.setString(i, args.get(i - 1));
+	try (
+             Connection con = dbConnectionPool.getConnection();
+             PreparedStatement ps = con.prepareStatement(query)
+	     ) {
+            for (int i = 1; i <= args.size(); i++) {
+                ps.setString(i, args.get(i - 1));
+            }
+            ps.execute();
+            return isTransactionAborted();
         }
-        ps.execute();
-        return isTransactionAborted();
     }
 
     private boolean isTransactionAborted() throws Exception {
         String query = "SELECT COUNT(*) FROM  TRANSACTIONS WHERE STATE = ?";
-        Connection con = dbConnectionPool.getConnection();
-        PreparedStatement ps = con.prepareStatement(query);
-        ps.setString(1, RequestStatus.ABORTED.toString());
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            int value = rs.getInt(1);
-            if (value == 1) {
-                System.out.println("Non terminal Transactions are aborted");
-                return true;
+	try (
+             Connection con = dbConnectionPool.getConnection();
+             PreparedStatement ps = con.prepareStatement(query)
+	     ) {
+            ps.setString(1, RequestStatus.ABORTED.toString());
+            try (
+                 ResultSet rs = ps.executeQuery()
+    	     ) {
+                while (rs.next()) {
+                    int value = rs.getInt(1);
+                    if (value == 1) {
+                        System.out.println("Non terminal Transactions are aborted");
+                        return true;
+                    }
+                }
+                throw new Exception("Transactions are not aborted");
             }
         }
-        throw new Exception("Transactions are not aborted");
     }
 
     private boolean testUpdateInMemory(Object[] obj) throws Exception {
         String query = (String) obj[0];
         ArrayList<String> args = (ArrayList<String>) obj[1];
-        Connection con = dbConnectionPool.getConnection();
-        PreparedStatement ps = con.prepareStatement(query);
-        for (int i = 1; i <= args.size(); i++) {
-            ps.setString(i, args.get(i - 1));
+        try (
+             Connection con = dbConnectionPool.getConnection();
+             PreparedStatement ps = con.prepareStatement(query)
+	     ) {
+            for (int i = 1; i <= args.size(); i++) {
+                System.out.println("Value at " + i + ": " + args.get(i - 1));
+                ps.setString(i, args.get(i - 1));
+            }
+            ps.execute();
+            String updatedValue = checkIfValueIsUpdated(args.get(1));
+            System.out.println("updated Value is " + updatedValue);
+            if (updatedValue.equals("Firewall")) {
+                return true;
+            }
+            throw new Exception("Not Updated");
         }
-        ps.execute();
-        String updatedValue = checkIfValueIsUpdated(args.get(1));
-        System.out.println("updated Value is " + updatedValue);
-        if (updatedValue.equals("Firewall")) {
-            return true;
-        }
-        throw new Exception("Not Updated");
     }
 
     private boolean testStoreInMemory(Object[] obj) throws Exception {
         String query = (String) obj[0];
         ArrayList<String> args = (ArrayList<String>) obj[1];
-        Connection con = dbConnectionPool.getConnection();
-        PreparedStatement ps = con.prepareStatement(query);
-        for (int i = 1; i <= args.size(); i++) {
-            ps.setString(i, args.get(i - 1));
+	try (
+	     Connection con = dbConnectionPool.getConnection();
+             PreparedStatement ps = con.prepareStatement(query)
+	     ) {
+            for (int i = 1; i <= args.size(); i++) {
+                ps.setString(i, args.get(i - 1));
+            }
+            ps.execute();
+            if (checkIfRowIsPresent(args.get(0))) {
+                return true;
+            }
+            throw new Exception("Failed to update");
         }
-        ps.execute();
-        if (checkIfRowIsPresent(args.get(0))) {
-            return true;
-        }
-        throw new Exception("Failed to update");
     }
 
     private TransactionRecord prepareTransactionsInput() {
@@ -426,19 +540,21 @@ public class TransactionRecorderImplTest {
     private void insertRecord(TransactionRecord input) throws SQLException {
         final String STORE_DATE_QUERY = TransactionConstants.INSERT_INTO + TransactionConstants.TRANSACTIONS +
                 " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        Connection con = dbConnectionPool.getConnection();
-        PreparedStatement ps = con.prepareStatement(STORE_DATE_QUERY);
-        ArrayList<String> args = prepareArguments(input);
-        args.remove(0);
-        args.add(0, "123~" + input.getTransactionId());
-        for (int i = 1; i <= 18; i++) {
-            ps.setString(i, args.get(i - 1));
+	try (
+	     Connection con = dbConnectionPool.getConnection();
+             PreparedStatement ps = con.prepareStatement(STORE_DATE_QUERY)
+	     ) {
+            ArrayList<String> args = prepareArguments(input);
+            args.remove(0);
+            args.add(0, "123~" + input.getTransactionId());
+            for (int i = 1; i <= 18; i++) {
+                ps.setString(i, args.get(i - 1));
+            }
+            ps.execute();
+            if (checkIfRowIsPresent(args.get(0))) {
+                System.out.println("RECORD INSERTED " + args.get(0));
+            }
         }
-        ps.execute();
-        if (checkIfRowIsPresent(args.get(0))) {
-            System.out.println("RECORD INSERTED " + args.get(0));
-        }
-
     }
 
     private ArrayList<String> prepareArguments(TransactionRecord input) {
@@ -498,15 +614,24 @@ public class TransactionRecorderImplTest {
     }
 
     private String checkIfValueIsUpdated(String key) throws Exception {
-        Connection con = dbConnectionPool.getConnection();
-        PreparedStatement ps = con.prepareStatement("SELECT TARGET_TYPE FROM  TRANSACTIONS WHERE TRANSACTION_ID = ?");
-        ps.setString(1, key);
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            String value = rs.getString("TARGET_TYPE");
-            return value;
+	try (
+	     Connection con = dbConnectionPool.getConnection();
+	     PreparedStatement ps = con.prepareStatement("SELECT TARGET_TYPE,TRANSACTION_ID FROM TRANSACTIONS" +
+							 " WHERE TRANSACTION_ID = ?")
+	     ) {
+            ps.setString(1, key);
+            try (
+		 ResultSet rs = ps.executeQuery()
+		 ) {
+               while (rs.next()) {
+                   String value = rs.getString("TARGET_TYPE");
+                   String transactionId = rs.getString("TRANSACTION_ID");
+                   System.out.println("Updated data: TRANSACTION_ID: " + transactionId + " TARGET_TYPE: " + value);
+                   return value;
+               }
+               throw new Exception("Value not found");
+            }
         }
-        throw new Exception("Value not found");
     }
 
 

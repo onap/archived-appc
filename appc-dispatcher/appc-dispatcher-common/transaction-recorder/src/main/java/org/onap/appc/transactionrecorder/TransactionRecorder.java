@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -45,10 +45,12 @@ public interface TransactionRecorder {
     /**
      * This method is called when a particular row in transactions needs to be updated
      * @param key This is TransactionId which uniquely identifies the record.
+     * @param requestId
      * @param updateColumns Map containing names of updated columns and their values.
      * @throws APPCException
      */
-    void update(String key, Map<TransactionConstants.TRANSACTION_ATTRIBUTES, String> updateColumns) throws APPCException;
+    void update(String key, String requestId, Map<TransactionConstants.TRANSACTION_ATTRIBUTES, String> updateColumns)
+            throws APPCException;
 
     /**
      * Marks all records in Transactions table in non-terminal state as ABORTED. This method is to be called during
