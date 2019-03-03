@@ -50,6 +50,10 @@
             <groupId>com.att.eelf</groupId>
             <artifactId>eelf-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

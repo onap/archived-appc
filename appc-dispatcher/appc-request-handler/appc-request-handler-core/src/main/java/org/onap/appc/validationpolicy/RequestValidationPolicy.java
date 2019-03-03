@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
@@ -11,15 +11,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * ============LICENSE_END=========================================================
  */
 
@@ -31,6 +31,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang.StringUtils;
 import org.onap.appc.domainmodel.lcm.VNFOperation;
+import org.onap.appc.requesthandler.model.DBServiceUtil;
 import org.onap.appc.validationpolicy.executors.ActionInProgressRuleExecutor;
 import org.onap.appc.validationpolicy.executors.RuleExecutor;
 import org.onap.appc.validationpolicy.objects.Policy;
@@ -40,8 +41,7 @@ import org.onap.appc.validationpolicy.objects.ValidationJSON;
 import org.onap.appc.validationpolicy.rules.RuleFactory;
 import org.onap.ccsdk.sli.core.dblib.DbLibService;
 
-import javax.sql.rowset.CachedRowSet;
-import java.sql.SQLException;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -107,18 +107,19 @@ public class RequestValidationPolicy {
     }
 
     protected String getPolicyJson() {
-        String schema = "sdnctl";
+        // String schema = "sdnctl";
+        String jsonContent = null;
+        ResultSet data = null;
         String query = "SELECT MAX(INTERNAL_VERSION),ARTIFACT_CONTENT " +
                        "FROM ASDC_ARTIFACTS " +
                        "WHERE ARTIFACT_NAME = ? " +
                        "GROUP BY ARTIFACT_NAME";
         ArrayList<String> arguments = new ArrayList<>();
         arguments.add("request_validation_policy");
-        String jsonContent = null;
         try{
-            CachedRowSet rowSet = dbLibService.getData(query, arguments, schema);
-            if(rowSet.next()){
-                jsonContent = rowSet.getString("ARTIFACT_CONTENT");
+            data = new DBServiceUtil().getData(query, arguments);
+            if(data != null && data.next()){
+                jsonContent = data.getString("ARTIFACT_CONTENT");
             }
             if(logger.isDebugEnabled()){
                 logger.debug("request validation policy = " + jsonContent);
@@ -127,10 +128,13 @@ public class RequestValidationPolicy {
                 logger.warn("request validation policy not found in app-c database");
             }
         }
-        catch(SQLException e){
+        catch(Exception e){
+            logger.debug("Error while accessing database: " + e.getMessage());
+            logger.info("Error connecting to database: " + e.getMessage());
             logger.error("Error accessing database", e);
             throw new RuntimeException(e);
         }
+        logger.info("Got Policy Json");
         return jsonContent;
     }
 
