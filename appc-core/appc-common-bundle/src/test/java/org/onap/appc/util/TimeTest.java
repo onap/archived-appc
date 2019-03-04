@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
- * Modifications Copyright (C) 2018 IBM
+ * Modifications Copyright (C) 2018-2019 IBM
  * ================================================================================
  * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
@@ -173,5 +173,17 @@ public class TimeTest {
         Date actual = Time.toDate(calendar);
         Date expected = dateForTests;
         assertEquals(expected, actual);
+    }
+    
+    @Test
+    public void testUtcTime()
+    {
+        assertTrue((Long)Time.utcTime() instanceof Long);
+    }
+    
+    @Test
+    public void testCurrentUTCDate()
+    {
+        assertTrue(Time.getCurrentUTCDate() instanceof Date);
     }
 }
