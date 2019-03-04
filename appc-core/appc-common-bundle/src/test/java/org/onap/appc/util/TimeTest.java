@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
- * Modifications Copyright (C) 2018 IBM
+ * Modifications Copyright (C) 2018-2019 IBM
  * ================================================================================
  * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
@@ -23,9 +23,8 @@
  * ============LICENSE_END=========================================================
  */
 
-
 package org.onap.appc.util;
-
+ 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -47,12 +46,10 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.junit.Test;
 
-
 public class TimeTest {
 
-    private final Date dateForTests = Date.from(LocalDate.of(2004, 2, 9)
-            .atStartOfDay(ZoneId.systemDefault()).toInstant());
-
+    private final Date dateForTests = Date
+            .from(LocalDate.of(2004, 2, 9).atStartOfDay(ZoneId.systemDefault()).toInstant());
 
     @Test
     public void testAddTime() {
@@ -74,12 +71,10 @@ public class TimeTest {
 
         Time.dateOnly(cal);
 
-        long msecFromBegin = cal.get(Calendar.HOUR_OF_DAY)*60*60*1000 +
-            cal.get(Calendar.MINUTE)*60*1000 +
-            cal.get(Calendar.SECOND)*1000 +
-            cal.get(Calendar.MILLISECOND);
+        long msecFromBegin = cal.get(Calendar.HOUR_OF_DAY) * 60 * 60 * 1000 + cal.get(Calendar.MINUTE) * 60 * 1000
+                + cal.get(Calendar.SECOND) * 1000 + cal.get(Calendar.MILLISECOND);
 
-        assertEquals( msecFromBegin, 0);
+        assertEquals(msecFromBegin, 0);
 
     }
 
@@ -103,24 +98,24 @@ public class TimeTest {
 
     @Test
     public void testGetDateByLocaleAndTimeZone() {
-       final Date dateNow = new Date();
-       Locale locale = new Locale("fr"); 
-       TimeZone timeZone = TimeZone.getTimeZone("Europe/France");
-       assertNotNull(Time.getDateByLocaleAndTimeZone(dateNow,locale,timeZone));
-       assertTrue(Time.getDateByLocaleAndTimeZone(dateNow,locale,timeZone) instanceof String);
+        final Date dateNow = new Date();
+        Locale locale = new Locale("fr");
+        TimeZone timeZone = TimeZone.getTimeZone("Europe/France");
+        assertNotNull(Time.getDateByLocaleAndTimeZone(dateNow, locale, timeZone));
+        assertTrue(Time.getDateByLocaleAndTimeZone(dateNow, locale, timeZone) instanceof String);
     }
 
     @Test
     public void testUtcFormat() {
-       final Date date = new Date();
-       assertNotNull(Time.utcFormat(date));
-       assertTrue(Time.utcFormat(date) instanceof String);
+        final Date date = new Date();
+        assertNotNull(Time.utcFormat(date));
+        assertTrue(Time.utcFormat(date) instanceof String);
     }
 
-    //this test succeeds if localTime() does not throw an exception  
+    // this test succeeds if localTime() does not throw an exception
     @Test
     public void testLocalTime() {
-       Time.localTime(1532083631);
+        Time.localTime(1532083631);
     }
 
     @Test
@@ -151,21 +146,21 @@ public class TimeTest {
     }
 
     @Test
-    public void testStringToDateConverterMillis() throws ParseException{
+    public void testStringToDateConverterMillis() throws ParseException {
         Date date = Time.stringToDateConverterMillis("2004-02-09 00:00:00:000");
         Date expected = dateForTests;
         assertEquals(expected, date);
     }
 
     @Test
-    public void testTruncateDate() throws ParseException{
+    public void testTruncateDate() throws ParseException {
         Date date = Time.truncDate(dateForTests);
         Date expected = dateForTests;
         assertEquals(expected, date);
     }
 
     @Test
-    public void testToDate() throws ParseException, DatatypeConfigurationException{
+    public void testToDate() throws ParseException, DatatypeConfigurationException {
         Date date = dateForTests;
         GregorianCalendar c = new GregorianCalendar();
         c.setTime(date);
@@ -173,5 +168,15 @@ public class TimeTest {
         Date actual = Time.toDate(calendar);
         Date expected = dateForTests;
         assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testUtcTime() {
+        assertTrue(Time.utcTime()!=0);
+    }
+
+    @Test
+    public void testCurrentUTCDate() {
+        assertTrue(Time.getCurrentUTCDate() instanceof Date);
     }
 }
