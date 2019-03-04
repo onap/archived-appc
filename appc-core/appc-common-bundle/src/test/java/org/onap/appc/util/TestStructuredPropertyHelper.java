@@ -6,7 +6,7 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
- * Modifications Copyright (C) 2018 IBM.
+ * Modifications Copyright (C) 2018-2019 IBM.
  * ================================================================================
  * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
@@ -284,9 +284,9 @@ public class TestStructuredPropertyHelper {
         Node node1 = new Node();
         node1.setName("testName2");
         node1.setValue("testValue");
-        assertFalse(node0.equals(node1));    
+        assertFalse(node0.equals(node1));
     }
-    
+
     @Test
     public void testCompareTo()
     {
@@ -294,7 +294,17 @@ public class TestStructuredPropertyHelper {
         node0.setName("testName1");
         Node node1 = new Node();
         node1.setName("testName2");
-        assertEquals(-1, node0.compareTo(node1));
+        assertEquals(-1, node0.compareTo(node1)); 
         assertEquals(0, node0.compareTo(node0));
     }
+
+    @Test
+    public void testHashCode()
+    {
+        Node node = new Node();
+        node.setName("testName");
+        node.setValue("testValue");
+        assertTrue((Integer)node.hashCode() instanceof Integer);
+    }
+ 
 }
