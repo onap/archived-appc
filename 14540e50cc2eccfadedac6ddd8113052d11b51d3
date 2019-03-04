@@ -101,6 +101,24 @@
       "revId": "14540e50cc2eccfadedac6ddd8113052d11b51d3",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31767a69_ab9439f5",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/RebuildServer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-04T19:12:43Z",
+      "side": 1,
+      "message": "if you don\u0027t like that approach, then you can still eliminate the imageFound variable: just changes lines 505-506 and 520-521 to \"return true\" and line 524 to \"return false\"",
+      "parentUuid": "30154427_5d915343",
+      "revId": "14540e50cc2eccfadedac6ddd8113052d11b51d3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
