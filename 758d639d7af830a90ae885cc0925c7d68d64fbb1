@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2964ff54_206c6768",
+        "filename": "appc-core/appc-common-bundle/src/test/java/org/onap/appc/util/TestStructuredPropertyHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-04T13:53:59Z",
+      "side": 1,
+      "message": "remove trailing spaces on this and other lines",
+      "revId": "758d639d7af830a90ae885cc0925c7d68d64fbb1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
