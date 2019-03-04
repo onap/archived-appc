@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "78c52b3c_a3ec6390",
+        "filename": "appc-core/appc-common-bundle/src/test/java/org/onap/appc/util/TimeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2019-03-04T18:19:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "672f581f_f5fb203d",
+      "revId": "5d68b675075304b3abaf6d1b7dfc0e4493b987a2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7eb809a6_d07148eb",
         "filename": "appc-core/appc-common-bundle/src/test/java/org/onap/appc/util/TimeTest.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2019-03-04T13:54:48Z",
       "side": 1,
       "message": "remove the cast",
+      "revId": "5d68b675075304b3abaf6d1b7dfc0e4493b987a2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff4d1d66_9c334d10",
+        "filename": "appc-core/appc-common-bundle/src/test/java/org/onap/appc/util/TimeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2019-03-04T18:19:06Z",
+      "side": 1,
+      "message": "the cast cant be removed here because Time.utcTime() returns the primitive data type \"long\" and to check whether it is an instance of Wrapper class \"Long\", we need to add the case here.",
+      "parentUuid": "7eb809a6_d07148eb",
       "revId": "5d68b675075304b3abaf6d1b7dfc0e4493b987a2",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
