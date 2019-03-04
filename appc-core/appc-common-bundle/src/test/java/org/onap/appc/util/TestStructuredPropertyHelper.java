@@ -6,23 +6,22 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
- * Modifications Copyright (C) 2018 IBM.
+ * Modifications Copyright (C) 2018-2019 IBM.
  * ================================================================================
  * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
- * ============LICENSE_END=========================================================
+ *============LICENSE_END=========================================================
  */
 
 package org.onap.appc.util;
@@ -284,9 +283,9 @@ public class TestStructuredPropertyHelper {
         Node node1 = new Node();
         node1.setName("testName2");
         node1.setValue("testValue");
-        assertFalse(node0.equals(node1));    
+        assertFalse(node0.equals(node1));
     }
-    
+
     @Test
     public void testCompareTo()
     {
@@ -297,4 +296,17 @@ public class TestStructuredPropertyHelper {
         assertEquals(-1, node0.compareTo(node1));
         assertEquals(0, node0.compareTo(node0));
     }
+
+    @Test
+    public void testHashCode()
+    {
+        Node node0 = new Node();
+        node0.setName("testName");
+        node0.setValue("testValue");
+        Node node1 = new Node();
+        node1.setName("testName");
+        node1.setValue("testValue");
+        assertTrue(node0.hashCode() == node1.hashCode());
+    }
+
 }
