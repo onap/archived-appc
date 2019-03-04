@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd464520_28afbf66",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/AttachVolumeServer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-04T19:11:07Z",
+      "side": 1,
+      "message": "StingUtils.isBlank(device)",
+      "revId": "14540e50cc2eccfadedac6ddd8113052d11b51d3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a32d12e6_88f6e743",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/AttachVolumeServer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-04T19:11:07Z",
+      "side": 1,
+      "message": "I missed this before: need spaces around \"Volumes\" here, too",
+      "revId": "14540e50cc2eccfadedac6ddd8113052d11b51d3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b810a3ed_b1ecc54a",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/AttachVolumeServer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-04T19:11:07Z",
+      "side": 1,
+      "message": "I missed this before: need a space before \"volumes\", too (same with lines 214 and 219)",
+      "revId": "14540e50cc2eccfadedac6ddd8113052d11b51d3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ade868a9_972e7f7a",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/DettachVolumeServer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-04T19:11:07Z",
+      "side": 1,
+      "message": "need to fix indentation on lines 101-104",
+      "revId": "14540e50cc2eccfadedac6ddd8113052d11b51d3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89b69404_01c2cfa4",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/RebootServer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-04T19:11:07Z",
+      "side": 1,
+      "message": "suggestion: can remove the extra parentheses now",
+      "revId": "14540e50cc2eccfadedac6ddd8113052d11b51d3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30154427_5d915343",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/RebuildServer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-04T19:11:07Z",
+      "side": 1,
+      "message": "this chunk of code is basically the same as lines 500-508.  If you extract a common method, xxx, then imageFound can be eliminated altogether and all of these lines would become something like:\n\nreturn xxx(snapshotList, \"snapshot\") || xxx(imageList, \"image\");",
+      "revId": "14540e50cc2eccfadedac6ddd8113052d11b51d3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
