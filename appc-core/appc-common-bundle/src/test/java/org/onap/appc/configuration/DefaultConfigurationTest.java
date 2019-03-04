@@ -7,6 +7,8 @@
  * Copyright (C) 2017 Amdocs
  * =============================================================================
  * Modification Copyright (C) 2018 IBM.
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,14 +34,22 @@ import java.util.Properties;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.onap.appc.encryption.EncryptionTool;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.reflect.Whitebox;
+import org.powermock.modules.junit4.PowerMockRunner;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(EncryptionTool.class)
 public class DefaultConfigurationTest {
     private static final String propKey1 = "testKey1";
     private static final String propKey2 = "testKey2";
     private static final String propValue1 = "testValue1";
     private static final String propValue2 = "testValue2";
+    private EncryptionTool encryptionTool;
 
     private Properties prop = new Properties();
     private DefaultConfiguration defaultConfiguration;
@@ -50,6 +60,9 @@ public class DefaultConfigurationTest {
         prop.setProperty(propKey2, propValue2);
 
         defaultConfiguration = new DefaultConfiguration();
+        PowerMockito.mockStatic(EncryptionTool.class);
+        encryptionTool = Mockito.mock(EncryptionTool.class);
+        PowerMockito.when(EncryptionTool.getInstance()).thenReturn(encryptionTool);
     }
 
     @Test
@@ -105,16 +118,25 @@ public class DefaultConfigurationTest {
         defaultConfiguration.setProperty(booleanKey, "abc");
         Assert.assertFalse(defaultConfiguration.getBooleanProperty(booleanKey));
     }
-    
+
     @Test
     public void testSetPropAndGetBooleanPropertyForEncryptedValue()
     {
         String booleanKey = "booleanKey";
+        Mockito.when(encryptionTool.decrypt("enc:true")).thenReturn("true");
         defaultConfiguration.setProperty(booleanKey, "enc:true");
+        Assert.assertTrue(defaultConfiguration.getBooleanProperty(booleanKey));
+    }
+
+    @Test
+    public void testSetPropAndGetBooleanPropertyForEncryptedValueException()
+    {
+        String booleanKey = "booleanKey";
+        Mockito.when(encryptionTool.decrypt("enc:false")).thenThrow(new RuntimeException());
+        defaultConfiguration.setProperty(booleanKey, "enc:false");
         Assert.assertFalse(defaultConfiguration.getBooleanProperty(booleanKey));
     }
-    
-   
+
     @Test
     public void testSetPropAndGetBooleanPropertyWithDefaultValue() throws Exception {
         String booleanKey = "booleanKey";
