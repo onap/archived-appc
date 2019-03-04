@@ -69,6 +69,24 @@
       "revId": "5d68b675075304b3abaf6d1b7dfc0e4493b987a2",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0957a8e0_3ecaa4a7",
+        "filename": "appc-core/appc-common-bundle/src/test/java/org/onap/appc/util/TimeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-04T18:59:04Z",
+      "side": 1,
+      "message": "in that case, simply invoke utcTime and put a comment above it saying something like \"verifying that this does not throw an exception\" - the \"assertTrue\" provides no value.  An alternative would be to verify that utcTime() !\u003d 0.",
+      "parentUuid": "ff4d1d66_9c334d10",
+      "revId": "5d68b675075304b3abaf6d1b7dfc0e4493b987a2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
