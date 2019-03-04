@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcb908fe_29f605ff",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/AttachVolumeServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-04T14:31:10Z",
+      "side": 1,
+      "message": "can get rid of the \"\u003d\u003d null\" check",
+      "revId": "55fecbd1d989949f47fe6154faad2a903f53f972",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdf6c03f_f898655f",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/RebootServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-04T14:31:10Z",
+      "side": 1,
+      "message": "can eliminate the \"!\u003d null\" check",
+      "revId": "55fecbd1d989949f47fe6154faad2a903f53f972",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5698b8eb_c6b22de8",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/RebootServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-04T14:31:10Z",
+      "side": 1,
+      "message": "can eliminate the \"!\u003d null\" check",
+      "revId": "55fecbd1d989949f47fe6154faad2a903f53f972",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
