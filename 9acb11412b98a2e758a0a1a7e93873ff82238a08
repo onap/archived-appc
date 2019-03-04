@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af26ee37_4117f575",
+        "filename": "appc-dispatcher/appc-dispatcher-common/appc-data-access-lib/src/test/java/org/onap/appc/dao/util/TestAppcJdbcConnectionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-04T13:48:29Z",
+      "side": 1,
+      "message": "maybe also verify that getConnection() was invoked",
+      "revId": "9acb11412b98a2e758a0a1a7e93873ff82238a08",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
