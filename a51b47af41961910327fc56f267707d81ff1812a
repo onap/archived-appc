@@ -16,6 +16,24 @@
       "revId": "a51b47af41961910327fc56f267707d81ff1812a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b009cd0_b932d1b0",
+        "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/transformer/tosca/TestArtifactProcessorException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2019-03-04T18:08:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b253c1f_16807f8a",
+      "revId": "a51b47af41961910327fc56f267707d81ff1812a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
