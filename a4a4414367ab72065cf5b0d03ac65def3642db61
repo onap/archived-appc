@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b1403936_9aa56abf",
+        "filename": "appc-core/appc-common-bundle/src/test/java/org/onap/appc/util/TestStructuredPropertyHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2019-03-04T07:00:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c2975ba_4b7a4a0f",
+      "range": {
+        "startLine": 295,
+        "startChar": 0,
+        "endLine": 295,
+        "endChar": 36
+      },
+      "revId": "a4a4414367ab72065cf5b0d03ac65def3642db61",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "549e19ea_b71bd864",
         "filename": "appc-core/appc-common-bundle/src/test/java/org/onap/appc/util/TestStructuredPropertyHelper.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2019-03-01T13:43:52Z",
       "side": 1,
       "message": "might also add a test for node0.compareTo(node0)",
+      "revId": "a4a4414367ab72065cf5b0d03ac65def3642db61",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a067066_ac6018bd",
+        "filename": "appc-core/appc-common-bundle/src/test/java/org/onap/appc/util/TestStructuredPropertyHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2019-03-04T07:00:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "549e19ea_b71bd864",
       "revId": "a4a4414367ab72065cf5b0d03ac65def3642db61",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
