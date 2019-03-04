@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "f701258d_33312422",
+        "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/transformer/tosca/TestArtifactProcessorException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-03-04T10:46:45Z",
+      "side": 1,
+      "message": "In that case you could remove the variable definition and the assignment in the test.\nThough it would be possible to verify the effect of the constructor on the instance variables of the superclass. \ne.g.         assertEquals(\"testMessage\", artifactProcessorException.getMessage());",
+      "parentUuid": "cc0e4802_782a3c7c",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 9
+      },
+      "revId": "63529b26f2f4d6da96f33558be206ccaa6cbb112",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "067c3c41_db75f7b1",
         "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/transformer/tosca/TestArtifactProcessorException.java",
         "patchSetId": 1
