@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cc0e4802_782a3c7c",
+        "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/transformer/tosca/TestArtifactProcessorException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2019-03-04T10:04:45Z",
+      "side": 1,
+      "message": "no..this class has constructors only.",
+      "parentUuid": "dc96a6cd_07e82115",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 9
+      },
+      "revId": "63529b26f2f4d6da96f33558be206ccaa6cbb112",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "067c3c41_db75f7b1",
         "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/transformer/tosca/TestArtifactProcessorException.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2019-03-04T09:55:37Z",
       "side": 1,
       "message": "space between variable name and \u003d",
+      "revId": "63529b26f2f4d6da96f33558be206ccaa6cbb112",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1cf3071_b7bd578a",
+        "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/transformer/tosca/TestArtifactProcessorException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2019-03-04T10:04:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "067c3c41_db75f7b1",
       "revId": "63529b26f2f4d6da96f33558be206ccaa6cbb112",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
