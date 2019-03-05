@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "743e7de7_b3083054",
+        "filename": "appc-core/appc-common-bundle/src/test/java/org/onap/appc/util/TimeTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-05T14:14:59Z",
+      "side": 1,
+      "message": "maybe it would be clearer to simply do assertEquals(0, xxx) for each of the fields",
+      "revId": "ab052a8f3024e0c9f3b8e9901bd06b01099d65f5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
