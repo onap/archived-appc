@@ -125,6 +125,7 @@ public class ArtifactHandlerClient {
 
             client = Client.create(defaultClientConfig);
             String password = et.decrypt(props.getProperty("appc.upload.pass"));
+            System.out.println(props.getProperty("appc.upload.user")+" "+props.getProperty("appc.upload.provider.url"));
             client.addFilter(new HTTPBasicAuthFilter(props.getProperty("appc.upload.user"), password));
             webResource = client.resource(new URI(props.getProperty("appc.upload.provider.url")));
             webResource.setProperty("Content-Type", "application/json;charset=UTF-8");
@@ -143,7 +144,7 @@ public class ArtifactHandlerClient {
 
         } catch (Exception e) {
             log.debug("failed in RESTCONT Action", e);
-            throw new IOException("Error While Sending Rest Request" + e.getMessage());
+            throw new IOException("Error While Sending Rest Request" + e.getMessage(), e);
         } finally {
             // clean up.
             if (client != null) {
