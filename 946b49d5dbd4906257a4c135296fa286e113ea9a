@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "415511c3_16e5f68b",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/AttachVolumeServer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-05T14:17:53Z",
+      "side": 1,
+      "message": "may want to add a space before \"Volumes\", too",
+      "revId": "946b49d5dbd4906257a4c135296fa286e113ea9a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
