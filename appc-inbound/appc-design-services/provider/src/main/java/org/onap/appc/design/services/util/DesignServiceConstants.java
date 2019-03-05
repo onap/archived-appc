@@ -111,7 +111,7 @@ public class DesignServiceConstants {
     public static final String CHECKVNF = "checkVNF";
     private DesignServiceConstants() {
     }
-    
+
     public static String getEnvironmentVariable(String env) {
         return System.getenv(env);
     }
