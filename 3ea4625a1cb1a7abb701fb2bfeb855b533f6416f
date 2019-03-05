@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0246fae4_98eaedbc",
+        "filename": "appc-dispatcher/appc-command-executor/appc-command-executor-core/pom.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-05T23:08:08Z",
+      "side": 1,
+      "message": "add scope\u003dtest\n\nsame comment for all poms",
+      "revId": "3ea4625a1cb1a7abb701fb2bfeb855b533f6416f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59c0384b_a1b6c7e9",
+        "filename": "appc-dispatcher/appc-dispatcher-common/transaction-recorder/src/main/java/org/onap/appc/transactionrecorder/impl/TransactionRecorderImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-05T23:08:08Z",
+      "side": 1,
+      "message": "remove the \"if\" wrapper",
+      "revId": "3ea4625a1cb1a7abb701fb2bfeb855b533f6416f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee1ff0eb_4601fb6f",
+        "filename": "appc-dispatcher/appc-dispatcher-common/transaction-recorder/src/test/java/org/onap/appc/transactionrecorder/impl/TransactionRecorderImplTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-05T23:08:08Z",
+      "side": 1,
+      "message": "suggestion: add verify() that writeData() (and getData()?) were invoked",
+      "revId": "3ea4625a1cb1a7abb701fb2bfeb855b533f6416f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e5b6ad5_ff62db8d",
+        "filename": "appc-dispatcher/appc-dispatcher-common/transaction-recorder/src/test/java/org/onap/appc/transactionrecorder/impl/TransactionRecorderImplTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-05T23:08:08Z",
+      "side": 1,
+      "message": "\"positive\" \u003d\u003e \"Positive\"",
+      "revId": "3ea4625a1cb1a7abb701fb2bfeb855b533f6416f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2788420_2ae6ffaf",
+        "filename": "appc-dispatcher/appc-dispatcher-common/transaction-recorder/src/test/java/org/onap/appc/transactionrecorder/impl/TransactionRecorderImplTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-05T23:08:08Z",
+      "side": 1,
+      "message": "use try-with-resources to ensure that \"con\" is closed, whether or not there\u0027s an error\n\nsame comment for all of the getConnection() calls",
+      "revId": "3ea4625a1cb1a7abb701fb2bfeb855b533f6416f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
