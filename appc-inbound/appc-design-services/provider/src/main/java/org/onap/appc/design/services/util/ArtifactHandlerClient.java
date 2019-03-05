@@ -143,7 +143,7 @@ public class ArtifactHandlerClient {
 
         } catch (Exception e) {
             log.debug("failed in RESTCONT Action", e);
-            throw new IOException("Error While Sending Rest Request" + e.getMessage());
+            throw new IOException("Error While Sending Rest Request" + e.getMessage(), e);
         } finally {
             // clean up.
             if (client != null) {
