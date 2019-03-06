@@ -16,6 +16,24 @@
       "revId": "b49b68ea777d07658d4d93cb0c13e4b382e98b44",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "653172e6_6784183e",
+        "filename": "appc-inbound/appc-design-services/provider/src/test/java/org/onap/appc/design/dbervices/RequestValidatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-03-06T14:16:59Z",
+      "side": 1,
+      "message": "Which calls specifically? Each test case requires a specific exception and exception message to pass which is specified with the ExpectedException object.",
+      "parentUuid": "7f1d4b06_178938e2",
+      "revId": "b49b68ea777d07658d4d93cb0c13e4b382e98b44",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
