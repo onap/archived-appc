@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e133696_5bbe4ca4",
+        "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/controller/node/EnvVariablesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-06T14:02:42Z",
+      "side": 1,
+      "message": "maybe add a test for a value that is non-null, too",
+      "revId": "651dbe3083e55c670a2af709126775487ff0106d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
