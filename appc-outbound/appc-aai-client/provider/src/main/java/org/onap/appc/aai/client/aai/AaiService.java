@@ -27,10 +27,6 @@ package org.onap.appc.aai.client.aai;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.onap.appc.aai.client.AppcAaiClientConstant;
@@ -42,6 +38,11 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class AaiService {
 
@@ -240,8 +241,8 @@ public class AaiService {
 
     }
 
-    public void insertVnfcs(Map<String, String> params, SvcLogicContext ctx, int vnfcRefLen, int vmCount,
-        String vfModuleIdFromRequest)
+    public void insertVnfcs(Map<String, String> params, SvcLogicContext ctx, int vmCount,
+                            String vfModuleIdFromRequest)
         throws AaiServiceInternalException, SvcLogicException {
         log.info("Received insertVnfcs call with params : " + params);
 
@@ -311,7 +312,7 @@ public class AaiService {
         }
     }
 
-    public List<String> getVnfcData(Map<String, String> params, SvcLogicContext ctx, int vnfcRefLen, int vmCount) {
+    public List<String> getVnfcData(Map<String, String> params, SvcLogicContext ctx, int vmCount) {
 
         String prefix = params.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX);
         prefix = StringUtils.isNotBlank(prefix) ? (prefix + ".") : "";
@@ -471,7 +472,7 @@ public class AaiService {
           * if all records do not have the same group-notation value, write the new vnfc record to A&AI inventory without a group-notation value and continue to the next VM in the vnfc_reference table.  A 501 intermediate error message should be sent after all new VNFC records have been added to A&AI.
           * If all records match, use the same group-notation value for the new vnfc record as found in the existing vnfc records.
           */
-            groupNotation = getGroupNotationForExistigValue(ctx, prefix, vnfcFuncCode, vmCount);
+            groupNotation = getGroupNotationForExistigValue(ctx, vnfcFuncCode, vmCount);
         }
 
         log.info("RETURNED GROUPNOTATION " + groupNotation);
@@ -500,8 +501,8 @@ public class AaiService {
         return null;
     }
 
-    public String getGroupNotationForExistigValue(SvcLogicContext ctx, String prefix, String vnfcFuncCode,
-        int vmCount) {
+    public String getGroupNotationForExistigValue(SvcLogicContext ctx, String vnfcFuncCode,
+                                                  int vmCount) {
         String vfModuleId = ctx.getAttribute("req-vf-module-id"); //Coming from request-params
         boolean first = true;
         String aaiGroupNotationValue = null;
@@ -733,7 +734,7 @@ public class AaiService {
 
         String vnfId = params.get("vnfId");
         String vfModuleId = params.get("vfModuleId");
-        String resourceKey = "generic-vnf.vnf-id = '" + vnfId +
+        String resourceKey = STR_VNF_ID + vnfId +
             "' AND vf-module.vf-module-id = '" + vfModuleId + "'";
         String queryPrefix = "vfModuleInfo";
         String resourceType = "vf-module";
