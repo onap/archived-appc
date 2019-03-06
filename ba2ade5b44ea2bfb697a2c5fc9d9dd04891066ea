@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c7c9234_08b123a4",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/services/util/ArtifactHandlerClient.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-06T14:05:04Z",
+      "side": 1,
+      "message": "remove println",
+      "revId": "ba2ade5b44ea2bfb697a2c5fc9d9dd04891066ea",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
