@@ -121,7 +121,7 @@ public class TestAaiService {
         SvcLogicContext ctx = new SvcLogicContext();
         inParams.put("AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX", "prefix.");
         ctx.setAttribute("tmp.vnfInfo.vm[1].vnfc-name", "nullnull001");
-        aaiService.insertVnfcs(inParams, ctx, 2, 2, null);
+        aaiService.insertVnfcs(inParams, ctx, 2, null);
     }
 
     @Test
@@ -132,7 +132,7 @@ public class TestAaiService {
         SvcLogicContext ctx = new SvcLogicContext();
         inParams.put("AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX", "prefix.");
         ctx.setAttribute("tmp.vnfInfo.vm[1].vnfc-name", "nullnull001");
-        aaiService.getVnfcData(inParams, ctx, 1, 1);
+        aaiService.getVnfcData(inParams, ctx, 1);
     }
 
     @Test
@@ -367,7 +367,7 @@ public class TestAaiService {
 
         mockAai.populateAllVnfInfo1(ctx, "tmp.vnfInfo");
 
-        mockAai.insertVnfcs(inParams, ctx, 2, 2,"vfModuleId1");
+        mockAai.insertVnfcs(inParams, ctx, 2,"vfModuleId1");
 
 
     }
@@ -387,7 +387,7 @@ public class TestAaiService {
 
         mockAai.populateAllVnfInfo1(ctx, "tmp.vnfInfo");
 
-        mockAai.insertVnfcs(inParams, ctx, 2, 2, null);
+        mockAai.insertVnfcs(inParams, ctx, 2, null);
 
         assertEquals(ctx.getAttribute("tmp.vnfInfo.vm[0].vnfc-name"), "dbjx0001vm001dbj001");
         assertEquals(ctx.getAttribute("tmp.vnfInfo.vm[0].vnfc-function-code"), "dbj");
@@ -414,7 +414,7 @@ public class TestAaiService {
 
         mockAai.populateAllVnfInfo1(ctx, "tmp.vnfInfo");
 
-        mockAai.insertVnfcs(inParams, ctx, 2, 2,null);
+        mockAai.insertVnfcs(inParams, ctx, 2,null);
 
 
 
@@ -464,22 +464,22 @@ public class TestAaiService {
         ctx.setAttribute("tmp.vnfInfo.vm[0].vnfc-function-code", "fc1");
         ctx.setAttribute("tmp.vnfInfo.vm[0].group-notation", "gn2");
         MockAaiService aai=new MockAaiService(aaiClient);
-        String groupNotationValue1 = aai.getGroupNotationForExistigValue(ctx, "tmp.vnfInfo", "fc1", 2);
+        String groupNotationValue1 = aai.getGroupNotationForExistigValue(ctx, "fc1", 2);
         assertEquals (groupNotationValue1,null);
 
         ctx.setAttribute("tmp.vnfInfo.vm[0].group-notation", "gn1");
         ctx.setAttribute("tmp.vnfInfo.vm[1].group-notation", "gn1");
-        String groupNotationValue2 = aai.getGroupNotationForExistigValue(ctx, "tmp.vnfInfo", "fc1", 2);
+        String groupNotationValue2 = aai.getGroupNotationForExistigValue(ctx, "fc1", 2);
         assertEquals (groupNotationValue2,"gn1");
 
         ctx.setAttribute("tmp.vnfInfo.vm[2].vf-module-id", "vfmodule01");
         ctx.setAttribute("tmp.vnfInfo.vm[2].vnfc-function-code", "fc1");
         ctx.setAttribute("tmp.vnfInfo.vm[2].group-notation", "gn2");
-        String groupNotationValue3 = aai.getGroupNotationForExistigValue(ctx, "tmp.vnfInfo", "fc1", 3);
+        String groupNotationValue3 = aai.getGroupNotationForExistigValue(ctx, "fc1", 3);
         assertEquals (groupNotationValue3,null);
 
         ctx.setAttribute("tmp.vnfInfo.vm[2].group-notation", "gn1");
-        String groupNotationValue4 = aai.getGroupNotationForExistigValue(ctx, "tmp.vnfInfo", "fc1", 3);
+        String groupNotationValue4 = aai.getGroupNotationForExistigValue(ctx, "fc1", 3);
         assertEquals (groupNotationValue4,"gn1");
 
     }
