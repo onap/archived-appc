@@ -16,6 +16,24 @@
       "revId": "651dbe3083e55c670a2af709126775487ff0106d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ef5b5a7_a60a2660",
+        "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/controller/node/EnvVariablesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2019-03-06T14:12:24Z",
+      "side": 1,
+      "message": "not able to figure out that value..would you be able to help me with that?",
+      "parentUuid": "7e133696_5bbe4ca4",
+      "revId": "651dbe3083e55c670a2af709126775487ff0106d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
