@@ -139,7 +139,7 @@ public class ConnectionBuilder implements Closeable {
      */
 
     public ConnectionBuilder(int mode, int timeout)
-            throws SSLException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException,APPCException{
+            throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException,APPCException{
         RequestConfig config = RequestConfig.custom().setSocketTimeout(timeout).build();
         if (mode == 1) {
             SSLContext sslcontext = SSLContexts.custom().loadTrustMaterial(null, new TrustSelfSignedStrategy()).build();

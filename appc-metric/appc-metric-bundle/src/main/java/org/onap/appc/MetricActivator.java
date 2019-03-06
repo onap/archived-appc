@@ -25,13 +25,12 @@
 
 package org.onap.appc;
 
-import org.onap.appc.metricservice.MetricService;
-import org.onap.appc.metricservice.impl.MetricServiceImpl;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
+import org.onap.appc.metricservice.MetricService;
+import org.onap.appc.metricservice.impl.MetricServiceImpl;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceRegistration;
 
 
 public class MetricActivator implements BundleActivator {
@@ -44,7 +43,7 @@ public class MetricActivator implements BundleActivator {
         MetricService impl = new MetricServiceImpl();
         String regName = MetricService.class.getName();
         logger.debug("Registering Metric service " + regName);
-        ServiceRegistration registration = bundleContext.registerService(regName, impl, null);
+        bundleContext.registerService(regName, impl, null);
         logger.debug("Registered Metric service " + regName);
     }
 
