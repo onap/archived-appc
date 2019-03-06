@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f1d4b06_178938e2",
+        "filename": "appc-inbound/appc-design-services/provider/src/test/java/org/onap/appc/design/dbervices/RequestValidatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-06T14:10:26Z",
+      "side": 1,
+      "message": "anything to assert or verify on these calls?  Or simply verifying that no exception was thrown, in which case, maybe add one more test case to verify that exception is thrown?",
+      "revId": "b49b68ea777d07658d4d93cb0c13e4b382e98b44",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
