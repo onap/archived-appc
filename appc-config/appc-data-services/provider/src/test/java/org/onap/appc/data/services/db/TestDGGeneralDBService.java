@@ -220,6 +220,18 @@ public class TestDGGeneralDBService {
     }
     
     @Test
+    public void testSavePrepareRelationshipWithSdcInd() throws SvcLogicException {
+
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute("service-instance-id", "test");
+        ctx.setAttribute("request-id", "test");
+        MockDGGeneralDBService dbService =     MockDGGeneralDBService.initialise();
+        QueryStatus status = dbService.savePrepareRelationship(ctx, "test", "test", "Y");
+        assertEquals(QueryStatus.SUCCESS, status);
+
+    }
+    
+    @Test
     public void testGetDownloadConfigTemplateByVnf() throws SvcLogicException {
 
         SvcLogicContext ctx = new SvcLogicContext();
