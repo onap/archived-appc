@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "94b088e1_2ba57475",
+        "filename": "appc-config/appc-data-services/provider/src/test/java/org/onap/appc/data/services/db/TestDGGeneralDBService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-03-07T12:48:11Z",
+      "side": 1,
+      "message": "space after comma",
+      "revId": "c8286a1e876ad8c4bcec5b9db81b6aee03c3a0ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f59a12ca_7fe636e2",
+        "filename": "appc-config/appc-data-services/provider/src/test/java/org/onap/appc/data/services/db/TestDGGeneralDBService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-03-07T12:48:11Z",
+      "side": 1,
+      "message": "space after comma",
+      "revId": "c8286a1e876ad8c4bcec5b9db81b6aee03c3a0ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
