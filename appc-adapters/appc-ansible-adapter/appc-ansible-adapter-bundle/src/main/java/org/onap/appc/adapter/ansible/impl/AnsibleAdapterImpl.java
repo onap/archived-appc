@@ -533,7 +533,8 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
             try {
                 Thread.sleep(defaultPollInterval);
             } catch (InterruptedException ex) {
-
+              logger.error("Thread Interrupted Exception", ex);
+              Thread.currentThread().interrupt();
             }
 
         }
