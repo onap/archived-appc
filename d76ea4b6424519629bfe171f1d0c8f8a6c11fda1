@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d386226a_411e4282",
+        "filename": "appc-dispatcher/appc-dispatcher-common/domain-model-lib/src/main/java/org/onap/appc/domainmodel/lcm/VNFOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-08T17:04:29Z",
+      "side": 1,
+      "message": "\"2018\" \u003d\u003e \"2018-2019\"?\n\nsame comment in other files",
+      "revId": "d76ea4b6424519629bfe171f1d0c8f8a6c11fda1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa93c489_9177e6f9",
+        "filename": "appc-provider/appc-provider-bundle/src/main/java/org/onap/appc/provider/lcm/service/DistributeTrafficCheckService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-08T17:04:29Z",
+      "side": 1,
+      "message": "missing \"status \u003d\"?",
+      "revId": "d76ea4b6424519629bfe171f1d0c8f8a6c11fda1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bb060f6_e29ed66a",
+        "filename": "appc-provider/appc-provider-bundle/src/test/java/org/onap/appc/provider/lcm/service/DistributeTrafficCheckServiceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-08T17:04:29Z",
+      "side": 1,
+      "message": "could make these three fields static",
+      "revId": "d76ea4b6424519629bfe171f1d0c8f8a6c11fda1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "413d36ff_83ac2bc5",
+        "filename": "appc-provider/appc-provider-bundle/src/test/java/org/onap/appc/provider/lcm/service/DistributeTrafficCheckServiceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-08T17:04:29Z",
+      "side": 1,
+      "message": "add \"final\"?",
+      "revId": "d76ea4b6424519629bfe171f1d0c8f8a6c11fda1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
