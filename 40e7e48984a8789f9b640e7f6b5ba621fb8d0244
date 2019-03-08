@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef69bbff_cede174c",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-08T13:07:40Z",
+      "side": 1,
+      "message": "fyi: another sonar fix would be to log \"ex\"",
+      "revId": "40e7e48984a8789f9b640e7f6b5ba621fb8d0244",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
