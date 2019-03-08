@@ -52,6 +52,24 @@
       "revId": "651dbe3083e55c670a2af709126775487ff0106d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3769afe7_918e794d",
+        "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/controller/node/EnvVariablesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2019-03-08T09:25:51Z",
+      "side": 1,
+      "message": "Thanks Joss. I made the changes, added assertNotNull with \"path\"",
+      "parentUuid": "4c4e57f5_ae9ad966",
+      "revId": "651dbe3083e55c670a2af709126775487ff0106d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
