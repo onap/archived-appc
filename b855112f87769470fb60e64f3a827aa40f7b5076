@@ -16,6 +16,24 @@
       "revId": "b855112f87769470fb60e64f3a827aa40f7b5076",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44b958df_3f323dd2",
+        "filename": "appc-config/appc-encryption-tool/provider/src/test/java/org/onap/appc/encryptiontool/fqdn/FqdnListTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2019-03-08T09:16:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9ea5473_972cc15c",
+      "revId": "b855112f87769470fb60e64f3a827aa40f7b5076",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
