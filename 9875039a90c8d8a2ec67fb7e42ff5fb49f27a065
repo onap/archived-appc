@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8dad3535_6a0582b5",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/onap/appc/adapter/chef/chefclient/impl/ChefApiClientImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-08T13:08:39Z",
+      "side": 1,
+      "message": "add \"ex\", as a parameter, too",
+      "revId": "9875039a90c8d8a2ec67fb7e42ff5fb49f27a065",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63ff2a05_3f2d2872",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/onap/appc/adapter/chef/chefclient/impl/ChefApiClientImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-08T13:08:39Z",
+      "side": 1,
+      "message": "add \"ex\", as a parameter, too",
+      "revId": "9875039a90c8d8a2ec67fb7e42ff5fb49f27a065",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
