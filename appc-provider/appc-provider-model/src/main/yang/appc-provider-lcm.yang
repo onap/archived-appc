@@ -124,7 +124,7 @@ module appc-provider-lcm {
             enum "AttachVolume";
             enum "DetachVolume";
             enum "DistributeTraffic";
-            
+            enum "DistributeTrafficCheck";
         }
         description "The action to be taken by APP-C, e.g. Restart, Rebuild, Migrate";
     }
@@ -1340,6 +1340,28 @@ module appc-provider-lcm {
         }
     }
 
+    /**********************************************************************************
+     * Define the distribute traffic check service
+     **********************************************************************************/
+    rpc distribute-traffic-check {
+        description "An operation to check conditions and the result of DistributeTraffic.";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory true;
+            }
+        }
+        output {
+            uses common-header;
+            uses status;
+        }
+    }
 
 
  /**********************************************************************************

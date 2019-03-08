@@ -47,6 +47,7 @@ import org.onap.appc.provider.lcm.service.UpgradeService;
 import org.onap.appc.provider.lcm.service.VolumeService;
 import org.onap.appc.provider.lcm.service.ConfigScaleOutService;
 import org.onap.appc.provider.lcm.service.DistributeTrafficService;
+import org.onap.appc.provider.lcm.service.DistributeTrafficCheckService;
 import org.onap.appc.provider.lcm.util.RequestInputBuilder;
 import org.onap.appc.provider.lcm.util.ValidationService;
 import org.onap.appc.requesthandler.objects.RequestHandlerInput;
@@ -497,6 +498,15 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
         DistributeTrafficOutputBuilder outputBuilder = new DistributeTrafficService().process(input);
         RpcResult<DistributeTrafficOutput> result =
                 RpcResultBuilder.<DistributeTrafficOutput>status(true).withResult(outputBuilder.build()).build();
+        return Futures.immediateFuture(result);
+    }
+
+    @Override
+    public ListenableFuture<RpcResult<DistributeTrafficCheckOutput>> distributeTrafficCheck(DistributeTrafficCheckInput input) {
+        logger.debug(String.format("LCM DistributeTrafficCheck, received input: %s", input.toString()));
+        DistributeTrafficCheckOutputBuilder outputBuilder = new DistributeTrafficCheckService().process(input);
+        RpcResult<DistributeTrafficCheckOutput> result =
+                RpcResultBuilder.<DistributeTrafficCheckOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 

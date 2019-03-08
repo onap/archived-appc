@@ -285,6 +285,11 @@ public class Converter {
                 ((DistributeTrafficOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((DistributeTrafficOutputBuilder)outObj).setStatus(status);
                 return outObj;
+            case DistributeTrafficCheck:
+                outObj = new DistributeTrafficCheckOutputBuilder();
+                ((DistributeTrafficCheckOutputBuilder) outObj).setCommonHeader(commonHeader);
+                ((DistributeTrafficCheckOutputBuilder)outObj).setStatus(status);
+                return outObj;
             default:
                 throw new IllegalArgumentException(action+" action is not supported");
         }
