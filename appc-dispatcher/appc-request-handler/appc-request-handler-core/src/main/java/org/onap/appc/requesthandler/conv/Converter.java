@@ -6,7 +6,7 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
- * Modifications Copyright (C) 2018 Orange
+ * Modifications Copyright (C) 2018-2019 Orange
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -284,6 +284,11 @@ public class Converter {
                 outObj = new DistributeTrafficOutputBuilder();
                 ((DistributeTrafficOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((DistributeTrafficOutputBuilder)outObj).setStatus(status);
+                return outObj;
+            case DistributeTrafficCheck:
+                outObj = new DistributeTrafficCheckOutputBuilder();
+                ((DistributeTrafficCheckOutputBuilder) outObj).setCommonHeader(commonHeader);
+                ((DistributeTrafficCheckOutputBuilder)outObj).setStatus(status);
                 return outObj;
             default:
                 throw new IllegalArgumentException(action+" action is not supported");

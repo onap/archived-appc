@@ -6,7 +6,7 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
- * Modifications Copyright (C) 2018 Orange
+ * Modifications Copyright (C) 2018-2019 Orange
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -60,7 +60,9 @@ public class ConverterTest {
 
     private String expectedJsonBodyStrwithPayload ="{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"payload\":\"{}\",\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}}";
     private String expectedDmaapOutgoingMessageJsonStringReboot ="{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"reboot\",\"type\":\"response\"}";
-    private String expectedDmaapOutgoingMessageJsonStringDistributeTraffc = "{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"distribute-traffic\",\"type\":\"response\"}";
+    private String expectedDmaapOutgoingMessageJsonStringDistributeTraffic = "{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"distribute-traffic\",\"type\":\"response\"}";
+    private String expectedDmaapOutgoingMessageJsonStringDistributeTrafficCheck = "{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"distribute-traffic-check\",\"type\":\"response\"}";
+
 
     @Test
     public void convDateToZuluStringTest(){
@@ -392,6 +394,7 @@ public class ConverterTest {
         System.out.println("jsonStr = " + jsonStr);
         Assert.assertEquals(expectedDmaapOutgoingMessageJsonStringUpgradeSoftware,jsonStr);
     }
+
     @Test
     public void convAsyncResponseToBuilderUpgradeBackoutTest() throws JsonProcessingException {
         ResponseContext asyncResponse = buildAsyncResponse();
@@ -445,7 +448,16 @@ public class ConverterTest {
         String rpcName = convertActionNameToUrl(action.name());
         String jsonStr = Converter.convAsyncResponseToDmaapOutgoingMessageJsonString(action, rpcName, asyncResponse);
         System.out.println("jsonStr = " + jsonStr);
-        Assert.assertEquals(expectedDmaapOutgoingMessageJsonStringDistributeTraffc,jsonStr);
+        Assert.assertEquals(expectedDmaapOutgoingMessageJsonStringDistributeTraffic,jsonStr);
+    }
+
+    @Test
+    public void convAsyncResponseToDmaapOutgoingMessageJsonStringDistributeTrafficCheckTest() throws JsonProcessingException {
+        ResponseContext asyncResponse = buildAsyncResponse();
+        VNFOperation action = VNFOperation.DistributeTrafficCheck;
+        String rpcName = convertActionNameToUrl(action.name());
+        String jsonStr = Converter.convAsyncResponseToDmaapOutgoingMessageJsonString(action, rpcName, asyncResponse);
+        Assert.assertEquals(expectedDmaapOutgoingMessageJsonStringDistributeTrafficCheck,jsonStr);
     }
 
     /*@Test
