@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2018-2019 Ericsson
  * ================================================================================
+ * Modifications Copyright (C) 2019 Orange
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -52,6 +54,7 @@ import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigScaleOutIn
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigureInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.DetachVolumeInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.DistributeTrafficInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.DistributeTrafficCheckInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.EvacuateInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.HealthCheckInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.LiveUpgradeInput;
@@ -312,6 +315,13 @@ public class AppcProviderLcmTest {
         DistributeTrafficInput distributeTrafficInput = mock(DistributeTrafficInput.class);
         Mockito.doReturn(Action.DistributeTraffic).when(distributeTrafficInput).getAction();
         assertTrue(underTest.distributeTraffic(distributeTrafficInput).isDone());
+    }
+
+    @Test
+    public void distributeTrafficCheckTest() {
+        DistributeTrafficCheckInput distributeTrafficCheckInput = mock(DistributeTrafficCheckInput.class);
+        Mockito.doReturn(Action.DistributeTrafficCheck).when(distributeTrafficCheckInput).getAction();
+        assertTrue(underTest.distributeTrafficCheck(distributeTrafficCheckInput).isDone());
     }
 
     @Test
