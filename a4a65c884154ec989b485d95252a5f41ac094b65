@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a409d21_e59f7990",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/DettachVolumeServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-08T13:12:18Z",
+      "side": 1,
+      "message": "missed one here",
+      "revId": "a4a65c884154ec989b485d95252a5f41ac094b65",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
