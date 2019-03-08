@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Copyright (C) 2019 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -26,6 +28,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.onap.appc.Constants;
 import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.exceptions.UnknownProviderException;
+
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.atLeastOnce;
 import com.att.cdp.zones.model.ModelObject;
@@ -46,8 +50,7 @@ public class TestVmStatuschecker {
         } catch (APPCException e) {
             Assert.fail("Exception during VmStatuschecker.executeProviderOperation");
         }
-        verify(mg.getSvcLogicContext(), atLeastOnce()).setAttribute(Constants.STATUS_OF_VM,
-                "suspended");
+        verify(mg.getSvcLogicContext(), atLeastOnce()).setAttribute(Constants.STATUS_OF_VM, "suspended");
     }
 
     @Test
@@ -62,8 +65,7 @@ public class TestVmStatuschecker {
         } catch (APPCException e) {
             Assert.fail("Exception during VmStatuschecker.executeProviderOperation");
         }
-        verify(mg.getSvcLogicContext(), atLeastOnce()).setAttribute(Constants.STATUS_OF_VM,
-                "running");
+        verify(mg.getSvcLogicContext(), atLeastOnce()).setAttribute(Constants.STATUS_OF_VM, "running");
     }
 
     @Test
@@ -78,7 +80,26 @@ public class TestVmStatuschecker {
         } catch (APPCException e) {
             Assert.fail("Exception during VmStatuschecker.executeProviderOperation");
         }
-        verify(mg.getSvcLogicContext(), atLeastOnce()).setAttribute(Constants.STATUS_OF_VM,
-                "error");
+        verify(mg.getSvcLogicContext(), atLeastOnce()).setAttribute(Constants.STATUS_OF_VM, "error");
+    }
+
+    @Test
+    public void vmDeletedStatuscheckerError() throws APPCException {
+        MockGenerator mg = new MockGenerator(Status.DELETED);
+        Server server = mg.getServer();
+        VmStatuschecker rbs = new VmStatuschecker();
+        rbs.setProviderCache(mg.getProviderCacheMap());
+        ModelObject mo = rbs.executeProviderOperation(mg.getParams(), mg.getSvcLogicContext());
+        verify(mg.getSvcLogicContext(), atLeastOnce()).setAttribute(Constants.STATUS_OF_VM, "deleted");
+    }
+
+    @Test
+    public void vmReadyStatuscheckerError() throws APPCException {
+        MockGenerator mg = new MockGenerator(Status.READY);
+        Server server = mg.getServer();
+        VmStatuschecker rbs = new VmStatuschecker();
+        rbs.setProviderCache(mg.getProviderCacheMap());
+        ModelObject mo = rbs.executeProviderOperation(mg.getParams(), mg.getSvcLogicContext());
+        verify(mg.getSvcLogicContext(), atLeastOnce()).setAttribute(Constants.STATUS_OF_VM, "ready");
     }
 }
