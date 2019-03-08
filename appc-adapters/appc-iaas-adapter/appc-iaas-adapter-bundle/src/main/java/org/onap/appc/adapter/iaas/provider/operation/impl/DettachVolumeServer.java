@@ -29,7 +29,6 @@ import static org.onap.appc.adapter.utils.Constants.ADAPTER_NAME;
 import com.att.cdp.exceptions.ZoneException;
 import com.att.cdp.zones.ComputeService;
 import com.att.cdp.zones.Context;
-import com.att.cdp.zones.VolumeService;
 import com.att.cdp.zones.model.ModelObject;
 import com.att.cdp.zones.model.Server;
 import com.att.cdp.zones.model.Volume;
@@ -105,14 +104,14 @@ public class DettachVolumeServer extends ProviderServerOperation {
                 }
                 logger.debug(Msg.SERVER_FOUND, vmUrl, context.getTenantName(), server.getStatus().toString());
                 if (volumeId == null || volumeId.isEmpty()) {
-                    ctx.setAttribute("VOLUME_STATUS", "FAILURE");
+                    if(ctx != null){
+                        ctx.setAttribute("VOLUME_STATUS", "FAILURE");
+                    }
                     doFailure(requestContext, HttpStatus.BAD_REQUEST_400, "Volumeid is mandatory");
                 }
                 Context contx = server.getContext();
                 ComputeService service = contx.getComputeService();
                 Volume volume = new Volume();
-                VolumeService vs = contx.getVolumeService();
-                Volume s = vs.getVolume(volumeId);
                 boolean flag = false;
                 if (validateDetach(service, vm.getServerId(), volumeId)) {
                     volume.setId(volumeId);
@@ -122,24 +121,32 @@ public class DettachVolumeServer extends ProviderServerOperation {
                 } else {
                     String msg = "Volume with volume id " + volumeId + " cannot be detached as it does not exists";
                     logger.info("Volume doesnot exists:");
-                    ctx.setAttribute("VOLUME_STATUS", "FAILURE");
+					if(ctx != null){
+                        ctx.setAttribute("VOLUME_STATUS", "FAILURE");
+					}
                     doFailure(requestContext, HttpStatus.METHOD_NOT_ALLOWED_405, msg);
                     flag = false;
                 }
                 if (flag) {
                     if (validateDetach(requestContext, service, vm.getServerId(), volumeId)) {
                         String msg = "Volume with volume id " + volumeId + " cannot be detached ";
-                        ctx.setAttribute("VOLUME_STATUS", "FAILURE");
+                        if(ctx != null){
+                            ctx.setAttribute("VOLUME_STATUS", "FAILURE");
+                        }
                         doFailure(requestContext, HttpStatus.CONFLICT_409, msg);
                     } else {
                         logger.info("status of detaching volume");
-                        ctx.setAttribute("VOLUME_STATUS", "SUCCESS");
+                        if(ctx != null){
+                           ctx.setAttribute("VOLUME_STATUS", "SUCCESS");
+                        }
                         doSuccess(requestContext);
                     }
                 }
                 context.close();
             } else {
-                ctx.setAttribute("VOLUME_STATUS", "CONTEXT_NOT_FOUND");
+                if(ctx != null){
+                    ctx.setAttribute("VOLUME_STATUS", "CONTEXT_NOT_FOUND");
+                }
             }
         } catch (ZoneException e) {
             String msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, e, vmUrl);
