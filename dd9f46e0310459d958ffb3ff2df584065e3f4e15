@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a66c77cb_9fda8a3c",
+        "filename": "appc-core/appc-common-bundle/src/main/java/org/onap/appc/util/StreamHelper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-11T14:27:51Z",
+      "side": 1,
+      "message": "tabs \u003d\u003e spaces",
+      "revId": "dd9f46e0310459d958ffb3ff2df584065e3f4e15",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ca38313_c0be5742",
+        "filename": "appc-core/appc-common-bundle/src/main/java/org/onap/appc/util/StreamHelper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-11T14:27:51Z",
+      "side": 1,
+      "message": "fix indentation level",
+      "revId": "dd9f46e0310459d958ffb3ff2df584065e3f4e15",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
