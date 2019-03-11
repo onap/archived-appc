@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2019 IBM
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -28,7 +30,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class StreamHelper {
+  private static final Logger log = LoggerFactory.getLogger(StreamHelper.class);
 
     /**
      * private default constructor prevents instantiation
@@ -52,7 +58,7 @@ public class StreamHelper {
                     len = inputStream.read(array);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("Error occured while reading from Stream", e);
             }
         }
 
