@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f83bc128_337c7a85",
+        "filename": "appc-provider/appc-provider-bundle/src/main/java/org/onap/appc/provider/lcm/service/DistributeTrafficCheckService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-11T16:13:05Z",
+      "side": 1,
+      "message": "no longer need to validate the payload?",
+      "revId": "752ab51ebb6b5ffd17a2c4e19a48cc85e8cabd87",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
