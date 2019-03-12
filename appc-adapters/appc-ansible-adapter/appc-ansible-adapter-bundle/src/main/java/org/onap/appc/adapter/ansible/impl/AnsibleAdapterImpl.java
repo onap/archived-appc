@@ -188,6 +188,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
 
         } catch (Exception e) {
             defaultTimeout = 600 * 1000;
+            logger.error("Error while reading time out property" , e);
         }
         //continuing for checking timeout
         try {
@@ -196,6 +197,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
 
         } catch (Exception e) {
             defaultSocketTimeout = 60 * 1000;
+            logger.error("Error while reading socket time out property" , e);
         }
         //continuing for checking timeout
         try {
@@ -204,6 +206,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
 
         } catch (Exception e) {
             defaultPollInterval = 60 * 1000;
+            logger.error("Error while reading poll interval property" , e);
         }
         logger.info("Initialized Ansible Adapter");
     }
