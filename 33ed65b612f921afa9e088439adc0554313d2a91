@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "917cfe5b_ba7c066e",
+        "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/TestParamsHandlerActivator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-12T19:07:19Z",
+      "side": 1,
+      "message": "method name doesn\u0027t seem to match the body",
+      "revId": "33ed65b612f921afa9e088439adc0554313d2a91",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
