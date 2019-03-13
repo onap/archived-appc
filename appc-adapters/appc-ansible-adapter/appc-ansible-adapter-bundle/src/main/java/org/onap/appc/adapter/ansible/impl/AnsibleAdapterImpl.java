@@ -486,12 +486,12 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
             SvcLogicContext ctx) {
 
         AnsibleResult testResult = null;
-        ConnectionBuilder httpClient = getHttpConn(defaultSocketTimeout, "");
+        ConnectionBuilder httpClientLocal = getHttpConn(defaultSocketTimeout, "");
         if (!testMode) {
-          if(httpClient!=null) {
-            httpClient.setHttpContext(user, password);
-            testResult = httpClient.post(agentUrl, payload);
-            httpClient.close();
+          if(httpClientLocal!=null) {
+        	  httpClientLocal.setHttpContext(user, password);
+            testResult = httpClientLocal.post(agentUrl, payload);
+            httpClientLocal.close();
           }
         } else {
             testResult = testServer.Post(agentUrl, payload);
