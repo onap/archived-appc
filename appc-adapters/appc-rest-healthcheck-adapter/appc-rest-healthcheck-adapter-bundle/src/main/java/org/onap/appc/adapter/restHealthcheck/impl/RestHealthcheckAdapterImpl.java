@@ -7,6 +7,7 @@
  * Copyright (C) 2017 Amdocs
  * ================================================================================
  * Modifications Copyright (C) 2019 Ericsson
+ * Modifications Copyright (C) 2019 IBM
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -104,6 +105,7 @@ public class RestHealthcheckAdapterImpl implements RestHealthcheckAdapter {
             status = Integer.toString(code.getStatusCode());
         } catch (Exception e) {
             status = "500";
+            logger.error("Error while casting Integer to String", e);
         }
         svcLogic.setStatus(OUTCOME_FAILURE);
         svcLogic.setAttribute("healthcheck.result.code", "200");
