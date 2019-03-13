@@ -45,9 +45,19 @@
                     <groupId>javax</groupId>
                     <artifactId>javaee-api</artifactId>
                 </exclusion>
+              <exclusion>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+              </exclusion>
             </exclusions>
         </dependency>
 
+
+        <dependency>
+           <groupId>com.fasterxml.jackson.core</groupId>
+           <artifactId>jackson-databind</artifactId>
+           <version>2.8.11.3</version>
+        </dependency>
 
         <dependency>
             <groupId>com.att.cdp</groupId>
