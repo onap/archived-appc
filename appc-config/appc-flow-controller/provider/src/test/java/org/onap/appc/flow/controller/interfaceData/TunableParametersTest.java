@@ -22,6 +22,7 @@
 package org.onap.appc.flow.controller.interfaceData;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -50,5 +51,10 @@ public class TunableParametersTest {
     public void testRetryCount() {
         tunableParameters.setRetryCount("RetryCount");
         assertEquals("RetryCount", tunableParameters.getRetryCount());
+    }
+    
+    @Test
+    public void testToString() {
+        assertTrue(tunableParameters.toString() instanceof String);
     }
 }
