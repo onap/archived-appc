@@ -22,6 +22,7 @@
 package org.onap.appc.flow.controller.interfaceData;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -51,5 +52,10 @@ public class VmTest {
     public void testVmId() {
         vm.setVmId("VmId");
         assertEquals("VmId", vm.getVmId());
+    }
+    
+    @Test
+    public void testToString() {
+        assertTrue(vm.toString() instanceof String);
     }
 }
