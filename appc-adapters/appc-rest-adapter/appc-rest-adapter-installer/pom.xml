@@ -216,9 +216,9 @@
                 <artifactItem>
                   <groupId>com.ning</groupId>
                   <artifactId>async-http-client</artifactId>
-                  <version>1.9.39</version>
+                  <version>1.9.40</version>
                   <type>jar</type>
-                  <outputDirectory>${project.build.directory}/assembly/system/com/ning/async-http-client/1.9.39</outputDirectory>
+                  <outputDirectory>${project.build.directory}/assembly/system/com/ning/async-http-client/1.9.40</outputDirectory>
                 </artifactItem>
                 <artifactItem>
                   <groupId>io.netty</groupId>
