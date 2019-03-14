@@ -234,7 +234,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
         // 3. DEFAULT (trust only well known certificates). This is standard behavior to
         // which it will
         // revert. To be used in PROD
-        ConnectionBuilder httpClient = null;
+        ConnectionBuilder httpClientLocal = null;
         try {
             String clientType = props.getProperty(CLIENT_TYPE_PROPERTY_NAME);
             logger.info("Ansible http client type set to " + clientType);
@@ -242,24 +242,24 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
             if ("TRUST_ALL".equals(clientType)) {
                 logger.info(
                         "Creating http client to trust ALL ssl certificates. WARNING. This should be done only in dev environments");
-                httpClient = new ConnectionBuilder(1, timeout);
+                httpClientLocal = new ConnectionBuilder(1, timeout);
             } else if ("TRUST_CERT".equals(clientType)) {
                 // set path to keystore file
                 String trustStoreFile = props.getProperty(TRUSTSTORE_PROPERTY_NAME);
                 String key = props.getProperty(TRUSTPASSWD_PROPERTY_NAME);
                 char[] trustStorePasswd = EncryptionTool.getInstance().decrypt(key).toCharArray();
                 logger.info("Creating http client with trustmanager from " + trustStoreFile);
-                httpClient = new ConnectionBuilder(trustStoreFile, trustStorePasswd, timeout, serverIP);
+                httpClientLocal = new ConnectionBuilder(trustStoreFile, trustStorePasswd, timeout, serverIP);
             } else {
                 logger.info("Creating http client with default behaviour");
-                httpClient = new ConnectionBuilder(0, timeout);
+                httpClientLocal = new ConnectionBuilder(0, timeout);
             }
         } catch (Exception e) {
             logger.error("Error Getting HTTP Connection Builder due to Unknown Exception", e);
         }
 
         logger.info("Got HTTP Connection Builder");
-        return httpClient;
+        return httpClientLocal;
     }
 
     // Public Method to post request to execute playbook. Posts the following back
@@ -486,12 +486,12 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
             SvcLogicContext ctx) {
 
         AnsibleResult testResult = null;
-        ConnectionBuilder httpClient = getHttpConn(defaultSocketTimeout, "");
+        ConnectionBuilder httpClientLocal = getHttpConn(defaultSocketTimeout, "");
         if (!testMode) {
-          if(httpClient!=null) {
-            httpClient.setHttpContext(user, password);
-            testResult = httpClient.post(agentUrl, payload);
-            httpClient.close();
+          if(httpClientLocal!=null) {
+        	  httpClientLocal.setHttpContext(user, password);
+            testResult = httpClientLocal.post(agentUrl, payload);
+            httpClientLocal.close();
           }
         } else {
             testResult = testServer.Post(agentUrl, payload);
@@ -516,14 +516,14 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
 
         while (System.currentTimeMillis() < endTime) {
             String serverIP = ctx.getAttribute("ServerIP");
-            ConnectionBuilder httpClient = getHttpConn(defaultSocketTimeout, serverIP);
+            ConnectionBuilder httpClientLocal = getHttpConn(defaultSocketTimeout, serverIP);
             logger.info("Querying ansible GetResult URL = " + agentUrl);
 
             if (!testMode) {
-              if(httpClient!=null) {
-                httpClient.setHttpContext(user, password);
-                testResult = httpClient.get(agentUrl);
-                httpClient.close();
+              if(httpClientLocal!=null) {
+            	  httpClientLocal.setHttpContext(user, password);
+                testResult = httpClientLocal.get(agentUrl);
+                httpClientLocal.close();
               }
             } else {
                 testResult = testServer.Get(agentUrl);
