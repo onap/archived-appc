@@ -80,5 +80,11 @@ public class TestParameters {
         parameters.setCompareType("CompareType");
         assertEquals("CompareType", parameters.getCompareType());
     }
+    
+    @Test
+    public void testRequestIdentifier() {
+        parameters.setRequestIdentifier("RequestIdentifier");
+        assertEquals("RequestIdentifier", parameters.getRequestIdentifier());
+    }
 
 }
