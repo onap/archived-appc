@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2019 IBM
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -578,8 +580,8 @@ public class ChefAdapterImpl implements ChefAdapter {
         if ("complete".equals(status)) {
             if (hasFailedNode(message)) {
                 String finalMessage = "PushJob Status Complete but check failed nodes in the message :" + message;
-                svcLogic.setAttribute("chefServerResult.code", APPC_ERRORCODE.toString());
-                svcLogic.setAttribute("chefServerResult.message", finalMessage);
+                svcLogic.setAttribute(CHEF_SERVER_RESULT_CODE_STR, APPC_ERRORCODE.toString());
+                svcLogic.setAttribute(CHEF_SERVER_RESULT_MSG_STR, finalMessage);
             } else {
                 svcLogic.setAttribute(CHEF_SERVER_RESULT_CODE_STR, STATUS_OK.toString());
                 svcLogic.setAttribute(CHEF_SERVER_RESULT_MSG_STR, message);
