@@ -22,6 +22,7 @@
 package org.onap.appc.seqgen.objects;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,6 +54,11 @@ public class CapabilityModelTest {
     @Test
     public void testVfModuleCapabilities() {
         assertEquals(vfModuleCapabilities, capabilityModel.getVfModuleCapabilities());
+    }
+    
+    @Test
+    public void testToString() {
+        assertTrue(capabilityModel.toString() instanceof String);
     }
 
 }
