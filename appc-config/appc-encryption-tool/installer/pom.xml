@@ -57,17 +57,6 @@
             <groupId>org.onap.appc</groupId>
             <artifactId>appc-config-encryption-tool-provider</artifactId>
             <version>1.5.0-SNAPSHOT</version>
-            <exclusions>
-              <exclusion>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-              </exclusion>
-           </exclusions>
-        </dependency>
-        <dependency>
-           <groupId>com.fasterxml.jackson.core</groupId>
-           <artifactId>jackson-databind</artifactId>
-           <version>2.8.11.3</version>
         </dependency>
     </dependencies>
     <build>
