@@ -6,7 +6,7 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
- * Copyright (C) 2019 IBM.
+ * Modifications Copyright (C) 2019 IBM.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -101,5 +101,15 @@ public class TestVmStatuschecker {
         rbs.setProviderCache(mg.getProviderCacheMap());
         ModelObject mo = rbs.executeProviderOperation(mg.getParams(), mg.getSvcLogicContext());
         verify(mg.getSvcLogicContext(), atLeastOnce()).setAttribute(Constants.STATUS_OF_VM, "ready");
+    }
+    
+    @Test
+    public void vmPausedStatuscheckerError() throws APPCException {
+        MockGenerator mg = new MockGenerator(Status.PAUSED);
+        Server server = mg.getServer();
+        VmStatuschecker rbs = new VmStatuschecker();
+        rbs.setProviderCache(mg.getProviderCacheMap());
+        ModelObject mo = rbs.executeProviderOperation(mg.getParams(), mg.getSvcLogicContext());
+        verify(mg.getSvcLogicContext(), atLeastOnce()).setAttribute(Constants.STATUS_OF_VM, "paused");
     }
 }
