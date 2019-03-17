@@ -173,28 +173,22 @@ class SshConnectionSshd implements SshConnection {
     }
 
     private int execCommand(String cmd, OutputStream out, OutputStream err, boolean usePty) {
-        try {
+        try(ChannelExec client = clientSession.createExecChannel(cmd)) {
             if (logger.isDebugEnabled()) {
                 logger.debug("SSH: executing command");
             }
-            ChannelExec client = clientSession.createExecChannel(cmd);
             client.setUsePty(usePty); // use pseudo-tty?
             client.setOut(out);
             client.setErr(err);
             OpenFuture openFuture = client.open();
             int exitStatus;
-            try {
-                client.waitFor(Arrays.asList(ClientChannelEvent.CLOSED), timeout);
-                openFuture.verify();
-                Integer exitStatusI = client.getExitStatus();
-                if (exitStatusI == null) {
-                    throw new SshException("Error executing command [" + cmd + "] over SSH [" + username + "@" + host
-                        + ":" + port + "]. Operation timed out.");
-                }
-                exitStatus = exitStatusI;
-            } finally {
-                client.close(false);
+            client.waitFor(Arrays.asList(ClientChannelEvent.CLOSED), timeout);
+            openFuture.verify();
+            Integer exitStatusI = client.getExitStatus();
+            if (exitStatusI == null) {
+                throw new SshException("Error executing command [" + cmd + "] over SSH [" + username + "@" + host + ":" + port + "]. Operation timed out.");
             }
+            exitStatus = exitStatusI;
             return exitStatus;
         } catch (RuntimeException e) {
             throw e;
