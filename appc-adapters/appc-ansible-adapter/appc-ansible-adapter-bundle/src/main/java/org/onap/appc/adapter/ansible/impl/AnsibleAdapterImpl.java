@@ -93,6 +93,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
     private static final String APPC_PROPS = "/appc.properties";
     private static final String SDNC_CONFIG_DIR = "SDNC_CONFIG_DIR";
     private static final String propDir = System.getenv(SDNC_CONFIG_DIR);
+    private static final String SERVERIP = "ServerIP";
     private Properties props;
     private int defaultTimeout = 600 * 1000;
     private int defaultSocketTimeout = 60 * 1000;
@@ -335,9 +336,9 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
             ctx.setAttribute(OUTPUT_ATTRIBUTE_NAME, output);
             String serverIp = testResult.getServerIp();
             if (StringUtils.isBlank(serverIp))
-            ctx.setAttribute("ServerIP", serverIp);
+            ctx.setAttribute(SERVERIP, serverIp);
             else
-              ctx.setAttribute("ServerIP", "");
+              ctx.setAttribute(SERVERIP, "");
             // Check status of test request returned by Agent
             if (code == AnsibleResultCodes.PENDING.getValue()) {
               logger.info(String.format("Submission of Test %s successful.", playbookName));
@@ -373,7 +374,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
         String reqUri = StringUtils.EMPTY;
 
         try {
-            String serverIp = ctx.getAttribute("ServerIP");
+            String serverIp = ctx.getAttribute(SERVERIP);
             if (StringUtils.isNotBlank(serverIp))
                 reqUri = messageProcessor.reqUriResultWithIP(params, serverIp);
             else
@@ -515,7 +516,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
         long endTime = System.currentTimeMillis() + timeout;
 
         while (System.currentTimeMillis() < endTime) {
-            String serverIP = ctx.getAttribute("ServerIP");
+            String serverIP = ctx.getAttribute(SERVERIP);
             ConnectionBuilder httpClientLocal = getHttpConn(defaultSocketTimeout, serverIP);
             logger.info("Querying ansible GetResult URL = " + agentUrl);
 
