@@ -190,7 +190,7 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
             return audit(ctx, "RUNNING");
         }
 
-        if ((key.equals("put")) || (key.equals("get"))) {
+        if (("put".equals(key)) || ("get".equals(key))) {
             String loginId = parameters.get("loginId");
             String host = parameters.get("host");
             String password = parameters.get("password");
