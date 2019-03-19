@@ -91,7 +91,7 @@ public abstract class ProviderStackOperation extends ProviderOperation {
      * Changed the 'pollInterval' type as long. Thread.sleep method needs 'long millis' as an argument
      */
     private boolean checkStatus(String expectedStatus, long pollInterval, String actualStatus) {
-        if (actualStatus.toUpperCase().equals(expectedStatus)) {
+        if (actualStatus.equalsIgnoreCase(expectedStatus)) {
             return true;
         } else {
             try {
