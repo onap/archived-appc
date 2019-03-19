@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06b3e22c_55be9196",
+        "filename": "appc-outbound/appc-aai-client/provider/src/test/java/org/onap/appc/aai/client/aai/TestVServerInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-19T12:49:27Z",
+      "side": 1,
+      "message": "personally, I generally make the key and value different so that I know that the getXxx() methods are returning the value and not the key.",
+      "revId": "c0d380c83dc16f131322c293279f0f4643390c07",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
