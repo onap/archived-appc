@@ -16,6 +16,24 @@
       "revId": "e6a59125a0ca2de48dc38692d8bb36b89be65054",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "014cff00_db97ec75",
+        "filename": "appc-provider/appc-provider-bundle/src/test/java/org/onap/appc/provider/TestAppcProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2019-03-19T14:09:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "343f2069_d4b741c2",
+      "revId": "e6a59125a0ca2de48dc38692d8bb36b89be65054",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
