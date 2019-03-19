@@ -92,7 +92,19 @@ public class GraphExecutor implements FlowExecutorInterface {
             String parmName = (String) key;
             String parmValue = ctx.getAttribute(parmName);
             parms.put(parmName, parmValue);
-            log.info(fn + "Setting Key= " + parmName + " and Value = " + parmValue);
+            if (log.isTraceEnabled()) {
+                log.trace(fn + "Setting Key= " + parmName + " and Value = " + parmValue);
+            }
+            else {
+                if (parmValue.length() > 255) {
+                    log.info(fn + "Setting Key= " + parmName + " and Value = " + parmValue.substring(0, 255));
+                    log.info("\n...\n" + parmValue.length() +
+                            " characters in property, turn on TRACE logging to log entire parameter value");
+                }
+                else {
+                    log.info(fn + "Setting Key= " + parmName + " and Value = " + parmValue);
+                }
+            }
 
         }
         Properties returnParams =
