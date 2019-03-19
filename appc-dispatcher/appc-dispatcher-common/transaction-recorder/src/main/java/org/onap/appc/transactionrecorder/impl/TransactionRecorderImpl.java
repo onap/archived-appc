@@ -195,7 +195,7 @@ public class TransactionRecorderImpl implements TransactionRecorder {
 
     private boolean checkIfNullInstanceEntryExist(String key, String requestId) throws APPCException {
         logger.debug("Entered checkIfNullInstanceEntryExist");
-        String nullInstanceCheckQuery = new String("SELECT COUNT(*) as ROWS  FROM " +
+        String nullInstanceCheckQuery = new String("SELECT COUNT(*) as ROWCOUNT  FROM " +
             TransactionConstants.TRANSACTIONS + WHERE +
             TRANSACTION_ID.getColumnName() + " = ? AND " +
             REQUEST_ID.getColumnName() + " = ? ");
@@ -208,7 +208,7 @@ public class TransactionRecorderImpl implements TransactionRecorder {
             CachedRowSet rowSet = dbLibService.getData(nullInstanceCheckQuery, nullInstanceCheckParams, SCHEMA);
             int noRows = 0;
             if (rowSet != null && rowSet.first()) {
-                noRows = rowSet.getInt("ROWS");
+                noRows = rowSet.getInt("ROWCOUNT");
                 logger.info("No of Rows in Transactions Table with TRANSACTION_ID: " +
                             null + "~" + key + " and REQUEST_ID " + requestId + " is: " + noRows);
             }
