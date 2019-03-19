@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2019 Ericsson
  * ================================================================================
+ * Modifications Copyright (C) 2019 IBM.
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -21,11 +23,16 @@
 
 package org.onap.appc.provider;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.when;
+
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -41,6 +48,7 @@ import org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.RestartInpu
 import org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.SnapshotInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.VmstatuscheckInput;
 import org.opendaylight.yangtools.yang.common.RpcResult;
+import org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.EvacuateInput;
 
 public class TestAppcProvider {
 
@@ -57,8 +65,8 @@ public class TestAppcProvider {
 
         topologyService = Mockito.mock(TopologyService.class);
         result = Mockito.mock(RpcResult.class);
-        appcProvider =
-                new AppcProvider(dataBroker2, notificationProviderService, rpcProviderRegistry, appcProviderClient);
+        appcProvider = new AppcProvider(dataBroker2, notificationProviderService, rpcProviderRegistry,
+                appcProviderClient);
     }
 
     @Test
@@ -120,5 +128,16 @@ public class TestAppcProvider {
         appcProvider.close();
         ExecutorService executor = (ExecutorService) Whitebox.getInternalState(appcProvider, "executor");
         assertTrue(executor.isShutdown());
+    }
+
+    @Test
+    public void testGetClient() {
+        assertSame(appcProviderClient, appcProvider.getClient());
+    }
+
+    @Test
+    public void testEvacuate() {
+        EvacuateInput input = null;
+        assertNull(appcProvider.evacuate(input));
     }
 }
