@@ -138,7 +138,8 @@ public class EncryptionToolDGWrapper implements SvcLogicJavaPlugin {
                                 log.info(fn + ":: Error retrieving credentials");
                                 throw new SvcLogicException("Error retrieving credentials");
                             }
-                            if (status == QueryStatus.NOT_FOUND) {
+                            // SELECT COUNT query will return SUCCESS with a count of 0 when no data is found
+                            if (status == QueryStatus.SUCCESS) {
                                 log.info(fn + ":: NOT_FOUND! No data found in device_authentication table for "
                                         + vnf_Type + " " + protocol + "" + action + "");
                                 throw new SvcLogicException(
