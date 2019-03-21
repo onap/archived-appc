@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.Properties;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -328,5 +329,12 @@ public class PoolTest implements Allocator<Testable>, Destructor<Testable> {
         pool= new Pool<Testable>(3, 5);
         pool.setProperty("key1", "value1");
         assertEquals("value1", pool.getProperty("key1"));
+    }
+    
+    @Test
+    public void testGetProperties() throws PoolSpecificationException
+    {
+        pool= new Pool<Testable>(3, 5);
+        assertTrue(pool.getProperties() instanceof Properties);
     }
 }
