@@ -7,6 +7,7 @@
  * Copyright (C) 2017 Amdocs
  * ================================================================================
  * Modifications (C) 2019 Ericsson
+ * Modifications (C) 2019 IBM
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -185,10 +186,12 @@ public class DesignDBService {
             throw new DBException(
                     "Error occured while validating/Saving the artifact to SDC_ARTIFACTS or getting SDC_ARTIFACTS_ID .");
         JsonNode json = payloadObject.get(DesignServiceConstants.USER_ID);
-        if (json == null || json.asText().trim().isEmpty()) {
-            log.info("UserId in Admin Aritfact is null or blank, User Id : " + json.asText());
-            throw new DBException("User Id is null or blank");
-        }
+		if (json == null) {
+			throw new DBException("User Id is null");
+		} else if (json.asText().trim().isEmpty()) {
+			log.info("UserId in Admin Aritfact is blank, User Id : " + json.asText());
+			throw new DBException("User Id is blank");
+		}
 
         int sdcReferenceId = 0;
         createArtifactTrackingRecord(payload, requestId, sdcArtifactId, sdcReferenceId);
