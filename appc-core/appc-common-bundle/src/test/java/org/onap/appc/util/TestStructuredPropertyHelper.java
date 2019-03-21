@@ -259,8 +259,11 @@ public class TestStructuredPropertyHelper {
         Node node1 = new Node();
         node1.setName("testName");
         node1.setValue("testValue");
-        assertTrue(node0.equals(node1));    
-    }
+        assertTrue(node0.equals(node1));
+        assertFalse(node0.equals(null));
+        node0.setValue(null);
+        assertFalse(node0.equals(node1));
+     }
 
    @Test
     public void testEqualsWithSameNameAndDifferentValue()
