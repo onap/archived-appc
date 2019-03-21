@@ -112,4 +112,14 @@ public class TestVmStatuschecker {
         ModelObject mo = rbs.executeProviderOperation(mg.getParams(), mg.getSvcLogicContext());
         verify(mg.getSvcLogicContext(), atLeastOnce()).setAttribute(Constants.STATUS_OF_VM, "paused");
     }
+    
+    @Test
+    public void vmPendingStatuscheckerError() throws APPCException {
+        MockGenerator mg = new MockGenerator(Status.PENDING);
+        Server server = mg.getServer();
+        VmStatuschecker rbs = new VmStatuschecker();
+        rbs.setProviderCache(mg.getProviderCacheMap());
+        ModelObject mo = rbs.executeProviderOperation(mg.getParams(), mg.getSvcLogicContext());
+        verify(mg.getSvcLogicContext(), atLeastOnce()).setAttribute(Constants.STATUS_OF_VM, "pending");
+    }
 }
