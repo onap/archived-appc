@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0093842_6abd70df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-21T16:55:20Z",
+      "side": 1,
+      "message": "maybe change \"modified existing code\" to \"added junit tests\", since didn\u0027t modify the code so much as modify the junit test",
+      "revId": "5e671f9e908f1fe2f03743e1f76704c4339e7581",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eefffd56_5be12681",
+        "filename": "appc-core/appc-common-bundle/src/test/java/org/onap/appc/util/TestStructuredPropertyHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-21T16:55:20Z",
+      "side": 1,
+      "message": "does this cover all cases?  Or also need to cover the case where the left-hand has a non-null name and the right hand has a null name: assertFalse(node1.equals(node0))?",
+      "revId": "5e671f9e908f1fe2f03743e1f76704c4339e7581",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
