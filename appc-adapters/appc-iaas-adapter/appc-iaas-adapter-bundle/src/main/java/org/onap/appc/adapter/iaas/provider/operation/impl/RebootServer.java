@@ -7,6 +7,7 @@
  * Copyright (C) 2017 Amdocs
  * ================================================================================
  * Modifications Copyright (C) 2019 Ericsson
+ * Modifications Copyright (C) 2019 IBM
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -79,6 +80,7 @@ public class RebootServer extends ProviderServerOperation {
             rebooType = "SOFT";
         }
         logger.info("reboot type" + rebooType);
+        if (ctx != null) {
         try {
             VMURL vm = VMURL.parseURL(vmUrl);
             Context context;
@@ -122,8 +124,6 @@ public class RebootServer extends ProviderServerOperation {
             }
 
         } catch (ResourceNotFoundException | StateException ex) {
-            String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, ex, ex.getClass().getSimpleName(),
-                    REBOOT_SERVICE.toString(), vmUrl, tenantName);
             ctx.setAttribute("REBOOT_STATUS", "FAILURE");
             if (ex instanceof ResourceNotFoundException) {
                 doFailure(requestContext, HttpStatus.NOT_FOUND_404, ex.getMessage());
@@ -131,10 +131,9 @@ public class RebootServer extends ProviderServerOperation {
                 doFailure(requestContext, HttpStatus.CONFLICT_409, ex.getMessage());
             }
         } catch (Exception ex) {
-            String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, ex, ex.getClass().getSimpleName(),
-                    REBOOT_SERVICE.toString(), vmUrl, tenantName);
             ctx.setAttribute("REBOOT_STATUS", "FAILURE");
             doFailure(requestContext, HttpStatus.INTERNAL_SERVER_ERROR_500, ex.getMessage());
+        }
         }
         return server;
     }
