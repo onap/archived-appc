@@ -27,6 +27,7 @@ package org.onap.appc.util;
  
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.text.ParseException;
@@ -143,6 +144,11 @@ public class TimeTest {
         String dateString = Time.dateToStringConverterMillis(dateForTests);
         String expected = "2004-02-09 00:00:00:000";
         assertEquals(expected, dateString);
+    }
+    
+    @Test
+    public void testDateToStringConverterMillisForNullDate() {
+        assertNull(Time.dateToStringConverterMillis(null));
     }
 
     @Test
