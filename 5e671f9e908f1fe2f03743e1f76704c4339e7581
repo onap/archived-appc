@@ -33,6 +33,24 @@
       "revId": "5e671f9e908f1fe2f03743e1f76704c4339e7581",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7ce7888_ae8577df",
+        "filename": "appc-core/appc-common-bundle/src/test/java/org/onap/appc/util/TestStructuredPropertyHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2019-03-22T13:47:44Z",
+      "side": 1,
+      "message": "i dnt think its needed..it alrdy covers all the cases",
+      "parentUuid": "eefffd56_5be12681",
+      "revId": "5e671f9e908f1fe2f03743e1f76704c4339e7581",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
