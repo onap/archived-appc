@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "34094db0_49044022",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2019-03-22T13:51:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0093842_6abd70df",
+      "revId": "5e671f9e908f1fe2f03743e1f76704c4339e7581",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eefffd56_5be12681",
         "filename": "appc-core/appc-common-bundle/src/test/java/org/onap/appc/util/TestStructuredPropertyHelper.java",
         "patchSetId": 1
