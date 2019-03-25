@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2019 IBM
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -63,6 +65,8 @@ public class AnsibleMessageParser {
     private static final String TIMEOUT_OPT_KEY = "Timeout";
     private static final String VERSION_OPT_KEY = "Version";
     private static final String ACTION_OPT_KEY = "Action";
+    private static final String OUTPUT_OPT_KEY = "Output";
+    private static final String JSON_ERROR_MESSAGE = "JSONException: Error parsing response";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AnsibleMessageParser.class);
 
@@ -171,14 +175,14 @@ public class AnsibleMessageParser {
             if (StringUtils.isNotBlank(serverIP))
                 ansibleResult.setServerIp(serverIP);
 
-            if (!postResponse.isNull("Output")) {
+            if (!postResponse.isNull(OUTPUT_OPT_KEY)) {
                 LOGGER.info("Processing results-output in post response");
-                JSONObject output = postResponse.getJSONObject("Output");
+                JSONObject output = postResponse.getJSONObject(OUTPUT_OPT_KEY);
                 ansibleResult.setOutput(output.toString());
             }
 
         } catch (JSONException e) {
-            LOGGER.error("JSONException: Error parsing response", e);
+            LOGGER.error(JSON_ERROR_MESSAGE, e);
             ansibleResult = new AnsibleResult(600, "Error parsing response = " + input + ". Error = " + e.getMessage());
         }
         return ansibleResult;
@@ -196,7 +200,7 @@ public class AnsibleMessageParser {
             JSONObject postResponse = new JSONObject(input);
             ansibleResult = parseGetResponseNested(ansibleResult, postResponse);
         } catch (JSONException e) {
-            LOGGER.error("JSONException: Error parsing response", e);
+            LOGGER.error(JSON_ERROR_MESSAGE, e);
             ansibleResult = new AnsibleResult(AnsibleResultCodes.INVALID_PAYLOAD.getValue(),
                     "Error parsing response = " + input + ". Error = " + e.getMessage(), "");
         }
@@ -247,7 +251,7 @@ public class AnsibleMessageParser {
                         finalCode = AnsibleResultCodes.REQ_FAILURE.getValue();
                     }
                 } catch (JSONException e) {
-                    LOGGER.error("JSONException: Error parsing response", e);
+                    LOGGER.error(JSON_ERROR_MESSAGE, e);
                     ansibleResult.setStatusCode(AnsibleResultCodes.INVALID_RESPONSE.getValue());
                     ansibleResult.setStatusMessage(String.format("Error processing response message = %s from host %s",
                             results.getString(host), host));
@@ -264,9 +268,9 @@ public class AnsibleMessageParser {
             ansibleResult.setStatusCode(AnsibleResultCodes.INVALID_RESPONSE.getValue());
             ansibleResult.setStatusMessage("Results not found in GET for response");
         }
-        if (!postRsp.isNull("Output")) {
+        if (!postRsp.isNull(OUTPUT_OPT_KEY)) {
             LOGGER.info("Processing results-output in response");
-            JSONObject output = postRsp.getJSONObject("Output");
+            JSONObject output = postRsp.getJSONObject(OUTPUT_OPT_KEY);
             ansibleResult.setOutput(output.toString());
         }
 
