@@ -100,8 +100,7 @@ public class EncryptionToolDGWrapper implements SvcLogicJavaPlugin {
         ctx.setAttribute("cloudRegionAai", cloudRegionAai);
         responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
         String basicQuery = "SELECT USER_NAME ,PASSWORD,PORT_NUMBER ,URL FROM  DEVICE_AUTHENTICATION  WHERE VNF_TYPE = $"
-                + Constants.VNF_TYPE + " AND PROTOCOL = $" + Constants.PROTOCOL + "" + " AND ACTION = $"
-                + Constants.ACTION + "";
+                + "vnf-type AND PROTOCOL = $APPC.protocol.PROTOCOL AND ACTION = $input.action";
         String urlAppend = " ";
         try {
             if (serviceLogic != null && ctx != null) {
@@ -112,9 +111,8 @@ public class EncryptionToolDGWrapper implements SvcLogicJavaPlugin {
                         urlAppend = " AND URL = $" + Constants.URL + "";
                         key = basicQuery + urlAppend;
                     } else {
-                        key = "SELECT COUNT(*) AS MULTIPLE FROM DEVICE_AUTHENTICATION WHERE VNF_TYPE = $"
-                                + Constants.VNF_TYPE + " AND PROTOCOL = $" + Constants.PROTOCOL + " AND ACTION = $"
-                                + Constants.ACTION + "";
+                        key = "SELECT COUNT(*) AS MULTIPLE FROM DEVICE_AUTHENTICATION WHERE VNF_TYPE = $vnf-type"
+                                + " AND PROTOCOL = $APPC.protocol.PROTOCOL AND ACTION = $input.action";
                         status = serviceLogic.query("SQL", false, null, key, null, null, ctx);
                         log.info("Checking number of records  for ansible:" + key);
                         cnt = Integer.parseInt(ctx.getAttribute("MULTIPLE"));
