@@ -7,6 +7,7 @@
  * Copyright (C) 2017 Amdocs
  * ================================================================================
  * Modifications (C) 2019 Ericsson
+ * Modifications (C) 2019 IBM
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -71,6 +72,7 @@ public class AaiService {
     private static final String ATTR_VNFC_FUNC_CODE = "VNFC-FUNCTION-CODE";
     private static final String ATTR_VSERVER_NAME = "vserver-name";
     private static final String ATTR_VNF_ID = "vnf-id";
+    private static final String ATTR_VF_MODULE_ID = "vf-module-id";
 
     private AAIClient aaiClient;
 
@@ -256,7 +258,7 @@ public class AaiService {
 
             //ConfigScaleOut - Do not process vms that are not associated with vfmodule id if vfmodule id is present
             if (StringUtils.isNotBlank(vfModuleIdFromRequest)) {
-                String vmVfModuleId = ctx.getAttribute(aaiRefKey + "vf-module-id");
+                String vmVfModuleId = ctx.getAttribute(aaiRefKey + ATTR_VF_MODULE_ID);
                 log.info("insertVnfcs():::vfModule for vm is=" + vmVfModuleId);
                 if (StringUtils.isBlank(vmVfModuleId) || !StringUtils
                     .equalsIgnoreCase(vmVfModuleId, vfModuleIdFromRequest)) {
@@ -382,7 +384,7 @@ public class AaiService {
         vnfcParams.put("relationship-list.relationship[2].relationship-data[1].relationship-key",
             "vf-module.vf-module-id");
         vnfcParams.put("relationship-list.relationship[2].relationship-data[1].relationship-value",
-            ctx.getAttribute(aaiRefKey + "vf-module-id"));
+            ctx.getAttribute(aaiRefKey + ATTR_VF_MODULE_ID));
 
         return vnfcParams;
     }
@@ -510,7 +512,7 @@ public class AaiService {
             String ind = "tmp.vnfInfo.vm[" + i + "].";
             String aaiFuncCode = ctx.getAttribute(ind + "vnfc-function-code");
             String aaiGroupNotation = ctx.getAttribute(ind + "group-notation");
-            String aaiVfModuleId = ctx.getAttribute(ind + "vf-module-id");
+            String aaiVfModuleId = ctx.getAttribute(ind + ATTR_VF_MODULE_ID);
 
             log.info("getGroupNotationForExistigValue()::: vfModuleId=" + vfModuleId + ", aaiFuncCode=" + aaiFuncCode
                 + ", aaiGroupNotation=" + aaiGroupNotation + ",aaiVfMOduleId=" + aaiVfModuleId);
