@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39ee13e1_7be5c0cd",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/model/AnsibleMessageParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2019-03-26T19:29:28Z",
+      "side": 1,
+      "message": "Could we name ERROR_MESSAGE something more specific in case more error messages are added in the future? Maybe JSON_ERROR_MESSAGE or something like that",
+      "revId": "db68da885364fe890d2f773ce25b2edd99ec09ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
