@@ -266,6 +266,7 @@ public class ChefAdapterImpl implements ChefAdapter {
     @Override
     public void fetchResults(Map<String, String> params, SvcLogicContext ctx) throws SvcLogicException {
         int code = STATUS_OK;
+        final String LOG_STR = "fetchResults";
         try {
             chefInfo(params, ctx);
             String nodeListS = params.get(NODE_LIST_STR);
@@ -328,12 +329,12 @@ public class ChefAdapterImpl implements ChefAdapter {
             }
         } catch (JSONException e) {
             code = APPC_ERRORCODE;
-            logger.error(POSTING_REQUEST_JSON_ERROR_STR + "fetchResults", e);
-            doFailure(ctx, code, POSTING_REQUEST_JSON_ERROR_STR + "fetchResults" + e.getMessage());
+            logger.error(POSTING_REQUEST_JSON_ERROR_STR + LOG_STR, e);
+            doFailure(ctx, code, POSTING_REQUEST_JSON_ERROR_STR + LOG_STR + e.getMessage());
         } catch (Exception e) {
             code = APPC_ERRORCODE;
-            logger.error(POSTING_REQUEST_ERROR_STR + "fetchResults", e);
-            doFailure(ctx, code, POSTING_REQUEST_ERROR_STR + "fetchResults" + e.getMessage());
+            logger.error(POSTING_REQUEST_ERROR_STR + LOG_STR, e);
+            doFailure(ctx, code, POSTING_REQUEST_ERROR_STR + LOG_STR + e.getMessage());
         }
     }
 
