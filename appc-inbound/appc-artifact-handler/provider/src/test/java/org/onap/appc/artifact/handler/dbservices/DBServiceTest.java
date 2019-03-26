@@ -6,7 +6,7 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
- * Modifications Copyright (C) 2018 IBM
+ * Modifications Copyright (C) 2018-2019 IBM
  * ================================================================================
  * Modifications Copyright (C) 2019 Ericsson
  * ================================================================================
@@ -356,6 +356,14 @@ public class DBServiceTest {
         expectedEx.expect(DBException.class);
         expectedEx.expectMessage("An error occurred when getting DG reference");
         assertEquals("TestDG", dbService.getDownLoadDGReference(ctx));
+    }
+    
+    @Test
+    public void testcreateQueryListForTemplateIds() {
+        MockDBService dbService = MockDBService.initialise(true);
+        String queryPart = dbService.createQueryListForTemplateIds("modelId");
+        String expected = " AND ARTIFACT_NAME like '%_modelId.%'";
+        assertEquals(expected, queryPart);
     }
 }
 
