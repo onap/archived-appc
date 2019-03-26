@@ -100,6 +100,7 @@ public class ChefAdapterImpl implements ChefAdapter {
     private static final String CHEF_SERVER_RESULT_MSG_STR = "chefServerResult.message";
     private static final String CHEF_ACTION_STR = "chefAction";
     private static final String NODE_LIST_STR = "NodeList";
+    private static final String LOG_STR = "fetchResults";
     private static final Integer STATUS_OK = 200;
     private static final Integer STATUS_PUSHJOBCHECK = 201;
     private static final Integer PUSHJOBSTATUS= 202;
@@ -328,12 +329,12 @@ public class ChefAdapterImpl implements ChefAdapter {
             }
         } catch (JSONException e) {
             code = APPC_ERRORCODE;
-            logger.error(POSTING_REQUEST_JSON_ERROR_STR + "fetchResults", e);
-            doFailure(ctx, code, POSTING_REQUEST_JSON_ERROR_STR + "fetchResults" + e.getMessage());
+            logger.error(POSTING_REQUEST_JSON_ERROR_STR + LOG_STR, e);
+            doFailure(ctx, code, POSTING_REQUEST_JSON_ERROR_STR + LOG_STR + e.getMessage());
         } catch (Exception e) {
             code = APPC_ERRORCODE;
-            logger.error(POSTING_REQUEST_ERROR_STR + "fetchResults", e);
-            doFailure(ctx, code, POSTING_REQUEST_ERROR_STR + "fetchResults" + e.getMessage());
+            logger.error(POSTING_REQUEST_ERROR_STR + LOG_STR, e);
+            doFailure(ctx, code, POSTING_REQUEST_ERROR_STR + LOG_STR + e.getMessage());
         }
     }
 
