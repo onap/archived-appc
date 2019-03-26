@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2019 IBM
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -74,7 +76,8 @@ public class AppcProviderAdapterActivator implements BundleActivator {
      */
     private Configuration configuration;
 
-    private static final String IAAS_ADAPTER = "APPC IaaS adapter";
+    private static final String APPC_IAAS_ADAPTER = "APPC IaaS adapter";
+    private static final String IAAS_ADAPTER = "IAAS adapter";
     /**
      * Called when this bundle is started so the Framework can perform the bundle-specific activities necessary to start
      * this bundle. This method can be used to register services or to allocate any resources that this bundle needs.
@@ -94,7 +97,7 @@ public class AppcProviderAdapterActivator implements BundleActivator {
 
         configuration = ConfigurationFactory.getConfiguration();
         String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
-        logger.info(Msg.COMPONENT_INITIALIZING, appName, "IAAS adapter");
+        logger.info(Msg.COMPONENT_INITIALIZING, appName, IAAS_ADAPTER);
         try {
             adapter = new ProviderAdapterImpl(configuration.getProperties());
         } catch (Exception e) {
@@ -108,7 +111,7 @@ public class AppcProviderAdapterActivator implements BundleActivator {
             registration = context.registerService(ProviderAdapter.class, adapter, null);
         }
 
-        logger.info(Msg.COMPONENT_INITIALIZED, appName, "IAAS adapter");
+        logger.info(Msg.COMPONENT_INITIALIZED, appName, IAAS_ADAPTER);
     }
 
     /**
@@ -132,16 +135,16 @@ public class AppcProviderAdapterActivator implements BundleActivator {
 
         if (registration != null) {
             String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
-            logger.info(Msg.COMPONENT_TERMINATING, appName, "IAAS adapter");
+            logger.info(Msg.COMPONENT_TERMINATING, appName, IAAS_ADAPTER);
             logger.info(Msg.UNREGISTERING_SERVICE, appName, adapter.getAdapterName());
             registration.unregister();
             registration = null;
-            logger.info(Msg.COMPONENT_TERMINATED, appName, "IAAS adapter");
+            logger.info(Msg.COMPONENT_TERMINATED, appName, IAAS_ADAPTER);
         }
     }
 
     public String getName() {
-        return IAAS_ADAPTER;
+        return APPC_IAAS_ADAPTER;
     }
 
 }
