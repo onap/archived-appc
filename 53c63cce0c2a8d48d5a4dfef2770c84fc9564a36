@@ -16,6 +16,24 @@
       "revId": "53c63cce0c2a8d48d5a4dfef2770c84fc9564a36",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b52d313a_8b8610fb",
+        "filename": "appc-outbound/appc-aai-client/provider/src/test/java/org/onap/appc/aai/client/aai/TestVServerInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2019-03-26T13:03:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc85d504_b505e63f",
+      "revId": "53c63cce0c2a8d48d5a4dfef2770c84fc9564a36",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
