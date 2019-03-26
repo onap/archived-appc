@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e070c7b_0abcc0d6",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/test/java/org/onap/appc/artifact/handler/ArtifactHandlerProviderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-26T11:34:58Z",
+      "side": 1,
+      "message": "fyi: don\u0027t need \"spy()\" unless you plan to invoke \"verify(provider).xxx()\".\n\nsame comment in the following method.",
+      "revId": "11cd989cc26d2f836761433594628022f05590a9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
