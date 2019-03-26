@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2019 Ericsson
  * ================================================================================
+ * Modifications Copyright (C) 2019 IBM.
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -21,12 +23,11 @@
 
 package org.onap.appc.artifact.handler;
 
-import com.google.common.util.concurrent.CheckedFuture;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -37,14 +38,15 @@ import org.opendaylight.controller.md.sal.binding.api.NotificationPublishService
 import org.opendaylight.controller.md.sal.binding.api.ReadWriteTransaction;
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
 import org.opendaylight.controller.sal.binding.api.RpcProviderRegistry;
-import org.opendaylight.yangtools.yang.common.RpcResult;
 import org.opendaylight.yang.gen.v1.org.onap.appc.artifacthandler.rev170321.ArtifactHandlerService;
 import org.opendaylight.yang.gen.v1.org.onap.appc.artifacthandler.rev170321.UploadartifactInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.artifacthandler.rev170321.UploadartifactInputBuilder;
 import org.opendaylight.yang.gen.v1.org.onap.appc.artifacthandler.rev170321.UploadartifactOutput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.artifacthandler.rev170321.document.parameters.DocumentParameters;
 import org.opendaylight.yang.gen.v1.org.onap.appc.artifacthandler.rev170321.request.information.RequestInformation;
-import org.powermock.reflect.Whitebox;
+import org.opendaylight.yangtools.yang.common.RpcResult;
+
+import com.google.common.util.concurrent.CheckedFuture;
 
 public class ArtifactHandlerProviderTest {
 
@@ -148,6 +150,21 @@ public class ArtifactHandlerProviderTest {
         Mockito.doReturn(mockProvider).when(artifactHandlerProvider).getArtifactHandlerProviderUtil(Mockito.any(UploadartifactInput.class));
         Future<RpcResult<UploadartifactOutput>> output = (Future<RpcResult<UploadartifactOutput>>) artifactHandlerProvider.uploadartifact(uploadArtifactInput);
         assertTrue(output.get().getResult() instanceof UploadartifactOutput);
+    }
+    
+    @Test
+    public void testClose() throws Exception
+    {
+        artifactHandlerProvider = Mockito.spy(new ArtifactHandlerProvider(dataBroker, notificationService, rpcRegistry));
+        artifactHandlerProvider.close();
+    }
+    
+    @Test
+    public void testGetArtifactHandlerProviderUtil() throws Exception
+    {
+        artifactHandlerProvider = Mockito.spy(new ArtifactHandlerProvider(dataBroker, notificationService, rpcRegistry));
+        UploadartifactInput uploadArtifactInput = Mockito.mock(UploadartifactInput.class);
+        assertTrue(artifactHandlerProvider.getArtifactHandlerProviderUtil(uploadArtifactInput) instanceof ArtifactHandlerProviderUtil);
     }
 
 }
