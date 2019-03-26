@@ -31,20 +31,12 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.core.util.Base64;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Properties;
-import java.util.StringTokenizer;
 import org.onap.ccsdk.sli.core.sli.SvcLogicAdaptor;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.util.*;
 
 public class ConfigComponentAdaptor implements SvcLogicAdaptor {
 
@@ -124,9 +116,9 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
         DebugLog.printRTAriDebug(fnName, "key = " + key);
         log.debug("Parameters:");
         DebugLog.printRTAriDebug(fnName, "Parameters:");
-        for (String parmName : parameters.keySet()) {
-            log.debug("        " + parmName + " = " + parameters.get(parmName));
-            DebugLog.printRTAriDebug(fnName, "        " + parmName + " = " + parameters.get(parmName));
+        for (Map.Entry<String, String> entry : parameters.entrySet()) {
+            log.debug("        " + entry.getKey() + " = " + entry.getValue());
+            DebugLog.printRTAriDebug(fnName, "        " + entry.getKey() + " = " + entry.getValue());
         }
 
         String parmval = parameters.get("config-component-configUrl");
@@ -231,14 +223,12 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
                     ctx.setAttribute("fileContents", response);
                     log.debug("SCP: Closing the SFTP connection");
                 }
-                sshJcraftWrapper = null;
                 return (setResponseStatus(ctx, r));
             } catch (IOException e) {
                 DebugLog.printAriDebug(fnName, "Caught a IOException e=" + e);
                 log.debug(fnName + " : Caught a IOException e=" + e);
                 r.code = HttpURLConnection.HTTP_INTERNAL_ERROR;
                 r.message = e.getMessage();
-                sshJcraftWrapper = null;
                 return (setResponseStatus(ctx, r));
             }
         }
@@ -247,7 +237,6 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
             String host = parameters.get("host");
             String password = parameters.get("password");
             password = EncryptionTool.getInstance().decrypt(password);
-            String cliCommand = parameters.get("cli");
             String portNumber = parameters.get("portNumber");
             SshJcraftWrapper sshJcraftWrapper = getSshJcraftWrapper();
             try {
@@ -311,7 +300,6 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
                         + Port_number);
                 log.debug("GetCliRunningConfig: Attempting to login: Host_ip_address=" + Host_ip_address +
                         " User_name=" + User_name + " Port_number=" + Port_number);
-                StringBuffer sb = new StringBuffer();
                 String response = "";
                 String CliResponse = "";
                 boolean showConfigFlag = false;
@@ -354,7 +342,7 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
                                 //    Strip off the last line which is the command prompt from the VNF device.
                                 while (st2.hasMoreTokens()) {
                                     String line2 = st2.nextToken();
-                                    if (line2.indexOf("#") == -1) {
+                                    if (line2.indexOf('#') == -1) {
                                         CliResponse += line2 + "\n";
                                     }
                                 }
@@ -530,8 +518,6 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
                         + Port_number);
                 log.debug("DownloadCliConfig: Attempting to login: Host_ip_address=" + Host_ip_address +
                         " User_name=" + User_name + " Port_number=" + Port_number);
-                StringBuffer sb = new StringBuffer();
-                String response = "";
                 String CliResponse = "";
                 sshJcraftWrapper.connect(Host_ip_address,
                         User_name,
@@ -559,7 +545,6 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
                             String delemeter = getStringBetweenQuotes(line);
                             DebugLog.printAriDebug(fnName, "The delemeter=" + delemeter);
                             String tmpResponse = sshJcraftWrapper.receiveUntil(delemeter, timeout, command);
-                            response += tmpResponse;
                             CliResponse += tmpResponse;
                         } else if (line.indexOf("Execute_config_contents Response: Ends_With") != -1) {
                             DebugLog.printAriDebug(fnName, "Found a 'Execute_config_contents Response:' line=" + line);
@@ -977,8 +962,8 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
         String fnName = "ConfigComponentAdaptor.getStringBetweenQuotes";
         DebugLog.printAriDebug(fnName, "string=" + string);
         String retString = null;
-        int start = string.indexOf("\"");
-        int end = string.lastIndexOf("\"");
+        int start = string.indexOf('\"');
+        int end = string.lastIndexOf('\"');
         retString = string.substring(start + 1, end);
         DebugLog.printAriDebug(fnName, "retString=" + retString);
         return (retString);
