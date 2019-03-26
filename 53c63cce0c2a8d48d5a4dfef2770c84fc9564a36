@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cc85d504_b505e63f",
+        "filename": "appc-outbound/appc-aai-client/provider/src/test/java/org/onap/appc/aai/client/aai/TestVServerInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-26T11:38:05Z",
+      "side": 1,
+      "message": "tabs \u003d\u003e spaces\n\nsame comment in the following method",
+      "revId": "53c63cce0c2a8d48d5a4dfef2770c84fc9564a36",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
