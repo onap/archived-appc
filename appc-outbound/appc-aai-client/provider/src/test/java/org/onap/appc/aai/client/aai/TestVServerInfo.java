@@ -62,5 +62,20 @@ public class TestVServerInfo {
     public void testCloudRegionId() {
         assertEquals("testCloudRegionId", vServerInfo.getCloudRegionId());
     }
+    
+    @Test(expected = MissingParameterException.class)
+    public void testConstructorWithEmptyVserverId() throws MissingParameterException {
+    	Map<String, String> params = new HashMap<>();
+        params.put("vserverId", "");
+        vServerInfo = new VServerInfo(params);
+    }
+    
+    @Test(expected = MissingParameterException.class)
+    public void testConstructorWithEmptyTenantId() throws MissingParameterException {
+    	Map<String, String> params = new HashMap<>();
+        params.put("vserverId", "testVserverId");
+        params.put("tenantId", "");
+        vServerInfo = new VServerInfo(params);
+    }
 
 }
