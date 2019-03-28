@@ -77,5 +77,24 @@ public class TestVServerInfo {
         params.put("tenantId", "");
         vServerInfo = new VServerInfo(params);
     }
+    
+    @Test(expected = MissingParameterException.class)
+    public void testConstructorWithEmptyCloudOwner() throws MissingParameterException {
+        Map<String, String> params = new HashMap<>();
+        params.put("vserverId", "testVserverId");
+        params.put("tenantId", "testTenantId");
+        params.put("cloudOwner", "");
+        vServerInfo = new VServerInfo(params);
+    }
+    
+    @Test(expected = MissingParameterException.class)
+    public void testConstructorWithEmptyCloudRegionId() throws MissingParameterException {
+        Map<String, String> params = new HashMap<>();
+        params.put("vserverId", "testVserverId");
+        params.put("tenantId", "testTenantId");
+        params.put("cloudOwner", "testCloudOwner");
+        params.put("cloudRegionId", "");
+        vServerInfo = new VServerInfo(params);
+    }
 
 }
