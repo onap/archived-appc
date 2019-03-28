@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3dba53e0_c084cf0d",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/test/java/org/onap/appc/requesthandler/impl/DmaapOutgoingMessageTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2019-03-28T17:39:14Z",
+      "side": 1,
+      "message": "For testing the toString, can you populate the fields (cambriaPartition, rpcName, body) and then make sure that the toString returns the correct string? And by populating the body class, you will also add more code coverage as part of this too.",
+      "revId": "1cd242749953a309f0dc777b03b277426b785cd6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
