@@ -5,7 +5,9 @@
  * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
- * =============================================================================
+ * ================================================================================
+ * Modifications Copyright (c) 2019 IBM
+ * ===================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -22,34 +24,40 @@
  * ============LICENSE_END=========================================================
  */
 
-    package org.onap.appc;
+package org.onap.appc;
 
+import org.onap.appc.configuration.ConfigurationFactory;
 import org.onap.appc.encryption.EncryptionTool;
 
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+
 public class CmdLine {
+    
+    private static final EELFLogger logger = EELFManager.getInstance().getLogger(CmdLine.class);
 
-        public static void main(String[] args) {
+    public static void main(String[] args) {
 
-            if (args.length < 1) {
-                printUsage();
-                return;
-            }
-
-            String command = args[0];//first parameter
-
-            if (0 == command.compareTo("encrypt") && args.length == 2)//two parameters are required
-            {
-                String clearText = args[1];
-                String encrypted = EncryptionTool.getInstance().encrypt(clearText);
-                System.out.println(encrypted);
-                return;
-            } else {
-                printUsage();
-            }
+        if (args.length < 1) {
+            printUsage();
+            return;
         }
-        
-        private static void printUsage(){
-            System.out.println("Usage: java -jar <this jar> ...");
-            System.out.println("\tencrypt <your text> \t\t(Encrypts your text)");
+
+        String command = args[0];// first parameter
+
+        if (0 == command.compareTo("encrypt") && args.length == 2)// two parameters are required
+        {
+            String clearText = args[1];
+            String encrypted = EncryptionTool.getInstance().encrypt(clearText);
+            logger.info("CmdLine encrypted value :: "+encrypted);
+            return;
+        } else {
+            printUsage();
         }
+    }
+
+    private static void printUsage() {
+        logger.info("Usage: java -jar <this jar> ...");
+        logger.info("\tencrypt <your text> \t\t(Encrypts your text)");
+    }
 }
