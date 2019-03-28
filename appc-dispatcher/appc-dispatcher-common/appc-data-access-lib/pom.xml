@@ -84,13 +84,6 @@
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.onap.appc</groupId>
-            <artifactId>appc-test-dependencies</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-            <type>pom</type>
-        </dependency>
     </dependencies>
     <build>
         <plugins>
