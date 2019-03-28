@@ -36,6 +36,7 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource.QueryStatus;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class DBServiceTest {
 
@@ -365,5 +366,20 @@ public class DBServiceTest {
         String expected = " AND ARTIFACT_NAME like '%_modelId.%'";
         assertEquals(expected, queryPart);
     }
+    
+    @Test
+    public void testisProtocolReferenceUpdateRequired() throws SvcLogicException {
+        MockDBService dbService = MockDBService.initialise();
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute("test", "test");
+        String vnfType = "testVnf";
+        String protocol = "testProtocol";
+        String action = "testAction";
+        String actionLevel = "testActionLevel";
+        String template = "testTemplateData";
+        boolean result = dbService.isProtocolReferenceUpdateRequired(ctx, vnfType, protocol, action, actionLevel, template);
+        assertTrue(result);
+    }
+    
 }
 
