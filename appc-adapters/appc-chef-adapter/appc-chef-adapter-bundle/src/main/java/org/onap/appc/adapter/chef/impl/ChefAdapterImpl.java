@@ -168,6 +168,7 @@ public class ChefAdapterImpl implements ChefAdapter {
     public void vnfcNodeobjects(Map<String, String> params, SvcLogicContext ctx) throws SvcLogicException {
         logger.info("update the nodeObjects of VNF-C");
         int code;
+        final String LOG_ERR_METHOD_STR = "vnfcNodeobjects";
         try {
             chefInfo(params, ctx);
             String nodeListS = params.get(NODE_LIST_STR);
@@ -208,12 +209,12 @@ public class ChefAdapterImpl implements ChefAdapter {
             }
         } catch (JSONException e) {
             code = APPC_ERRORCODE;
-            logger.error(POSTING_REQUEST_JSON_ERROR_STR + "vnfcNodeobjects", e);
-            doFailure(ctx, code, POSTING_REQUEST_JSON_ERROR_STR + "vnfcNodeobjects" + e.getMessage());
+            logger.error(POSTING_REQUEST_JSON_ERROR_STR + LOG_ERR_METHOD_STR, e);
+            doFailure(ctx, code, POSTING_REQUEST_JSON_ERROR_STR + LOG_ERR_METHOD_STR + e.getMessage());
         } catch (Exception e) {
             code = APPC_ERRORCODE;
-            logger.error(POSTING_REQUEST_ERROR_STR + "vnfcNodeobjects", e);
-            doFailure(ctx, code, POSTING_REQUEST_ERROR_STR + "vnfcNodeobjects" + e.getMessage());
+            logger.error(POSTING_REQUEST_ERROR_STR + LOG_ERR_METHOD_STR, e);
+            doFailure(ctx, code, POSTING_REQUEST_ERROR_STR + LOG_ERR_METHOD_STR + e.getMessage());
         }
     }
 
@@ -600,11 +601,12 @@ public class ChefAdapterImpl implements ChefAdapter {
         try {   
             JSONObject messageJson = new JSONObject(message);
             JSONObject node = messageJson.getJSONObject("nodes");
+            final String failed = "failed";
             if (node == null) {
                 logger.debug("Status Complete but node details in the message is null : " + message);
                 return Boolean.TRUE;
             }
-            if (node.has("failed") && !(node.isNull("failed")) && (node.getJSONArray("failed").length() != 0)) {
+            if (node.has(failed) && !(node.isNull(failed)) && (node.getJSONArray(failed).length() != 0)) {
                 logger.debug("Status Complete but one or more Failed nodes ....FAILURE " + message);
                 return Boolean.TRUE;
             }
