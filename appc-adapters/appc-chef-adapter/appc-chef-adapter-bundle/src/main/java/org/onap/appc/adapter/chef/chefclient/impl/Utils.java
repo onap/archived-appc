@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2019 IBM
+ * =============================================================================
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,7 +47,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Utils {
-    private final static Logger logger = LoggerFactory.getLogger(Utils.class);
+    private static final Logger logger = LoggerFactory.getLogger(Utils.class);
     private Utils(){}
     
     public static String sha1AndBase64(String inStr) {
@@ -68,7 +70,7 @@ public class Utils {
             PEMParser pemParser = new PEMParser(br);
             JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
             Object object = pemParser.readObject();
-            KeyPair kp =  converter.getKeyPair((PEMKeyPair) object);;
+            KeyPair kp =  converter.getKeyPair((PEMKeyPair) object);
             PrivateKey privateKey = kp.getPrivate();
             Signature instance = Signature.getInstance("RSA");
             instance.initSign(privateKey);
