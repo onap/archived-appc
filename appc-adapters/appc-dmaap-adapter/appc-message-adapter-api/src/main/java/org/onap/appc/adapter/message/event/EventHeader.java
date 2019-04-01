@@ -25,7 +25,9 @@ package org.onap.appc.adapter.message.event;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class EventHeader {
+import java.io.Serializable;
+
+public class EventHeader implements Serializable {
 
     @JsonProperty("eventTime")
     private final String eventTime;

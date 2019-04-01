@@ -25,7 +25,9 @@ package org.onap.appc.adapter.message.event;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class EventStatus {
+import java.io.Serializable;
+
+public class EventStatus implements Serializable {
 
     @JsonProperty("code")
     private final Integer code;

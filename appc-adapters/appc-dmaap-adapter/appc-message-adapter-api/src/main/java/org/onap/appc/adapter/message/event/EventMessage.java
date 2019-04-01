@@ -57,6 +57,7 @@ public class EventMessage implements Serializable {
 
     @JsonProperty("eventHeader")
     private EventHeader eventHeader;
+    
     @JsonProperty("eventStatus")
     private EventStatus eventStatus;
 
