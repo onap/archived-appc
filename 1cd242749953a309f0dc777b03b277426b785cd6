@@ -16,6 +16,24 @@
       "revId": "1cd242749953a309f0dc777b03b277426b785cd6",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e1b057d_5a8464f8",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/test/java/org/onap/appc/requesthandler/impl/DmaapOutgoingMessageTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2019-04-01T06:44:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3dba53e0_c084cf0d",
+      "revId": "1cd242749953a309f0dc777b03b277426b785cd6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
