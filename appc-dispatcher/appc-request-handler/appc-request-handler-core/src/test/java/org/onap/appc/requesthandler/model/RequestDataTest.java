@@ -23,6 +23,9 @@ package org.onap.appc.requesthandler.model;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -46,6 +49,13 @@ public class RequestDataTest {
         RequestModel requestModel = new RequestModel();
         requestData.setCurrentRequest(requestModel);
         assertEquals(requestModel, requestData.getCurrentRequest());
+    }
+    
+    @Test
+    public void testInProgressRequests() {
+    	List<RequestModel> inProgressRequests = new ArrayList<>();
+        requestData.setInProgressRequests(inProgressRequests);
+        assertEquals(inProgressRequests, requestData.getInProgressRequests());
     }
 
 }
