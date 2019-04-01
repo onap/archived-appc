@@ -125,6 +125,7 @@ public class RequestContext {
                      * amount of delay time needed and reenter the sleep until we get to the future time.
                      */
                     time = future - System.currentTimeMillis();
+                    Thread.currentThread().interrupt();
                 }
             }
         }
@@ -193,7 +194,7 @@ public class RequestContext {
         }
         accumulatedTime += (now - startTime);
         startTime = now;
-        return !(accumulatedTime > timeToLive);
+        return accumulatedTime <= timeToLive;
     }
 
     /**
