@@ -7,6 +7,8 @@
  * Copyright (C) 2017 Amdocs
  * ================================================================================
  * Modifications (C) 2019 Ericsson
+ * ================================================================================
+ * Modifications (C) 2019 IBM
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -157,6 +159,13 @@ public class TestFlowBuilder {
         VnfcDependencyModel dependencyModel = readCyclicDependencyModelWithRootNode();
         InventoryModel inventoryModel = readInventoryModel();
         builder.buildFlowModel(dependencyModel,inventoryModel);
+    }
+    
+    @Test
+    public void testInventoryModelToString(){
+        Vnf vnf = createVnf("vnf_1","vABCD","1");
+        InventoryModel inventoryModel = new InventoryModel(vnf);
+        Assert.assertEquals("InventoryModel = Vnf : vnfId = vnf_1 , vnfType = vABCD", inventoryModel.toString());
     }
 
     private VnfcDependencyModel readCyclicDependencyModelWithRootNode() {
