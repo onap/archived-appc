@@ -47,5 +47,11 @@ public class RequestModelTest {
         requestModel.setActionIdentifier(actionIdentifier);
         assertEquals(actionIdentifier, requestModel.getActionIdentifier());
     }
+    
+    @Test
+    public void testTargetId() {
+        requestModel.setTargetId("TargetId");
+        assertEquals("TargetId", requestModel.getTargetId());
+    }
 
 }
