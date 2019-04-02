@@ -22,6 +22,30 @@
       "revId": "948905e662a709e339d87cae74241bced647c88e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ad5c750_13a58977",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/main/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2019-04-02T15:34:22Z",
+      "side": 1,
+      "message": "yeah. sounds like this typo is limited in this file and the test file",
+      "parentUuid": "ce872359_49ed879d",
+      "range": {
+        "startLine": 199,
+        "startChar": 42,
+        "endLine": 199,
+        "endChar": 53
+      },
+      "revId": "948905e662a709e339d87cae74241bced647c88e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
