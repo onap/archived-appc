@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce872359_49ed879d",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/main/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-04-02T14:17:03Z",
+      "side": 1,
+      "message": "This SvcLogicContext key name is misspelled throughout this file. Is there somewhere other code that might be trying to retrieve the value as \"vnfRetrieved\" which might also be causing a problem?\nI can\u0027t see this in APPC code though and I can run a restart operation successfully on the current Windriver k8s master deployment which would suggest not.",
+      "range": {
+        "startLine": 199,
+        "startChar": 42,
+        "endLine": 199,
+        "endChar": 53
+      },
+      "revId": "948905e662a709e339d87cae74241bced647c88e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
