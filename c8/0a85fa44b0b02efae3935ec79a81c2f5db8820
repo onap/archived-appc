@@ -1,0 +1,8 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Joss Armstrong <joss.armstrong@ericsson.com>
+Code-Review+2: Takamune Cho <takamune.cho@att.com>
+Submitted-by: Takamune Cho <takamune.cho@att.com>
+Submitted-at: Tue, 02 Apr 2019 19:36:47 +0000
+Reviewed-on: https://gerrit.onap.org/r/83798
+Project: appc
+Branch: refs/heads/master
