@@ -381,5 +381,26 @@ public class DBServiceTest {
         assertTrue(result);
     }
     
+    @Test
+    public void testProcessConfigureActionDg() throws SvcLogicException {
+        MockDBService dbService = MockDBService.initialise(true);
+        SvcLogicContext ctx = new SvcLogicContext();
+        dbService.processConfigureActionDg(ctx, true);
+    }
+    
+    @Test
+    public void testUpdateProtocolReference() throws SvcLogicException {
+        MockDBService dbService = MockDBService.initialise();
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute("test", "test");
+        String vnfType = "testVnf";
+        String protocol = "testProtocol";
+        String action = "testAction";
+        String actionLevel = "testActionLevel";
+        String template = "testTemplateData";
+        dbService.updateProtocolReference(ctx, vnfType, protocol, action, actionLevel, template);
+       
+    }
+    
 }
 
