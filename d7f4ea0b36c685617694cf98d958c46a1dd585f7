@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79e8b0db_46e3b50e",
+        "filename": "appc-adapters/appc-dmaap-adapter/appc-message-adapter-api/src/main/java/org/onap/appc/adapter/message/event/EventMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-04-03T15:54:42Z",
+      "side": 1,
+      "message": "remove spaces or just remove the change to this file",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 4
+      },
+      "revId": "d7f4ea0b36c685617694cf98d958c46a1dd585f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
