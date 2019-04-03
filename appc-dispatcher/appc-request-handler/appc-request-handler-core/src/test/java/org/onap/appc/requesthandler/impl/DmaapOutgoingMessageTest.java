@@ -30,10 +30,12 @@ import org.junit.Test;
 public class DmaapOutgoingMessageTest {
 
     private DmaapOutgoingMessage dmaapOutgoingMessage;
+    private DmaapOutgoingMessage.Body body;
 
     @Before
     public void setUp() {
         dmaapOutgoingMessage = new DmaapOutgoingMessage();
+        body = new DmaapOutgoingMessage.Body();
     }
 
     @Test
@@ -55,6 +57,12 @@ public class DmaapOutgoingMessageTest {
         dmaapOutgoingMessage.setRpcName("rpcName");
         String expected = "DmaapOutgoingMessage{cambriaPartition='CambriaPartition', rpcName='rpcName', body=null}";
         assertEquals(expected, dmaapOutgoingMessage.toString());
+    }
+    
+    @Test
+    public void testOutput() {
+        body.setOutput("Output");
+        assertEquals("Output", body.getOutput());
     }
 
 }
