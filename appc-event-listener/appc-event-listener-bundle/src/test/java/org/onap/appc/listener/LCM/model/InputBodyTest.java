@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2018 Nokia Solutions and Networks
  * =============================================================================
+ * Modifications Copyright (C) 2019 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -63,6 +65,13 @@ public class InputBodyTest {
         assertFalse(inputBody.isValid());
         inputBody.setCommonHeader(buildCommonHeader());
         assertTrue(inputBody.isValid());
+    }
+    
+    @Test
+    public void testPayLoadAsString()
+    {
+    	inputBody.setPayloadAsString("payload");
+    	assertEquals("payload", inputBody.getPayload());
     }
 
 
