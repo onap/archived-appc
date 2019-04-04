@@ -8,6 +8,8 @@
  * ================================================================================
  * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
+ * Modifications Copyright (C) 2019 IBM
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -24,6 +26,8 @@
  */
 
 package org.onap.appc.listener.impl;
+
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -58,6 +62,14 @@ public class TestController {
         properties.add(listenerProperties);
         new ControllerImpl(properties);
         Mockito.verify(properties).remove(Mockito.any());
+    }
+    
+    @Test
+    public void testListeners() {
+        listenerProperties = Mockito.mock(ListenerProperties.class);
+        properties.add(listenerProperties);
+        assertTrue(new ControllerImpl(properties).getListeners() instanceof Map);
+        
     }
 
     @Test
