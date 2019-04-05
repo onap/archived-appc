@@ -5,6 +5,7 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * Modifications Copyright (C) 2019 IBM.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +24,11 @@
 
 package org.onap.appc.configuration;
 
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+import com.att.eelf.i18n.EELFResourceManager;
+import org.onap.appc.i18n.Msg;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -36,10 +42,6 @@ import java.util.Properties;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
-import org.onap.appc.i18n.Msg;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-import com.att.eelf.i18n.EELFResourceManager;
 
 /**
  * The configuration factory is used to obtain access to an already created and initialized
@@ -204,11 +206,11 @@ public final class ConfigurationFactory {
         DefaultConfiguration local;
         ReadLock readLock = lock.readLock();
         readLock.lock();
+        WriteLock writeLock = lock.writeLock();
         try {
             local = (DefaultConfiguration) localConfigs.get(owner);
             if (local == null) {
                 readLock.unlock();
-                WriteLock writeLock = lock.writeLock();
                 writeLock.lock();
                 local = (DefaultConfiguration) localConfigs.get(owner);
                 if (local == null) {
@@ -218,6 +220,7 @@ public final class ConfigurationFactory {
             }
             readLock.lock();
         } finally {
+            writeLock.unlock();
             readLock.unlock();
         }
         return local;
