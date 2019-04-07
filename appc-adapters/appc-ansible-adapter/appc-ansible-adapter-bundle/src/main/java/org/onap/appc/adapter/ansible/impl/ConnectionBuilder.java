@@ -6,7 +6,7 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
- * Modifications Copyright © 2018 IBM.
+ * Modifications Copyright © 2018-2019 IBM.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,7 +58,6 @@ import org.onap.appc.adapter.ansible.model.AnsibleResultCodes;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.json.JSONObject;
-import javax.net.ssl.SSLException;
 import org.onap.appc.exceptions.APPCException;
 import org.apache.commons.lang.StringUtils;
 
