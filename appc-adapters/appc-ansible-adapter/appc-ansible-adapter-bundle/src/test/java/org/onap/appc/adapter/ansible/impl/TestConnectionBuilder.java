@@ -257,5 +257,11 @@ public class TestConnectionBuilder {
         AnsibleResult result = connectionBuilder.get(URL);
         assertEquals(AnsibleResultCodes.IO_EXCEPTION.getValue(), result.getStatusCode());
     }
+    
+    @Test
+    public void testClose() throws IOException
+    {
+        connectionBuilder.close();
+    }
 
 }
