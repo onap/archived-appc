@@ -76,4 +76,14 @@ public class TestRestartServer {
         InOrder inOrderTest = inOrder(server);
         inOrderTest.verify(server).start();
     }
+    
+    @Test
+    public void pauseServerError() throws ZoneException, UnknownProviderException {
+        MockGenerator mg = new MockGenerator(Status.ERROR);
+        Server server = mg.getServer();
+        RestartServer rbs = new RestartServer();
+        rbs.setProviderCache(mg.getProviderCacheMap());
+        rbs.executeProviderOperation(mg.getParams(), mg.getSvcLogicContext());
+            
+    }
 }
