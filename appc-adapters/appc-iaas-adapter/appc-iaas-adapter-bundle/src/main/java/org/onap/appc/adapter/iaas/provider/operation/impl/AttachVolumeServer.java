@@ -8,6 +8,8 @@
  * ================================================================================
  * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
+ * Modifications Copyright (C) 2019 IBM
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -73,6 +75,8 @@ public class AttachVolumeServer extends ProviderServerOperation {
         String vmUrl = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
         String volumeId = params.get(ProviderAdapter.VOLUME_ID);
         String device = params.get(ProviderAdapter.DEVICE);
+        final String failure = "FAILURE";
+        final String volumeStatus = "VOLUME_STATUS";
         if (StringUtils.isBlank(device)) {
             logger.info("Setting device to null");
             device = null;
@@ -105,7 +109,7 @@ public class AttachVolumeServer extends ProviderServerOperation {
                 }
                 ComputeService service = contx.getComputeService();
                 if ((volumeId == null || volumeId.isEmpty()) || (device == null || device.isEmpty())) {
-                    ctx.setAttribute("VOLUME_STATUS", "FAILURE");
+                    ctx.setAttribute(volumeStatus, failure);
                     doFailure(requestContext, HttpStatus.BAD_REQUEST_400, "Both Device or Volumeid are mandatory");
                 }
                 VolumeService volumeService = contx.getVolumeService();
@@ -116,7 +120,7 @@ public class AttachVolumeServer extends ProviderServerOperation {
                 if (validateAttach(service, vm.getServerId(), volumeId, device)) {
                     String msg = "Volume with volume id " + volumeId + " cannot be attached as it already exists";
                     logger.info("Already volumes exists:");
-                    ctx.setAttribute("VOLUME_STATUS", "FAILURE");
+                    ctx.setAttribute(volumeStatus, failure);
                     doFailure(requestContext, HttpStatus.METHOD_NOT_ALLOWED_405, msg);
                     isAttached = false;
                 } else {
@@ -127,31 +131,31 @@ public class AttachVolumeServer extends ProviderServerOperation {
                 }
                 if (isAttached) {
                     if (validateAttach(requestContext, service, vm.getServerId(), volumeId, device)) {
-                        ctx.setAttribute("VOLUME_STATUS", "SUCCESS");
+                        ctx.setAttribute(volumeStatus, "SUCCESS");
                         doSuccess(requestContext);
                     } else {
                         String msg = "Volume with " + volumeId + " unable  to attach";
                         logger.info("Volume with " + volumeId + " unable to attach");
-                        ctx.setAttribute("VOLUME_STATUS", "FAILURE");
+                        ctx.setAttribute(volumeStatus, failure);
                         doFailure(requestContext, HttpStatus.CONFLICT_409, msg);
                     }
                 }
                 context.close();
             } else {
-                ctx.setAttribute("VOLUME_STATUS", "CONTEXT_NOT_FOUND");
+                ctx.setAttribute(volumeStatus, "CONTEXT_NOT_FOUND");
             }
         } catch (ZoneException e) {
             String msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, e, vmUrl);
             logger.error(msg);
-            ctx.setAttribute("VOLUME_STATUS", "FAILURE");
+            ctx.setAttribute(volumeStatus, failure);
             doFailure(requestContext, HttpStatus.NOT_FOUND_404, msg);
         } catch (RequestFailedException e) {
-            ctx.setAttribute("VOLUME_STATUS", "FAILURE");
+            ctx.setAttribute(volumeStatus, failure);
             doFailure(requestContext, e.getStatus(), e.getMessage());
         } catch (Exception ex) {
             String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, ex, ex.getClass().getSimpleName(),
                     ATTACHVOLUME_SERVICE.toString(), vmUrl, tenantName);
-            ctx.setAttribute("VOLUME_STATUS", "FAILURE");
+            ctx.setAttribute(volumeStatus, failure);
             try {
                 ExceptionMapper.mapException((OpenStackBaseException) ex);
             } catch (ZoneException e1) {
