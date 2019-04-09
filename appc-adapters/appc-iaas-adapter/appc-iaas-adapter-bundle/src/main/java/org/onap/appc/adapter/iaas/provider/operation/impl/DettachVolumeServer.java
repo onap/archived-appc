@@ -8,6 +8,8 @@
  * ================================================================================
  * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
+ * Modifications Copyright (C) 2019 IBM
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -79,6 +81,8 @@ public class DettachVolumeServer extends ProviderServerOperation {
         VMURL vm = VMURL.parseURL(vmUrl);
         Context context;
         String tenantName = "Unknown";// to be used also in case of exception
+        final String volumeStatus = "VOLUME_STATUS";
+        final String failure = "FAILURE";
         try {
             if (validateVM(requestContext, appName, vmUrl, vm)) {
                 return null;
@@ -105,7 +109,7 @@ public class DettachVolumeServer extends ProviderServerOperation {
                 logger.debug(Msg.SERVER_FOUND, vmUrl, context.getTenantName(), server.getStatus().toString());
                 if (volumeId == null || volumeId.isEmpty()) {
                     if(ctx != null){
-                        ctx.setAttribute("VOLUME_STATUS", "FAILURE");
+                        ctx.setAttribute(volumeStatus, failure);
                     }
                     doFailure(requestContext, HttpStatus.BAD_REQUEST_400, "Volumeid is mandatory");
                 }
@@ -122,7 +126,7 @@ public class DettachVolumeServer extends ProviderServerOperation {
                     String msg = "Volume with volume id " + volumeId + " cannot be detached as it does not exists";
                     logger.info("Volume doesnot exists:");
                     if(ctx != null){
-                        ctx.setAttribute("VOLUME_STATUS", "FAILURE");
+                        ctx.setAttribute(volumeStatus, failure);
                     }
                     doFailure(requestContext, HttpStatus.METHOD_NOT_ALLOWED_405, msg);
                     flag = false;
@@ -131,13 +135,13 @@ public class DettachVolumeServer extends ProviderServerOperation {
                     if (validateDetach(requestContext, service, vm.getServerId(), volumeId)) {
                         String msg = "Volume with volume id " + volumeId + " cannot be detached ";
                         if(ctx != null){
-                            ctx.setAttribute("VOLUME_STATUS", "FAILURE");
+                            ctx.setAttribute(volumeStatus, failure);
                         }
                         doFailure(requestContext, HttpStatus.CONFLICT_409, msg);
                     } else {
                         logger.info("status of detaching volume");
                         if(ctx != null){
-                           ctx.setAttribute("VOLUME_STATUS", "SUCCESS");
+                           ctx.setAttribute(volumeStatus, "SUCCESS");
                         }
                         doSuccess(requestContext);
                     }
@@ -145,7 +149,7 @@ public class DettachVolumeServer extends ProviderServerOperation {
                 context.close();
             } else {
                 if(ctx != null){
-                    ctx.setAttribute("VOLUME_STATUS", "CONTEXT_NOT_FOUND");
+                    ctx.setAttribute(volumeStatus, "CONTEXT_NOT_FOUND");
                 }
             }
         } catch (ZoneException e) {
