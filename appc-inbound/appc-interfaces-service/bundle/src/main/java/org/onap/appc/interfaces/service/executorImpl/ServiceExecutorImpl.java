@@ -6,6 +6,8 @@
  * ================================================================================
  * Modifications Copyright (C) 2019 Ericsson
  * ================================================================================
+ * Modifications Copyright (C) 2019 IBM
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -31,8 +33,8 @@ import java.util.Map;
 import org.onap.appc.aai.client.aai.AaiService;
 import org.onap.appc.interfaces.service.data.Request;
 import org.onap.appc.interfaces.service.data.ScopeOverlap;
-import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.adaptors.aai.AAIClient;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -134,7 +136,6 @@ public class ServiceExecutorImpl {
             }
             return Boolean.FALSE;
         } catch (Exception e) {
-            e.printStackTrace();
             log.debug(e.getMessage());
             throw e;
         }
