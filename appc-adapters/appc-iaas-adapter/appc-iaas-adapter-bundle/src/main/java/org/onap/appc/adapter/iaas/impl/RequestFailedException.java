@@ -70,7 +70,7 @@ public class RequestFailedException extends Exception {
     /**
      * The most appropriate Http Status code that reflects the error
      */
-    private HttpStatus status;
+    private transient HttpStatus status;
 
     /**
      * 

@@ -226,7 +226,7 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
         try {
             Thread.sleep(delay * 1000L);
         } catch (InterruptedException ie) {
-            // ignore
+        	logger.error(String.format("Error occured in sleep method on TenantCache"));
         }
     }
 
