@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2019 Ericsson
  * ================================================================================
+ * Modifications Copyright (C) 2019 IBM.
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -29,9 +31,11 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.appc.metricservice.metric.Counter;
+import org.onap.appc.metricservice.metric.MetricBuilderFactory;
 import org.onap.appc.metricservice.metric.MetricType;
 import org.onap.appc.metricservice.metric.impl.DefaultPrimitiveCounter;
 import org.onap.appc.metricservice.metric.impl.DispatchingFuntionMetricImpl;
+import org.onap.appc.metricservice.policy.PolicyBuilderFactory;
 
 public class MetricRegistryImplTest {
 
@@ -71,6 +75,16 @@ public class MetricRegistryImplTest {
         assertEquals(2, registry.metrics().length);
         registry.dispose();
         assertEquals(0, registry.metrics().length);
+    }
+    
+    @Test
+    public void testmetricBuilderFactory() {
+        assertTrue(registry.metricBuilderFactory() instanceof MetricBuilderFactory);
+    }
+    
+    @Test
+    public void testPolicyBuilderFactory() {
+        assertTrue(registry.policyBuilderFactory() instanceof PolicyBuilderFactory);
     }
 
 }
