@@ -63,8 +63,17 @@ public class JSONTool {
                 wm.remove(key);
                 tryAddBlockKeys(blockKeys, mm, key, o);
                 if (o instanceof Boolean || o instanceof Number || o instanceof String) {
-                    mm.put(key, o.toString());
-                    log.info("Added property: " + key + ": " + o.toString());
+                    String oString = o.toString();
+                    //Add escape characters to the string in case it is a string representation
+                    //of a json object.
+                    JSONObject.quote(oString);
+                    //Remove the surrouding quotes added by the JSONObject.quote() method.
+                    //JSONObject.quote() will always return, at minimum, a string with two quotes,
+                    //even if a null string is passed to it. So this substring method does not
+                    //need any checks.
+                    oString.substring(1, oString.length() - 1);
+                    mm.put(key, oString);
+                    log.info("Added property: " + key + ": " + oString);
                 } else if (o instanceof JSONObject) {
                     fill(wm, key, (JSONObject) o);
                 } else if (o instanceof JSONArray) {
