@@ -53,6 +53,17 @@ limitations under the License.
             <groupId>org.openecomp.sdc.common</groupId>
             <artifactId>openecomp-tosca-datatype</artifactId>
             <version>${tosca.datatype.version}</version>
+             <exclusions>
+                 <exclusion>
+                   <groupId>commons-codec</groupId>
+                   <artifactId>commons-codec</artifactId>
+                 </exclusion>
+             </exclusions>
+         </dependency>
+         <dependency>
+             <groupId>commons-codec</groupId>
+             <artifactId>commons-codec</artifactId>
+             <version>1.12</version>
         </dependency>
         <dependency>
             <groupId>org.onap.appc</groupId>

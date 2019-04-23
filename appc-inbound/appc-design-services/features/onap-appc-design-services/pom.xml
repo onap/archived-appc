@@ -63,6 +63,17 @@ limitations under the License.
             <groupId>org.onap.appc</groupId>
             <artifactId>appc-network-inventory-client-provider</artifactId>
             <version>${project.version}</version>
+             <exclusions>
+                 <exclusion>
+                   <groupId>commons-codec</groupId>
+                   <artifactId>commons-codec</artifactId>
+                 </exclusion>
+             </exclusions>
+        </dependency>
+        <dependency>
+             <groupId>commons-codec</groupId>
+             <artifactId>commons-codec</artifactId>
+             <version>1.12</version>
         </dependency>
     </dependencies>
 

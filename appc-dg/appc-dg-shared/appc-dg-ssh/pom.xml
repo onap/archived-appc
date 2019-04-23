@@ -48,6 +48,17 @@
 			<artifactId>appc-dg-common</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
+                        <exclusions>
+                            <exclusion>
+                               <groupId>commons-codec</groupId>
+                               <artifactId>commons-codec</artifactId>
+                            </exclusion>
+                        </exclusions>
+                </dependency>
+                <dependency>
+                    <groupId>commons-codec</groupId>
+                    <artifactId>commons-codec</artifactId>
+                    <version>1.12</version>
 		</dependency>
 
 		<dependency>

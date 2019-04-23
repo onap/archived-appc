@@ -47,16 +47,39 @@ limitations under the License.
             <groupId>org.onap.appc</groupId>
             <artifactId>appc-dmaap-adapter-bundle</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                 <exclusion>
+                   <groupId>commons-codec</groupId>
+                   <artifactId>commons-codec</artifactId>
+                 </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.onap.appc</groupId>
             <artifactId>appc-message-adapter-factory</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                 <exclusion>
+                   <groupId>commons-codec</groupId>
+                   <artifactId>commons-codec</artifactId>
+                 </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.onap.appc</groupId>
             <artifactId>appc-message-adapter-api</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                 <exclusion>
+                   <groupId>commons-codec</groupId>
+                   <artifactId>commons-codec</artifactId>
+                 </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.12</version>
         </dependency>
         <dependency>
             <groupId>com.sun.jersey</groupId>

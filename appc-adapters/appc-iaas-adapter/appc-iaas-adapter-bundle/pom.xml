@@ -72,9 +72,19 @@
                        <groupId>com.att.cdp</groupId>
                        <artifactId>cdp-pal-common</artifactId>
                   </exclusion>
+                  <exclusion>
+                       <groupId>commons-codec</groupId>
+                       <artifactId>commons-codec</artifactId>
+                  </exclusion>
             </exclusions>
         </dependency>
 
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.12</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-common</artifactId>

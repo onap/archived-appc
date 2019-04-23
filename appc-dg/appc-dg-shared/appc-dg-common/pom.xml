@@ -55,6 +55,10 @@
 					<groupId>equinoxSDK381</groupId>
 					<artifactId>org.eclipse.osgi</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>commons-codec</groupId>
+					<artifactId>commons-codec</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -67,6 +71,10 @@
 				<exclusion>
 					<groupId>equinoxSDK381</groupId>
 					<artifactId>org.eclipse.osgi</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>commons-codec</groupId>
+					<artifactId>commons-codec</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -81,8 +89,17 @@
 					<groupId>equinoxSDK381</groupId>
 					<artifactId>org.eclipse.osgi</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>commons-codec</groupId>
+					<artifactId>commons-codec</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
+                <dependency>
+                     <groupId>commons-codec</groupId>
+                     <artifactId>commons-codec</artifactId>
+                     <version>1.12</version>
+                </dependency>
 		<dependency>
 			<groupId>org.onap.ccsdk.sli.core</groupId>
 			<artifactId>sli-common</artifactId>

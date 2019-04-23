@@ -61,6 +61,17 @@
             <groupId>org.onap.appc</groupId>
             <artifactId>appc-aai-client-provider</artifactId>
             <version>${project.version}</version>
+             <exclusions>
+                 <exclusion>
+                   <groupId>commons-codec</groupId>
+                   <artifactId>commons-codec</artifactId>
+                 </exclusion>
+             </exclusions>
+        </dependency>
+        <dependency>
+             <groupId>commons-codec</groupId>
+             <artifactId>commons-codec</artifactId>
+             <version>1.12</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
         <dependency>
