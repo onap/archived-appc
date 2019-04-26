@@ -1313,7 +1313,7 @@
         "id": "17c3243e.6f760c",
         "type": "record",
         "name": "record cvass",
-        "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.FileRecorder\">\n<parameter name=\"file\" value=\"`$cvaas-file-name`\"/>\n<parameter name=\"record\" value=\"`$cvaas-file-content`\"/>",
+        "xml": "<record plugin=\"org.onap.ccsdk.sli.core.sli.recording.FileRecorder\">\n<parameter name=\"file\" value=\"`$cvaas-file-name`\"/>\n<parameter name=\"record\" value=\"`$cvaas-file-content`\"/>",
         "comments": "",
         "outputs": 1,
         "x": 2219.349090576172,
