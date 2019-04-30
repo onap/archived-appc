@@ -71,7 +71,7 @@ public class JSONTool {
                     //JSONObject.quote() will always return, at minimum, a string with two quotes,
                     //even if a null string is passed to it. So this substring method does not
                     //need any checks.
-                    oString.substring(1, oString.length() - 1);
+                    oString = oString.substring(1, oString.length() - 1);
                     mm.put(key, oString);
                     log.info("Added property: " + key + ": " + oString);
                 } else if (o instanceof JSONObject) {
