@@ -992,7 +992,7 @@
         "id": "4c8c9a0.c6b3768",
         "type": "switchNode",
         "name": "switch",
-        "xml": "<switch test='`$Publish_Config`'>",
+        "xml": "<switch test='`$publish-config`'>",
         "comments": "",
         "outputs": 1,
         "x": 1037.6666984558105,
