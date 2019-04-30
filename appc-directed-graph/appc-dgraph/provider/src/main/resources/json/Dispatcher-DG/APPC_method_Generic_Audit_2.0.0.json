@@ -1231,7 +1231,7 @@
         "id": "5584c2d4.ec7c8c",
         "type": "switchNode",
         "name": "switch",
-        "xml": "<switch test='`$Publish_Config`'>",
+        "xml": "<switch test='`$publish-config`'>",
         "comments": "",
         "outputs": 1,
         "x": 1240.1670684814453,
