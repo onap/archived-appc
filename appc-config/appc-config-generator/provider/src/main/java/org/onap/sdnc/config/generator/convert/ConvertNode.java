@@ -60,6 +60,12 @@ public class ConvertNode implements SvcLogicJavaPlugin {
             if (StringUtils.isNotBlank(jsonData)) {
                 if (StringUtils.isNotBlank(isEscaped) && "Y".equalsIgnoreCase(isEscaped)) {
                     jsonData = StringEscapeUtils.unescapeJavaScript(jsonData);
+                    //We need to re-escape any json data that might be contained in Strings
+                    try {
+                        jsonData = JSONTool.escapeInternalJson(jsonData);
+                    } catch (Exception e) {
+                        log.error("Exception during JSONTool.escapeInternalJson",e);   
+                    }
                 }
 
                 List<String> blockKeys = new ArrayList<>();
