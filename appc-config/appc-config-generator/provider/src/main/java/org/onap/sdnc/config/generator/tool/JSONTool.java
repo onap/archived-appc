@@ -84,6 +84,44 @@ public class JSONTool {
         return mm;
     }
 
+    //Finds json values which themselves contain String representations of json
+    //data and adds escape characters to the quotes. Example:
+    //Input: { "key1": "{"internalKey1": "internalValue1"}" }
+    //Output: { "key1": "{\"internalKey1\": \"internalValue1\"}" }
+    public static String escapeInternalJson(String jsonString) throws JSONException
+    {
+        StringBuilder sb = new StringBuilder();
+        char lastChar = 0;
+        boolean inJson = false;
+        for(char c : jsonString.toCharArray()) {
+            if(c == '{' && lastChar == '"') {
+                inJson = true;
+            }
+            if(inJson) {
+                if(c == '"' && lastChar != '\\') {
+                    sb.append("\\\"");
+                } else {
+                    sb.append(c);
+                }
+                if(c == '}' && lastChar == '"') {
+                    inJson = false;
+                }
+            } else {
+                sb.append(c);
+            }
+            if(!Character.isWhitespace(c)) {
+                lastChar = c;
+            }
+        }
+        if(inJson == true) {
+            //We reached the end of the string, but the internal string containing
+            //the json data to escape never ended.
+            throw new JSONException("End of json data reached, but end of internal"
+                    + "json string never reached.");
+        }
+            return sb.toString();
+    }
+
     private static void tryAddBlockKeys(List<String> blockKeys, Map<String, String> mm, String key, Object o) {
         if (blockKeys != null && blockKeys.contains(key) && o != null) {
             mm.put("block_" + key, o.toString());
