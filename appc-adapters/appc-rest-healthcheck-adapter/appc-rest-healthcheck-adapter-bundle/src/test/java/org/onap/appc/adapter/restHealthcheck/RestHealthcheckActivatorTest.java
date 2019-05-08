@@ -41,7 +41,7 @@ import org.osgi.framework.ServiceRegistration;
 public class RestHealthcheckActivatorTest {
 
     @Mock
-    private ServiceRegistration<RestHealthcheckActivator> serviceRegistration;
+    private ServiceRegistration serviceRegistration;
     @Mock
     private BundleContext bundleContext;
 
