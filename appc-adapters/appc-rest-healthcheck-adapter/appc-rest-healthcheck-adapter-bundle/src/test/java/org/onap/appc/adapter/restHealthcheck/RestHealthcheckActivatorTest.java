@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2018 AT&T All rights reserved.
+ * Copyright (C) 2018-2019 AT&T All rights reserved.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ import org.osgi.framework.ServiceRegistration;
 public class RestHealthcheckActivatorTest {
 
     @Mock
-    private ServiceRegistration<RestHealthcheckActivator> serviceRegistration;
+    private ServiceRegistration serviceRegistration;
     @Mock
     private BundleContext bundleContext;
 
