@@ -597,10 +597,8 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
 
     public void processConfigTypeActions(JSONObject content, DBService dbservice, SvcLogicContext context)
             throws ArtifactHandlerInternalException {
-
         try {
-            if (contentsActionEquals(content, CONFIGURE_PARAM) || contentsActionEquals(content, CONFIG_MODIFY_PARAM)
-                    || contentsActionEquals(content, CONFIG_SCALE_OUT_PARAM)) {
+            if (isContentActionConfig(content)) {
 
                 if (content.has(DOWNLOAD_DG_REFERENCE) && content.getString(DOWNLOAD_DG_REFERENCE).length() > 0) {
 
@@ -624,15 +622,19 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
 
     private void tryProcessInterfaceProtocol(JSONObject content, DBService dbservice, SvcLogicContext context)
             throws SvcLogicException, SQLException, ConfigurationException, DBException {
-
-        if (contentsActionEquals(content, CONFIGURE_PARAM) || contentsActionEquals(content, CONFIG_SCALE_OUT_PARAM)) {
+        if (isContentActionConfig(content)) {
             boolean isUpdateRequired = dbservice.isArtifactUpdateRequired(context, DB_DEVICE_INTERFACE_PROTOCOL);
-            if (contentsActionEquals(content, CONFIGURE_PARAM)
-                    || (contentsActionEquals(content, CONFIG_SCALE_OUT_PARAM) && !isUpdateRequired)) {
-
+            if (isContentActionConfig(content) && !isUpdateRequired) {
                 dbservice.processDeviceInterfaceProtocol(context, isUpdateRequired);
             }
         }
+    }
+    
+    //Consolidates the if statements required to check if the action is one of the config actions
+    private boolean isContentActionConfig(JSONObject content) {
+        return contentsActionEquals(content, CONFIGURE_PARAM)
+                || contentsActionEquals(content, CONFIG_MODIFY_PARAM)
+                || contentsActionEquals(content, CONFIG_SCALE_OUT_PARAM);
     }
 
     private boolean contentsActionEquals(JSONObject content, String action) {
