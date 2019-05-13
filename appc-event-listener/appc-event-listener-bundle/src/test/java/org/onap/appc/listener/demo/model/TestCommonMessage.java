@@ -30,29 +30,21 @@ import java.util.Collection;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
-import org.onap.appc.listener.demo.model.CommonMessage.pgStream;
 
 public class TestCommonMessage {
 
     private CommonMessage commonMessage;
-    private CommonMessage.pgStreams pgStreams;
+    private CommonMessage.Payload payload;
 
     @Before
     public void setUp() {
         commonMessage = new CommonMessage();
-        pgStreams = new CommonMessage.pgStreams();
+        payload = new CommonMessage.Payload();
     }
 
     @Test
     public void testToJson() {
         assertTrue(commonMessage.toJson() instanceof JSONObject);
-    }
-
-    @Test
-    public void testStreams() {
-        Collection<pgStream> streams = new ArrayList<>();
-        pgStreams.setStreams(streams);
-        assertSame(streams, pgStreams.getStreams());
     }
 
 }

@@ -42,7 +42,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.onap.appc.listener.AbstractListener;
 import org.onap.appc.listener.ListenerProperties;
-import sun.awt.windows.ThemeReader;
 
 public class AbstractListenerTest {
 
