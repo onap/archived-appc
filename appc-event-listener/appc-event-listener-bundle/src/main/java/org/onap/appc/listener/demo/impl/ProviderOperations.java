@@ -89,7 +89,7 @@ public class ProviderOperations {
             }
 
             //String body = buildReqest(msg.getId(), msg.getUrl(), msg.getIdentityUrl());
-            String body = buildReqest(msg.getHeader().getRequestID(), msg.getPayload().getGenericVnfId(), msg.getPayload().getPgStreams());
+            String body = buildReqest(msg.getHeader().getRequestID(), msg.getPayload().getGenericVnfId(), msg.getPayload().getStreams());
             StringEntity entity = new StringEntity(body);
             entity.setContentType("application/json");
             post.setEntity(new StringEntity(body));
