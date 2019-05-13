@@ -39,7 +39,7 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.onap.appc.listener.demo.model.CommonMessage.pgStream;
+import org.onap.appc.listener.demo.model.CommonMessage.Streams;
 import org.onap.appc.listener.demo.model.IncomingMessage;
 import org.onap.appc.listener.demo.model.OutgoingMessage;
 import org.onap.appc.listener.demo.model.Status;
@@ -117,18 +117,13 @@ public class TestMessages {
     public void testPayload() {
         CommonMessage.Payload payload = new CommonMessage.Payload();
         payload.setGenericVnfId("VNF_ID");
-        CommonMessage.pgStream pgStream = new CommonMessage.pgStream();
-        pgStream.setId("ID");
-        pgStream.setIsEnabled("true");
-        CommonMessage.pgStreams pgStreams = new CommonMessage.pgStreams();
-        Collection<pgStream> collectionPgStreams = new ArrayList<pgStream>();
-        collectionPgStreams.add(pgStream);
-        pgStreams.setStreams(collectionPgStreams);
-        payload.setPgStreams(pgStreams);
+        CommonMessage.Streams streams = new CommonMessage.Streams();
+        streams.setActiveStreams(7);
+        payload.setStreams(streams);
         in.setPayload(payload);
         assertEquals("VNF_ID", in.getPayload().getGenericVnfId());
-        assertEquals("{\\\"pg-streams\\\": {\\\"pg-stream\\\":[{\\\"id\\\":\\\"ID\\\", \\\"is-enabled\\\":\\\"true\\\"}]}}",
-                in.getPayload().getPgStreams());
+        assertEquals("{\\\"streams\\\": {\\\"active-streams\\\": 7}}",
+                in.getPayload().getStreams());
     }
 
     @Test

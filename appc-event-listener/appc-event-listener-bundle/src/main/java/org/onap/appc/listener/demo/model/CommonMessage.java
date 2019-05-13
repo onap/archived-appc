@@ -268,25 +268,16 @@ public class CommonMessage implements Serializable {
             this.genericVnfId = genericVnfId;
         }
 
-        @JsonProperty("pg-streams")
-        private pgStreams pgStreams;
+        @JsonProperty("streams")
+        private Streams streams;
 
         /**
          * @return the TenantID
          */
 
-        public String getPgStreams() {
-            String r = "{\\\"pg-streams\\\": {\\\"pg-stream\\\":[";
-            boolean first = true;
-            for(pgStream p : this.pgStreams.streams){
-            	String n = "{\\\"id\\\":\\\""+p.getId()+"\\\", \\\"is-enabled\\\":\\\""+p.getIsEnabled()+"\\\"}";
-            	if(!first){
-            		r = r.concat(",");
-            	}
-            	first = false;
-            	r = r.concat(n);
-            }
-           r=  r.concat("]}}");
+        public String getStreams() {
+            String r = "{\\\"streams\\\": {\\\"active-streams\\\": " + streams.getActiveStreams() +
+                    "}}";
             return r;
         }
 
@@ -294,46 +285,29 @@ public class CommonMessage implements Serializable {
          * @param TenantID
          *            the TenantID to set
          */
-        public void setPgStreams(pgStreams pgStreams) {
-            this.pgStreams = pgStreams;
-        }
-
-
-
-
-
-    };
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class pgStreams {
-        @JsonProperty("pg-stream")
-        private Collection<pgStream> streams;
-
-        public Collection<pgStream> getStreams() {
-            return streams;
-        }
-
-        public void setStreams(Collection<pgStream> streams) {
+        public void setStreams(Streams streams) {
             this.streams = streams;
         }
+
+
+
+
+
+    };
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class Streams {
+        
+        @JsonProperty("active-streams")
+        private int activeStreams;
+        
+        public int getActiveStreams() {
+            return this.activeStreams;
+        }
+
+        public void setActiveStreams(int activeStreams) {
+            this.activeStreams = activeStreams;
+        }
+        
     };
 
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class pgStream{
-        public String getId() {
-            return id;
-        }
-        public void setId(String id) {
-            this.id = id;
-        }
-        public String getIsEnabled() {
-            return isEnabled;
-        }
-        public void setIsEnabled(String isEnabled) {
-            this.isEnabled = isEnabled;
-        }
-        @JsonProperty("id")
-        private String id;
-        @JsonProperty("is-enabled")
-        private String isEnabled;
-     };
 }
