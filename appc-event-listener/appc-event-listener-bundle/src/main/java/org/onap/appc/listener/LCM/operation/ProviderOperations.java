@@ -188,7 +188,7 @@ public class ProviderOperations {
     public String setAuthentication(String user, String password) {
         if (user != null && password != null) {
             String authStr = user + ":" + password;
-            basicAuth = new String(Base64.encodeBase64(authStr.getBytes()));
+           basic_auth = new String(org.apache.commons.codec.binary.Base64.encodeBase64(authStr.getBytes()));
         } else {
             basicAuth = null;
         }
