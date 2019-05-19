@@ -102,7 +102,10 @@
 			<groupId>equinoxSDK381</groupId>
 			<artifactId>org.eclipse.osgi</artifactId>
 		</dependency>
-
+                <dependency>
+                  <groupId>commons-codec</groupId>
+                  <artifactId>commons-codec</artifactId>
+                </dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
@@ -152,7 +155,7 @@
 							*;resolution:=optional
 						</Import-Package>
 						<Embed-Dependency>
-							httpclient,httpcore,jasypt,commons-lang,commons-lang3,appc-common-bundle,
+							httpclient,httpcore,jasypt,commons-lang,commons-lang3,commons-codec,appc-common-bundle,
 							logback-core,logback-classic,eelf-core,commons-logging;scope=compile|runtime;inline=false
 						</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
