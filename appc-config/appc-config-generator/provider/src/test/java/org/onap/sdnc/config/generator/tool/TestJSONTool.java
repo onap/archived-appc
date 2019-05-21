@@ -38,5 +38,21 @@ public class TestJSONTool {
             Assert.fail();
         }
     }
+    
+    @Test
+    public void testEscapeInternalJson_withInternalObjects() {
+        String testData = "{\"test1\":\"value1\",\"test2\":\"{\"key1\":\"value\",\""
+                + "object1\":{\"key\":\"value\",\"key2\":{\"key\":\"value\"}}}\"}";
+        String expectedOutput = "{\"test1\":\"value1\",\"test2\":\"{\\\"key1\\\":\\\""
+                + "value\\\",\\\"object1\\\":{\\\"key\\\":\\\"value\\\",\\\"key2"
+                + "\\\":{\\\"key\\\":\\\"value\\\"}}}\"}";
+        System.out.println(testData);
+        System.out.println(expectedOutput);
+        try {
+            Assert.assertEquals(expectedOutput, JSONTool.escapeInternalJson(testData));
+        } catch (JSONException e) {
+            Assert.fail();
+        }
+    }
 
 }
