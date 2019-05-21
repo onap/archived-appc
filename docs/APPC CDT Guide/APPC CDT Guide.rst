@@ -815,6 +815,193 @@ APP-C Design Tool - File Descriptions
 |                                                                                                                                      |                   |
 +--------------------------------------------------------------------------------------------------------------------------------------+-------------------+
 
+The ADMIN Configuration GUI
+===========================
+
+The Design Tool provide a user interface to onboard configuration
+servers that App-C interacts with. Initially the Admin Configuration GUI
+supports only Ansible servers. The Admin GUI is accessible to users
+providing the following functionality.
+
+-  Display all existing configuration server profiles on the default
+   screen
+
+-  Adding new server profiles
+
+-  Editing existing server profiles
+
+-  Sort user profiles on the display list
+
+   1. Admin Tab
+
+On Design Tool’s Home screen has the ADMIN menu item along with the
+others. If the user has the privilege to access the Admin GUI, the ADMIN
+menu item is enabled.
+
+|image37|
+
+Admin Default Screen
+--------------------
+
+The Admin default screen displays the existing configuration server
+profiles.
+
+|image38|
+
+**Data fields**:
+
+-  Configuration Server URL
+
+   This is the URL of the Ansible server. App-C uses this information to
+   establish connectivity to the Ansible server. Network routes and
+   firewall configuration should be completed prior to App-C
+   communicating with the server.
+
+-  Cloud-owner/Cloud-Region/Tenant
+
+   During runtime, App-C selects an Ansible server to configure a VNF by
+   matching on the VNF’s Tenant-ID. A Tenant-ID is unique with a
+   Cloud-Owner and Cloud-Region. This information must be the same as
+   stored in A&AI.
+
+-  Description
+
+   This a free text field for entering information identifying the
+   Ansible server.
+
+-  Modifier
+
+   The user ID last modified this profile.
+
+-  Date Modified
+
+   The timestamp of this profile was last modified.
+
+**Button functionality**:
+
+-  CREATE NEW SERVER
+
+   To create a new configuration server profile
+
+-  VIEW/EDIT
+
+   To view or edit an existing server profile
+
+-  DOWNLOAD ALL TO PC
+
+   Download load Admin Artifact to PC
+
+-  SAVE ALL TO APPC
+
+   Save Admin Artifact to App-C database
+
+-  Sorting columns
+
+   Clicking on the triangles symbol next to a column heading would sort
+   the profiles by that column. Subsequent clicking would toggle the
+   sorting between ascending and descending order.
+
+|image39|\ Creating a New Servers Profile
+----------------------------------------
+
+The Server Profiles screen allows user to add server profiles. During
+server profile creation, the Modifier and Date Modified parameters are
+empty.
+
+|image40|
+
+**Data fields**:
+
+-  Configuration Server URL
+
+   Enter the URL of the Ansible server or server cluster.
+
+   Example: http://ansible.appc.onap.org:5000
+
+-  Cloud-owner/Cloud-Region/Tenant
+
+   For each Ansible server, there must be at least one tenant entry. A
+   cloud-owner, cloud-region-id, and tenant-id combination determines a
+   unique tenant.
+
+-  Description
+
+   Enter any information into this Description field.
+
+-  Creator and Date Created fields are pre-populated and not user
+   editable.
+
+-  Modifier and Date Modified are empty on the new profile screen
+
+**Button functionality**:
+
+ADD button: add the entered Cloud-owner, Cloud-Region-ID, and Tenant-ID
+as new tenant entry
+
+CANCEL Button: discard the changes and return to Admin home screen.
+
+RETURN button: return back to the Admin home screen. Data is not saved
+database as this point.
+
+|image41|\ Note: Remember to use the “SAVE ALL TO APPC” button on the
+Admin home screen to preserve your work.
+
+Editing an Existing Server Profile
+----------------------------------
+
+   The Configuration Server screen allows user to edit existing Ansible
+   profiles. CDT retrieves the server’s profile from database for
+   editing.
+
+**Data fields**:
+
+-  Configuration Server URL
+
+   URL of the Ansible server or server cluster.
+
+   Example: http://ansible.appc.onap.org:5000
+
+   Cloud-owner, Cloud-Region-ID, Tenant ID
+
+   For each Ansible server, there must be at least one tenant entry. A
+   cloud-owner, cloud-region-id, and tenant-id combination determines a
+   unique tenant.
+
+-  Description
+
+   Enter any information into this Description field.
+
+-  Creator, Date Created, Modifier, and Date Modified fields are
+   pre-populated and not user editable.
+
+**Button functionality**:
+
+ADD button: add the entered Cloud-owner, Cloud-Region-ID, and Tenant-ID
+as new tenant entry
+
+REMOVE button: removes a tenant entry
+
+CANCEL Button: discard the changes and return to Admin home screen.
+
+RETURN button: return back to the Admin home screen. Data is not saved
+database as this point.
+
+|image41|\ Note: Remember to use the “SAVE ALL TO APPC” button on the
+Admin home screen to preserve your work.
+
+|image42|
+
+Sorting Server Profiles
+-----------------------
+
+   Design Tool provides a sorting capability similar to the VNF profile
+   screen.
+
+-  User can select columns to be sorted by clicking on the triangle
+   symbols next to the column headings.
+
+-  Repeated clicking on an arrow symbol toggles the sorting orders
+   between ascending and descending.
 
 
 .. |image0| image:: media/image0.png
@@ -932,5 +1119,21 @@ APP-C Design Tool - File Descriptions
 .. |image36| image:: media/image36.png
    :width: 9.00000in
    :height: 5.18958in
+.. |image37| image:: media/image37.png
+   :width: 5.83681in
+   :height: 0.41095in
+.. |image38| image:: media/image38.png
+   :width: 6.5in
+   :height: 1.87361in
+.. |image39| image:: media/image39.png
+.. |image40| image:: media/image40.png
+   :width: 6.656in
+   :height: 2.20018in
+.. |Pencil| image:: media/image41.png
+   :width: 0.21528in
+   :height: 0.21528in
+.. |image42| image:: media/image42.png
+   :width: 6.5in
+   :height: 3.05139in
 
 
