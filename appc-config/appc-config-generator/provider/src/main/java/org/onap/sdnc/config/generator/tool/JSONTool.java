@@ -93,20 +93,35 @@ public class JSONTool {
         StringBuilder sb = new StringBuilder();
         char lastChar = 0;
         boolean inJson = false;
-        for(char c : jsonString.toCharArray()) {
+        for(char c : s.toCharArray()) {
+            //If we see a { directly after a quote, it would mean that this string will contain json data
+            //as a string.
             if(c == '{' && lastChar == '"') {
                 inJson = true;
             }
-            if(inJson) {
-                if(c == '"' && lastChar != '\\') {
-                    sb.append("\\\"");
-                } else {
-                    sb.append(c);
-                }
-                if(c == '}' && lastChar == '"') {
+            //Checks if we are currently in a json block and if the character we are looking at is
+            //a quote. The quote is what needs to be escaped.
+            if(inJson && c == '"') {
+                //If a } precedes a quote, then this would signal the end of a string containing json
+                if(lastChar == '}') {
                     inJson = false;
+                    //since this quote we are looking at is outside the json string block, we should not escape it
+                    sb.append("\"");
+                } else {
+                    //Else block for the case where the quote was preceded by anything other than a }
+                    //We know we are still in the json string block
+                    //If the last character was not a backslash, we know that the quote we are looking at has
+                    //not been escaped.
+                    if(lastChar != '\\') {
+                        //un-escaped quote should be escaped
+                        sb.append("\\\"");
+                    } else {
+                        //quote is already escaped, we can add it as it is
+                        sb.append(c);
+                    }
                 }
             } else {
+                //If we are not in a json block, or if the character is not a quote, it can be added as is
                 sb.append(c);
             }
             if(!Character.isWhitespace(c)) {
@@ -119,7 +134,7 @@ public class JSONTool {
             throw new JSONException("End of json data reached, but end of internal"
                     + "json string never reached.");
         }
-            return sb.toString();
+        return sb.toString();
     }
 
     private static void tryAddBlockKeys(List<String> blockKeys, Map<String, String> mm, String key, Object o) {
