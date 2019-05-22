@@ -1129,7 +1129,7 @@ Sorting Server Profiles
 .. |image40| image:: media/image40.png
    :width: 6.656in
    :height: 2.20018in
-.. |Pencil| image:: media/image41.png
+.. |image41| image:: media/image41.png
    :width: 0.21528in
    :height: 0.21528in
 .. |image42| image:: media/image42.png
