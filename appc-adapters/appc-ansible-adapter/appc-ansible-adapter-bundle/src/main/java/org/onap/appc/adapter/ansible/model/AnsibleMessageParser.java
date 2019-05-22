@@ -64,6 +64,7 @@ public class AnsibleMessageParser {
     private static final String NODE_LIST_OPT_KEY = "NodeList";
     private static final String TIMEOUT_OPT_KEY = "Timeout";
     private static final String VERSION_OPT_KEY = "Version";
+    private static final String INVENTORY_NAMES_OPT_KEY = "InventoryNames";
     private static final String ACTION_OPT_KEY = "Action";
     private static final String OUTPUT_OPT_KEY = "Output";
     private static final String JSON_ERROR_MESSAGE = "JSONException: Error parsing response";
@@ -303,6 +304,7 @@ public class AnsibleMessageParser {
             break;
 
         case VERSION_OPT_KEY:
+        case INVENTORY_NAMES_OPT_KEY:
             jsonPayload.put(key, payload);
             break;
 
