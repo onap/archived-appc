@@ -84,7 +84,7 @@ public class AnsibleMessageParser {
     public JSONObject reqMessage(Map<String, String> params) throws APPCException {
         final String[] mandatoryTestParams = { AGENT_URL_KEY, PLAYBOOK_NAME_KEY, USER_KEY, PASS_KEY };
         final String[] optionalTestParams = { ENV_PARAMETERS_OPT_KEY, NODE_LIST_OPT_KEY, LOCAL_PARAMETERS_OPT_KEY,
-                TIMEOUT_OPT_KEY, VERSION_OPT_KEY, FILE_PARAMETERS_OPT_KEY, ACTION_OPT_KEY };
+                TIMEOUT_OPT_KEY, VERSION_OPT_KEY, FILE_PARAMETERS_OPT_KEY, ACTION_OPT_KEY, INVENTORY_NAMES_OPT_KEY };
 
         JSONObject jsonPayload = new JSONObject();
 
