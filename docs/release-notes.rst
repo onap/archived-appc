@@ -1,6 +1,6 @@
 ﻿.. ============LICENSE_START==========================================
 .. ===================================================================
-.. Copyright © 2017-2018 AT&T Intellectual Property. All rights reserved.
+.. Copyright © 2017-2019 AT&T Intellectual Property. All rights reserved.
 .. ===================================================================
 .. Licensed under the Creative Commons License, Attribution 4.0 Intl.  (the "License");
 .. you may not use this documentation except in compliance with the License.
@@ -24,6 +24,109 @@ Release Notes
 ..	* This Release Notes is cumulative, the most recently Released artifact is made visible in the top of this Release Notes.
 ..	* Except the date and the version number, all the other sections are optional but there must be at least one section describing the purpose of this new release.
 ..	* This note must be removed after content has been added.
+
+
+Version: 1.5.3
+--------------
+
+:Release Date: 2019-6-6
+
+**New Features**
+
+The Dublin release added the following functionality:
+
+	 - Upgraded OpenDaylight (ODL) version to Fluorine SR1
+
+	 - Migrated CDT docker to node.js base docker image
+
+	 - Added support for the following LCM actions (a desciption of all of the above LCM actions can be found in the APPC LCM API Guide on readthedoc): 
+	 
+	 - To support in-place software upgrade:
+		
+		- DistributeTrafficCheck
+
+	 - Added Multiple standalone ansible servers support
+
+	 - Additional contributions as part of Dublin include: 
+	 
+		- Test Coverage increased to 83.8%
+
+		- Support for Platform Maturity requirements, including:
+		
+		   - Security
+		   
+		   	 - Applicaton runs as non-root user in all APPC dockers
+
+		   	 - Migrated to https for CDT GUI
+			  
+		   - Stability
+		   
+			  - Executed 72 hour stability test on both Heat and OOM deployed environments using JMeter to drive a steady set of transactions over the 72 hour period (see the following wiki page for more details: https://wiki.onap.org/display/DW/APPC+72+Hour+Stability+Testing+Dublin )
+			  
+		   - Resiliency
+		   
+			  - Support for OOM deployment, which enables resiliency via use of Kubernetes (see https://wiki.onap.org/display/DW/APPC+Resiliency for additional details) 
+			  
+
+**Bug Fixes**
+
+      - `APPC-1263 <https://jira.onap.org/browse/APPC-1263>`_ - Two methods of Artifact Transformer in appc-config-params will always return null.
+      - `APPC-1264 <https://jira.onap.org/browse/APPC-1264>`_ - Errors in unit tests in config-generator package.
+      - `APPC-1270 <https://jira.onap.org/browse/APPC-1270>`_ - Unit tests in ccadaptor code not testing correctly.
+      - `APPC-1274 <https://jira.onap.org/browse/APPC-1274>`_ - APPC DG : RestAdapter plugin : lack of documentation.
+      - `APPC-1303 <https://jira.onap.org/browse/APPC-1303>`_ - DependencyModelParser works toward incorrectly spelled property name.
+      - `APPC-1331 <https://jira.onap.org/browse/APPC-1331>`_ - Test cases in appc-common cause intermittent failures.
+      - `APPC-1367 <https://jira.onap.org/browse/APPC-1367>`_ - APPC returns UnknownHostException during Netconf operations.
+      - `APPC-1435 <https://jira.onap.org/browse/APPC-1435>`_ - APPC Ansible Server keeps crashing.
+      - `APPC-1441 <https://jira.onap.org/browse/APPC-1441>`_ - incompatible cherrypy version in ansible server container.
+      - `APPC-1463 <https://jira.onap.org/browse/APPC-1463>`_ - Error in ControllerImpl class.
+      - `APPC-1472 <https://jira.onap.org/browse/APPC-1472>`_ - Not possible to call ansible healthcheck from SO VnfConfigUpdate workflow.
+      - `APPC-1479 <https://jira.onap.org/browse/APPC-1479>`_ - Logic error in ScheduledPublishingPolicyImpl.
+      - `APPC-1480 <https://jira.onap.org/browse/APPC-1480>`_ - MetricRegistryImpl code has problems with casting.
+      - `APPC-1489 <https://jira.onap.org/browse/APPC-1489>`_ - SO VnfConfigUpdate workflow fails with timeout error.
+      - `APPC-1528 <https://jira.onap.org/browse/APPC-1528>`_ - APPC DB table creation failed.
+      - `APPC-1537 <https://jira.onap.org/browse/APPC-1537>`_ - UNIQUE KEY is too long in DEVICE_AUTHENTICATION.
+      - `APPC-1542 <https://jira.onap.org/browse/APPC-1542>`_ - ExecuteNodeActionImpl is not instatiate.
+      - `APPC-1545 <https://jira.onap.org/browse/APPC-1545>`_ - Problem with Ansible handling in EncryptionToolDGWrapper.
+      - `APPC-1548 <https://jira.onap.org/browse/APPC-1548>`_ - "MariaDB 10.2.4 adds ""ROWS"" as an SQL keyword".
+      - `APPC-1574 <https://jira.onap.org/browse/APPC-1574>`_ - FileParameters not supported for Ansible LCM action.
+      - `APPC-1576 <https://jira.onap.org/browse/APPC-1576>`_ - FileParameters content is wrongly processed.
+      - `APPC-1577 <https://jira.onap.org/browse/APPC-1577>`_ - Ansible Server  playbook execution does not work.
+      - `APPC-1583 <https://jira.onap.org/browse/APPC-1583>`_ - ansible user privileges problem.
+      - `APPC-1584 <https://jira.onap.org/browse/APPC-1584>`_ - Incorrect Package name in Audit Directed Graph.
+      - `APPC-1589 <https://jira.onap.org/browse/APPC-1589>`_ - Cvaas directory is not mounted in docker image.
+      - `APPC-1593 <https://jira.onap.org/browse/APPC-1593>`_ - CDT doesn't push info to DB.
+      - `APPC-1600 <https://jira.onap.org/browse/APPC-1600>`_ - "APPC DB doesn't have any artifact for ""artifact-type""=""APPC-CONFIG""".
+      - `APPC-1604 <https://jira.onap.org/browse/APPC-1604>`_ - APPC Not Picking up Mesasges from Dmaap.
+      - `APPC-1610 <https://jira.onap.org/browse/APPC-1610>`_ - Config vFW Netconf URI should be stream-count:stream-count intead of sample-plugin:pg-streams.
+      - `APPC-1611 <https://jira.onap.org/browse/APPC-1611>`_ - VNF_DG_MAPPING and PROCESS_FLOW_REFERENCE tables are empty.
+      - `APPC-1612 <https://jira.onap.org/browse/APPC-1612>`_ - InventoryNames parameter support for APPC Ansible LCM.
+
+**Known Issues**
+
+...
+
+Quick Links:
+
+ 	- `APPC project page <https://wiki.onap.org/display/DW/Application+Controller+Project>`_
+ 	
+ 	- `Passing Level Badge information for APPC <https://bestpractices.coreinfrastructure.org/en/projects/1579>`_
+
+ 	- `Silver Level Badge information for APPC <https://bestpractices.coreinfrastructure.org/en/projects/1579?criteria_level=1>`_
+ 	
+ 	- `Project Vulnerability Review Table for APPC <https://wiki.onap.org/pages/viewpage.action?pageId=51282466>`_
+
+**Other**
+
+- Limitations, Constraints and other worthy notes:
+
+	- OpenStack Restriction:
+
+		- Currently APPC only supports OpenStack.
+
+		- Admin level access for Tenant level operations.
+
+		- OpenStack Hypervisorcheck is turned off by default.
 
 
 Version: 1.4.4
