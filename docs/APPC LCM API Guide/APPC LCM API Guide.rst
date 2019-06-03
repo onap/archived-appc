@@ -1221,7 +1221,9 @@ The Distribute Traffic LCM action is used to distribute traffic across different
 The entity for which Distribute Traffic LCM action is being invoked is called an anchor point that is responsible for final
 realization of request. Parameters present in configuration file specify where and how traffic should be distributed,
 including: traffic destination points like VNFs, VNFCs or VMs; distribution weights; rollback strategy.
-Format of configuration file is specific to each VNF type.
+Format of configuration file is specific to each VNF type. The Optimization Framework component and Homing, Allocation and
+Placement mechanism can be used to retrieve instances of vf-modules of anchor points and destination points with
+corresponding policies.
 
 This command is executed using an Ansible playbook or Chef cookbook.
 
@@ -1241,26 +1243,51 @@ Request Structure:
 
 Request Payload Parameters:
 
-+---------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+---------------------------------------------------------------------------+
-| **Parameter**                   |     **Description**                                                                                                                                              |     **Required?**   |     **Example**                                                           |
-+=================================+==================================================================================================================================================================+=====================+===========================================================================+
-|     configuration-parameters    |     A set of instance specific configuration parameters should be specified. If provided, APP-C replaces variables in the configuration template with the        |     No              |    "payload":                                                             |
-|                                 |     values supplied. The parameters are associated with request template defined with CDT                                                                        |                     |    "{\\"configuration-parameters\\":{                                     |
-|                                 |                                                                                                                                                                  |                     |    \\"config_file_name\\":\\"/opt/onap/ccsdk/Playbooks/dt/config\\",      |
-|                                 |                                                                                                                                                                  |                     |    \\"playbook\\":\\"ansible_vfw_distributetraffic@0.00.yml\\",           |
-|                                 |                                                                                                                                                                  |                     |    \\"node_list\\":\\"[vpkg-1]\\"                                         |
-|                                 |                                                                                                                                                                  |                     |    }                                                                      |
-|                                 |                                                                                                                                                                  |                     |    }"                                                                     |
-+---------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+---------------------------------------------------------------------------+
++---------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+------------------------------------------------------------------------------+
+| **Parameter**                   |     **Description**                                                                                                                                              |     **Required?**   |     **Example**                                                              |
++=================================+==================================================================================================================================================================+=====================+==============================================================================+
+|     configuration-parameters    |     A set of instance specific configuration parameters should be specified. If provided, APP-C replaces variables in the configuration template with the        |     No              | "payload": "{\"configuration-parameters\": {\"file_parameter_content\":      |
+|                                 |     values supplied. The parameters are associated with request template defined with CDT                                                                        |                     | \"{\\\"destinations\\\": [{\\\"locationType\\\": \\\"att_aic\\\",            |
+|                                 |                                                                                                                                                                  |                     | \\\"isRehome\\\": \\\"false\\\", \\\"aic_version\\\": \\\"1\\\",             |
+|                                 |                                                                                                                                                                  |                     | \\\"ipv4-oam-address\\\": \\\"\\\", \\\"nf-name\\\":                         |
+|                                 |                                                                                                                                                                  |                     | \\\"Ete_vFWDTvFWSNK_ccc04407_1\\\", \\\"cloudOwner\\\":                      |
+|                                 |                                                                                                                                                                  |                     | \\\"CloudOwner\\\", \\\"service_instance_id\\\":                             |
+|                                 |                                                                                                                                                                  |                     | \\\"319e60ef-08b1-47aa-ae92-51b97f05e1bc\\\",                                |
+|                                 |                                                                                                                                                                  |                     | \\\"vf-module-id\\\": \\\"0dce0e61-9309-449a-8e3e-f001635aaab1\\\",          |
+|                                 |                                                                                                                                                                  |                     | \\\"cloudClli\\\": \\\"clli1\\\", \\\"ipv6-oam-address\\\": \\\"\\\",        |
+|                                 |                                                                                                                                                                  |                     | \\\"vf-module-name\\\": \\\"Vfmodule_Ete_vFWDTvFWSNK_ccc04407_1\\\",         |
+|                                 |                                                                                                                                                                  |                     | \\\"vnfHostName\\\": \\\"Ete_vFWDTvFWSNK_ccc04407_1\\\", \\\"nf-id\\\":      |
+|                                 |                                                                                                                                                                  |                     | (...)                                                                        |
+|                                 |                                                                                                                                                                  |                     | \\\"Vfmodule_Ete_vFWDTvFWSNK_ccc04407_1-vfw_private_1_port-6yfzndtyjzfz\\\", |
+|                                 |                                                                                                                                                                  |                     | \\\"ipv4-addresses\\\": [\\\"192.168.20.100\\\"], \\\"interface-id\\\":      |
+|                                 |                                                                                                                                                                  |                     | \\\"0a1d0300-de02-46e8-99f6-e786f1ba407a\\\", \\\"network-name\\\":          |
+|                                 |                                                                                                                                                                  |                     | \\\"\\\", \\\"ipv6-addresses\\\": []}]}], \\\"nf-type\\\": \\\"vnf\\\"}]}\", |
+|                                 |                                                                                                                                                                  |                     | \"fixed_ip_address\": \"10.0.210.103\", \"book_name\":                       |
+|                                 |                                                                                                                                                                  |                     | \"vpgn/latest/ansible/distributetraffic/site.yml\",                          |
+|                                 |                                                                                                                                                                  |                     | \"ne_id\": \"vofwl01pgn4407\"}}",                                            |
+|                                 |                                                                                                                                                                  |                     |                                                                              |
++---------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+------------------------------------------------------------------------------+
 
 Exemplary CDT template for Ansible protocol::
 
     {
-        "PlaybookName": ${playbook},
-        "NodeList": ${node_list},
+        "InventoryNames": "VM",
+        "PlaybookName": "${()=(book_name)}",
+        "NodeList": [{
+            "vm-info": [{
+                "ne_id": "${()=(ne_id)}",
+                "fixed_ip_address": "${()=(fixed_ip_address)}"
+            }],
+            "site": "site",
+            "vnfc-type": "some-vnfc"
+        }],
         "EnvParameters": {
-            "ConfigFileName": "${config_file_name}"
-         },
+            "ConfigFileName": "../traffic_distribution_config.json",
+            "vnf_instance": "instance",
+        },
+        "FileParameters": {
+            "traffic_distribution_config.json": "${()=(file_parameter_content)}"
+        },
         "Timeout": 3600
     }
 
@@ -1275,6 +1302,101 @@ The response does not include any payload parameters.
 **Success:** A successful distribute returns a success status code 400 after all traffic has been distributed.
 
 **Failure:** A failed distribute returns a failure code 401 and the failure message from the Ansible or Chef server in the response payload block.
+
+
+DistributeTrafficCheck
+----------------------
+
+The Distribute Traffic Check LCM action complements Distribute Traffic LCM action with capabilities to test if destination point
+is ready to handle traffic or if anchor point accepts the configuration of destinations for traffic distribution. Finally,
+this action can be used to check if destination points handle traffic accordingly with the configuration.
+
+This command is executed using an Ansible playbook or Chef cookbook.
+
+Request Structure:
+
++--------------------------+--------------------------------------------------------------------+
+| **Target URL**           | /restconf/operations/appc-provider-lcm:distribute-traffic-check    |
++--------------------------+--------------------------------------------------------------------+
+| **Action**               | DistributeTrafficCheck                                             |
++--------------------------+--------------------------------------------------------------------+
+| **Action-identifiers**   | vnf-id, vserver-id, vnfc-name                                      |
++--------------------------+--------------------------------------------------------------------+
+| **Payload Parameters**   | See below                                                          |
++--------------------------+--------------------------------------------------------------------+
+| **Revision History**     | New in Dublin                                                      |
++--------------------------+--------------------------------------------------------------------+
+
+Request Payload Parameters:
+
++---------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+---------------------------------------------------------------+
+| **Parameter**                   |     **Description**                                                                                                                                              |     **Required?**   |     **Example**                                               |
++=================================+==================================================================================================================================================================+=====================+===============================================================+
+|     configuration-parameters    |     A set of instance specific configuration parameters should be specified. If provided, APP-C replaces variables in the configuration template with the        |     No              |  "payload": "{\"configuration-parameters\":                   |
+|                                 |     values supplied. The parameters are associated with request template defined with CDT                                                                        |                     |  {\"file_parameter_content\": \"{\\\"destinations\\\":        |
+|                                 |                                                                                                                                                                  |                     |  [                                                            |
+|                                 |                                                                                                                                                                  |                     |  {\\\"locationType\\\": \\\"att_aic\\\",                      |
+|                                 |                                                                                                                                                                  |                     |  \\\"isRehome\\\": \\\"false\\\",                             |
+|                                 |                                                                                                                                                                  |                     |  \\\"aic_version\\\": \\\"1\\\",                              |
+|                                 |                                                                                                                                                                  |                     |  \\\"ipv4-oam-address\\\": \\\"\\\",                          |
+|                                 |                                                                                                                                                                  |                     |  \\\"nf-name\\\": \\\"Ete_vFWDTvFWSNK_ccc04407_1\\\",         |
+|                                 |                                                                                                                                                                  |                     |  \\\"cloudOwner\\\": \\\"CloudOwner\\\",                      |
+|                                 |                                                                                                                                                                  |                     |  \\\"service_instance_id\\\":                                 |
+|                                 |                                                                                                                                                                  |                     |  \\\"319e60ef-08b1-47aa-ae92-51b97f05e1bc\\\",                |
+|                                 |                                                                                                                                                                  |                     |  \\\"vf-module-id\\\":                                        |
+|                                 |                                                                                                                                                                  |                     |  \\\"0dce0e61-9309-449a-8e3e-f001635aaab1\\\",                |
+|                                 |                                                                                                                                                                  |                     |  \\\"cloudClli\\\": \\\"clli1\\\",                            |
+|                                 |                                                                                                                                                                  |                     |  \\\"ipv6-oam-address\\\": \\\"\\\",                          |
+|                                 |                                                                                                                                                                  |                     |  \\\"vf-module-name\\\":                                      |
+|                                 |                                                                                                                                                                  |                     |  \\\"Vfmodule_Ete_vFWDTvFWSNK_ccc04407_1\\\",                 |
+|                                 |                                                                                                                                                                  |                     |  \\\"vnfHostName\\\":                                         |
+|                                 |                                                                                                                                                                  |                     |  \\\"Ete_vFWDTvFWSNK_ccc04407_1\\\",                          |
+|                                 |                                                                                                                                                                  |                     |  \\\"nf-id\\\": \\\"909d396b-4d99-4c6a-a59b-abe948873303\\\", |
+|                                 |                                                                                                                                                                  |                     |  (...)                                                        |
+|                                 |                                                                                                                                                                  |                     |  \\\"trafficPresence\\\": true}\",                            |
+|                                 |                                                                                                                                                                  |                     |  \"fixed_ip_address\": \"10.0.110.1\", \"book_name\":         |
+|                                 |                                                                                                                                                                  |                     |  \"vfw-sink/latest/ansible/distributetrafficcheck/site.yml\", |
+|                                 |                                                                                                                                                                  |                     |  \"ne_id\": \"vofwl02vfw4407\"}}"                             |
+|                                 |                                                                                                                                                                  |                     |                                                               |
++---------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+---------------------------------------------------------------+
+
+Exemplary CDT template for Ansible protocol::
+
+    {
+        "InventoryNames": "VM",
+        "PlaybookName": "${()=(book_name)}",
+        "NodeList": [{
+            "vm-info": [{
+                "ne_id": "${()=(ne_id)}",
+                "fixed_ip_address": "${()=(fixed_ip_address)}"
+            }],
+            "site": "site",
+            "vnfc-type": "some-vnfc"
+        }],
+        "EnvParameters": {
+            "ConfigFileName": "../traffic_distribution_config.json",
+            "vnf_instance": "instance",
+        },
+        "FileParameters": {
+            "traffic_distribution_config.json": "${()=(file_parameter_content)}"
+        },
+        "Timeout": 3600
+    }
+
+EnvParameters includes protocol specific parameters, here with name of configuration file having additional parameters for Ansible playbook or Chef cookbook.
+Distribute Traffic config file can have similar parameters like the one Distribute Traffic action and can have some extra information like the type of check to
+be performed. In the payload example there is a trafficPresence parameter that emphasises if the traffic is expected on vFW instance.
+
+DistributeTrafficCheck Response
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The response does not include any payload parameters.
+
+**Success:** A successful distribute traffic check returns a success status code 400 when conditions are satisfied.
+
+**Failure:** A failed check returns a failure code 401 and the failure message from the Ansible or Chef server in the response payload block.
+
+
 
 Evacuate
 --------
