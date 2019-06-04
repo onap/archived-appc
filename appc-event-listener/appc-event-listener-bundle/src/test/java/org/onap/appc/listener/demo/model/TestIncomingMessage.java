@@ -39,6 +39,8 @@ public class TestIncomingMessage {
     public void testToOutgoing() {
         String expected = "{\"Status\":{\"Value\":null,\"Code\":null}}";
         assertEquals(expected, incomingMessage.toOutgoing(null));
+        expected = "{\"Status\":{\"Value\":\""+Status.ACCEPTED.getValue()+"\",\"Code\":\"100\"}}";
+        assertEquals(expected, incomingMessage.toOutgoing(Status.ACCEPTED));
     }
 
 }

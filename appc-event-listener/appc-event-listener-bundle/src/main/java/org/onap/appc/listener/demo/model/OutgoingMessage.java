@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
@@ -170,6 +170,8 @@ public class OutgoingMessage extends CommonMessage {
     public void setResponse(Status newStatus) {
         if(this.status == null){
             this.status = new OutStatus();
+        }
+        if(newStatus == null) {
             return;
         }
 
