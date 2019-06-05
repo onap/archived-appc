@@ -115,6 +115,8 @@ The Dublin release added the following functionality:
 
 *Known Security Issues*
 
+      - CVE-2019-12316 `OJSI-25 <https://jira.onap.org/browse/OJSI-25>`_ - SQL Injection in APPC
+
 *Known Vulnerabilities in Used Modules*
 
 Quick Links:
