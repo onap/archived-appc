@@ -120,6 +120,7 @@ The Dublin release added the following functionality:
       - CVE-2019-12124 `OJSI-63 <https://jira.onap.org/browse/OJSI-63>`_ - APPC exposes Jolokia Interface which allows to read and overwrite any arbitrary file
       - `OJSI-95 <https://jira.onap.org/browse/OJSI-95>`_ - appc-cdt allows to impersonate any user by setting USER_ID
       - `OJSI-112 <https://jira.onap.org/browse/OJSI-112>`_ - In default deployment APPC (appc-dgbuilder) exposes HTTP port 30228 outside of cluster.
+      - `OJSI-113 <https://jira.onap.org/browse/OJSI-113>`_ - In default deployment APPC (appc) exposes HTTP port 30230 outside of cluster.
 
 *Known Vulnerabilities in Used Modules*
 
