@@ -121,6 +121,7 @@ The Dublin release added the following functionality:
       - `OJSI-95 <https://jira.onap.org/browse/OJSI-95>`_ - appc-cdt allows to impersonate any user by setting USER_ID
       - `OJSI-112 <https://jira.onap.org/browse/OJSI-112>`_ - In default deployment APPC (appc-dgbuilder) exposes HTTP port 30228 outside of cluster.
       - `OJSI-113 <https://jira.onap.org/browse/OJSI-113>`_ - In default deployment APPC (appc) exposes HTTP port 30230 outside of cluster.
+      - `OJSI-185 <https://jira.onap.org/browse/OJSI-185>`_ - appc exposes ssh service on port 30231
 
 *Known Vulnerabilities in Used Modules*
 
