@@ -118,6 +118,7 @@ The Dublin release added the following functionality:
       - CVE-2019-12316 `OJSI-25 <https://jira.onap.org/browse/OJSI-25>`_ - SQL Injection in APPC
       - `OJSI-29 <https://jira.onap.org/browse/OJSI-29>`_ - Unsecured Swagger UI Interface in AAPC
       - CVE-2019-12124 `OJSI-63 <https://jira.onap.org/browse/OJSI-63>`_ - APPC exposes Jolokia Interface which allows to read and overwrite any arbitrary file
+      - `OJSI-95 <https://jira.onap.org/browse/OJSI-95>`_ - appc-cdt allows to impersonate any user by setting USER_ID
 
 *Known Vulnerabilities in Used Modules*
 
