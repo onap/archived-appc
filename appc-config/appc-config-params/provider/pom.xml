@@ -69,8 +69,8 @@
 			<artifactId>jackson-databind</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-annotations</artifactId>
+			<groupId>com.fasterxml.jackson.module</groupId>
+			<artifactId>jackson-module-jaxb-annotations</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -121,10 +121,8 @@
 							org.onap.sdnc.config.params.parser,org.onap.sdnc.config.params.transformer,
 							org.onap.sdnc.config.params.transformer.tosca,org.onap.sdnc.config.params.transformer.tosca.exceptions</Export-Package>
 						<Import-Package>groovy.lang;resolution:=optional,org.codehaus.groovy.*;resolution:=optional,!com.google.common.collect,*</Import-Package>
-						<Embed-Dependency>guava,jackson-databind,jackson-annotations,jackson-core,jackson-dataformat-yaml,eelf-core,logback-core,logback-classic</Embed-Dependency>
-						<DynamicImport-Package>*</DynamicImport-Package>
+						<Embed-Dependency>guava,jackson-databind,jackson-core,jackson-dataformat-yaml,eelf-core,logback-core,logback-classic</Embed-Dependency>
 					</instructions>
-					<manifestLocation>${project.basedir}/src/main/resources/META-INF</manifestLocation>
 				</configuration>
 			</plugin>
 		</plugins>
