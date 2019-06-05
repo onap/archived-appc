@@ -110,6 +110,8 @@ The Dublin release added the following functionality:
 
 *Fixed Security Issues*
 
+      - `OJSI-146 <https://jira.onap.org/browse/OJSI-146>`_ - In default deployment APPC (appc-cdt) exposes HTTP port 30289 outside of cluster.
+
 *Known Security Issues*
 
 *Known Vulnerabilities in Used Modules*
