@@ -101,10 +101,9 @@ The Dublin release added the following functionality:
       - `APPC-1610 <https://jira.onap.org/browse/APPC-1610>`_ - Config vFW Netconf URI should be stream-count:stream-count intead of sample-plugin:pg-streams.
       - `APPC-1611 <https://jira.onap.org/browse/APPC-1611>`_ - VNF_DG_MAPPING and PROCESS_FLOW_REFERENCE tables are empty.
       - `APPC-1612 <https://jira.onap.org/browse/APPC-1612>`_ - InventoryNames parameter support for APPC Ansible LCM.
+      - `APPC-1613 <https://jira.onap.org/browse/APPC-1613>`_ - Exception for LCM request with parameter read from A&AI.
 
 **Known Issues**
-
-      - `APPC-1613 <https://jira.onap.org/browse/APPC-1613>`_ - Exception for LCM request with parameter read from A&AI.
 
 **Security Notes**
 
