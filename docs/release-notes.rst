@@ -29,7 +29,7 @@ Release Notes
 Version: 1.5.2
 --------------
 
-:Release Date: 2019-6-6
+:Release Date: 2019-6-13
 
 **New Features**
 
@@ -105,6 +105,7 @@ The Dublin release added the following functionality:
 **Known Issues**
 
       - `APPC-1613 <https://jira.onap.org/browse/APPC-1613>`_ - Exception for LCM request with parameter read from A&AI.
+         - to work around this is to switch to the  fixed parameter in the template or passed as configuration parameter in stead of using A&AI that APPC received the value from the request.
 
 **Security Notes**
 
