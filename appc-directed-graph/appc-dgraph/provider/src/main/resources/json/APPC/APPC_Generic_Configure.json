@@ -625,7 +625,7 @@
         "id": "48ba7f7f.85a5e",
         "type": "returnFailure",
         "name": "return failure",
-        "xml": "<return status=\"failure\">\n\t<parameter name=\"error-code\" value=\"401\"/>\n\t<parameter name=\"error-message\" value=\"DG Workflow GetAaiInfo not found\"/>\n\t",
+        "xml": "<return status=\"failure\">\n\t<parameter name=\"error-code\" value=\"401\"/>\n\t<parameter name=\"error-message\" value=\"getCommonConfigInfo in ConfigResourceNode Failed\"/>\n\t",
         "comments": "",
         "x": 1015.2776794433594,
         "y": 140.7142333984375,
