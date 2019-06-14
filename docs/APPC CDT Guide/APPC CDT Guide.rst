@@ -904,7 +904,7 @@ profiles.
    sorting between ascending and descending order.
 
 |image39|\ Creating a New Servers Profile
-----------------------------------------
+-----------------------------------------
 
 The Server Profiles screen allows user to add server profiles. During
 server profile creation, the Modifier and Date Modified parameters are
