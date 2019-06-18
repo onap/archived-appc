@@ -77,7 +77,6 @@ public class Utils {
             instance.update(inStr.getBytes());
             byte[] signature = instance.sign();
             outStr = Base64.encode(signature);
-            String tmp = new String(outStr);
         } catch (InvalidKeyException | IOException | SignatureException | NoSuchAlgorithmException e) {
             logger.error(e.getMessage());
         }
