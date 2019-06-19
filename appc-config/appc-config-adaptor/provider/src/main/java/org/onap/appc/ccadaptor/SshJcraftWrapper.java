@@ -654,7 +654,6 @@ public class SshJcraftWrapper {
 
         int numTokens = rr.countTokens();
         if (numTokens > 1) {
-            rr.nextToken(); //Skip the first line.
             while (rr.hasMoreTokens()) {
                 sb.append(rr.nextToken() + '\n');
             }

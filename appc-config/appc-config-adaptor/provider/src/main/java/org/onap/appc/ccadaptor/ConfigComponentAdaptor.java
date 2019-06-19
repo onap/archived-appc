@@ -25,18 +25,47 @@
 
 package org.onap.appc.ccadaptor;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.net.HttpURLConnection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.Properties;
+import java.util.StringTokenizer;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.onap.appc.exceptions.APPCException;
+import org.onap.ccsdk.sli.core.sli.SvcLogicAdaptor;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.core.util.Base64;
-import org.onap.ccsdk.sli.core.sli.SvcLogicAdaptor;
-import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.util.*;
 
 public class ConfigComponentAdaptor implements SvcLogicAdaptor {
 
@@ -982,7 +1011,54 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
         return (strBuff.toString());
     }
 
-    private String trimResponse(String response) {
+  /**
+   * A supporting method to extract the data and configuration element from the NETCONF-XML response
+   * from the node and create well formatted xml.
+   *
+   * @param requestData The unformatted NETCONF-XML
+   * @return responseBuilder the extracted data
+   * @throws APPCException Exception during parsing xml data
+   */
+  private String extractFromNetconfXml(String requestData) throws APPCException {
+    log.debug("extractFromNetconfXml -- Start");
+    StringBuilder responseBuilder = new StringBuilder();
+    StringWriter stringBuffer = new StringWriter();
+    try {
+      requestData = requestData.replaceAll("]]>]]>", "");
+      DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+      Document document = documentBuilder.parse(new InputSource(new StringReader(requestData)));
+      document.getDocumentElement().normalize();
+      Transformer xform = TransformerFactory.newInstance().newTransformer();
+      xform.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+      xform.setOutputProperty(OutputKeys.INDENT, "yes");
+      Optional<NodeList> dataNodeList = Optional.ofNullable(document.getElementsByTagName("data"));
+      Optional<NodeList> configurationNodeList =
+          Optional.ofNullable(document.getElementsByTagName("configuration"));
+      if (dataNodeList.isPresent()) {
+        Element dataElement = (Element) dataNodeList.get().item(0);
+        xform.transform(new DOMSource(dataElement), new StreamResult(stringBuffer));
+      }
+
+      if (configurationNodeList.isPresent()) {
+        Element configurationElement = (Element) configurationNodeList.get().item(0);
+        xform.transform(new DOMSource(configurationElement), new StreamResult(stringBuffer));
+      }
+      responseBuilder.append(stringBuffer.toString());
+      if (log.isTraceEnabled()) {
+        log.trace("ConfigComponentAdaptor:extractFromNetconfXml after Extract: "
+            + responseBuilder.toString());
+      }
+    } catch (SAXException | IOException | ParserConfigurationException
+        | TransformerException exception) {
+      throw new APPCException("Error Occured during parsing Netconf-XML", exception);
+
+    }
+    log.debug("extractFromNetconfXml -- End");
+    return responseBuilder.toString();
+  }
+
+  private String trimResponse(String response) throws APPCException {
+        response = extractFromNetconfXml(response);
         log.debug("runningConfig before trimResponse : " + response);
         StringTokenizer line = new StringTokenizer(response, "\n");
         StringBuffer sb = new StringBuffer();
@@ -992,7 +1068,7 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
             String token = line.nextToken();
             if (token.indexOf("<configuration xmlns=") != -1) {
                 captureText = true;
-            }else if(token.indexOf("<data>") != -1) {
+            }else if(token.indexOf("<data") != -1) {
                 log.debug("token-line:with in Data: "+token);
                 captureText = true;
                 continue;
