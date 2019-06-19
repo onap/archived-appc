@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -31,12 +31,19 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants;
+import org.onap.ccsdk.sli.core.dblib.DbLibService;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource.QueryStatus;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
+import static org.mockito.Mockito.*;
+
+import java.util.ArrayList;
+
+import javax.sql.rowset.CachedRowSet;
 
 public class DBServiceTest {
 
@@ -142,7 +149,7 @@ public class DBServiceTest {
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute("test", "test");
         ctx.setAttribute("url", "");
-        String expectedKey ="update DEVICE_AUTHENTICATION set USER_NAME = '' , PORT_NUMBER = 0, URL = ''  where VNF_TYPE = $vnf-type  AND PROTOCOL = $device-protocol AND  ACTION = $action";
+        String expectedKey ="update DEVICE_AUTHENTICATION set USER_NAME = $user-name , PORT_NUMBER = $port-number , URL = $url  where VNF_TYPE = $vnf-type  AND PROTOCOL = $device-protocol AND  ACTION = $action";
         boolean isUpdate = true;
         dbService.processDeviceAuthentication(ctx, isUpdate);
         assertEquals(expectedKey,ctx.getAttribute("keys"));
@@ -161,11 +168,22 @@ public class DBServiceTest {
 
     @Test
     public void testProcessDeviceInterfaceProtocol() throws Exception {
-        MockDBService dbService = MockDBService.initialise();
+        DbLibService mockDbLibService = mock(DbLibService.class);
+        DBService dbService = new DBService(mockDbLibService);
         SvcLogicContext ctx = new SvcLogicContext();
-        ctx.setAttribute("test", "test");
+        ctx.setAttribute(SdcArtifactHandlerConstants.DEVICE_PROTOCOL, "testDeviceProtocol");
+        ctx.setAttribute(SdcArtifactHandlerConstants.VNF_TYPE, "testVnfType");
         boolean isUpdate = true;
+        String expectedStatement = "update DEVICE_INTERFACE_PROTOCOL set PROTOCOL = ?"
+                +" , DG_RPC = 'getDeviceRunningConfig'"
+                + " , MODULE = 'APPC' " + "where VNF_TYPE = ? ";
+        ArrayList<String> expectedArguments = new ArrayList<>();
+        expectedArguments.add("testDeviceProtocol");
+        expectedArguments.add("testVnfType");
+        when(mockDbLibService.writeData(any(), any(), any())).thenReturn(true);
         dbService.processDeviceInterfaceProtocol(ctx, isUpdate);
+        verify(mockDbLibService,times(1)).writeData(expectedStatement, expectedArguments, null);
+        
     }
 
     @Test
@@ -180,21 +198,56 @@ public class DBServiceTest {
 
     @Test
     public void testProcessSdcReferences() throws Exception {
-        MockDBService dbService = MockDBService.initialise();
+        DbLibService mockDbLibService = mock(DbLibService.class);
+        DBService dbService = new DBService(mockDbLibService);
         SvcLogicContext ctx = new SvcLogicContext();
-        ctx.setAttribute("test", "test");
-        ctx.setAttribute(SdcArtifactHandlerConstants.FILE_CATEGORY, "testCategory");
-        boolean isUpdate = true;
-        dbService.processSdcReferences(ctx, isUpdate);
+        ctx.setAttribute(SdcArtifactHandlerConstants.ARTIFACT_NAME, "testArtifactName");
+        ctx.setAttribute(SdcArtifactHandlerConstants.VNF_TYPE, "testVnfType");
+        ctx.setAttribute(SdcArtifactHandlerConstants.VNFC_TYPE, "testVnfcType");
+        ctx.setAttribute(SdcArtifactHandlerConstants.FILE_CATEGORY, "testFileCategory");
+        ctx.setAttribute(SdcArtifactHandlerConstants.ACTION, "testAction");
+        String expectedStatement = "update ASDC_REFERENCE set ARTIFACT_NAME = ? where VNFC_TYPE = ? "
+                + "and FILE_CATEGORY = ? and ACTION = ? and VNF_TYPE = ? AND ARTIFACT_NAME like ? ";
+        ArrayList<String> expectedArguments = new ArrayList<>();
+        expectedArguments.add("testArtifactName");
+        expectedArguments.add("testVnfcType");
+        expectedArguments.add("testFileCategory");
+        expectedArguments.add("testAction");
+        expectedArguments.add("testVnfType");
+        expectedArguments.add("%_testModelId.%");
+        when(mockDbLibService.writeData(any(), any(), any())).thenReturn(true);
+        CachedRowSet crs = mock(CachedRowSet.class);
+        when(crs.next()).thenReturn(false);
+        when(mockDbLibService.getData(any(), any(), any())).thenReturn(crs);
+        dbService.processSdcReferences(ctx, true, "testModelId");
+        verify(mockDbLibService,times(1)).writeData(expectedStatement, expectedArguments, null);
     }
 
     @Test
     public void testIsArtifactUpdateRequired() throws Exception {
-        MockDBService dbService = MockDBService.initialise();
+        DbLibService mockDbLibService = mock(DbLibService.class);
+        DBService dbService = new DBService(mockDbLibService);
         SvcLogicContext ctx = new SvcLogicContext();
-        ctx.setAttribute("test", "test");
-        String db = "db";
-        dbService.isArtifactUpdateRequired(ctx, db);
+        ctx.setAttribute(SdcArtifactHandlerConstants.DEVICE_PROTOCOL, "testDeviceProtocol");
+        ctx.setAttribute(SdcArtifactHandlerConstants.VNF_TYPE, "testVnfType");
+        ctx.setAttribute(SdcArtifactHandlerConstants.VNFC_TYPE, "testVnfcType");
+        ctx.setAttribute(SdcArtifactHandlerConstants.FILE_CATEGORY, "testFileCategory");
+        ctx.setAttribute(SdcArtifactHandlerConstants.ACTION, "testAction");
+        String db = SdcArtifactHandlerConstants.DB_SDC_REFERENCE;
+        String expectedStatement = "select COUNT(*) from ASDC_REFERENCE where VNF_TYPE = ? and VNFC_TYPE = ?"
+                + " and FILE_CATEGORY = ? and ACTION = ? AND ARTIFACT_NAME like ? ";
+        ArrayList<String> expectedArguments = new ArrayList<>();
+        expectedArguments.add("testVnfType");
+        expectedArguments.add("testVnfcType");
+        expectedArguments.add("testFileCategory");
+        expectedArguments.add("testAction");
+        expectedArguments.add("%_testModelId.%");
+        when(mockDbLibService.writeData(any(), any(), any())).thenReturn(true);
+        CachedRowSet crs = mock(CachedRowSet.class);
+        when(crs.next()).thenReturn(false);
+        when(mockDbLibService.getData(any(), any(), any())).thenReturn(crs);
+        dbService.isArtifactUpdateRequired(ctx, db, "testModelId");
+        verify(mockDbLibService,times(1)).getData(expectedStatement, expectedArguments, null);
     }
 
     @Test
@@ -213,12 +266,6 @@ public class DBServiceTest {
         ctx.setAttribute("test", "test");
         ctx.setAttribute(SdcArtifactHandlerConstants.DEVICE_PROTOCOL, "CLI");
         assertEquals("TestDG", dbService.getDownLoadDGReference(ctx));
-    }
-
-    @Test
-    public void testInitialise() {
-        DBService dbService = DBService.initialise();
-        assertNotNull(dbService);
     }
 
     @Test
@@ -362,9 +409,12 @@ public class DBServiceTest {
     @Test
     public void testcreateQueryListForTemplateIds() {
         MockDBService dbService = MockDBService.initialise(true);
-        String queryPart = dbService.createQueryListForTemplateIds("modelId");
-        String expected = " AND ARTIFACT_NAME like '%_modelId.%'";
-        assertEquals(expected, queryPart);
+        SvcLogicContext ctx = new SvcLogicContext();
+        String queryPart = dbService.createQueryListForTemplateIds("modelId", ctx);
+        String expectedQuery = " AND ARTIFACT_NAME like $model-id ";
+        String expectedAttribute = "%_modelId.%";
+        assertEquals(expectedQuery, queryPart);
+        assertEquals(expectedAttribute,ctx.getAttribute("model-id"));
     }
     
     @Test
