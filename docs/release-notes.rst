@@ -26,10 +26,10 @@ Release Notes
 ..	* This note must be removed after content has been added.
 
 
-Version: 1.5.2
+Version: 1.5.3
 --------------
 
-:Release Date: 2019-6-13
+:Release Date: 2019-6-19
 
 **New Features**
 
@@ -70,6 +70,7 @@ The Dublin release added the following functionality:
 
 **Bug Fixes**
 
+      - `APPC-1242 <https://jira.onap.org/browse/APPC-1242>`_ - vFWCL ModifyConfig only works on one node in an APPC cluster.
       - `APPC-1263 <https://jira.onap.org/browse/APPC-1263>`_ - Two methods of Artifact Transformer in appc-config-params will always return null.
       - `APPC-1264 <https://jira.onap.org/browse/APPC-1264>`_ - Errors in unit tests in config-generator package.
       - `APPC-1270 <https://jira.onap.org/browse/APPC-1270>`_ - Unit tests in ccadaptor code not testing correctly.
