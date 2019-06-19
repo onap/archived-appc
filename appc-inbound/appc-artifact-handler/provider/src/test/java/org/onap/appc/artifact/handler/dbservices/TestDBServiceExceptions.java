@@ -39,14 +39,14 @@ public class TestDBServiceExceptions {
 
     private MockDBService dbService;
 
-    private MockSvcLogicResource mockSVCLogicResource;
+    private MockDbLibServiceQueries mockSVCLogicResource;
 
     private SvcLogicContext ctx ;
 
     @Before
     public void setup(){
            dbService =  MockDBService.initialise();
-           mockSVCLogicResource = Mockito.spy(MockSvcLogicResource.class);
+           mockSVCLogicResource = Mockito.spy(MockDbLibServiceQueries.class);
            ctx = new SvcLogicContext();
         }
 
