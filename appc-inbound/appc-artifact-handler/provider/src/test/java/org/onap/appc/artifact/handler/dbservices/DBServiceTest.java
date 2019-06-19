@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -142,7 +142,7 @@ public class DBServiceTest {
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute("test", "test");
         ctx.setAttribute("url", "");
-        String expectedKey ="update DEVICE_AUTHENTICATION set USER_NAME = '' , PORT_NUMBER = 0, URL = ''  where VNF_TYPE = $vnf-type  AND PROTOCOL = $device-protocol AND  ACTION = $action";
+        String expectedKey ="update DEVICE_AUTHENTICATION set USER_NAME = $user-name , PORT_NUMBER = $port-number, URL = $url  where VNF_TYPE = $vnf-type  AND PROTOCOL = $device-protocol AND  ACTION = $action";
         boolean isUpdate = true;
         dbService.processDeviceAuthentication(ctx, isUpdate);
         assertEquals(expectedKey,ctx.getAttribute("keys"));
