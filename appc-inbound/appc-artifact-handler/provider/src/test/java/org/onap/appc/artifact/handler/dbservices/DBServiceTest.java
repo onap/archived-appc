@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -31,12 +31,17 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants;
+import org.onap.ccsdk.sli.core.dblib.DbLibService;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource.QueryStatus;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
+import static org.mockito.Mockito.*;
+
+import java.util.ArrayList;
 
 public class DBServiceTest {
 
@@ -142,7 +147,7 @@ public class DBServiceTest {
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute("test", "test");
         ctx.setAttribute("url", "");
-        String expectedKey ="update DEVICE_AUTHENTICATION set USER_NAME = '' , PORT_NUMBER = 0, URL = ''  where VNF_TYPE = $vnf-type  AND PROTOCOL = $device-protocol AND  ACTION = $action";
+        String expectedKey ="update DEVICE_AUTHENTICATION set USER_NAME = $user-name , PORT_NUMBER = $port-number , URL = $url  where VNF_TYPE = $vnf-type  AND PROTOCOL = $device-protocol AND  ACTION = $action";
         boolean isUpdate = true;
         dbService.processDeviceAuthentication(ctx, isUpdate);
         assertEquals(expectedKey,ctx.getAttribute("keys"));
@@ -161,11 +166,22 @@ public class DBServiceTest {
 
     @Test
     public void testProcessDeviceInterfaceProtocol() throws Exception {
-        MockDBService dbService = MockDBService.initialise();
+        DbLibService mockDbLibService = mock(DbLibService.class);
+        DBService dbService = new DBService(mockDbLibService);
         SvcLogicContext ctx = new SvcLogicContext();
-        ctx.setAttribute("test", "test");
+        ctx.setAttribute(SdcArtifactHandlerConstants.DEVICE_PROTOCOL, "testDeviceProtocol");
+        ctx.setAttribute(SdcArtifactHandlerConstants.VNF_TYPE, "testVnfType");
         boolean isUpdate = true;
+        String expectedStatement = "update DEVICE_INTERFACE_PROTOCOL set PROTOCOL = ?"
+                +" , DG_RPC = 'getDeviceRunningConfig'"
+                + " , MODULE = 'APPC' " + "where VNF_TYPE = ? ";
+        ArrayList<String> expectedArguments = new ArrayList<>();
+        expectedArguments.add("testDeviceProtocol");
+        expectedArguments.add("testVnfType");
+        when(mockDbLibService.writeData(any(), any(), any())).thenReturn(true);
         dbService.processDeviceInterfaceProtocol(ctx, isUpdate);
+        verify(mockDbLibService,times(1)).writeData(expectedStatement, expectedArguments, null);
+        
     }
 
     @Test
@@ -213,12 +229,6 @@ public class DBServiceTest {
         ctx.setAttribute("test", "test");
         ctx.setAttribute(SdcArtifactHandlerConstants.DEVICE_PROTOCOL, "CLI");
         assertEquals("TestDG", dbService.getDownLoadDGReference(ctx));
-    }
-
-    @Test
-    public void testInitialise() {
-        DBService dbService = DBService.initialise();
-        assertNotNull(dbService);
     }
 
     @Test

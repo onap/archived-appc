@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
@@ -28,8 +28,8 @@ package org.onap.appc.artifact.handler.dbservices;
 public class MockDBService extends DBService {
     private static MockDBService mockDgGeneralDBService = null;
     private static MockDBService mockDgGeneralDBServiceFailure = null;
-    private static MockSvcLogicResource serviceLogic = new MockSvcLogicResource();
-    private static MockSvcLogicResourceFailure serviceLogicFailure = new MockSvcLogicResourceFailure();
+    private static MockDbLibServiceQueries serviceLogic = new MockDbLibServiceQueries();
+    private static MockDbLibServiceQueriesFailure serviceLogicFailure = new MockDbLibServiceQueriesFailure();
 
 
     public MockDBService() {
@@ -39,15 +39,16 @@ public class MockDBService extends DBService {
         }
     }
 
-    public MockDBService(MockSvcLogicResource serviceLogic2) {
+    public MockDBService(MockDbLibServiceQueries serviceLogic2) {
         super(serviceLogic);
     }
 
-    public MockDBService(MockSvcLogicResourceFailure serviceLogic2) {
+    public MockDBService(MockDbLibServiceQueriesFailure serviceLogic2) {
         super(serviceLogicFailure);
     }
 
     public static MockDBService initialise() {
+        System.out.println("tesateas");
         if (mockDgGeneralDBService == null) {
             mockDgGeneralDBService = new MockDBService(serviceLogic);
         }
