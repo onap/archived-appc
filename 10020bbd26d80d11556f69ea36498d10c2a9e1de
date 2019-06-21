@@ -22,6 +22,30 @@
       "revId": "10020bbd26d80d11556f69ea36498d10c2a9e1de",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "689e46cf_8acae4dc",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/SshJcraftWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2019-06-21T14:16:30Z",
+      "side": 0,
+      "message": "The assumption here is the routerResponse will contain the request command sent to router. But when i debug, I didnt find the request command in the response. The reason it was working before is,the response from the node has,\n\u003c?xml version\u003d\"1.0\" encoding\u003d\"UTF-8\"?\u003e\n\u003crpc-reply xmlns\u003d\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id\u003d\"1\"\u003e\n    \u003cdata\u003e\n\nThis method eliminates \u003c?xml version\u003d\"1.0\" encoding\u003d\"UTF-8\"?\u003e from the response.",
+      "parentUuid": "04e38560_caa4ccc1",
+      "range": {
+        "startLine": 657,
+        "startChar": 49,
+        "endLine": 657,
+        "endChar": 50
+      },
+      "revId": "10020bbd26d80d11556f69ea36498d10c2a9e1de",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }

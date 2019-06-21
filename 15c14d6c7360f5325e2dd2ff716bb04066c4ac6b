@@ -22,6 +22,30 @@
       "revId": "15c14d6c7360f5325e2dd2ff716bb04066c4ac6b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "703fa6f4_6bbae936",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/ConfigComponentAdaptor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1061,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2019-06-21T14:16:30Z",
+      "side": 1,
+      "message": "The response from the node is \u003cdata xmlns\u003d\"urn:ietf:params:xml:ns:netconf:base:1.0\"\u003e\nThe trimResponse() failed to detect this element.",
+      "parentUuid": "4789cbfb_5333d47b",
+      "range": {
+        "startLine": 1061,
+        "startChar": 47,
+        "endLine": 1061,
+        "endChar": 48
+      },
+      "revId": "15c14d6c7360f5325e2dd2ff716bb04066c4ac6b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
