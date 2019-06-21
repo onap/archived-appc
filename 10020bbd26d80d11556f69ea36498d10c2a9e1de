@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04e38560_caa4ccc1",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/SshJcraftWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2019-06-21T13:10:58Z",
+      "side": 0,
+      "message": "not sure why this line is not needed any more",
+      "range": {
+        "startLine": 657,
+        "startChar": 49,
+        "endLine": 657,
+        "endChar": 50
+      },
+      "revId": "10020bbd26d80d11556f69ea36498d10c2a9e1de",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
