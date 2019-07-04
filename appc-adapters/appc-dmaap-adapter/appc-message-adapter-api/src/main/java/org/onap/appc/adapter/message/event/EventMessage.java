@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modification Copyright (C) 2019 IBM
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -56,9 +58,9 @@ public class EventMessage implements Serializable {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     @JsonProperty("eventHeader")
-    private EventHeader eventHeader;
+    private transient EventHeader eventHeader;
     @JsonProperty("eventStatus")
-    private EventStatus eventStatus;
+    private transient EventStatus eventStatus;
 
     public EventMessage(EventHeader eventHeader, EventStatus eventStatus) {
         this.eventHeader = eventHeader;
