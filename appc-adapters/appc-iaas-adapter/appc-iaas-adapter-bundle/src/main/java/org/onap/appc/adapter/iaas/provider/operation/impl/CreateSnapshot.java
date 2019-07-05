@@ -6,7 +6,7 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
- * Modifications Copyright (C) 2018 IBM.
+ * Modifications Copyright (C) 2018-2019 IBM.
  * ================================================================================
  * Modifications (C) 2019 Ericsson
  * =============================================================================
@@ -178,7 +178,7 @@ public class CreateSnapshot extends ProviderServerOperation {
                 }
                 // Always perform Hypervisor check
                 // unless the skip is set to true
-                if (skipHypervisorCheck == null || (!skipHypervisorCheck.equalsIgnoreCase("true"))) {
+                if (skipHypervisorCheck == null || (!"true".equalsIgnoreCase(skipHypervisorCheck))) {
                     // Check of the Hypervisor for the VM Server is UP and reachable
                     checkHypervisor(server);
                 }
