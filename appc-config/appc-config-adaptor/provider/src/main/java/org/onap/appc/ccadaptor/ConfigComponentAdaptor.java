@@ -207,7 +207,6 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
                             Thread.sleep(1000l * 180);
                             DebugLog.printRTAriDebug(fnName, "Woke up....");
                         } catch (java.lang.InterruptedException ee) {
-                            boolean ignore = true;
                             Thread.currentThread().interrupt();
                         }
                     } else {
