@@ -220,7 +220,7 @@ public class RebuildServer extends ProviderServerOperation {
         }
         // Always perform Hypervisor Status checks
         // unless the skip is set to true
-        if (skipHypervisorCheck == null || (!skipHypervisorCheck.equalsIgnoreCase("true"))) {
+        if (skipHypervisorCheck == null || (!"true".equalsIgnoreCase(skipHypervisorCheck))) {
             // Check of the Hypervisor for the VM Server is UP and reachable
             checkHypervisor(server);
         }
