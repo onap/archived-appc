@@ -59,7 +59,6 @@ public class RebootServer extends ProviderServerOperation {
     private static final Configuration config = ConfigurationFactory.getConfiguration();
     private static final Integer NO_OF_ATTEMPTS = 30;
     private static final Integer RETRY_INTERVAL = 10;
-    private static final int MILLI_SECONDS = 1000;
 
     @Override
     protected ModelObject executeProviderOperation(Map<String, String> params, SvcLogicContext context)
