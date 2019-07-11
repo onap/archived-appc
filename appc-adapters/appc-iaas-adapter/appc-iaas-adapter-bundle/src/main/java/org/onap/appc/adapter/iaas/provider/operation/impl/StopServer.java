@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (c) 2019 IBM
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -197,7 +199,7 @@ public class StopServer extends ProviderServerOperation {
     }
 
     private void setTimeForMetricsLogger() {
-        String timestamp = LoggingUtils.generateTimestampStr(((Date) new Date()).toInstant());
+        String timestamp = LoggingUtils.generateTimestampStr((new Date()).toInstant());
         MDC.put(LoggingConstants.MDCKeys.BEGIN_TIMESTAMP, timestamp);
         MDC.put(LoggingConstants.MDCKeys.END_TIMESTAMP, timestamp);
         MDC.put(LoggingConstants.MDCKeys.ELAPSED_TIME, "0");
