@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2019 IBM
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -23,10 +25,13 @@
 
 package org.onap.appc.adapter.message.event;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class EventHeader {
+public class EventHeader implements Serializable {
 
+	private static final long serialVersionUID = 1L;
     @JsonProperty("eventTime")
     private final String eventTime;
 
