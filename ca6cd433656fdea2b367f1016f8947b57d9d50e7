@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "421b402a_cf743908",
+        "filename": "appc-adapters/appc-dmaap-adapter/appc-message-adapter-api/src/main/java/org/onap/appc/adapter/message/event/EventHeader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-07-15T13:38:42Z",
+      "side": 1,
+      "message": "fix indentation",
+      "revId": "ca6cd433656fdea2b367f1016f8947b57d9d50e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8172d12_1acc54f4",
+        "filename": "appc-adapters/appc-dmaap-adapter/appc-message-adapter-api/src/main/java/org/onap/appc/adapter/message/event/EventStatus.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-07-15T13:38:42Z",
+      "side": 1,
+      "message": "fix indentation",
+      "revId": "ca6cd433656fdea2b367f1016f8947b57d9d50e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
