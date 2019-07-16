@@ -1101,9 +1101,8 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
         System.out.println("*************************Hello*****************************");
         ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
         String Get_config_template = _readFile("/home/userID/data/Get_config_template");
-        String Download_config_template = _readFile("/home/userID/data/Download_config_template_2");
         String key = "GetCliRunningConfig";
-        Map<String, String> parameters = new HashMap();
+        Map<String, String> parameters = new HashMap<>();
         parameters.put("Host_ip_address", "000.00.000.00");
         parameters.put("User_name", "root");
         parameters.put("Password", "!bootstrap");
