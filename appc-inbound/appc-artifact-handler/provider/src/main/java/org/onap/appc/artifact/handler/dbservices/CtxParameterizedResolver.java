@@ -79,7 +79,8 @@ public class CtxParameterizedResolver {
             if (term != null) {
                 term = term.replaceAll("'", "''");
             }
-            arguments.add(term);
+            //valueOf will store null values as a String "null"
+            arguments.add(String.valueOf(term));
             return "?";
         } else {
             return (term);

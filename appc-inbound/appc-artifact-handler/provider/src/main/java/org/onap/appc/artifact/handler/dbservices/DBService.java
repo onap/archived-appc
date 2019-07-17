@@ -104,6 +104,7 @@ public class DBService {
         if (dblib != null && ctx != null) {
             String key = "select max(ASDC_ARTIFACTS_ID) as id from ASDC_ARTIFACTS  WHERE ARTIFACT_NAME = ?";
             ArrayList<String> arguments = new ArrayList<>();
+            arguments.add(artifactName);
             log.info("Getting Artifact ID String :" + key);
             status = dblib.query(key, ctx, arguments);
             if (status.toString().equals(FAILURE_PARAM)) {
