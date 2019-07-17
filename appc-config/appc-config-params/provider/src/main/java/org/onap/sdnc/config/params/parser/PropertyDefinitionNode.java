@@ -28,7 +28,6 @@ import com.att.eelf.configuration.EELFManager;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.google.common.collect.Lists;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -277,7 +276,8 @@ public class PropertyDefinitionNode implements SvcLogicJavaPlugin {
         } else {
             log.info("Creating/Adding New System Key " + parameter.getName() + ":"
                 + mapper.writeValueAsString(parameter));
-            List<String> l = Lists.newArrayList(parameter.getName());
+            List<String> l = new ArrayList<>();
+            l.add(parameter.getName());
             systemKeysMap.put(source, l);
         }
     }
