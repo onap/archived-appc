@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f614dfc_c6a32799",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/ConfigComponentAdaptor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1104,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2019-07-17T00:30:40Z",
+      "side": 0,
+      "message": "the Download_config_template is using in other code. I think we need to keep it.",
+      "revId": "c8783f0346c69d00ca686a07cb418db751598bb2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
