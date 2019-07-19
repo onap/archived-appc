@@ -99,7 +99,6 @@ limitations under the License.
         <odl.ietf-inet-types.version>1.5.1</odl.ietf-inet-types.version>
         <odl.controller.config.api.version>0.7.1</odl.controller.config.api.version>
         <odl.commons.opendaylight.version>2.0.5</odl.commons.opendaylight.version>
-        <odl.karaf.empty.distro.version>1.8.3-Carbon</odl.karaf.empty.distro.version>
 
     </properties>
 
@@ -262,12 +261,6 @@ limitations under the License.
                 <version>${odl.mdsal.features.version}</version>
                 <classifier>features</classifier>
                 <type>xml</type>
-            </dependency>
-            <dependency>
-                <groupId>org.opendaylight.controller</groupId>
-                <artifactId>opendaylight-karaf-empty</artifactId>
-                <version>${odl.karaf.empty.distro.version}</version>
-                <type>zip</type>
             </dependency>
             <dependency>
                 <groupId>org.opendaylight.mdsal.model</groupId>

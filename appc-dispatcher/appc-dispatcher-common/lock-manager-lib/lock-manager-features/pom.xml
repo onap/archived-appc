@@ -70,32 +70,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--<plugin>
-              &lt;!&ndash; launches the feature test, which validates that your karaf feature
-                can be installed inside of a karaf container. It doesn't validate that your
-                functionality works correctly, just that you have all of the dependent bundles
-                defined correctly. &ndash;&gt;
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-surefire-plugin</artifactId>
-              <version>2.16</version>
-              <configuration>
-                <systemPropertyVariables>
-                  <karaf.distro.groupId>org.opendaylight.controller</karaf.distro.groupId>
-                  <karaf.distro.artifactId>opendaylight-karaf-empty</karaf.distro.artifactId>
-                  <karaf.distro.version>${odl.karaf.empty.distro.version}</karaf.distro.version>
-                </systemPropertyVariables>
-                <dependenciesToScan>
-                  <dependency>org.opendaylight.yangtools:features-test</dependency>
-                </dependenciesToScan>
-                <classpathDependencyExcludes>
-                  &lt;!&ndash; The dependencies which bring in AbstractDataBrokerTest class
-                    brings in a second PaxExam container which results in the feature tests failing
-                    with a message similar to: "ERROR o.ops4j.pax.exam.spi.PaxExamRuntime - Ambiguous
-                    TestContainer ..." This excludes the container we don't want to use. &ndash;&gt;
-                  <classpathDependencyExcludes>org.ops4j.pax.exam:pax-exam-container-native</classpathDependencyExcludes>
-                </classpathDependencyExcludes>
-              </configuration>
-            </plugin>-->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>

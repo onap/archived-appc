@@ -55,14 +55,6 @@
         </dependency>
 
 
-        <!-- dependency for opendaylight-karaf-empty for use by testing -->
-        <dependency>
-            <groupId>org.opendaylight.controller</groupId>
-            <artifactId>opendaylight-karaf-empty</artifactId>
-            <type>zip</type>
-        </dependency>
-
-
         <dependency>
             <!-- Required for launching the feature tests -->
             <groupId>org.opendaylight.odlparent</groupId>
