@@ -70,10 +70,23 @@ public class DbLibServiceQueries {
     public QueryStatus query(String query, SvcLogicContext ctx) {
         ArrayList<String> arguments = new ArrayList<>();
         query = CtxParameterizedResolver.resolveCtxVars(query, ctx, arguments);
-        return query(query, ctx, arguments);
+        return performQuery(query, ctx, null, arguments);
+    }
+    
+    public QueryStatus query(String query, String prefix, SvcLogicContext ctx) {
+        ArrayList<String> arguments = new ArrayList<>();
+        query = CtxParameterizedResolver.resolveCtxVars(query, ctx, arguments);
+        return performQuery(query, ctx, prefix, arguments);
     }
     
     public QueryStatus query(String query, SvcLogicContext ctx, ArrayList<String> arguments) {
+        return performQuery(query, ctx, null, valueOfArrayList(arguments));
+    }
+    public QueryStatus query(String query, SvcLogicContext ctx, String prefix, ArrayList<String> arguments) {
+        return performQuery(query, ctx, prefix, valueOfArrayList(arguments));
+    }
+    
+    private QueryStatus performQuery(String query, SvcLogicContext ctx, String prefix, ArrayList<String> arguments) {
         
         CachedRowSet result = null;
         try {
@@ -82,7 +95,7 @@ public class DbLibServiceQueries {
                 log.debug("No data found");
                 return QueryStatus.NOT_FOUND;
             } else {
-                CtxParameterizedResolver.saveCachedRowSetToCtx(result, ctx, null, dbLibService);
+                CtxParameterizedResolver.saveCachedRowSetToCtx(result, ctx, prefix, dbLibService);
             }
         } catch (SQLException e) {
             log.error("Exception in query()",e);
@@ -94,10 +107,14 @@ public class DbLibServiceQueries {
     public QueryStatus save(String query, SvcLogicContext ctx) {
         ArrayList<String> arguments = new ArrayList<>();
         query = CtxParameterizedResolver.resolveCtxVars(query, ctx, arguments);
-        return save(query,ctx,arguments);
+        return performSave(query, arguments);
     }
     
     public QueryStatus save(String query, SvcLogicContext ctx, ArrayList<String> arguments) {
+        return performSave(query, valueOfArrayList(arguments));
+    }
+    
+    private QueryStatus performSave(String query, ArrayList<String> arguments) {
         boolean success = false;
         try {
             success = dbLibService.writeData(query, arguments, null);
@@ -149,6 +166,17 @@ public class DbLibServiceQueries {
             }
         }
         return dbLibService;
+    }
+    
+    //By using String.valueOf on the array list items, we can store any null values as
+    //Strings with the value "null". This mirrors the way queries worked prior to the
+    //prepared statements.
+    private ArrayList<String> valueOfArrayList(ArrayList<String> original) {
+        ArrayList<String> valueOfList = new ArrayList<>();
+        for(String s : original) {
+            valueOfList.add(String.valueOf(s));
+        }
+        return valueOfList;
     }
 
 }
