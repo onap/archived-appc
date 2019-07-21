@@ -67,7 +67,7 @@ public class RebootServer extends ProviderServerOperation {
         return rebootServer(params, context);
     }
 
-    private Server rebootServer(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
+    private Server rebootServer(Map<String, String> params, SvcLogicContext ctx){
         Server server = null;
         RequestContext requestContext = new RequestContext(ctx);
         requestContext.isAlive();
