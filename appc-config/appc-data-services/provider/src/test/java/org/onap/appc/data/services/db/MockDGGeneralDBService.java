@@ -21,23 +21,24 @@
 
 package org.onap.appc.data.services.db;
 
+
 public class MockDGGeneralDBService extends DGGeneralDBService {
 
-    private static MockSvcLogicResource serviceLogic = new MockSvcLogicResource();
+    private static MockDbLibServiceQueries dbLibServiceQueries = new MockDbLibServiceQueries();
 
     public MockDGGeneralDBService() {
 
-        super(serviceLogic);
-        serviceLogic = new MockSvcLogicResource();
+        super(dbLibServiceQueries);
+        dbLibServiceQueries = new MockDbLibServiceQueries();
     }
 
-    public MockDGGeneralDBService(MockSvcLogicResource serviceLogic) {
-        super(serviceLogic);
-        this.serviceLogic = serviceLogic;
+    public MockDGGeneralDBService(MockDbLibServiceQueries dbLibServiceQueries) {
+        super(dbLibServiceQueries);
+        this.dbLibServiceQueries = dbLibServiceQueries;
     }
 
     public static MockDGGeneralDBService initialise() {
-        MockDGGeneralDBService mockDGGeneralDBService = new MockDGGeneralDBService(serviceLogic);
+        MockDGGeneralDBService mockDGGeneralDBService = new MockDGGeneralDBService(dbLibServiceQueries);
         return mockDGGeneralDBService;
     }
 }
