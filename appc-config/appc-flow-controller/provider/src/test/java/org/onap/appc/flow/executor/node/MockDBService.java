@@ -26,7 +26,7 @@ import org.onap.appc.flow.controller.dbervices.FlowControlDBService;
 
 public class MockDBService extends FlowControlDBService {
      private static MockDBService mockDgGeneralDBService = null;
-        private static MockSvcLogicResource serviceLogic = new MockSvcLogicResource();
+        private static MockDbLibServiceQueries serviceLogic = new MockDbLibServiceQueries();
 
         public MockDBService() {
             super(serviceLogic);
@@ -36,7 +36,7 @@ public class MockDBService extends FlowControlDBService {
 
         }
 
-        public MockDBService(MockSvcLogicResource serviceLogic2) {
+        public MockDBService(MockDbLibServiceQueries serviceLogic2) {
             super(serviceLogic);
         }
 

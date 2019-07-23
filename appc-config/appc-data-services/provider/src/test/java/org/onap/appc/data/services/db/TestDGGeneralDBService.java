@@ -26,11 +26,21 @@ package org.onap.appc.data.services.db;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.sql.rowset.CachedRowSet;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.junit.Test;
+import org.onap.ccsdk.sli.core.dblib.DbLibService;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource.QueryStatus;
@@ -268,12 +278,28 @@ public class TestDGGeneralDBService {
 
     @Test
     public void testGetTemplateWithTemplateModelId() throws Exception {
-        MockDGGeneralDBService dbService =     MockDGGeneralDBService.initialise();
+        DbLibService mockDbLibService = mock(DbLibService.class);
+        CachedRowSet mockCachedRowSet = mock(CachedRowSet.class);
+        when(mockCachedRowSet.next()).thenReturn(false);
+        DGGeneralDBService dbService = new DGGeneralDBService(mockDbLibService);
         SvcLogicContext ctx = new SvcLogicContext();
-        String prefix="test";
-        String templateModelId = "template001";
-        String fileCategory="testCategory";
-        dbService.getTemplateWithTemplateModelId(ctx, prefix, fileCategory, templateModelId);
+        ctx.setAttribute("request-action", "testRequestAction");
+        ctx.setAttribute("vnf-type", "testVnfType");
+        ctx.setAttribute("vnfc-type", "testVnfcType");
+        String expectedStatement = "SELECT artifact_content file_content , asdc_artifacts_id config_file_id FROM ASDC_ARTIFACTS WHERE"
+                + " asdc_artifacts_id = ( SELECT MAX(a.asdc_artifacts_id) configfileid FROM ASDC_ARTIFACTS a, ASDC_REFERENCE b"
+                + " WHERE a.artifact_name = b.artifact_name AND file_category = ? AND action = ? AND vnf_type = ? AND vnfc_type = ? )"
+                + " and ASDC_ARTIFACTS.artifact_name like ? ; ";
+        ArrayList<String> expectedArguments = new ArrayList<>();
+        expectedArguments.add("testFileCategory");
+        expectedArguments.add("testRequestAction");
+        expectedArguments.add("testVnfType");
+        expectedArguments.add("testVnfcType");
+        String templateModelId = "testTemplateModelId";
+        expectedArguments.add("%_"+ templateModelId +"%");
+        when(mockDbLibService.getData(any(), any(), any())).thenReturn(mockCachedRowSet);
+        dbService.getTemplateWithTemplateModelId(ctx, "testPrefix", "testFileCategory", templateModelId);
+        verify(mockDbLibService,times(1)).getData(expectedStatement, expectedArguments, null);
     }
 
     @Test

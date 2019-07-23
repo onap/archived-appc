@@ -21,6 +21,7 @@
 
 package org.onap.appc.data.services.db;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
@@ -28,20 +29,40 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource.QueryStatus;
 import org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource;
 
-public class MockSvcLogicResource extends SqlResource {
+public class MockDbLibServiceQueries extends DbLibServiceQueries {
 
-
+    public MockDbLibServiceQueries() {
+        super(null,true);
+    }
 
     @Override
-    public QueryStatus query(String resource, boolean localOnly, String select, String key, String prefix,
-            String orderBy, SvcLogicContext ctx) throws SvcLogicException {
+    public QueryStatus query(String query, SvcLogicContext ctx, String prefix, ArrayList<String> arguments) {
+
+        return QueryStatus.SUCCESS;
+    }
+    @Override
+    public QueryStatus query(String query, SvcLogicContext ctx, ArrayList<String> arguments) {
+
+        return QueryStatus.SUCCESS;
+    }
+    @Override
+    public QueryStatus query(String query, String prefix, SvcLogicContext ctx) {
+
+        return QueryStatus.SUCCESS;
+    }
+    @Override
+    public QueryStatus query(String query, SvcLogicContext ctx) {
 
         return QueryStatus.SUCCESS;
     }
 
     @Override
-    public QueryStatus save(String resource, boolean force, boolean localOnly, String key, Map<String, String> parms,
-            String prefix, SvcLogicContext ctx) throws SvcLogicException {
+    public QueryStatus save(String query, SvcLogicContext ctx, ArrayList<String> arguments) {
+
+        return QueryStatus.SUCCESS;
+    }
+    @Override
+    public QueryStatus save(String query, SvcLogicContext ctx) {
 
         return QueryStatus.SUCCESS;
     }

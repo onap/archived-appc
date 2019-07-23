@@ -22,6 +22,9 @@
 package org.onap.appc.flow.controller.dbervices;
 
 import static org.junit.Assert.assertNull;
+
+import java.util.ArrayList;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -29,13 +32,15 @@ import org.mockito.Mockito;
 import org.onap.appc.flow.controller.data.Transaction;
 import org.onap.appc.flow.controller.utils.FlowControllerConstants;
 import org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource;
+import org.onap.ccsdk.sli.core.dblib.DbLibService;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource.QueryStatus;
 
 public class FlowControlDBServiceTest {
 
-    private SqlResource sqlResource = Mockito.mock(SqlResource.class);
+    //private DbLibService dbLibService = Mockito.mock(DbLibService.class);
+    private DbLibServiceQueries dblib = Mockito.mock(DbLibServiceQueries.class);
     private FlowControlDBService dbService;
 
     @Rule
@@ -43,12 +48,11 @@ public class FlowControlDBServiceTest {
 
     @Test
     public void testGetFlowReferenceData() throws SvcLogicException {
-        dbService = new FlowControlDBService(sqlResource);
+        dbService = new FlowControlDBService(dblib);
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute(FlowControllerConstants.ACTION_LEVEL, "action_level");
-        Mockito.when(sqlResource.query(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(),
-                Mockito.anyString(), Mockito.anyString(), Mockito.anyString(),
-                Mockito.any(SvcLogicContext.class))).thenReturn(QueryStatus.FAILURE);
+        Mockito.when(dblib.query(Mockito.anyString(), Mockito.any(SvcLogicContext.class)))
+        .thenReturn(QueryStatus.FAILURE);
         expectedEx.expect(SvcLogicException.class);
         expectedEx.expectMessage(FlowControlDBService.GET_FLOW_REF_DATA_ERROR);
         dbService.getFlowReferenceData(ctx, null, new SvcLogicContext());
@@ -56,18 +60,17 @@ public class FlowControlDBServiceTest {
 
     @Test
     public void testGetEndpointByAction() {
-        dbService = new FlowControlDBService(sqlResource);
+        dbService = new FlowControlDBService(dblib);
         assertNull(dbService.getEndPointByAction(null));
     }
 
     @Test
     public void testGetDesignTimeFlowModelFirstQueryException() throws SvcLogicException {
-        dbService = new FlowControlDBService(sqlResource);
+        dbService = new FlowControlDBService(dblib);
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute(FlowControllerConstants.ACTION_LEVEL, "action_level");
-        Mockito.when(sqlResource.query(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(),
-                Mockito.anyString(), Mockito.anyString(), Mockito.anyString(),
-                Mockito.any(SvcLogicContext.class))).thenReturn(QueryStatus.FAILURE);
+        Mockito.when(dblib.query(Mockito.anyString(), Mockito.any(SvcLogicContext.class)))
+        .thenReturn(QueryStatus.FAILURE);
         expectedEx.expect(SvcLogicException.class);
         expectedEx.expectMessage(FlowControlDBService.GET_FLOW_REF_DATA_ERROR);
         dbService.getDesignTimeFlowModel(ctx);
@@ -75,12 +78,11 @@ public class FlowControlDBServiceTest {
 
     @Test
     public void testGetDesignTimeFlowModelSecondQueryException() throws SvcLogicException {
-        dbService = new FlowControlDBService(sqlResource);
+        dbService = new FlowControlDBService(dblib);
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute(FlowControllerConstants.ACTION_LEVEL, "action_level");
-        Mockito.when(sqlResource.query(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(),
-                Mockito.anyString(), Mockito.anyString(), Mockito.anyString(),
-                Mockito.any(SvcLogicContext.class))).thenReturn(QueryStatus.SUCCESS).thenReturn(QueryStatus.FAILURE);
+        Mockito.when(dblib.query(Mockito.anyString(), Mockito.any(SvcLogicContext.class)))
+        .thenReturn(QueryStatus.SUCCESS).thenReturn(QueryStatus.FAILURE);
         expectedEx.expect(SvcLogicException.class);
         expectedEx.expectMessage(FlowControlDBService.GET_FLOW_REF_DATA_ERROR);
         dbService.getDesignTimeFlowModel(ctx);
@@ -88,17 +90,16 @@ public class FlowControlDBServiceTest {
 
     @Test
     public void testGetDesignTimeFlowModelNullLocalContext() throws SvcLogicException {
-        dbService = new FlowControlDBService(sqlResource);
+        dbService = new FlowControlDBService(dblib);
         assertNull(dbService.getDesignTimeFlowModel(null));
     }
 
     @Test
     public void testLoadSequenceIntoDb() throws SvcLogicException {
-        dbService = new FlowControlDBService(sqlResource);
+        dbService = new FlowControlDBService(dblib);
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute(FlowControllerConstants.ACTION_LEVEL, "action_level");
-        Mockito.when(sqlResource.save(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyBoolean(), Mockito.anyString(),
-                Mockito.any(), Mockito.anyString(), Mockito.any(SvcLogicContext.class)))
+        Mockito.when(dblib.save(Mockito.anyString(), Mockito.any(SvcLogicContext.class)))
                 .thenReturn(QueryStatus.FAILURE);
         expectedEx.expect(SvcLogicException.class);
         expectedEx.expectMessage("Error While processing storing Artifact: ");
@@ -107,12 +108,12 @@ public class FlowControlDBServiceTest {
 
     @Test
     public void testGetProtocolTypeFirstException() throws SvcLogicException {
-        dbService = new FlowControlDBService(sqlResource);
+        dbService = new FlowControlDBService(dblib);
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute(FlowControllerConstants.ACTION_LEVEL, "action_level");
-        Mockito.when(sqlResource.query(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(),
-                Mockito.anyString(), Mockito.anyString(), Mockito.anyString(),
-                Mockito.any(SvcLogicContext.class))).thenReturn(QueryStatus.FAILURE);
+        Mockito.when(dblib.query(Mockito.anyString(), Mockito.any(SvcLogicContext.class),
+                Mockito.any(ArrayList.class)))
+                .thenReturn(QueryStatus.FAILURE);
         expectedEx.expect(SvcLogicException.class);
         expectedEx.expectMessage(FlowControlDBService.GET_FLOW_REF_DATA_ERROR);
         dbService.populateModuleAndRPC(new Transaction(), "vnf_type");
@@ -120,12 +121,12 @@ public class FlowControlDBServiceTest {
 
     @Test
     public void testGetProtocolTypeSecondException() throws SvcLogicException {
-        dbService = Mockito.spy(new FlowControlDBService(sqlResource));
+        dbService = Mockito.spy(new FlowControlDBService(dblib));
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute(FlowControlDBService.COUNT_PROTOCOL_PARAM, "1");
-        Mockito.when(sqlResource.query(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(),
-                Mockito.anyString(), Mockito.anyString(), Mockito.anyString(),
-                Mockito.any(SvcLogicContext.class))).thenReturn(QueryStatus.SUCCESS).thenReturn(QueryStatus.FAILURE);
+        Mockito.when(dblib.query(Mockito.anyString(), Mockito.any(SvcLogicContext.class),
+                Mockito.any(ArrayList.class)))
+                .thenReturn(QueryStatus.SUCCESS).thenReturn(QueryStatus.FAILURE);
         Mockito.when(dbService.getSvcLogicContext()).thenReturn(ctx);
         expectedEx.expect(SvcLogicException.class);
         expectedEx.expectMessage(FlowControlDBService.GET_FLOW_REF_DATA_ERROR);
@@ -134,12 +135,12 @@ public class FlowControlDBServiceTest {
 
     @Test
     public void testHasSingleProtocolFirstException() throws SvcLogicException {
-        dbService = Mockito.spy(new FlowControlDBService(sqlResource));
+        dbService = Mockito.spy(new FlowControlDBService(dblib));
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute(FlowControlDBService.COUNT_PROTOCOL_PARAM, "2");
-        Mockito.when(sqlResource.query(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(),
-                Mockito.anyString(), Mockito.anyString(), Mockito.anyString(),
-                Mockito.any(SvcLogicContext.class))).thenReturn(QueryStatus.SUCCESS).thenReturn(QueryStatus.FAILURE);
+        Mockito.when(dblib.query(Mockito.anyString(), Mockito.any(SvcLogicContext.class), 
+                Mockito.any(ArrayList.class)))
+                .thenReturn(QueryStatus.SUCCESS).thenReturn(QueryStatus.FAILURE);
         Mockito.when(dbService.getSvcLogicContext()).thenReturn(ctx);
         expectedEx.expect(SvcLogicException.class);
         expectedEx.expectMessage(FlowControlDBService.GET_FLOW_REF_DATA_ERROR);
@@ -149,12 +150,12 @@ public class FlowControlDBServiceTest {
 
     @Test
     public void testHasSingleProtocolSecondException() throws SvcLogicException {
-        dbService = Mockito.spy(new FlowControlDBService(sqlResource));
+        dbService = Mockito.spy(new FlowControlDBService(dblib));
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute(FlowControlDBService.COUNT_PROTOCOL_PARAM, "2");
-        Mockito.when(sqlResource.query(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(),
-                Mockito.anyString(), Mockito.anyString(), Mockito.anyString(),
-                Mockito.any(SvcLogicContext.class))).thenReturn(QueryStatus.SUCCESS).thenReturn(QueryStatus.SUCCESS)
+        Mockito.when(dblib.query(Mockito.anyString(), Mockito.any(SvcLogicContext.class),
+                Mockito.any(ArrayList.class)))
+        .thenReturn(QueryStatus.SUCCESS).thenReturn(QueryStatus.SUCCESS)
                 .thenReturn(QueryStatus.FAILURE);
         Mockito.when(dbService.getSvcLogicContext()).thenReturn(ctx);
         expectedEx.expect(SvcLogicException.class);
@@ -165,12 +166,12 @@ public class FlowControlDBServiceTest {
 
     @Test
     public void testHasSingleProtocolThirdException() throws SvcLogicException {
-        dbService = Mockito.spy(new FlowControlDBService(sqlResource));
+        dbService = Mockito.spy(new FlowControlDBService(dblib));
         SvcLogicContext ctx = Mockito.spy(new SvcLogicContext());
         Mockito.when(ctx.getAttribute(FlowControlDBService.COUNT_PROTOCOL_PARAM)).thenReturn("2").thenReturn("1");
-        Mockito.when(sqlResource.query(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(),
-                Mockito.anyString(), Mockito.anyString(), Mockito.anyString(),
-                Mockito.any(SvcLogicContext.class))).thenReturn(QueryStatus.SUCCESS).thenReturn(QueryStatus.SUCCESS)
+        Mockito.when(dblib.query(Mockito.anyString(), Mockito.any(SvcLogicContext.class),
+                Mockito.any(ArrayList.class)))
+        .thenReturn(QueryStatus.SUCCESS).thenReturn(QueryStatus.SUCCESS)
                 .thenReturn(QueryStatus.FAILURE);
         Mockito.when(dbService.getSvcLogicContext()).thenReturn(ctx);
         expectedEx.expect(SvcLogicException.class);
@@ -181,12 +182,12 @@ public class FlowControlDBServiceTest {
 
     @Test
     public void testHasSingleProtocolSuccessFlow() throws SvcLogicException {
-        dbService = Mockito.spy(new FlowControlDBService(sqlResource));
+        dbService = Mockito.spy(new FlowControlDBService(dblib));
         SvcLogicContext ctx = Mockito.spy(new SvcLogicContext());
         Mockito.when(ctx.getAttribute(FlowControlDBService.COUNT_PROTOCOL_PARAM)).thenReturn("2").thenReturn("1");
-        Mockito.when(sqlResource.query(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(),
-                Mockito.anyString(), Mockito.anyString(), Mockito.anyString(),
-                Mockito.any(SvcLogicContext.class))).thenReturn(QueryStatus.SUCCESS).thenReturn(QueryStatus.SUCCESS)
+        Mockito.when(dblib.query(Mockito.anyString(), Mockito.any(SvcLogicContext.class),
+                Mockito.any(ArrayList.class)))
+                .thenReturn(QueryStatus.SUCCESS).thenReturn(QueryStatus.SUCCESS)
                 .thenReturn(QueryStatus.SUCCESS);
         Mockito.when(dbService.getSvcLogicContext()).thenReturn(ctx);
         Transaction transaction = Mockito.spy(new Transaction());
@@ -196,12 +197,11 @@ public class FlowControlDBServiceTest {
 
     @Test
     public void testGetDependencyInfoFirstException() throws SvcLogicException {
-        dbService = new FlowControlDBService(sqlResource);
+        dbService = new FlowControlDBService(dblib);
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute(FlowControllerConstants.ACTION_LEVEL, "action_level");
-        Mockito.when(sqlResource.query(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(),
-                Mockito.anyString(), Mockito.anyString(), Mockito.anyString(),
-                Mockito.any(SvcLogicContext.class))).thenReturn(QueryStatus.FAILURE);
+        Mockito.when(dblib.query(Mockito.anyString(), Mockito.any(SvcLogicContext.class)))
+        .thenReturn(QueryStatus.FAILURE);
         expectedEx.expect(SvcLogicException.class);
         expectedEx.expectMessage("Error - while getting dependencydata ");
         dbService.getDependencyInfo(ctx);
@@ -209,12 +209,11 @@ public class FlowControlDBServiceTest {
 
     @Test
     public void testGetDependencyInfoSecondException() throws SvcLogicException {
-        dbService = new FlowControlDBService(sqlResource);
+        dbService = new FlowControlDBService(dblib);
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute(FlowControllerConstants.ACTION_LEVEL, "action_level");
-        Mockito.when(sqlResource.query(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(),
-                Mockito.anyString(), Mockito.anyString(), Mockito.anyString(),
-                Mockito.any(SvcLogicContext.class))).thenReturn(QueryStatus.SUCCESS).thenReturn(QueryStatus.FAILURE);
+        Mockito.when(dblib.query(Mockito.anyString(), Mockito.any(SvcLogicContext.class)))
+        .thenReturn(QueryStatus.SUCCESS).thenReturn(QueryStatus.FAILURE);
         expectedEx.expect(SvcLogicException.class);
         expectedEx.expectMessage("Error - while getting dependencyData ");
         dbService.getDependencyInfo(ctx);
@@ -222,12 +221,11 @@ public class FlowControlDBServiceTest {
 
     @Test
     public void testGetCapabilitiesDataFirstException() throws SvcLogicException {
-        dbService = new FlowControlDBService(sqlResource);
+        dbService = new FlowControlDBService(dblib);
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute(FlowControllerConstants.ACTION_LEVEL, "action_level");
-        Mockito.when(sqlResource.query(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(),
-                Mockito.anyString(), Mockito.anyString(), Mockito.anyString(),
-                Mockito.any(SvcLogicContext.class))).thenReturn(QueryStatus.FAILURE);
+        Mockito.when(dblib.query(Mockito.anyString(), Mockito.any(SvcLogicContext.class)))
+        .thenReturn(QueryStatus.FAILURE);
         expectedEx.expect(SvcLogicException.class);
         expectedEx.expectMessage("Error - while getting capabilitiesData ");
         dbService.getCapabilitiesData(ctx);
@@ -235,12 +233,11 @@ public class FlowControlDBServiceTest {
 
     @Test
     public void testGetCapabilitiesDataSecondException() throws SvcLogicException {
-        dbService = new FlowControlDBService(sqlResource);
+        dbService = new FlowControlDBService(dblib);
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute(FlowControllerConstants.ACTION_LEVEL, "action_level");
-        Mockito.when(sqlResource.query(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(),
-                Mockito.anyString(), Mockito.anyString(), Mockito.anyString(),
-                Mockito.any(SvcLogicContext.class))).thenReturn(QueryStatus.SUCCESS).thenReturn(QueryStatus.FAILURE);
+        Mockito.when(dblib.query(Mockito.anyString(), Mockito.any(SvcLogicContext.class)))
+        .thenReturn(QueryStatus.SUCCESS).thenReturn(QueryStatus.FAILURE);
         expectedEx.expect(SvcLogicException.class);
         expectedEx.expectMessage("Error - while getting capabilitiesData ");
         dbService.getCapabilitiesData(ctx);

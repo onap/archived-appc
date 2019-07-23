@@ -24,12 +24,15 @@ package org.onap.appc.flow.controller.dbervices;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
+
+import java.util.ArrayList;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.onap.appc.flow.controller.data.Transaction;
 import org.onap.appc.flow.controller.utils.EscapeUtils;
 import org.onap.appc.flow.controller.utils.FlowControllerConstants;
 import org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource;
+import org.onap.ccsdk.sli.core.dblib.DbLibService;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
@@ -41,27 +44,24 @@ public class FlowControlDBService {
     private static final String QUERY_STR = "Query String : ";
     private static final String FAILURE_PARAM = "FAILURE";
     protected static final String GET_FLOW_REF_DATA_ERROR = "Error - while getting FlowReferenceData ";
-    private static final String SELECT_AS_QUERY_STR = "select max(internal_version) as maxInternalVersion, artifact_name as artifactName from ";
-    private static final String WHERE_ART_NAME_QUERY_STR = " where artifact_name in (select artifact_name from ";
-    private static final String WHERE_VNF_TYPE_QUERY_STR = " where vnf_type= $";
-    private static final String SELECT_ART_CONTENT_QUERY_STR = "select artifact_content from ";
-    private static final String WHERE_ARTIFACT_NAME_QUERY_STR = " where artifact_name = $artifactName  and internal_version = $maxInternalVersion ";
     private static final String ARTIFACT_CONTENT_PARAM = "artifact-content";
     protected static final String COUNT_PROTOCOL_PARAM = "count(protocol)";
-    private static final String WHERE_ACTION_QUERY_STR = " where action = '";
-    private static final String AND_ACTION_LEVEL_QUERY_STR = " and action_level = '";
 
-    private SvcLogicResource serviceLogic;
+    private DbLibServiceQueries dblib;
     private static FlowControlDBService dgGeneralDBService = null;
 
     private FlowControlDBService() {
-        if (serviceLogic == null) {
-            serviceLogic = new SqlResource();
+        if (dblib== null) {
+            dblib = new DbLibServiceQueries();
         }
     }
 
-    protected FlowControlDBService(SqlResource svcLogic) {
-            serviceLogic = svcLogic;
+    protected FlowControlDBService(DbLibServiceQueries dbLibServiceQueries) {
+            dblib = dbLibServiceQueries;
+    }
+    
+    protected FlowControlDBService(DbLibService dbLibService) {
+        dblib = new DbLibServiceQueries(dbLibService);
     }
 
     public static FlowControlDBService initialise() {
@@ -82,11 +82,11 @@ public class FlowControlDBService {
         }
 
         QueryStatus status;
-        if (serviceLogic != null && localContext != null) {
+        if (dblib != null && localContext != null) {
             String key = "select SEQUENCE_TYPE, CATEGORY, GENERATION_NODE, EXECUTION_NODE from "
                 + FlowControllerConstants.DB_MULTISTEP_FLOW_REFERENCE + whereClause;
             log.debug(fn + QUERY_STR + key);
-            status = serviceLogic.query("SQL", false, null, key, null, null, localContext);
+            status = dblib.query(key, localContext);
             if (status.toString().equals(FAILURE_PARAM)) {
                 throw new SvcLogicException(GET_FLOW_REF_DATA_ERROR);
             }
@@ -100,28 +100,28 @@ public class FlowControlDBService {
     public String getDesignTimeFlowModel(SvcLogicContext localContext) throws SvcLogicException {
         String fn = "DBService.getDesignTimeFlowModel ";
         QueryStatus status;
-        if (serviceLogic != null && localContext != null) {
+        if (dblib != null && localContext != null) {
             String queryString =
-                SELECT_AS_QUERY_STR
-                    + FlowControllerConstants.DB_SDC_ARTIFACTS + WHERE_ART_NAME_QUERY_STR
-                    + FlowControllerConstants.DB_SDC_REFERENCE + WHERE_VNF_TYPE_QUERY_STR
+                "select max(internal_version) as maxInternalVersion, artifact_name as artifactName from "
+                    + FlowControllerConstants.DB_SDC_ARTIFACTS + " where artifact_name in (select artifact_name from "
+                    + FlowControllerConstants.DB_SDC_REFERENCE + " where vnf_type= $"
                     + FlowControllerConstants.VNF_TYPE
                     + " and  vnfc_type = $" + FlowControllerConstants.VNFC_TYPE + " and  action = $"
                     + FlowControllerConstants.REQUEST_ACTION + " and file_category =  $"
                     + FlowControllerConstants.CATEGORY + " )";
 
             log.debug(fn + QUERY_STR + queryString);
-            status = serviceLogic.query("SQL", false, null, queryString, null, null, localContext);
+            status = dblib.query(queryString, localContext);
 
             if (status.toString().equals(FAILURE_PARAM)) {
                 throw new SvcLogicException(GET_FLOW_REF_DATA_ERROR);
             }
 
-            String queryString1 = SELECT_ART_CONTENT_QUERY_STR + FlowControllerConstants.DB_SDC_ARTIFACTS
-                + WHERE_ARTIFACT_NAME_QUERY_STR;
+            String queryString1 = "select artifact_content from " + FlowControllerConstants.DB_SDC_ARTIFACTS
+                + " where artifact_name = $artifactName  and internal_version = $maxInternalVersion ";
 
             log.debug(fn + QUERY_STR + queryString1);
-            status = serviceLogic.query("SQL", false, null, queryString1, null, null, localContext);
+            status = dblib.query(queryString1, localContext);
             if (status.toString().equals(FAILURE_PARAM)) {
                 throw new SvcLogicException(GET_FLOW_REF_DATA_ERROR);
             }
@@ -154,7 +154,7 @@ public class FlowControlDBService {
                 + " , updated_date = sysdate() ";
 
             log.debug(fn + QUERY_STR + queryString);
-            status = serviceLogic.save("SQL", false, false, queryString, null, null, localContext);
+            status = dblib.save(queryString, localContext);
             if (status.toString().equals(FAILURE_PARAM)) {
                 throw new SvcLogicException("Error While processing storing Artifact: "
                     + localContext.getAttribute(FlowControllerConstants.ARTIFACT_NAME));
@@ -171,12 +171,15 @@ public class FlowControlDBService {
         String protocolType = getProtocolType(transaction, vnfType, fn, context);
 
         String key = "select execution_type, execution_module, execution_rpc from "
-            + FlowControllerConstants.DB_PROCESS_FLOW_REFERENCE + WHERE_ACTION_QUERY_STR + transaction.getAction()
-            + "'" + AND_ACTION_LEVEL_QUERY_STR + transaction.getActionLevel() + "'" + " and protocol = '"
-            + protocolType + "'";
+            + FlowControllerConstants.DB_PROCESS_FLOW_REFERENCE + " where action = ? "
+            + "and action_level = ? and protocol = ?";
+        ArrayList<String> arguments = new ArrayList<>();
+        arguments.add(transaction.getAction());
+        arguments.add(transaction.getActionLevel());
+        arguments.add(protocolType);
 
         log.debug(fn + QUERY_STR + key);
-        status = serviceLogic.query("SQL", false, null, key, null, null, context);
+        status = dblib.query(key, context, arguments);
         if (status.toString().equals(FAILURE_PARAM)) {
             throw new SvcLogicException(GET_FLOW_REF_DATA_ERROR);
         }
@@ -193,11 +196,13 @@ public class FlowControlDBService {
         String protocolQuery;
         int protocolCount;
         protocolQuery = "select count(protocol) from " + FlowControllerConstants.DB_PROTOCOL_REFERENCE
-            + WHERE_ACTION_QUERY_STR + transaction.getAction() + "'" + AND_ACTION_LEVEL_QUERY_STR
-            + transaction.getActionLevel() + "'";
+            + " where action = ? and action_level = ?";
+        ArrayList<String> arguments = new ArrayList<>();
+        arguments.add(transaction.getAction());
+        arguments.add(transaction.getActionLevel());
 
         log.debug(fn + QUERY_STR + protocolQuery);
-        status = serviceLogic.query("SQL", false, null, protocolQuery, null, null, context);
+        status = dblib.query(protocolQuery, context, arguments);
         if (status.toString().equals(FAILURE_PARAM)) {
             throw new SvcLogicException(GET_FLOW_REF_DATA_ERROR);
         }
@@ -208,11 +213,13 @@ public class FlowControlDBService {
 
         if (protocolCount == 1) {
             protocolQuery = "select protocol from " + FlowControllerConstants.DB_PROTOCOL_REFERENCE
-                + WHERE_ACTION_QUERY_STR + transaction.getAction() + "'" + AND_ACTION_LEVEL_QUERY_STR
-                + transaction.getActionLevel() + "'";
+                + " where action = ? and action_level = ?";
+            ArrayList<String> arguments2 = new ArrayList<>();
+            arguments2.add(transaction.getAction());
+            arguments2.add(transaction.getActionLevel());
 
             log.debug(fn + QUERY_STR + protocolQuery);
-            status = serviceLogic.query("SQL", false, null, protocolQuery, null, null, context);
+            status = dblib.query(protocolQuery, context, arguments2);
             if (status.toString().equals(FAILURE_PARAM)) {
                 throw new SvcLogicException(GET_FLOW_REF_DATA_ERROR);
             }
@@ -231,11 +238,14 @@ public class FlowControlDBService {
         QueryStatus status;
         int protocolCount;
         protocolQuery = "select count(protocol) from " + FlowControllerConstants.DB_PROTOCOL_REFERENCE
-            + WHERE_ACTION_QUERY_STR + transaction.getAction() + "'" + AND_ACTION_LEVEL_QUERY_STR
-            + transaction.getActionLevel() + "'" + " and vnf_type = '" + vnfType + "'";
+            + " where action = ? and action_level = ? and vnf_type = ?";
+        ArrayList<String> arguments = new ArrayList<>();
+        arguments.add(transaction.getAction());
+        arguments.add(transaction.getActionLevel());
+        arguments.add(vnfType);
 
         log.debug(fn + QUERY_STR + protocolQuery);
-        status = serviceLogic.query("SQL", false, null, protocolQuery, null, null, context);
+        status = dblib.query(protocolQuery, context, arguments);
         if (status.toString().equals(FAILURE_PARAM)) {
             throw new SvcLogicException(GET_FLOW_REF_DATA_ERROR);
         }
@@ -246,10 +256,13 @@ public class FlowControlDBService {
             throw new SvcLogicException("Got more than 2 values..");
         } else if (protocolCount == 1) {
             protocolQuery = "select protocol from " + FlowControllerConstants.DB_PROTOCOL_REFERENCE
-                + WHERE_ACTION_QUERY_STR + transaction.getAction() + "'" + AND_ACTION_LEVEL_QUERY_STR
-                + transaction.getActionLevel() + "'" + " and vnf_type = '" + vnfType + "'";
+                + " where action = ? and action_level = ? and vnf_type = ?";
+            ArrayList<String> arguments2 = new ArrayList<>();
+            arguments2.add(transaction.getAction());
+            arguments2.add(transaction.getActionLevel());
+            arguments2.add(vnfType);
             log.debug(fn + QUERY_STR + protocolQuery);
-            status = serviceLogic.query("SQL", false, null, protocolQuery, null, null, context);
+            status = dblib.query(protocolQuery, context, arguments2);
             if (status.toString().equals(FAILURE_PARAM)) {
                 throw new SvcLogicException(GET_FLOW_REF_DATA_ERROR);
             }
@@ -261,26 +274,26 @@ public class FlowControlDBService {
     public String getDependencyInfo(SvcLogicContext localContext) throws SvcLogicException {
         String fn = "DBService.getDependencyInfo ";
         QueryStatus status;
-        if (serviceLogic != null && localContext != null) {
+        if (dblib != null && localContext != null) {
             String queryString =
-                SELECT_AS_QUERY_STR
-                    + FlowControllerConstants.DB_SDC_ARTIFACTS + WHERE_ART_NAME_QUERY_STR
-                    + FlowControllerConstants.DB_SDC_REFERENCE + WHERE_VNF_TYPE_QUERY_STR
+                "select max(internal_version) as maxInternalVersion, artifact_name as artifactName from "
+                    + FlowControllerConstants.DB_SDC_ARTIFACTS + " where artifact_name in (select artifact_name from "
+                    + FlowControllerConstants.DB_SDC_REFERENCE + " where vnf_type= $"
                     + FlowControllerConstants.VNF_TYPE
                     + " and file_category = '" + FlowControllerConstants.DEPENDENCYMODEL + "' )";
 
             log.debug(fn + QUERY_STR + queryString);
-            status = serviceLogic.query("SQL", false, null, queryString, null, null, localContext);
+            status = dblib.query(queryString, localContext);
 
             if (status.toString().equals(FAILURE_PARAM)) {
                 throw new SvcLogicException("Error - while getting dependencydata ");
             }
 
-            String queryString1 = SELECT_ART_CONTENT_QUERY_STR + FlowControllerConstants.DB_SDC_ARTIFACTS
-                + WHERE_ARTIFACT_NAME_QUERY_STR;
+            String queryString1 = "select artifact_content from " + FlowControllerConstants.DB_SDC_ARTIFACTS
+                + " where artifact_name = $artifactName  and internal_version = $maxInternalVersion ";
 
             log.debug(fn + QUERY_STR + queryString1);
-            status = serviceLogic.query("SQL", false, null, queryString1, null, null, localContext);
+            status = dblib.query(queryString1, localContext);
             if (status.toString().equals(FAILURE_PARAM)) {
                 throw new SvcLogicException("Error - while getting dependencyData ");
             }
@@ -293,26 +306,26 @@ public class FlowControlDBService {
     public String getCapabilitiesData(SvcLogicContext localContext) throws SvcLogicException {
         String fn = "DBService.getCapabilitiesData ";
         QueryStatus status;
-        if (serviceLogic != null && localContext != null) {
+        if (dblib != null && localContext != null) {
             String queryString =
-                SELECT_AS_QUERY_STR
-                    + FlowControllerConstants.DB_SDC_ARTIFACTS + WHERE_ART_NAME_QUERY_STR
-                    + FlowControllerConstants.DB_SDC_REFERENCE + WHERE_VNF_TYPE_QUERY_STR
+                "select max(internal_version) as maxInternalVersion, artifact_name as artifactName from "
+                    + FlowControllerConstants.DB_SDC_ARTIFACTS + " where artifact_name in (select artifact_name from "
+                    + FlowControllerConstants.DB_SDC_REFERENCE + " where vnf_type= $"
                     + FlowControllerConstants.VNF_TYPE
                     + " and file_category = '" + FlowControllerConstants.CAPABILITY + "' )";
 
             log.info(fn + QUERY_STR + queryString);
-            status = serviceLogic.query("SQL", false, null, queryString, null, null, localContext);
+            status = dblib.query(queryString, localContext);
 
             if (status.toString().equals(FAILURE_PARAM)) {
                 throw new SvcLogicException("Error - while getting capabilitiesData ");
             }
 
-            String queryString1 = SELECT_ART_CONTENT_QUERY_STR + FlowControllerConstants.DB_SDC_ARTIFACTS
-                + WHERE_ARTIFACT_NAME_QUERY_STR;
+            String queryString1 = "select artifact_content from " + FlowControllerConstants.DB_SDC_ARTIFACTS
+                + " where artifact_name = $artifactName  and internal_version = $maxInternalVersion ";
 
             log.debug(fn + QUERY_STR + queryString1);
-            status = serviceLogic.query("SQL", false, null, queryString1, null, null, localContext);
+            status = dblib.query(queryString1, localContext);
             if (status.toString().equals(FAILURE_PARAM)) {
                 throw new SvcLogicException("Error - while getting capabilitiesData ");
             }
