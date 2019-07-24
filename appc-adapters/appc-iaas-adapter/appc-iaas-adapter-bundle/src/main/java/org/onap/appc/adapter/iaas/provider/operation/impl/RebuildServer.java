@@ -65,7 +65,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 import static org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation.STOP_SERVICE;
 import static org.onap.appc.adapter.utils.Constants.ADAPTER_NAME;
 import com.att.cdp.exceptions.StateException;
