@@ -23,7 +23,6 @@
 package org.onap.appc.adapter.restHealthcheck;
 
 import java.util.Map;
-import com.att.cdp.zones.model.Server;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 
