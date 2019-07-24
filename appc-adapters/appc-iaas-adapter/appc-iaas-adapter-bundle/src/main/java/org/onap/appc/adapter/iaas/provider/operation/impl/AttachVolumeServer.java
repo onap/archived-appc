@@ -5,6 +5,7 @@
  * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ *  Modifications Copyright (C) 2019 IBM.
  * ================================================================================
  * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
@@ -64,7 +65,6 @@ public class AttachVolumeServer extends ProviderServerOperation {
 
     private final EELFLogger logger = EELFManager.getInstance().getLogger(AttachVolumeServer.class);
     private static final Configuration config = ConfigurationFactory.getConfiguration();
-
     private Server attachVolume(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
         Server server = null;
         RequestContext requestContext = new RequestContext(ctx);
@@ -171,7 +171,7 @@ public class AttachVolumeServer extends ProviderServerOperation {
     }
 
     protected boolean validateAttach(ComputeService ser, String vm, String volumeId, String device)
-            throws RequestFailedException, ZoneException {
+            throws  ZoneException {
         boolean isValid = false;
         Map<String, String> map = ser.getAttachments(vm);
         Iterator<Entry<String, String>> it = map.entrySet().iterator();
