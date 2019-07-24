@@ -60,7 +60,6 @@ import org.onap.appc.logging.LoggingConstants;
 import org.onap.appc.logging.LoggingUtils;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.slf4j.MDC;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
