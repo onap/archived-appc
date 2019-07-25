@@ -162,7 +162,7 @@ public class CreateSnapshot extends ProviderServerOperation {
     }
 
     private Image createSnapshotNested(Image SnapShot, RequestContext RcContext, VMURL vm, String vmUrl,
-            String identStr, SvcLogicContext ctx) throws APPCException {
+            String identStr, SvcLogicContext ctx){
         String msg;
         Context context = null;
         String tenantName = "Unknown";// this variable is also used in catch
