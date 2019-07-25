@@ -3,6 +3,8 @@
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * 
+ * Modifications Copyright (C) 2019 IBM.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -47,11 +49,8 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.slf4j.MDC;
 import org.onap.appc.logging.LoggingConstants;
 import org.onap.appc.logging.LoggingUtils;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
-import java.util.TimeZone;
 import static org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation.RESTART_SERVICE;
 import static org.onap.appc.adapter.utils.Constants.ADAPTER_NAME;
 
@@ -181,7 +180,7 @@ public class RestartServer extends ProviderServerOperation {
      */
     @SuppressWarnings("nls")
     private Server restartServer(Map<String, String> params, SvcLogicContext ctx)
-            throws UnknownProviderException, IllegalArgumentException {
+      {
         Server server = null;
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
