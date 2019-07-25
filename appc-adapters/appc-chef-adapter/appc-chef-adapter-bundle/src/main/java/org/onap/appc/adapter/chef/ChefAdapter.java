@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * 
+ * Modifications Copyright (C) 2019 IBM.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +41,7 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
  * information needed by the adapter to interface with an IaaS provider.
  * </p>
  */
-public interface ChefAdapter extends SvcLogicJavaPlugin {
+public final class ChefAdapter extends SvcLogicJavaPlugin {
 
      /**
      * The type of provider to be accessed to locate and operate on a virtual machine instance. This is used to load the
