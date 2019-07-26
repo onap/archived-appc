@@ -110,7 +110,7 @@ public class ConnectionBuilder implements Closeable {
      **/
     public ConnectionBuilder(String trustStoreFile, char[] trustStorePasswd, int timeout, String serverIP)
             throws KeyStoreException, IOException, KeyManagementException, NoSuchAlgorithmException,
-            CertificateException ,APPCException{
+            CertificateException {
 
         /* Load the specified trustStore */
         KeyStore keystore = KeyStore.getInstance("JKS");
