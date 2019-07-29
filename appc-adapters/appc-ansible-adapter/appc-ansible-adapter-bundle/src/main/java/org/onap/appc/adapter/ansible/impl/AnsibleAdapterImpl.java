@@ -495,7 +495,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
             httpClientLocal.close();
           }
         } else {
-            testResult = testServer.Post(agentUrl, payload);
+            testResult = testServer.post(agentUrl, payload);
         }
         return testResult;
     }
@@ -527,7 +527,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
                 httpClientLocal.close();
               }
             } else {
-                testResult = testServer.Get(agentUrl);
+                testResult = testServer.get(agentUrl);
             }
             if (testResult.getStatusCode() != AnsibleResultCodes.IO_EXCEPTION.getValue()
                     && testResult.getStatusCode() != AnsibleResultCodes.PENDING.getValue()) {
