@@ -55,7 +55,7 @@ public class AnsibleServerEmulator {
      * Returns an ansible object result. The response code is always the http code 200 (i.e connection successful)
      * payload is json string as would be sent back by Ansible Server
      **/
-    public AnsibleResult Post(String agentUrl, String payload) {
+    public AnsibleResult post(String agentUrl, String payload) {
         AnsibleResult result = new AnsibleResult();
 
         try {
@@ -85,7 +85,7 @@ public class AnsibleServerEmulator {
      * payload is json string as would be sent back by Ansible Server
      *
      **/
-    public AnsibleResult Get(String agentUrl) {
+    public AnsibleResult get(String agentUrl) {
 
         Pattern pattern = Pattern.compile(".*?\\?Id=(.*?)&Type.*");
         Matcher matcher = pattern.matcher(agentUrl);
@@ -118,11 +118,11 @@ public class AnsibleServerEmulator {
         return getResult;
     }
 
-    private void rejectRequest(AnsibleResult result, String Message) {
+    private void rejectRequest(AnsibleResult result, String message) {
         result.setStatusCode(200);
         JSONObject response = new JSONObject();
         response.put(STATUS_CODE, AnsibleResultCodes.REJECTED.getValue());
-        response.put(STATUS_MESSAGE, Message);
+        response.put(STATUS_MESSAGE, message);
         result.setStatusMessage(response.toString());
     }
 
