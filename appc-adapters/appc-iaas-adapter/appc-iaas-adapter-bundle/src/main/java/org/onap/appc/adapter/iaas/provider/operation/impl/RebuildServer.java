@@ -371,7 +371,7 @@ public class RebuildServer extends ProviderServerOperation {
      *      org.onap.ccsdk.sli.core.sli.SvcLogicContext)
      */
     @SuppressWarnings("nls")
-    public Server rebuildServer(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
+    public Server rebuildServer(Map<String, String> params, SvcLogicContext ctx){
         Server server = null;
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
