@@ -47,8 +47,6 @@ import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.i18n.Msg;
-
-import org.onap.appc.logging.LoggingUtils;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.slf4j.MDC;
 import java.io.IOException;
