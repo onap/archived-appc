@@ -495,7 +495,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
             httpClientLocal.close();
           }
         } else {
-            testResult = testServer.Post(agentUrl, payload);
+            testResult = testServer.post(agentUrl, payload);
         }
         return testResult;
     }
