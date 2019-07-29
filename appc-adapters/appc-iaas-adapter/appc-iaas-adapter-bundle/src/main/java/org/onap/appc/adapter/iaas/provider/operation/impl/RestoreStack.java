@@ -89,7 +89,7 @@ public class RestoreStack extends ProviderStackOperation {
     }
 
     public Stack restoreStack(Map<String, String> params, SvcLogicContext ctx)
-            throws IllegalArgumentException, APPCException {
+            throws APPCException {
         Stack stack = null;
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
@@ -97,7 +97,7 @@ public class RestoreStack extends ProviderStackOperation {
         ctx.setAttribute("SNAPSHOT_STATUS", "STACK_NOT_FOUND");
         String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
 
-        String vm_url = null;
+        String vmUrl = null;
         Context context = null;
         String tenantName = "Unknown";//to be used also in case of exception
         try {
@@ -107,15 +107,15 @@ public class RestoreStack extends ProviderStackOperation {
                     ProviderAdapter.PROPERTY_INPUT_SNAPSHOT_ID);
 
             String stackId = params.get(ProviderAdapter.PROPERTY_STACK_ID);
-            vm_url = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
+            vmUrl = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
             String snapshotId = params.get(ProviderAdapter.PROPERTY_INPUT_SNAPSHOT_ID);
 
-            context = resolveContext(rc, params, appName, vm_url);
+            context = resolveContext(rc, params, appName, vmUrl);
 
             if (context != null) {
                 tenantName = context.getTenantName();//this varaible also is used in case of exception
                 stack = lookupStack(rc, context, stackId);
-                logger.debug(Msg.STACK_FOUND, vm_url, tenantName, stack.getStatus().toString());
+                logger.debug(Msg.STACK_FOUND, vmUrl, tenantName, stack.getStatus().toString());
                 logger.info(EELFResourceManager.format(Msg.TERMINATING_STACK, stack.getName()));
                 restoreStack(stack, snapshotId);
                 logger.info(EELFResourceManager.format(Msg.TERMINATE_STACK, stack.getName()));
@@ -126,7 +126,7 @@ public class RestoreStack extends ProviderStackOperation {
             }
 
         } catch (ResourceNotFoundException e) {
-            String msg = EELFResourceManager.format(Msg.STACK_NOT_FOUND, e, vm_url);
+            String msg = EELFResourceManager.format(Msg.STACK_NOT_FOUND, e, vmUrl);
             logger.error(msg);
             doFailure(rc, HttpStatus.NOT_FOUND_404, msg, e);
         } catch (RequestFailedException e) {
@@ -134,7 +134,7 @@ public class RestoreStack extends ProviderStackOperation {
             doFailure(rc, e.getStatus(), e.getMessage(), e);
         } catch (Exception e1) {
             String msg = EELFResourceManager.format(Msg.STACK_OPERATION_EXCEPTION, e1, e1.getClass().getSimpleName(),
-                    "restoreStack", vm_url, tenantName);
+                    "restoreStack", vmUrl, tenantName);
             logger.error(msg, e1);
             doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg, e1);
         }
