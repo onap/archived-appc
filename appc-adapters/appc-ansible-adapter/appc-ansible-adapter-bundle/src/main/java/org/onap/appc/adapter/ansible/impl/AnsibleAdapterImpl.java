@@ -483,8 +483,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
     /**
      * Method that posts the request
      */
-    private AnsibleResult postExecRequest(String agentUrl, String payload, String user, String password,
-            SvcLogicContext ctx) {
+    private AnsibleResult postExecRequest(String agentUrl, String payload, String user, String password) {
 
         AnsibleResult testResult = null;
         ConnectionBuilder httpClientLocal = getHttpConn(defaultSocketTimeout, "");
