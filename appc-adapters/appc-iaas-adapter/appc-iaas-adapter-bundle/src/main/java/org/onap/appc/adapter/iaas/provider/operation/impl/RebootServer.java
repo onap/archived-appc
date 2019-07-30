@@ -143,7 +143,6 @@ public class RebootServer extends ProviderServerOperation {
         int timeout = configuration.getIntegerProperty(Constants.PROPERTY_SERVER_STATE_CHANGE_TIMEOUT);
         config.setProperty(Constants.PROPERTY_RETRY_DELAY, RETRY_INTERVAL.toString());
         config.setProperty(Constants.PROPERTY_RETRY_LIMIT, NO_OF_ATTEMPTS.toString());
-        Context context = server.getContext();
         String msg;
         boolean status = false;
         while (rc.attempt()) {
