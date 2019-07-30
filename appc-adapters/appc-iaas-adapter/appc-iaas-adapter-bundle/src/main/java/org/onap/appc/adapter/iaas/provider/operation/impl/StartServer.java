@@ -50,6 +50,7 @@ import org.onap.appc.adapter.iaas.provider.operation.common.constants.Property;
 public class StartServer extends ProviderServerOperation {
 
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(StartServer.class);
+    private static final String startStatus = "START_STATUS";
 
     /**
      * @see org.onap.appc.adapter.iaas.ProviderAdapter#startServer(java.util.Map,
@@ -72,7 +73,7 @@ public class StartServer extends ProviderServerOperation {
             String identStr = (ident == null) ? null : ident.toString();
             Context context = null;
             String tenantName = "Unknown";// to be used also in case of exception
-            ctx.setAttribute("START_STATUS", "ERROR");
+            ctx.setAttribute(startStatus, "ERROR");
             // Is the skip Hypervisor check attribute populated?
             String skipHypervisorCheck = configuration.getProperty(Property.SKIP_HYPERVISOR_CHECK);
             if (skipHypervisorCheck == null && ctx != null) {
@@ -154,9 +155,9 @@ public class StartServer extends ProviderServerOperation {
                     }
                     context.close();
                     doSuccess(rc);
-                    ctx.setAttribute("START_STATUS", "SUCCESS");
+                    ctx.setAttribute(startStatus, "SUCCESS");
                 } else {
-                    ctx.setAttribute("START_STATUS", "CONTEXT_NOT_FOUND");
+                    ctx.setAttribute(startStatus, "CONTEXT_NOT_FOUND");
                 }
             } catch (ResourceNotFoundException e) {
                 String msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, e, vm_url);
