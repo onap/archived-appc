@@ -59,6 +59,7 @@ public class RebootServer extends ProviderServerOperation {
     private static final Configuration config = ConfigurationFactory.getConfiguration();
     private static final Integer NO_OF_ATTEMPTS = 30;
     private static final Integer RETRY_INTERVAL = 10;
+    private static final String rebootStatus = "REBOOT_STATUS";
 
     @Override
     protected ModelObject executeProviderOperation(Map<String, String> params, SvcLogicContext context)
@@ -112,25 +113,25 @@ public class RebootServer extends ProviderServerOperation {
                 logger.info("performing reboot action for " + server.getId() + " rebootype " + rebooType);
                 service.rebootServer(server.getId(), rebooType);
                 if (waitForServerStatusChange(requestContext, server, vmUrl, Server.Status.RUNNING)) {
-                    ctx.setAttribute("REBOOT_STATUS", "SUCCESS");
+                    ctx.setAttribute(rebootStatus, "SUCCESS");
                     doSuccess(requestContext);
                 } else {
-                    ctx.setAttribute("REBOOT_STATUS", "FAILURE");
+                    ctx.setAttribute(rebootStatus, "FAILURE");
                 }
                 context.close();
             } else {
-                ctx.setAttribute("REBOOT_STATUS", "FAILURE");
+                ctx.setAttribute(rebootStatus, "FAILURE");
             }
 
         } catch (ResourceNotFoundException | StateException ex) {
-            ctx.setAttribute("REBOOT_STATUS", "FAILURE");
+            ctx.setAttribute(rebootStatus, "FAILURE");
             if (ex instanceof ResourceNotFoundException) {
                 doFailure(requestContext, HttpStatus.NOT_FOUND_404, ex.getMessage());
             } else {
                 doFailure(requestContext, HttpStatus.CONFLICT_409, ex.getMessage());
             }
         } catch (Exception ex) {
-            ctx.setAttribute("REBOOT_STATUS", "FAILURE");
+            ctx.setAttribute(rebootStatus, "FAILURE");
             doFailure(requestContext, HttpStatus.INTERNAL_SERVER_ERROR_500, ex.getMessage());
         }
         }
