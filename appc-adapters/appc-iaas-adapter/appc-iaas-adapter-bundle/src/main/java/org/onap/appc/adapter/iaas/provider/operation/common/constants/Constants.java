@@ -28,19 +28,13 @@ package org.onap.appc.adapter.iaas.provider.operation.common.constants;
  */
 public class Constants {
 
-    private Constants() {
-    }
-
-    public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
-
-    public static final String MDC_SERVICE = "service";
+	public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+	public static final String MDC_SERVICE = "service";
     public static final String MDC_ADAPTER = "adapter";
-
     /**
      * The constant for a left parenthesis
      */
     public static final char LPAREN = '(';
-
     /**
      * The constant for a new line control code
      */
@@ -60,4 +54,7 @@ public class Constants {
      * The constant for a space
      */
     public static final char SPACE = ' ';
+	
+    private Constants() {
+    }
 }
