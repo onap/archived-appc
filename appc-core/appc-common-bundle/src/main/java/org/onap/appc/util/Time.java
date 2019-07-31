@@ -58,7 +58,7 @@ public final class Time {
     /**
      * A formatter to be used to format values
      */
-    private static SimpleDateFormat dateformatter = null;
+    private SimpleDateFormat dateformatter = null;
 
     /**
      * The UTC timezone (for UTC or GMT time)
@@ -211,7 +211,7 @@ public final class Time {
             try {
                 xmlDatatypeFactory = DatatypeFactory.newInstance();
             } catch (DatatypeConfigurationException e) {
-                e.printStackTrace(System.err);
+                LOG.error("Datatype Configuration error", e);
             }
         }
         return xmlDatatypeFactory;
@@ -243,7 +243,7 @@ public final class Time {
      * @return
      */
     @SuppressWarnings("nls")
-    private static SimpleDateFormat getDateFormatter() {
+    private SimpleDateFormat getDateFormatter() {
         if (dateformatter == null) {
             dateformatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
             dateformatter.setTimeZone(new SimpleTimeZone(SimpleTimeZone.UTC_TIME, "UTC"));
