@@ -63,7 +63,7 @@ public class StopServer extends ProviderServerOperation {
      *      org.openecomp.sdnc.sli.SvcLogicContext)
      */
     @SuppressWarnings("nls")
-    private Server stopServer(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
+    private Server stopServer(Map<String, String> params, SvcLogicContext ctx){
         Server server = null;
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
