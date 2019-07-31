@@ -58,7 +58,7 @@ public final class Time {
     /**
      * A formatter to be used to format values
      */
-    private static SimpleDateFormat dateformatter = null;
+    private SimpleDateFormat dateformatter = null;
 
     /**
      * The UTC timezone (for UTC or GMT time)
@@ -211,7 +211,7 @@ public final class Time {
             try {
                 xmlDatatypeFactory = DatatypeFactory.newInstance();
             } catch (DatatypeConfigurationException e) {
-                e.printStackTrace(System.err);
+                LOG.error("Datatype Configuration error", e);
             }
         }
         return xmlDatatypeFactory;
@@ -243,7 +243,7 @@ public final class Time {
      * @return
      */
     @SuppressWarnings("nls")
-    private static SimpleDateFormat getDateFormatter() {
+    private SimpleDateFormat getDateFormatter() {
         if (dateformatter == null) {
             dateformatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
             dateformatter.setTimeZone(new SimpleTimeZone(SimpleTimeZone.UTC_TIME, "UTC"));
@@ -475,7 +475,7 @@ public final class Time {
      * @param dt The date to be formatted
      * @return The date formatted for UTC timezone
      */
-    public static String utcFormat(final Date dt) {
+    public String utcFormat(final Date dt) {
         String strDate = null;
         DateFormat df = getDateFormatter();
         synchronized (df) {
@@ -507,7 +507,7 @@ public final class Time {
      *         cannot be parsed
      */
     @SuppressWarnings("nls")
-    public static Date utcParse(final String dateStr, String... adtlFormatStrings) {
+    public  Date utcParse(final String dateStr, String... adtlFormatStrings) {
         if (dateStr != null) {
             // Build the list of formatters starting with the default defined in the class
             List<DateFormat> formats = new ArrayList<>();
