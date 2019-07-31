@@ -597,7 +597,7 @@ public class ChefAdapterImpl implements ChefAdapter {
         }
     }
 
-    private Boolean hasFailedNode(String message) throws JSONException {
+    private Boolean hasFailedNode(String message)  {
         try {   
             JSONObject messageJson = new JSONObject(message);
             JSONObject node = messageJson.getJSONObject("nodes");
