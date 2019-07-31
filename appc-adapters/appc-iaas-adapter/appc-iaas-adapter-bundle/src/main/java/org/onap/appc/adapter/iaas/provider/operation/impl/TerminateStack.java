@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * 
+ * Modifications Copyright (C) 2019 IBM.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -83,31 +85,31 @@ public class TerminateStack extends ProviderStackOperation {
                     ProviderAdapter.PROPERTY_PROVIDER_NAME, ProviderAdapter.PROPERTY_STACK_ID);
 
             String stackId = params.get(ProviderAdapter.PROPERTY_STACK_ID);
-            String vm_url = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
+            String vmUrl = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
 
-            Context context = resolveContext(rc, params, appName, vm_url);
+            Context context = resolveContext(rc, params, appName,vmUrl );
 
             try {
                 if (context != null) {
                     rc.reset();
                     stack = lookupStack(rc, context, stackId);
-                    logger.debug(Msg.STACK_FOUND, vm_url, context.getTenantName(), stack.getStatus().toString());
+                    logger.debug(Msg.STACK_FOUND, vmUrl, context.getTenantName(), stack.getStatus().toString());
                     logger.info(EELFResourceManager.format(Msg.TERMINATING_STACK, stack.getName()));
                     deleteStack(rc, stack);
                     logger.info(EELFResourceManager.format(Msg.TERMINATE_STACK, stack.getName()));
                     context.close();
                     doSuccess(rc);
-                    String msg = EELFResourceManager.format(Msg.SUCCESS_EVENT_MESSAGE, "TerminateStack", vm_url);
+                    String msg = EELFResourceManager.format(Msg.SUCCESS_EVENT_MESSAGE, "TerminateStack", vmUrl);
                     ctx.setAttribute(org.onap.appc.Constants.ATTRIBUTE_SUCCESS_MESSAGE, msg);
                 }
             } catch (ResourceNotFoundException e) {
-                String msg = EELFResourceManager.format(Msg.STACK_NOT_FOUND, e, vm_url);
+                String msg = EELFResourceManager.format(Msg.STACK_NOT_FOUND, e, vmUrl);
                 logger.error(msg);
                 doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
             } catch (Exception e1) {
                 String msg =
                         EELFResourceManager.format(Msg.STACK_OPERATION_EXCEPTION, e1, e1.getClass().getSimpleName(),
-                                Operation.TERMINATE_STACK.toString(), vm_url, context.getTenantName());
+                                Operation.TERMINATE_STACK.toString(), vmUrl, context.getTenantName());
                 logger.error(msg, e1);
                 doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
             }
