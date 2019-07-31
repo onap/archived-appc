@@ -91,10 +91,11 @@ public class JsonResponseHandler implements ResponseHandler<Object> {
         switch (errorCode) {
             case ACCEPT_FAMILY: {
                 try {
-                    System.out.println("== THR#" + Thread.currentThread().getId() + " Got ACCEPT on ReqID <" +
+                    //System.out.println("== THR#" + Thread.currentThread().getId() + " Got ACCEPT on ReqID <" +
+                     //       OBJECT_MAPPER.readTree(output).findValue("common-header").findValue("request-id").asText() + ">");
+					LOG.info("== THR#" + Thread.currentThread().getId() + " Got ACCEPT on ReqID <" +
                             OBJECT_MAPPER.readTree(output).findValue("common-header").findValue("request-id").asText() + ">");
                 } catch (Exception e) {
-                    e.printStackTrace();
                     throw new RuntimeException(e);
                 }
                 // no need to report ACCEPT into output file
@@ -140,6 +141,7 @@ public class JsonResponseHandler implements ResponseHandler<Object> {
         } catch (Exception e) {
             LOG.error(e.getMessage());
         }
-        System.out.println("== THR#" +Thread.currentThread().getId()+ " Output file : " + fileName + suffix);
+        //System.out.println("== THR#" +Thread.currentThread().getId()+ " Output file : " + fileName + suffix);
+		LOG.info("== THR#" +Thread.currentThread().getId()+ " Output file : " + fileName + suffix);
     }
 }
