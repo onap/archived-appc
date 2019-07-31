@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * 
+ * Modifications Copyright (C) 2019 IBM.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -188,11 +190,11 @@ public class TerminateServer extends ProviderServerOperation {
             validateParametersExist(params, ProviderAdapter.PROPERTY_INSTANCE_URL,
                     ProviderAdapter.PROPERTY_PROVIDER_NAME);
 
-            String vm_url = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
+            String vmurl = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
             ctx.setAttribute("TERMINATE_STATUS", "SUCCESS");
 
-            VMURL vm = VMURL.parseURL(vm_url);
-            if (validateVM(rc, appName, vm_url, vm))
+            VMURL vm = VMURL.parseURL(vmurl);
+            if (validateVM(rc, appName, vmurl, vm))
                 return null;
 
             IdentityURL ident = IdentityURL.parseURL(params.get(ProviderAdapter.PROPERTY_IDENTITY_URL));
@@ -201,11 +203,11 @@ public class TerminateServer extends ProviderServerOperation {
             Context context = null;
             String tenantName = "Unknown";//to be used also in case of exception
             try {
-                context = getContext(rc, vm_url, identStr);
+                context = getContext(rc, vmurl, identStr);
                 if (context != null) {
                     tenantName = context.getTenantName();//this varaible also is used in case of exception
                     server = lookupServer(rc, context, vm.getServerId());
-                    logger.debug(Msg.SERVER_FOUND, vm_url, tenantName, server.getStatus().toString());
+                    logger.debug(Msg.SERVER_FOUND, vmurl, tenantName, server.getStatus().toString());
                     logger.info(EELFResourceManager.format(Msg.TERMINATING_SERVER, server.getName()));
                     terminateServer(rc, server);
                     logger.info(EELFResourceManager.format(Msg.TERMINATE_SERVER, server.getName()));
@@ -215,13 +217,13 @@ public class TerminateServer extends ProviderServerOperation {
                     ctx.setAttribute("TERMINATE_STATUS", "SERVER_NOT_FOUND");
                 }
             } catch (ResourceNotFoundException e) {
-                String msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, e, vm_url);
+                String msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, e, vmurl);
                 logger.error(msg);
                 doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
                 ctx.setAttribute("TERMINATE_STATUS", "SERVER_NOT_FOUND");
             } catch (Exception e1) {
                 String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1,
-                        e1.getClass().getSimpleName(), RESTART_SERVICE.toString(), vm_url,
+                        e1.getClass().getSimpleName(), RESTART_SERVICE.toString(), vmurl,
                         tenantName);
                 logger.error(msg, e1);
                 doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
