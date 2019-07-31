@@ -61,6 +61,7 @@ import org.slf4j.MDC;
 
 public abstract class ProviderOperation implements IProviderOperation {
 
+	private static final String palos = "PALOS";
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(ProviderOperation.class);
     protected static final Configuration configuration = ConfigurationFactory.getConfiguration();
 
@@ -209,9 +210,9 @@ public abstract class ProviderOperation implements IProviderOperation {
     protected void doFailure(RequestContext rc, HttpStatus code, String message, Throwable cause) throws APPCException {
         SvcLogicContext svcLogic = rc.getSvcLogicContext();
         String msg = (message == null) ? code.getReasonPhrase() : message;
-        if ((msg.contains("PALOS"))) {
-             msg = msg.substring(msg.indexOf("PALOS"), msg.length());
-         msg = msg.substring(msg.indexOf("PALOS"), msg.indexOf("\n"));
+        if ((msg.contains(palos))) {
+             msg = msg.substring(msg.indexOf(palos), msg.length());
+         msg = msg.substring(msg.indexOf(palos), msg.indexOf("\n"));
          } else {
         if (msg.contains("\n")) {
             msg = msg.substring(0, msg.indexOf('\n'));
