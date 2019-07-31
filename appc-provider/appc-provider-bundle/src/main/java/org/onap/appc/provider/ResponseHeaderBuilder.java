@@ -44,8 +44,8 @@ public class ResponseHeaderBuilder {
      * The date/time formatter to format timestamps.
      */
     @SuppressWarnings("nls")
-    public static final DateFormat FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS");
-    public static final DateFormat ZULU_FORMATTER = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SS'Z'");
+    public final DateFormat FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS");
+    public final DateFormat ZULU_FORMATTER = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SS'Z'");
 
     /**
      * Private default constructor prevents instantiation
