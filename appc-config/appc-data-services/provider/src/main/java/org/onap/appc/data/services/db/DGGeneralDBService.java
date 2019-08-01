@@ -405,8 +405,7 @@ public class DGGeneralDBService {
     }
 
 
-    public QueryStatus getVnfcReferenceByVnfTypeNAction(SvcLogicContext ctx, String prefix)
-            throws SvcLogicException {
+    public QueryStatus getVnfcReferenceByVnfTypeNAction(SvcLogicContext ctx, String prefix){
         QueryStatus status = null;
         if (dblib != null && ctx != null) {
 
