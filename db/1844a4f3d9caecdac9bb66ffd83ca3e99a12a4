@@ -1,0 +1,10 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Aric Gardner <agardner@linuxfoundation.org>
+Code-Review+1: Jessica Wagantall <jwagantall@linuxfoundation.org>
+Code-Review+2: Patrick Brady <patrick.brady@att.com>
+Code-Review+2: Takamune Cho <takamune.cho@att.com>
+Submitted-by: Takamune Cho <takamune.cho@att.com>
+Submitted-at: Fri, 02 Aug 2019 17:43:22 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/appc/+/92424
+Project: appc
+Branch: refs/heads/master
