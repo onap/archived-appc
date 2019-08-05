@@ -29,12 +29,12 @@
     <parent>
         <groupId>org.onap.appc</groupId>
         <artifactId>appc</artifactId>
-        <version>1.6.1-SNAPSHOT</version>
+        <version>1.6.1</version>
     </parent>
 
     <artifactId>appc-java-client</artifactId>
     <groupId>org.onap.appc.client</groupId>
-    <version>1.6.1-SNAPSHOT</version>
+    <version>1.6.1</version>
 
     <name>appc-java-client</name>
     <description>APPC Java Client</description>
