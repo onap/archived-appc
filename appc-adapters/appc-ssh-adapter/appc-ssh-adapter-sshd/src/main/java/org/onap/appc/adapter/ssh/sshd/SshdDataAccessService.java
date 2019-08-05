@@ -58,7 +58,7 @@ public class SshdDataAccessService implements SshDataAccessService {
     }
 
     @Override
-    public boolean retrieveConnectionDetails(String vnfType, SshConnectionDetails connectionDetails) throws SshDataAccessException {
+    public boolean retrieveConnectionDetails(String vnfType, SshConnectionDetails connectionDetails){
 
         boolean recordFound = false;
 
@@ -87,7 +87,7 @@ public class SshdDataAccessService implements SshDataAccessService {
     }
 
     @Override
-    public String retrieveConfigFileName(String xmlID) throws SshDataAccessException {
+    public String retrieveConfigFileName(String xmlID){
         String fileContent;
 
         String queryString = "select " + Constants.FILE_CONTENT_TABLE_FIELD_NAME + " " +

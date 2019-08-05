@@ -46,7 +46,7 @@ public interface SshDataAccessService {
      * @return
      * @throws SshDataAccessException
      */
-    String retrieveConfigFileName(String xmlID) throws SshDataAccessException;
+    String retrieveConfigFileName(String xmlID);
 
     /**
      *
@@ -55,6 +55,6 @@ public interface SshDataAccessService {
      * @return
      * @throws SshException
      */
-    boolean retrieveConnectionDetails(String vnfType, SshConnectionDetails connectionDetails) throws SshDataAccessException;
+    boolean retrieveConnectionDetails(String vnfType, SshConnectionDetails connectionDetails);
 
 }
