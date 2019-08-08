@@ -543,6 +543,19 @@ limitations under the License.
                   <artifactId>sonar-maven-plugin</artifactId>
                   <version>3.2</version>
                 </plugin>
+                <plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.7</version>
+				<extensions>true</extensions>
+				<configuration>
+					<skipStaging>true</skipStaging>
+					<skip>true</skip>
+					<nexusUrl>https://nexus.onap.org</nexusUrl>
+					<stagingProfileId>176c31dfe190a</stagingProfileId>
+					<serverId>ecomp-staging</serverId>
+				</configuration>
+			</plugin>
             </plugins>
         </pluginManagement>
         <plugins>
@@ -605,6 +618,19 @@ limitations under the License.
                     </execution>
                 </executions>
             </plugin>
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.7</version>
+				<extensions>true</extensions>
+				<configuration>
+					<skipStaging>true</skipStaging>
+					<skip>true</skip>
+					<nexusUrl>https://nexus.onap.org</nexusUrl>
+					<stagingProfileId>176c31dfe190a</stagingProfileId>
+					<serverId>ecomp-staging</serverId>
+				</configuration>
+			</plugin>
         </plugins>
     </build>
 
