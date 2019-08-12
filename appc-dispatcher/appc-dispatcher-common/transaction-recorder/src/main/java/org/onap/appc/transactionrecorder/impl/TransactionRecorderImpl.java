@@ -25,7 +25,7 @@
 
 package org.onap.appc.transactionrecorder.impl;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.onap.appc.domainmodel.lcm.Flags;
 import org.onap.appc.domainmodel.lcm.RequestStatus;
 import org.onap.appc.domainmodel.lcm.VNFOperation;

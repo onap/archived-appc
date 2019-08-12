@@ -3,7 +3,7 @@
   ============LICENSE_START=======================================================
   ONAP : APPC
   ================================================================================
-  Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
   ================================================================================
   Copyright (C) 2017 Amdocs
   =============================================================================
@@ -24,13 +24,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>appc-dispatcher-common</artifactId>
-        <groupId>org.onap.appc</groupId>
-        <version>1.6.2-SNAPSHOT</version>
+        <artifactId>binding-parent</artifactId>
+        <groupId>org.onap.appc.parent</groupId>
+        <version>2.6.0</version>
+        <relativePath />
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>org.onap.appc</groupId>
     <artifactId>transaction-recorder</artifactId>
+    <version>1.6.2-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <name>APPC Transaction Recorder</name>
 
@@ -48,6 +51,10 @@
             <groupId>org.onap.appc</groupId>
             <artifactId>appc-data-access-lib</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.ccsdk.sli.core</groupId>
+            <artifactId>dblib-provider</artifactId>
         </dependency>
         <dependency>
             <groupId>org.onap.appc</groupId>
