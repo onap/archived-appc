@@ -40,12 +40,15 @@ import org.onap.appc.instar.utils.InstarClientConstant;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
-import com.sun.jersey.client.urlconnection.HTTPSProperties;
+
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Feature;
+import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 
 public class Dme2Client {
 
@@ -84,7 +87,7 @@ public class Dme2Client {
         }
     }
 
-    private ClientResponse sendToInstar() throws SvcLogicException {
+    private Response sendToInstar() throws SvcLogicException {
 
         log.info("Called Send with operation Name=" + this.operationName + "and = " +
             properties.getProperty(operationName + InstarClientConstant.BASE_URL));
@@ -94,8 +97,8 @@ public class Dme2Client {
         log.info("DME Endpoint URI:" + resourceUri);
 
         Client client = null;
-        WebResource webResource;
-        ClientResponse clientResponse = null;
+        WebTarget webResource;
+        Response clientResponse = null;
         String authorization = properties.getProperty("authorization");
         String requestDataType = "application/json";
         String responseDataType = MediaType.APPLICATION_JSON;
@@ -107,28 +110,27 @@ public class Dme2Client {
         log.info("authorization = " + authorization + "methodType= " + methodType);
 
         try {
-            DefaultClientConfig defaultClientConfig = new DefaultClientConfig();
             System.setProperty("jsse.enableSNIExtension", "false");
             SSLContext sslContext;
             SecureRestClientTrustManager secureRestClientTrustManager = new SecureRestClientTrustManager();
             sslContext = SSLContext.getInstance("SSL");
             sslContext.init(null, new javax.net.ssl.TrustManager[]{secureRestClientTrustManager}, null);
-            defaultClientConfig
-                .getProperties()
-                .put(HTTPSProperties.PROPERTY_HTTPS_PROPERTIES, new HTTPSProperties(getHostnameVerifier(), sslContext));
-            client = Client.create(defaultClientConfig);
-            client.addFilter(new HTTPBasicAuthFilter(userId, password));
-            webResource = client.resource(new URI(resourceUri));
-            webResource.setProperty("Content-Type", "application/json;charset=UTF-8");
+
+
+            client = ClientBuilder.newBuilder().sslContext(sslContext).hostnameVerifier(getHostnameVerifier()).build();
+
+            client.register(HttpAuthenticationFeature.basic(userId, password));
+            webResource = client.target(new URI(resourceUri));
+            webResource.property("Content-Type", "application/json;charset=UTF-8");
 
             if (HttpMethod.GET.equalsIgnoreCase(methodType)) {
-                clientResponse = webResource.accept(responseDataType).get(ClientResponse.class);
+                clientResponse = webResource.request(responseDataType).get(Response.class);
             } else if (HttpMethod.POST.equalsIgnoreCase(methodType)) {
-                clientResponse = webResource.type(requestDataType).post(ClientResponse.class, request);
+                clientResponse = webResource.request(requestDataType).post( Entity.json(request),Response.class);
             } else if (HttpMethod.PUT.equalsIgnoreCase(methodType)) {
-                clientResponse = webResource.type(requestDataType).put(ClientResponse.class, request);
+                clientResponse = webResource.request(requestDataType).put( Entity.json(request),Response.class);
             } else if (HttpMethod.DELETE.equalsIgnoreCase(methodType)) {
-                clientResponse = webResource.delete(ClientResponse.class);
+                clientResponse = webResource.request().delete(Response.class);
             }
             return clientResponse;
 
@@ -141,7 +143,7 @@ public class Dme2Client {
         } finally {
             // clean up.
             if (client != null) {
-                client.destroy();
+                client.close();
             }
         }
     }
@@ -171,9 +173,9 @@ public class Dme2Client {
                 return IOUtils.toString(Dme2Client.class.getClassLoader().getResourceAsStream("/tmp/sampleResponse"),
                     Charset.defaultCharset());
             }
-            ClientResponse clientResponse = sendToInstar();
+            Response clientResponse = sendToInstar();
             if (clientResponse != null) {
-                response = clientResponse.getEntity(String.class);
+                response = clientResponse.readEntity(String.class);
                 log.info(clientResponse.getStatus() + " Status, Response :" + response);
             }
         } catch (Exception e) {

@@ -30,12 +30,15 @@ import com.att.eelf.configuration.EELFManager;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
-import com.sun.jersey.client.urlconnection.HTTPSProperties;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Feature;
+import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -105,38 +108,36 @@ public class ArtifactHandlerClient {
         log.info("Configuring Rest Operation for Payload " + payload + " RPC : " + rpc);
         Map<String, String> outputMessage = new HashMap<>();
         Client client = null;
-        WebResource webResource;
-        ClientResponse clientResponse = null;
+        WebTarget webResource;
+        Response clientResponse = null;
         EncryptionTool et = EncryptionTool.getInstance();
         String responseDataType = MediaType.APPLICATION_JSON;
         String requestDataType = MediaType.APPLICATION_JSON;
 
         try {
-            DefaultClientConfig defaultClientConfig = new DefaultClientConfig();
+
             System.setProperty("jsse.enableSNIExtension", "false");
             SSLContext sslContext;
             SecureRestClientTrustManager secureRestClientTrustManager = new SecureRestClientTrustManager();
             sslContext = SSLContext.getInstance("SSL");
             sslContext.init(null, new javax.net.ssl.TrustManager[]{secureRestClientTrustManager}, null);
 
-            defaultClientConfig
-                .getProperties()
-                .put(HTTPSProperties.PROPERTY_HTTPS_PROPERTIES, new HTTPSProperties(getHostnameVerifier(), sslContext));
 
-            client = Client.create(defaultClientConfig);
+            client = ClientBuilder.newBuilder().sslContext(sslContext).hostnameVerifier(getHostnameVerifier()).build();
+
             String password = et.decrypt(props.getProperty("appc.upload.pass"));
-            client.addFilter(new HTTPBasicAuthFilter(props.getProperty("appc.upload.user"), password));
-            webResource = client.resource(new URI(props.getProperty("appc.upload.provider.url")));
-            webResource.setProperty("Content-Type", "application/json;charset=UTF-8");
+            client.register(HttpAuthenticationFeature.basic(props.getProperty("appc.upload.user"), password));
+            webResource = client.target(new URI(props.getProperty("appc.upload.provider.url")));
+            webResource.property("Content-Type", "application/json;charset=UTF-8");
             log.info("Starting Rest Operation.....");
             if (HttpMethod.GET.equalsIgnoreCase(rpc)) {
-                clientResponse = webResource.accept(responseDataType).get(ClientResponse.class);
+                clientResponse = webResource.request(responseDataType).get(Response.class);
             } else if (HttpMethod.POST.equalsIgnoreCase(rpc)) {
-                clientResponse = webResource.type(requestDataType).post(ClientResponse.class, payload);
+                clientResponse = webResource.request(requestDataType).post(Entity.json(payload),Response.class);
             } else if (HttpMethod.PUT.equalsIgnoreCase(rpc)) {
-                clientResponse = webResource.type(requestDataType).put(ClientResponse.class, payload);
+                clientResponse = webResource.request(requestDataType).put(Entity.json(payload),Response.class);
             } else if (HttpMethod.DELETE.equalsIgnoreCase(rpc)) {
-                clientResponse = webResource.delete(ClientResponse.class);
+                clientResponse = webResource.request().delete(Response.class);
             }
             validateClientResponse(clientResponse);
             log.info("Completed Rest Operation.....");
@@ -147,13 +148,13 @@ public class ArtifactHandlerClient {
         } finally {
             // clean up.
             if (client != null) {
-                client.destroy();
+                client.close();
             }
         }
         return outputMessage;
     }
 
-    private void validateClientResponse(ClientResponse clientResponse) throws ArtifactHandlerInternalException {
+    private void validateClientResponse(Response clientResponse) throws ArtifactHandlerInternalException {
         if (clientResponse == null) {
             throw new ArtifactHandlerInternalException("Failed to create client response");
         }
