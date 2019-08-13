@@ -28,13 +28,12 @@ import static javax.ws.rs.core.Response.Status.OK;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mock;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,6 +45,13 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.onap.appc.flow.controller.data.Transaction;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.MediaType;
 
 public class RestExecutorTest {
 
@@ -60,11 +66,11 @@ public class RestExecutorTest {
     @Mock
     private Client client;
     @Mock
-    private WebResource webResource;
+    private WebTarget webResource;
     @Mock
-    private WebResource.Builder webResourceBuilder;
+    private Invocation.Builder webResourceBuilder;
     @Mock
-    private ClientResponse clientResponse;
+    final private Response clientResponse = mock(Response.class);
 
 
     @Before
@@ -77,18 +83,19 @@ public class RestExecutorTest {
 
         MockitoAnnotations.initMocks(this);
         doReturn(client).when(restExecutor).createClient(any());
-        when(client.resource(any(URI.class))).thenReturn(webResource);
+        when(client.target(any(URI.class))).thenReturn(webResource);
 
-        when(webResource.accept(anyString())).thenReturn(webResourceBuilder);
-        when(webResource.type(anyString())).thenReturn(webResourceBuilder);
+        when(webResource.request(eq("Content-Type"),anyString())).thenReturn(webResourceBuilder);
+        when(webResource.request(anyString())).thenReturn(webResourceBuilder);
 
-        when(webResourceBuilder.get(ClientResponse.class)).thenReturn(clientResponse);
-        when(webResourceBuilder.post(ClientResponse.class, ANY)).thenReturn(clientResponse);
-        when(webResourceBuilder.put(ClientResponse.class, ANY)).thenReturn(clientResponse);
-        when(webResource.delete(ClientResponse.class)).thenReturn(clientResponse);
+        when(webResourceBuilder.get(eq(Response.class))).thenReturn(clientResponse);
+        when(webResourceBuilder.post(any(Entity.class),eq(Response.class))).thenReturn(clientResponse);
+        when(webResourceBuilder.put(any(Entity.class),eq(Response.class))).thenReturn(clientResponse);
+        when(webResource.request(anyString()).delete(eq(Response.class))).thenReturn(clientResponse);
+        when(webResourceBuilder.delete(eq(Response.class))).thenReturn(clientResponse);
 
         when(clientResponse.getStatus()).thenReturn(OK.getStatusCode());
-        when(clientResponse.getEntity(String.class)).thenReturn(OK.getReasonPhrase());
+        when(clientResponse.readEntity(String.class)).thenReturn(OK.getReasonPhrase());
     }
 
     @Test
@@ -135,9 +142,9 @@ public class RestExecutorTest {
     public void checkClienResponse_whenStatusNOK() throws Exception {
         try {
             when(clientResponse.getStatus()).thenReturn(FORBIDDEN.getStatusCode());
-            when(clientResponse.getEntity(String.class)).thenReturn(FORBIDDEN.getReasonPhrase());
-            transaction.setExecutionRPC(HttpMethod.GET);
-
+            when(clientResponse.readEntity(String.class)).thenReturn(FORBIDDEN.getReasonPhrase());
+             transaction.setExecutionRPC(HttpMethod.GET);
+             
             outputMessage = restExecutor.execute(transaction, null);
 
         } catch(Exception e) {
