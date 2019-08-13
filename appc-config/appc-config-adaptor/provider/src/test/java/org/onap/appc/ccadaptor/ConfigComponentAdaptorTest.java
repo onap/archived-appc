@@ -29,9 +29,12 @@ package org.onap.appc.ccadaptor;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.core.Response;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -333,12 +336,12 @@ public class ConfigComponentAdaptorTest {
     @Test
     public void testPrepare() {
         Client mockClient = Mockito.mock(Client.class);
-        WebResource mockWebResource = Mockito.mock(WebResource.class);
-        ClientResponse mockClientResponse = Mockito.mock(ClientResponse.class);
+        WebTarget mockWebResource = Mockito.mock(WebTarget.class);
+        Response mockClientResponse  = Response.ok().build();
         ConfigComponentAdaptor cca = Mockito.spy(new ConfigComponentAdaptor(null));
         Mockito.doReturn(mockClientResponse).when(cca).getClientResponse(Mockito.anyObject(),
                 Mockito.anyString(), Mockito.anyString());
-        Mockito.doReturn(mockWebResource).when(mockClient).resource(Mockito.anyString());
+        Mockito.doReturn(mockWebResource).when(mockClient).target(Mockito.anyString());
         Mockito.doReturn(mockClient).when(cca).getClient();
         Map<String, String> parameters = new HashMap<>();
         parameters.put("action", "prepare");
@@ -369,12 +372,12 @@ public class ConfigComponentAdaptorTest {
     @Test
     public void testPrepareComplexTemplate() {
         Client mockClient = Mockito.mock(Client.class);
-        WebResource mockWebResource = Mockito.mock(WebResource.class);
-        ClientResponse mockClientResponse = Mockito.mock(ClientResponse.class);
+        WebTarget mockWebResource = Mockito.mock(WebTarget.class);
+        Response mockClientResponse =  Response.ok().build();
         ConfigComponentAdaptor cca = Mockito.spy(new ConfigComponentAdaptor(null));
         Mockito.doReturn(mockClientResponse).when(cca).getClientResponse(Mockito.anyObject(),
                 Mockito.anyString(), Mockito.anyString());
-        Mockito.doReturn(mockWebResource).when(mockClient).resource(Mockito.anyString());
+        Mockito.doReturn(mockWebResource).when(mockClient).target(Mockito.anyString());
         Mockito.doReturn(mockClient).when(cca).getClient();
         String complexTemplateString = cca.readFile("/prepare.xml");
         Mockito.when(cca.readFile(Mockito.anyString())).thenReturn(complexTemplateString);
@@ -390,12 +393,13 @@ public class ConfigComponentAdaptorTest {
     @Test
     public void testAudit() {
         Client mockClient = Mockito.mock(Client.class);
-        WebResource mockWebResource = Mockito.mock(WebResource.class);
-        ClientResponse mockClientResponse = Mockito.mock(ClientResponse.class);
+        WebTarget mockWebResource = Mockito.mock(WebTarget.class);
+        Response mockClientResponse  = Response.ok().build();
+        
         ConfigComponentAdaptor cca = Mockito.spy(new ConfigComponentAdaptor(null));
         Mockito.doReturn(mockClientResponse).when(cca).getClientResponse(Mockito.anyObject(),
                 Mockito.anyString(), Mockito.anyString());
-        Mockito.doReturn(mockWebResource).when(mockClient).resource(Mockito.anyString());
+        Mockito.doReturn(mockWebResource).when(mockClient).target(Mockito.anyString());
         Mockito.doReturn(mockClient).when(cca).getClient();
         Map<String, String> parameters = new HashMap<>();
         parameters.put("action", "audit");
@@ -408,7 +412,7 @@ public class ConfigComponentAdaptorTest {
 
     @Test
     public void testActivate() {
-        ClientResponse mockClientResponse = Mockito.mock(ClientResponse.class);
+        Response mockClientResponse  = Response.ok().build();
         ConfigComponentAdaptor cca = Mockito.spy(new ConfigComponentAdaptor(null));
         Mockito.doReturn(mockClientResponse).when(cca).getClientResponse(Mockito.anyObject(),
                 Mockito.anyString(), Mockito.anyString());

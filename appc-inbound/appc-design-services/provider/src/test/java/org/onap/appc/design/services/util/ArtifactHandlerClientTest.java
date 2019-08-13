@@ -24,6 +24,12 @@ package org.onap.appc.design.services.util;
 import static org.hamcrest.CoreMatchers.isA;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doReturn;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -40,18 +46,22 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.WebResource.Builder;
-
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.ClientBuilder;
+import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({DesignServiceConstants.class, SSLContext.class, Client.class})
+@PrepareForTest({DesignServiceConstants.class, SSLContext.class, Client.class,ClientBuilder.class,HttpAuthenticationFeature.class})
 public class ArtifactHandlerClientTest {
     private SSLContext sslContext = PowerMockito.mock(SSLContext.class);
     private Client client;
-    private WebResource webResource;
-    private Builder builder;
+    private WebTarget webResource;
+    private Invocation.Builder builder;
+    private ClientBuilder clientBuilder;
 
 
     @Rule
@@ -62,13 +72,22 @@ public class ArtifactHandlerClientTest {
         PowerMockito.mockStatic(DesignServiceConstants.class);
         PowerMockito.mockStatic(SSLContext.class);
         PowerMockito.mockStatic(Client.class);
+        PowerMockito.mockStatic(ClientBuilder.class);
+        PowerMockito.mockStatic(HttpAuthenticationFeature.class);
+
         sslContext = PowerMockito.mock(SSLContext.class);
         client = Mockito.mock(Client.class);
-        builder = PowerMockito.mock(Builder.class);
-        webResource = PowerMockito.mock(WebResource.class);
-        PowerMockito.when(Client.create(Mockito.anyObject())).thenReturn(client);
-        webResource = PowerMockito.mock(WebResource.class);
-        PowerMockito.when(client.resource(Mockito.any(URI.class))).thenReturn(webResource);
+        builder = PowerMockito.mock(Invocation.Builder.class);
+        clientBuilder = Mockito.mock(ClientBuilder.class);
+        webResource = PowerMockito.mock(WebTarget.class);
+
+        PowerMockito.when(client.target(Mockito.any(URI.class))).thenReturn(webResource);
+        PowerMockito.when(ClientBuilder.newBuilder()).thenReturn(clientBuilder);
+        doReturn(clientBuilder).when(clientBuilder).sslContext(any());
+        doReturn(clientBuilder).when(clientBuilder).hostnameVerifier(any());
+        PowerMockito.when(clientBuilder.build()).thenReturn(client);
+
+
     }
 
     @Test
@@ -105,8 +124,8 @@ public class ArtifactHandlerClientTest {
         PowerMockito.when(SSLContext.getInstance("SSL")).thenReturn(sslContext);
         PowerMockito.when(DesignServiceConstants.getEnvironmentVariable(ArtifactHandlerClient.SDNC_CONFIG_DIR_VAR))
             .thenReturn("src/test/resources");
-        builder = Mockito.mock(Builder.class);
-        PowerMockito.when(webResource.accept("application/json")).thenReturn(builder);
+        builder = Mockito.mock(Invocation.Builder.class);
+        PowerMockito.when(webResource.request("application/json")).thenReturn(builder);
         ArtifactHandlerClient ahClient = new ArtifactHandlerClient();
         Properties properties = new Properties();
         properties.put("appc.upload.user", "TEST_USER");

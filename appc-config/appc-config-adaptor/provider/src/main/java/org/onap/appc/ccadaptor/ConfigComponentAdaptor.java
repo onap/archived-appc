@@ -61,10 +61,16 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.core.util.Base64;
+import org.glassfish.jersey.oauth1.signature.Base64;
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.ClientProperties;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Feature;
 
 public class ConfigComponentAdaptor implements SvcLogicAdaptor {
 
@@ -925,8 +931,7 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
     private HttpResponse sendXmlRequest(String xmlRequest, String url, String user, String password) {
         try {
             Client client = getClient();
-            client.setConnectTimeout(5000);
-            WebResource webResource = client.resource(url);
+            WebTarget webResource = client.target(url);
 
             log.info("SENDING...............");
             if (log.isTraceEnabled()) {
@@ -943,15 +948,13 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
                 }
             }
             String authString = user + ":" + password;
-            byte[] authEncBytes = Base64.encode(authString);
-            String authStringEnc = new String(authEncBytes);
+            String authStringEnc = Base64.encode(authString.getBytes());
             authString = "Basic " + authStringEnc;
 
-            ClientResponse response = getClientResponse(webResource, authString, xmlRequest);
+            Response response = getClientResponse(webResource, authString, xmlRequest);
 
             int code = response.getStatus();
-            String message = null;
-
+            String message = response.getStatusInfo().getReasonPhrase();
             log.info("RESPONSE...............");
             log.info("HTTP response code: " + code);
             log.info("HTTP response message: " + message);
@@ -1120,11 +1123,13 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
     }
 
     protected Client getClient() {
-        return Client.create();
+        ClientConfig clientConfig = new ClientConfig();
+        clientConfig.property(ClientProperties.CONNECT_TIMEOUT, 5000);
+        return ClientBuilder.newClient(clientConfig);
     }
 
-    protected ClientResponse getClientResponse(WebResource webResource, String authString, String xmlRequest) {
-        return webResource.header("Authorization", authString).accept("UTF-8").type("application/xml").post(
-                ClientResponse.class, xmlRequest);
+    protected Response getClientResponse(WebTarget webResource, String authString, String xmlRequest) {
+        return webResource.request("UTF-8").header("Authorization", authString).header("Content-Type", "application/xml").post(
+                Entity.xml(xmlRequest),Response.class);
     }
 }

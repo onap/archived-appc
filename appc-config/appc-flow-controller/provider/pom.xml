@@ -93,9 +93,8 @@
             <artifactId>sli-common</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.sun.jersey</groupId>
+            <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-client</artifactId>
-            <version>1.17</version>
             <scope>provided</scope>
         </dependency>
 
