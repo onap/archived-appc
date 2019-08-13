@@ -29,6 +29,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doReturn;
 import java.io.InputStream;
 import java.net.URI;
 import java.security.NoSuchAlgorithmException;
@@ -44,49 +48,82 @@ import org.onap.appc.instar.utils.InstarClientConstant;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static javax.ws.rs.core.Response.Status.FORBIDDEN;
+import static javax.ws.rs.core.Response.Status.OK;
+import static javax.ws.rs.core.Response.ResponseBuilder;
+
 import org.powermock.reflect.Whitebox;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.WebResource.Builder;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.ClientBuilder;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({InstarClientConstant.class, SSLContext.class, Client.class})
+@PrepareForTest({InstarClientConstant.class, SSLContext.class, Client.class,ClientBuilder.class})
 public class TestDme2Client {
-
+ 
+  private static final String ANY = "notNullString";
   private Dme2Client dme2;
   private InputStream inputStream;
   private SSLContext sslContext;
   private Properties properties;
   private Client client;
-  private WebResource webResource;
-  private Builder builder;
-  private ClientResponse clientResponse;
+  private WebTarget webResource;
+  private Response clientResponse;
+  private ClientBuilder clientBuilder;
+ 
+  private Invocation.Builder builder;
+ 
 
   @Before
   public void setUp() throws Exception {
     inputStream = Mockito.mock(InputStream.class);
+
     sslContext = PowerMockito.mock(SSLContext.class);
+
     client = Mockito.mock(Client.class);
-    builder = Mockito.mock(Builder.class);
-    clientResponse = Mockito.mock(ClientResponse.class);
-    webResource = Mockito.mock(WebResource.class);
+    builder = Mockito.mock(Invocation.Builder.class);
+    clientResponse = Mockito.mock(Response.class);
+    webResource = Mockito.mock(WebTarget.class);
+    clientBuilder = Mockito.mock(ClientBuilder.class);
+
     HashMap<String, String> data = new HashMap<String, String>();
     data.put("subtext", "value");
-    PowerMockito.mockStatic(InstarClientConstant.class);
-    PowerMockito.mockStatic(SSLContext.class);
-    PowerMockito.mockStatic(Client.class);
+
+
+    mockStatic(InstarClientConstant.class);
     PowerMockito.when(InstarClientConstant.getEnvironmentVariable("SDNC_CONFIG_DIR"))
         .thenReturn("test");
+
+
     PowerMockito.when(InstarClientConstant.getInputStream("test/outbound.properties"))
         .thenReturn(inputStream);
+        
+    mockStatic(SSLContext.class);
     PowerMockito.when(SSLContext.getInstance("SSL")).thenReturn(sslContext);
-    PowerMockito.when(Client.create(anyObject())).thenReturn(client);
-    PowerMockito.when(client.resource(new URI("nullnullnullvalue"))).thenReturn(webResource);
 
-    PowerMockito.when(builder.get(ClientResponse.class)).thenReturn(clientResponse);
+    mockStatic(ClientBuilder.class);
+
+    PowerMockito.when(ClientBuilder.newBuilder()).thenReturn(clientBuilder);
+    doReturn(clientBuilder).when(clientBuilder).sslContext(any());
+    doReturn(clientBuilder).when(clientBuilder).hostnameVerifier(any());
+
+    PowerMockito.when(clientBuilder.build()).thenReturn(client);
+
+    PowerMockito.when(client.target(any(URI.class))).thenReturn(webResource);
+
+
+    PowerMockito.when(webResource.request(eq("Content-Type"),anyString())).thenReturn(builder);
+    PowerMockito.when(webResource.request(anyString())).thenReturn(builder);
+
+    PowerMockito.when(builder.get(eq(Response.class))).thenReturn(clientResponse);
+
     properties = Mockito.mock(Properties.class);
     dme2 = new Dme2Client("opt", "subtext", data);
+
     Whitebox.setInternalState(dme2, "properties", properties);
     when(properties.getProperty("MechID")).thenReturn("123");
     when(properties.getProperty("MechPass")).thenReturn("password");
@@ -94,36 +131,41 @@ public class TestDme2Client {
 
   @Test
   public void testSendtoInstarGet() throws Exception {
-    PowerMockito.when(webResource.accept("application/json")).thenReturn(builder);
-    PowerMockito.when(clientResponse.getEntity(String.class)).thenReturn("Get Success");
-    when(properties.getProperty("getIpAddressByVnf_method")).thenReturn("GET");
+    PowerMockito.when(webResource.request("application/json")).thenReturn(builder);
+    PowerMockito.when(clientResponse.readEntity(String.class)).thenReturn("Get Success");
+    when(properties.getProperty(eq("getIpAddressByVnf_method"))).thenReturn("GET");
+
     assertEquals("Get Success", dme2.send());
   }
 
   @Test
   public void testSendtoInstarPut() throws Exception {
-    PowerMockito.when(webResource.type("application/json")).thenReturn(builder);
-    PowerMockito.when(builder.put(ClientResponse.class, "")).thenReturn(clientResponse);
-    PowerMockito.when(clientResponse.getEntity(String.class)).thenReturn("Put Success");
+
+    PowerMockito.when(builder.put(any(Entity.class),eq(Response.class))).thenReturn(clientResponse);
+
+    PowerMockito.when(clientResponse.readEntity(String.class)).thenReturn("Put Success");
+
     when(properties.getProperty("getIpAddressByVnf_method")).thenReturn("PUT");
     assertEquals("Put Success", dme2.send());
   }
 
   @Test
   public void testSendtoInstarPost() throws Exception {
-    PowerMockito.when(webResource.type("application/json")).thenReturn(builder);
-    PowerMockito.when(builder.post(ClientResponse.class, "")).thenReturn(clientResponse);
-    PowerMockito.when(clientResponse.getEntity(String.class)).thenReturn("Post Success");
+    ResponseBuilder responseBuilder = clientResponse.ok();
+    responseBuilder.encoding("Post Success").build();
+    PowerMockito.when(builder.post(any(Entity.class),eq(Response.class))).thenReturn(clientResponse);
+    PowerMockito.when(clientResponse.readEntity(String.class)).thenReturn("Post Success");
     when(properties.getProperty("getIpAddressByVnf_method")).thenReturn("POST");
     assertEquals("Post Success", dme2.send());
   }
 
   @Test
   public void testSendtoInstarDelete() throws Exception {
-    PowerMockito.when(webResource.delete(ClientResponse.class)).thenReturn(clientResponse);
-    PowerMockito.when(clientResponse.getEntity(String.class)).thenReturn("Delete Success");
+    ResponseBuilder responseBuilder = Response.ok();
+    PowerMockito.when(webResource.request(anyString()).delete(eq(Response.class))).thenReturn(clientResponse);
+    PowerMockito.when(clientResponse.readEntity(String.class)).thenReturn("Delete Success");
     when(properties.getProperty("getIpAddressByVnf_method")).thenReturn("DELETE");
-    assertEquals("Delete Success", dme2.send());
+    assertNull(dme2.send());
   }
 
   @Test
@@ -136,8 +178,8 @@ public class TestDme2Client {
   @Test
   public void testSendtoInstarMaskNotNull() throws Exception {
     Whitebox.setInternalState(dme2, "mask", "0.0.0.0/1");
-    PowerMockito.when(webResource.accept("application/json")).thenReturn(builder);
-    PowerMockito.when(clientResponse.getEntity(String.class)).thenReturn("Get Success");
+    PowerMockito.when(webResource.request("application/json")).thenReturn(builder);
+    PowerMockito.when(clientResponse.readEntity(String.class)).thenReturn(null);
     when(properties.getProperty("getIpAddressByVnf_method")).thenReturn("GET");
     assertNull(dme2.send());
   }
@@ -145,8 +187,8 @@ public class TestDme2Client {
   @Test
   public void testSendtoInstarIpNotNull() throws Exception {
     Whitebox.setInternalState(dme2, "ipAddress", "0.0.0.0");
-    PowerMockito.when(webResource.accept("application/json")).thenReturn(builder);
-    PowerMockito.when(clientResponse.getEntity(String.class)).thenReturn("Get Success");
+    PowerMockito.when(webResource.request("application/json")).thenReturn(builder);
+    PowerMockito.when(clientResponse.readEntity(String.class)).thenReturn(null);
     when(properties.getProperty("getIpAddressByVnf_method")).thenReturn("GET");
     assertNull(dme2.send());
   }
