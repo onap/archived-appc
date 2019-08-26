@@ -2,7 +2,7 @@
   ============LICENSE_START=======================================================
   ONAP : APPC
   ================================================================================
-  Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -174,8 +174,8 @@
         <configuration>
           <instructions>
             <Bundle-SymbolicName>appc-common-bundle</Bundle-SymbolicName>
-            <Export-Package>org.onap.appc.*, com.att.eelf.*</Export-Package>
-            <Embed-Dependency>eelf-core</Embed-Dependency>
+            <Export-Package>org.onap.appc.*</Export-Package>
+            <Embed-Dependency></Embed-Dependency>
             <Embed-Transitive>true</Embed-Transitive>
           </instructions>
         </configuration>

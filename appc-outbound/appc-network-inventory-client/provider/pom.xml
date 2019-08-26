@@ -51,7 +51,6 @@
         <dependency>
          <groupId>ch.qos.logback</groupId>
          <artifactId>logback-classic</artifactId>
-	 <version>${logback.version}</version>
         </dependency>
         <dependency>
             <groupId>com.att.eelf</groupId>
@@ -66,7 +65,6 @@
 		<dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-client</artifactId>
-            <version>2.22.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -77,13 +75,11 @@
         <dependency>
             <groupId>org.powermock</groupId>
             <artifactId>powermock-api-mockito</artifactId>
-            <version>1.6.4</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.powermock</groupId>
             <artifactId>powermock-module-junit4</artifactId>
-            <version>1.6.4</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -116,12 +112,10 @@
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-yaml</artifactId>
-            <version>2.3.2</version>
         </dependency>
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
-            <version>${snakeyaml.version}</version>
         </dependency>
     </dependencies>
 
@@ -138,9 +132,7 @@
                         <Export-Package>org.onap.appc.instar</Export-Package>
                         <Import-Package>*</Import-Package>
                         <Embed-Dependency>jackson-dataformat-yaml,snakeyaml</Embed-Dependency>
-                        <DynamicImport-Package>*</DynamicImport-Package>
                     </instructions>
-                    <manifestLocation>${project.basedir}/src/main/resources/META-INF</manifestLocation>
                 </configuration>
             </plugin>
         </plugins>
