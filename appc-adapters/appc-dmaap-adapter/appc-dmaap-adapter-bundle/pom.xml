@@ -167,7 +167,7 @@
  			<groupId>org.onap.dmaap.messagerouter.dmaapclient</groupId> 
  			<artifactId>dmaapClient</artifactId>
             <version>${dmaap.client.version}</version>
-            <classifier>jar-with-dependencies</classifier>
+<!--             <classifier>jar-with-dependencies</classifier> -->
 		</dependency>
 
 		<dependency>
