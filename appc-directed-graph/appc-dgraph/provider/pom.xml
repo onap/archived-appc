@@ -49,7 +49,10 @@
             <artifactId>eelf-core</artifactId>
             <version>${eelf.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.opendaylight.controller</groupId>
+            <artifactId>sal-binding-api</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.onap.appc.plugins</groupId>
             <artifactId>dg-loader-provider</artifactId>
@@ -66,6 +69,11 @@
             <artifactId>appc-config-params-provider</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.codehaus.jettison</groupId>
