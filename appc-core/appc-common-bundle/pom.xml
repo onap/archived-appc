@@ -174,8 +174,8 @@
         <configuration>
           <instructions>
             <Bundle-SymbolicName>appc-common-bundle</Bundle-SymbolicName>
-            <Export-Package>org.onap.appc.*</Export-Package>
-            <Embed-Dependency></Embed-Dependency>
+            <Export-Package>org.onap.appc.*, com.att.eelf.*</Export-Package>
+            <Embed-Dependency>eelf-core</Embed-Dependency>
             <Embed-Transitive>true</Embed-Transitive>
           </instructions>
         </configuration>
