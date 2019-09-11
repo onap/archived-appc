@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modification Copyright (C) 2019 IBM
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,8 +30,6 @@ package org.onap.appc.adapter.iaas.provider.operation.common.constants;
  */
 public class Property {
 
-    private Property() {
-    }
     public static final String PROVIDER = "provider";
     public static final String PROVIDER_IDENTITY = "identity";
     public static final String PROVIDER_TENANT = "tenant";
@@ -40,5 +40,8 @@ public class Property {
     public static final String PROVIDER_TYPE = "type";
     public static final String SKIP_HYPERVISOR_CHECK = "org.onap.appc.iaas.skiphypervisorcheck";
     public static final String PAYLOAD = "org.onap.appc.payload";
+
+    private Property() {
+    }
 
 }

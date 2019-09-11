@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modification Copyright (C) 2019 IBM
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,9 +29,6 @@ package org.onap.appc.adapter.iaas.provider.operation.common.constants;
  * @since September 26, 2016
  */
 public class Constants {
-
-    private Constants() {
-    }
 
     public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
@@ -60,4 +59,7 @@ public class Constants {
      * The constant for a space
      */
     public static final char SPACE = ' ';
+
+    private Constants() {
+    }
 }
