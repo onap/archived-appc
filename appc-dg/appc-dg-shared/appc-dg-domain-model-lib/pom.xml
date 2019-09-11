@@ -53,5 +53,5 @@
             <scope>test</scope>
     </dependency>
   </dependencies>
-  <version>1.6.3-SNAPSHOT</version>
+  <version>1.6.3</version>
 </project>
