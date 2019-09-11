@@ -4,6 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Nokia. All rights reserved.
  * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+ * Modification Copyright (C) 2019 IBM
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,11 +55,11 @@ public class ChefApiHeaderFactory {
         sb.append("X-Ops-Timestamp:").append(timeStamp).append("\n");
         sb.append("X-Ops-UserId:").append(userId);
 
-        String auth_String = Utils.signWithRSA(sb.toString(), pemPath);
-        String[] auth_headers = Utils.splitAs60(auth_String);
+        String authString = Utils.signWithRSA(sb.toString(), pemPath);
+        String[] authHeaders = Utils.splitAs60(authString);
 
-        for (int i = 0; i < auth_headers.length; i++) {
-            builder.put("X-Ops-Authorization-" + (i + 1), auth_headers[i]);
+        for (int i = 0; i < authHeaders.length; i++) {
+            builder.put("X-Ops-Authorization-" + (i + 1), authHeaders[i]);
         }
 
         return builder.build();
