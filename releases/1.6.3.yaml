@@ -1,0 +1,4 @@
+distribution_type: 'maven'
+version: '1.6.3'
+project: 'appc'
+log_dir: 'appc-maven-stage-master/199/'
