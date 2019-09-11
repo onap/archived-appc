@@ -8,6 +8,8 @@
  * ================================================================================
  * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
+ * Modification Copyright (C) 2019 IBM
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -359,7 +361,7 @@ public class EvacuateServer extends ProviderServerOperation {
     }
 
     private void setTimeForMetricsLogger() {
-        String timestamp = LoggingUtils.generateTimestampStr(((Date) new Date()).toInstant());
+        String timestamp = LoggingUtils.generateTimestampStr((new Date()).toInstant());
         MDC.put(LoggingConstants.MDCKeys.BEGIN_TIMESTAMP, timestamp);
         MDC.put(LoggingConstants.MDCKeys.END_TIMESTAMP, timestamp);
         MDC.put(LoggingConstants.MDCKeys.ELAPSED_TIME, "0");
