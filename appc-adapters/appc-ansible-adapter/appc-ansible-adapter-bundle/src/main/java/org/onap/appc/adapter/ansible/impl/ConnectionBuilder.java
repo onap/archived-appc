@@ -110,7 +110,7 @@ public class ConnectionBuilder implements Closeable {
      **/
     public ConnectionBuilder(String trustStoreFile, char[] trustStorePasswd, int timeout, String serverIP)
             throws KeyStoreException, IOException, KeyManagementException, NoSuchAlgorithmException,
-            CertificateException ,APPCException{
+            CertificateException {
 
         /* Load the specified trustStore */
         KeyStore keystore = KeyStore.getInstance("JKS");
@@ -138,7 +138,7 @@ public class ConnectionBuilder implements Closeable {
      */
 
     public ConnectionBuilder(int mode, int timeout)
-            throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException,APPCException{
+            throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
         RequestConfig config = RequestConfig.custom().setSocketTimeout(timeout).build();
         if (mode == 1) {
             SSLContext sslcontext = SSLContexts.custom().loadTrustMaterial(null, new TrustSelfSignedStrategy()).build();
