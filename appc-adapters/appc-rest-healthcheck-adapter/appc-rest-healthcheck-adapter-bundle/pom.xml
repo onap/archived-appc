@@ -222,5 +222,5 @@
             </plugin>
         </plugins>
     </build>
-    <version>1.6.3-SNAPSHOT</version>
+    <version>1.6.4-SNAPSHOT</version>
 </project>
