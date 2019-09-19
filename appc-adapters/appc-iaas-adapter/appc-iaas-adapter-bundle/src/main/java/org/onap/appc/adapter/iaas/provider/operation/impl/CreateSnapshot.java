@@ -139,7 +139,7 @@ public class CreateSnapshot extends ProviderServerOperation {
         return snapshot;
     }
 
-    private Image createSnapshot(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
+    private Image createSnapshot(Map<String, String> params, SvcLogicContext ctx) {
         Image snapshot = null;
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
@@ -148,29 +148,29 @@ public class CreateSnapshot extends ProviderServerOperation {
             validateParametersExist(params, ProviderAdapter.PROPERTY_INSTANCE_URL,
                     ProviderAdapter.PROPERTY_PROVIDER_NAME);
             String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
-            String vm_url = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
-            VMURL vm = VMURL.parseURL(vm_url);
-            if (validateVM(rc, appName, vm_url, vm))
+            String vmUrl = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
+            VMURL vm = VMURL.parseURL(vmUrl);
+            if (validateVM(rc, appName, vmUrl, vm))
                 return null;
             IdentityURL ident = IdentityURL.parseURL(params.get(ProviderAdapter.PROPERTY_IDENTITY_URL));
             String identStr = (ident == null) ? null : ident.toString();
-            snapshot = createSnapshotNested(snapshot, rc, vm, vm_url, identStr,ctx);
+            snapshot = createSnapshotNested(snapshot, rc, vm, vmUrl, identStr,ctx);
         } catch (RequestFailedException e) {
             doFailure(rc, e.getStatus(), e.getMessage());
         }
         return snapshot;
     }
 
-    private Image createSnapshotNested(Image SnapShot, RequestContext RcContext, VMURL vm, String vmUrl,
+    private Image createSnapshotNested(Image snapShot, RequestContext rcContext, VMURL vm, String vmUrl,
             String identStr, SvcLogicContext ctx){
         String msg;
         Context context = null;
         String tenantName = "Unknown";// this variable is also used in catch
         try {
-            context = getContext(RcContext, vmUrl, identStr);
+            context = getContext(rcContext, vmUrl, identStr);
             if (context != null) {
                 tenantName = context.getTenantName();
-                Server server = lookupServer(RcContext, context, vm.getServerId());
+                Server server = lookupServer(rcContext, context, vm.getServerId());
                 // Is the skip Hypervisor check attribute populated?
                 String skipHypervisorCheck = configuration.getProperty(Property.SKIP_HYPERVISOR_CHECK);
                 if (skipHypervisorCheck == null && ctx != null) {
@@ -184,15 +184,15 @@ public class CreateSnapshot extends ProviderServerOperation {
                 }
 
                 logger.debug(Msg.SERVER_FOUND, vmUrl, tenantName, server.getStatus().toString());
-                if (hasImageAccess(RcContext, context)) {
-                    SnapShot = createSnapshot(RcContext, server);
-                    doSuccess(RcContext);
+                if (hasImageAccess(rcContext, context)) {
+                    snapShot = createSnapshot(rcContext, server);
+                    doSuccess(rcContext);
                 } else {
                     msg = EELFResourceManager.format(Msg.IMAGE_SERVICE_FAILED, server.getName(), server.getId(),
                             "Accessing Image Service Failed");
                     logger.error(msg);
                     metricsLogger.error(msg);
-                    doFailure(RcContext, HttpStatus.FORBIDDEN_403, msg);
+                    doFailure(rcContext, HttpStatus.FORBIDDEN_403, msg);
                 }
                 context.close();
             }
@@ -200,14 +200,14 @@ public class CreateSnapshot extends ProviderServerOperation {
             msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, e, vmUrl);
             logger.error(msg);
             metricsLogger.error(msg, e);
-            doFailure(RcContext, HttpStatus.NOT_FOUND_404, msg);
+            doFailure(rcContext, HttpStatus.NOT_FOUND_404, msg);
         } catch (Exception e1) {
             msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1, e1.getClass().getSimpleName(),
                     Operation.SNAPSHOT_SERVICE.toString(), vmUrl, tenantName);
             logger.error(msg, e1);
-            doFailure(RcContext, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
+            doFailure(rcContext, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
         }
-        return SnapShot;
+        return snapShot;
     }
 
     @Override
