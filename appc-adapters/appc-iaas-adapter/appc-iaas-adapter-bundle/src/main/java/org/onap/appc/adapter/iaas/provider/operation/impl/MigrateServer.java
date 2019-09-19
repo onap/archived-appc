@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modification Copyright (C) 2019 IBM
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,13 +52,10 @@ import org.onap.appc.i18n.Msg;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.slf4j.MDC;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
-import java.util.TimeZone;
 import static org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation.MIGRATE_SERVICE;
 import static org.onap.appc.adapter.utils.Constants.ADAPTER_NAME;
 
@@ -102,7 +101,7 @@ public class MigrateServer extends ProviderServerOperation {
         }
         // Always perform Hypervisor check
         // unless the skip is set to true
-        if (skipHypervisorCheck == null || (!skipHypervisorCheck.equalsIgnoreCase("true"))) {
+        if (skipHypervisorCheck == null || (!(("true").equalsIgnoreCase(skipHypervisorCheck)))) {
             // Check of the Hypervisor for the VM Server is UP and reachable
             checkHypervisor(server);
         }
@@ -140,7 +139,6 @@ public class MigrateServer extends ProviderServerOperation {
                     }
                 } catch (ContextConnectionException e) {
                     msg = getConnectionExceptionMessage(rc, ctx, e);
-                    // logger.info(msg, e);
                     if (server.getStatus() != null && server.getStatus().equals(Server.Status.ERROR)) {
                         throw new RequestFailedException("Migrate Server", msg, HttpStatus.CONFLICT_409, server);
                     } else {
@@ -174,14 +172,14 @@ public class MigrateServer extends ProviderServerOperation {
         try {
             validateParametersExist(params, ProviderAdapter.PROPERTY_INSTANCE_URL,
                     ProviderAdapter.PROPERTY_PROVIDER_NAME);
-            String vm_url = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
+            String vmUrl = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
             String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
-            VMURL vm = VMURL.parseURL(vm_url);
-            if (validateVM(rc, appName, vm_url, vm))
+            VMURL vm = VMURL.parseURL(vmUrl);
+            if (validateVM(rc, appName, vmUrl, vm))
                 return null;
             IdentityURL ident = IdentityURL.parseURL(params.get(ProviderAdapter.PROPERTY_IDENTITY_URL));
             String identStr = (ident == null) ? null : ident.toString();
-            server = conductServerMigration(rc, vm_url, identStr, ctx);
+            server = conductServerMigration(rc, vmUrl, identStr, ctx);
         } catch (RequestFailedException e) {
             doFailure(rc, e.getStatus(), e.getMessage());
         }
@@ -199,7 +197,7 @@ public class MigrateServer extends ProviderServerOperation {
     }
 
     private void setTimeForMetricsLogger() {
-        String timestamp = LoggingUtils.generateTimestampStr(((Date) new Date()).toInstant());
+        String timestamp = LoggingUtils.generateTimestampStr((new Date()).toInstant());
         MDC.put(LoggingConstants.MDCKeys.BEGIN_TIMESTAMP, timestamp);
         MDC.put(LoggingConstants.MDCKeys.END_TIMESTAMP, timestamp);
         MDC.put(LoggingConstants.MDCKeys.ELAPSED_TIME, "0");
@@ -211,16 +209,16 @@ public class MigrateServer extends ProviderServerOperation {
 
     }
 
-    private Server conductServerMigration(RequestContext rc, String vm_url, String identStr, SvcLogicContext ctx)
+    private Server conductServerMigration(RequestContext rc, String vmUrl, String identStr, SvcLogicContext ctx)
             throws RequestFailedException {
         String msg;
-        Context context = getContext(rc, vm_url, identStr);
-        VMURL vm = VMURL.parseURL(vm_url);
+        Context context = getContext(rc, vmUrl, identStr);
+        VMURL vm = VMURL.parseURL(vmUrl);
         Server server = null;
         try {
             if (context != null) {
                 server = lookupServer(rc, context, vm.getServerId());
-                logger.debug(Msg.SERVER_FOUND, vm_url, context.getTenantName(), server.getStatus().toString());
+                logger.debug(Msg.SERVER_FOUND, vmUrl, context.getTenantName(), server.getStatus().toString());
                 migrateServer(rc, server, ctx);
                 server.refreshStatus();
                 context.close();
@@ -228,7 +226,7 @@ public class MigrateServer extends ProviderServerOperation {
             }
         } catch (IOException | ZoneException e1) {
             msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1, e1.getClass().getSimpleName(),
-                    MIGRATE_SERVICE.toString(), vm_url, context.getTenantName());
+                    MIGRATE_SERVICE.toString(), vmUrl, context.getTenantName());
             logger.error(msg, e1);
             metricsLogger.error(msg);
             doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
