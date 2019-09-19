@@ -53,9 +53,9 @@ public class LookupServer extends ProviderServerOperation {
 
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(EvacuateServer.class);
     private static final Configuration configuration = ConfigurationFactory.getConfiguration();
-    private static final String serverFound = "serverFound";
+    private static final String SERVERFOUND = "serverFound";
 
-    public Server lookupServer(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
+    public Server lookupServer(Map<String, String> params, SvcLogicContext ctx) {
         Server server = null;
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive(); // should we test the return and fail if false?
@@ -78,7 +78,7 @@ public class LookupServer extends ProviderServerOperation {
             String msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, e, vmUrl);
             logger.error(msg);
             doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
-            ctx.setAttribute(serverFound, "failure");
+            ctx.setAttribute(SERVERFOUND, "failure");
         }
         return server;
     }
@@ -93,7 +93,7 @@ public class LookupServer extends ProviderServerOperation {
                 rqstCtx.reset();
                 server = lookupServer(rqstCtx, context, vm.getServerId());
                 logger.debug(Msg.SERVER_FOUND, vmUrl, context.getTenantName(), server.getStatus().toString());
-                ctx.setAttribute(serverFound, "success");
+                ctx.setAttribute(SERVERFOUND, "success");
                 String msg = EELFResourceManager.format(Msg.SUCCESS_EVENT_MESSAGE, "LookupServer", vmUrl);
                 ctx.setAttribute(org.onap.appc.Constants.ATTRIBUTE_SUCCESS_MESSAGE, msg);
                 doSuccess(rqstCtx);
@@ -103,7 +103,7 @@ public class LookupServer extends ProviderServerOperation {
             String msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, e, vmUrl);
             logger.error(msg);
             doFailure(rqstCtx, HttpStatus.NOT_FOUND_404, msg);
-            ctx.setAttribute(serverFound, "failure");
+            ctx.setAttribute(SERVERFOUND, "failure");
         } catch (IOException e) {
             // exception closing context
             String msg = EELFResourceManager.format(Msg.CLOSE_CONTEXT_FAILED, e, vmUrl);
