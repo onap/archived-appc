@@ -120,5 +120,5 @@
             <artifactId>ietf-yang-types-20130715</artifactId>
         </dependency>
     </dependencies>
-    <version>1.6.4-SNAPSHOT</version>
+    <version>1.6.4</version>
 </project>

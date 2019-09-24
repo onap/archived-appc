@@ -71,5 +71,5 @@
 		<module>provider</module>
 		<module>installer</module>
   </modules>
-	<version>1.6.4-SNAPSHOT</version>
+	<version>1.6.4</version>
 </project>
