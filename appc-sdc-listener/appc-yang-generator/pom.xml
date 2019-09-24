@@ -77,7 +77,7 @@ limitations under the License.
         <dependency>
             <groupId>org.openecomp.sdc.common</groupId>
             <artifactId>openecomp-tosca-datatype</artifactId>
-            <version>${toscalib.version}</version>
+            <version>${tosca.datatype.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.datastax.cassandra</groupId>
