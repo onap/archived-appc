@@ -70,8 +70,7 @@ public class TerminateStack extends ProviderStackOperation {
     }
 
     @SuppressWarnings("nls")
-    public Stack terminateStack(Map<String, String> params, SvcLogicContext ctx)
-            throws IllegalArgumentException, APPCException {
+    public Stack terminateStack(Map<String, String> params, SvcLogicContext ctx) {
         Stack stack = null;
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
