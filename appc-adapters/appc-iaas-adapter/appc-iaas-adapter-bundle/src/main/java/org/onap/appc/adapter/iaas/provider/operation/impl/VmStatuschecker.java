@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modification Copyright (C) 2019 IBM
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,8 +59,7 @@ public class VmStatuschecker extends ProviderServerOperation {
     /**
      * to check the status of the VM
      */
-    public Server vmStatuschecker(Map<String, String> params, SvcLogicContext ctx)
-            throws UnknownProviderException, IllegalArgumentException {
+    public Server vmStatuschecker(Map<String, String> params, SvcLogicContext ctx) {
         Server server = null;
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
@@ -69,10 +70,10 @@ public class VmStatuschecker extends ProviderServerOperation {
             validateParametersExist(params, ProviderAdapter.PROPERTY_INSTANCE_URL,
                     ProviderAdapter.PROPERTY_PROVIDER_NAME);
 
-            String vm_url = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
+            String vmUrl = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
 
-            VMURL vm = VMURL.parseURL(vm_url);
-            if (validateVM(rc, appName, vm_url, vm))
+            VMURL vm = VMURL.parseURL(vmUrl);
+            if (validateVM(rc, appName, vmUrl, vm))
                 return null;
 
             IdentityURL ident = IdentityURL.parseURL(params.get(ProviderAdapter.PROPERTY_IDENTITY_URL));
@@ -81,11 +82,11 @@ public class VmStatuschecker extends ProviderServerOperation {
             Context context = null;
             String tenantName = "Unknown";//to be used also in case of exception
             try {
-                context = getContext(rc, vm_url, identStr);
+                context = getContext(rc, vmUrl, identStr);
                 if (context != null) {
                     tenantName = context.getTenantName();//this varaible also is used in case of exception
                     server = lookupServer(rc, context, vm.getServerId());
-                    logger.debug(Msg.SERVER_FOUND, vm_url, tenantName, server.getStatus().toString());
+                    logger.debug(Msg.SERVER_FOUND, vmUrl, tenantName, server.getStatus().toString());
 
                     String statusvm;
                     switch (server.getStatus()) {
@@ -133,12 +134,12 @@ public class VmStatuschecker extends ProviderServerOperation {
                             Integer.toString(HttpStatus.OK_200.getStatusCode()));
                 }
             } catch (ResourceNotFoundException e) {
-                String msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, e, vm_url);
+                String msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, e, vmUrl);
                 logger.error(msg);
                 doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
             } catch (Exception e1) {
                 String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1,
-                        e1.getClass().getSimpleName(), RESTART_SERVICE.toString(), vm_url,
+                        e1.getClass().getSimpleName(), RESTART_SERVICE.toString(), vmUrl,
                         tenantName);
                 logger.error(msg, e1);
                 doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
