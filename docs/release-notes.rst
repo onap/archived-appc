@@ -26,6 +26,46 @@ Release Notes
 ..	* This note must be removed after content has been added.
 
 
+Version: 1.6.4
+--------------
+
+:Release Date: 2019-9-30
+
+The El Alto added the following feature, bug fixes and security enhancements:
+
+**New Features**
+
+	 - Upgraded OpenDaylight (ODL) version to Fluorine SR2
+
+**Bug Fixes**
+
+      - `APPC-1319 <https://jira.onap.org/browse/APPC-1319>`_ - apidoc shows ""undefined"" when netconf successfully mounted
+      - `APPC-1584 <https://jira.onap.org/browse/APPC-1584>`_ - Incorrect Package name in Audit Directed Graph
+      - `APPC-1587 <https://jira.onap.org/browse/APPC-1587>`_ - Publish config field mismatch in onap documentaion & Audit DG
+      - `APPC-1588 <https://jira.onap.org/browse/APPC-1588>`_ - Publish config filed missing in Sync LCM in documentation
+      - `APPC-1589 <https://jira.onap.org/browse/APPC-1589>`_ - Cvaas directory is not mounted in docker image,Dublin Release
+      - `APPC-1590 <https://jira.onap.org/browse/APPC-1590>`_ - Sync & Audit Payload to include the file name
+      - `APPC-1604 <https://jira.onap.org/browse/APPC-1604>`_ - APPC Not Picking up Mesasges from Dmaap
+      - `APPC-1613 <https://jira.onap.org/browse/APPC-1613>`_ - Exception for LCM request with parameter read from A&AI
+      - `APPC-1627 <https://jira.onap.org/browse/APPC-1627>`_ - Daexim directory owned by root - access denied during boot
+      - `APPC-1634 <https://jira.onap.org/browse/APPC-1634>`_ - Mark the fields transient of RequestFailedException.java Serializable class to full-fill Serializable class contract,
+      - `APPC-1635 <https://jira.onap.org/browse/APPC-1635>`_ - Mark the fields transient of EventMessage.java Serializable class to full-fill Serializable class contract
+      - `APPC-1639 <https://jira.onap.org/browse/APPC-1639>`_ - Error during CDT SQL query
+      - `APPC-1713 <https://jira.onap.org/browse/APPC-1713>`_ - Appc eelf logging resource bundle error after ODL upgrade
+      - `APPC-1736 <https://jira.onap.org/browse/APPC-1736>`_ - change mountpoint for pax property file
+
+**Security Notes**
+
+*Fixed Security Issues*
+
+      - `OJSI-25 <https://jira.onap.org/browse/OJSI-25>`_ - SQL Injection in APPC (CVE-2019-12316)
+      - `OJSI-104 <https://jira.onap.org/browse/OJSI-104>`_ - appc exposes plain text HTTP endpoint using port 30211
+      - `OJSI-113 <https://jira.onap.org/browse/OJSI-113>`_ - appc exposes plain text HTTP endpoint using port 30230
+      - `OJSI-113 <https://jira.onap.org/browse/OJSI-146>`_ - appc-cdt exposes plain text HTTP endpoint using port 30289
+      - `OJSI-176 <https://jira.onap.org/browse/OJSI-176>`_ - dev-appc-appc exposes JDWP on port 1830 which allows for arbitrary code execution
+      - `OJSI-177 <https://jira.onap.org/browse/OJSI-177>`_ - dev-appc-appc exposes JDWP on port 8101 which allows for arbitrary code execution
+      - `OJSI-185 <https://jira.onap.org/browse/OJSI-185>`_ - appc exposes ssh service on port 30231
+
 Version: 1.5.3
 --------------
 
