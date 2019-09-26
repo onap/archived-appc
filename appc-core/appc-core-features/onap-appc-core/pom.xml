@@ -39,5 +39,5 @@
         <classifier>features</classifier>
     </dependency>
   </dependencies>
-  <version>1.6.4-SNAPSHOT</version>
+  <version>1.6.5-SNAPSHOT</version>
 </project>

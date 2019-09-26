@@ -65,5 +65,5 @@
         <module>installer</module>
     </modules>
 
-    <version>1.6.4-SNAPSHOT</version>
+    <version>1.6.5-SNAPSHOT</version>
 </project>
