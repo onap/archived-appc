@@ -38,10 +38,10 @@ import org.onap.appc.yang.YANGGenerator;
 import org.onap.appc.yang.exception.YANGGenerationException;
 import org.onap.appc.yang.objects.Leaf;
 import org.onap.appc.yang.type.YangTypes;
-import org.openecomp.sdc.tosca.datatypes.model.NodeType;
-import org.openecomp.sdc.tosca.datatypes.model.PropertyDefinition;
-import org.openecomp.sdc.tosca.datatypes.model.ServiceTemplate;
-import org.openecomp.sdc.tosca.services.YamlUtil;
+import org.onap.sdc.tosca.datatypes.model.NodeType;
+import org.onap.sdc.tosca.datatypes.model.PropertyDefinition;
+import org.onap.sdc.tosca.datatypes.model.ServiceTemplate;
+import org.onap.sdc.tosca.services.YamlUtil;
 
 import java.io.*;
 import java.util.HashMap;

@@ -41,11 +41,11 @@ import org.onap.sdnc.config.params.data.PropertyDefinition;
 import org.onap.sdnc.config.params.data.RequestKey;
 import org.onap.sdnc.config.params.data.ResponseKey;
 import org.onap.sdnc.config.params.transformer.tosca.exceptions.ArtifactProcessorException;
-import org.openecomp.sdc.tosca.datatypes.model.NodeTemplate;
-import org.openecomp.sdc.tosca.datatypes.model.NodeType;
-import org.openecomp.sdc.tosca.datatypes.model.ServiceTemplate;
-import org.openecomp.sdc.tosca.datatypes.model.TopologyTemplate;
-import org.openecomp.sdc.tosca.services.YamlUtil;
+import org.onap.sdc.tosca.datatypes.model.NodeTemplate;
+import org.onap.sdc.tosca.datatypes.model.NodeType;
+import org.onap.sdc.tosca.datatypes.model.ServiceTemplate;
+import org.onap.sdc.tosca.datatypes.model.TopologyTemplate;
+import org.onap.sdc.tosca.services.YamlUtil;
 import org.slf4j.MDC;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -141,11 +141,11 @@ public class ArtifactProcessorImpl implements ArtifactProcessor {
 
         List<Parameter> parameterList = new LinkedList<>();
 
-        Map<String, org.openecomp.sdc.tosca.datatypes.model.PropertyDefinition> propertyDefinitionFromTOSCA =
+        Map<String, org.onap.sdc.tosca.datatypes.model.PropertyDefinition> propertyDefinitionFromTOSCA =
                 nodeType.getProperties();
         if (null != propertyDefinitionFromTOSCA) {
             for (String propertyName : propertyDefinitionFromTOSCA.keySet()) {
-                org.openecomp.sdc.tosca.datatypes.model.PropertyDefinition propertyDefinition =
+                org.onap.sdc.tosca.datatypes.model.PropertyDefinition propertyDefinition =
                         propertyDefinitionFromTOSCA.get(propertyName);
 
                 Parameter parameter = new Parameter();
@@ -284,7 +284,7 @@ public class ArtifactProcessorImpl implements ArtifactProcessor {
         toscaNodeType.setVersion(artifact.getVersion());
         toscaNodeType.setDescription("");
         if (artifact.getParameters() != null) {
-            Map<String, org.openecomp.sdc.tosca.datatypes.model.PropertyDefinition> toscaPropertyMap =
+            Map<String, org.onap.sdc.tosca.datatypes.model.PropertyDefinition> toscaPropertyMap =
                     new HashMap<>();
             toscaNodeType.setProperties(toscaPropertyMap);
 
@@ -305,8 +305,8 @@ public class ArtifactProcessorImpl implements ArtifactProcessor {
         if (!StringUtils.isBlank(pdParameter.getName())
                 && !pdParameter.getName().matches(".*\\s+.*")) {
             Log.info("Adding parameter " + pdParameter.getName() + " in node type");
-            org.openecomp.sdc.tosca.datatypes.model.PropertyDefinition toscaProperty =
-                    new org.openecomp.sdc.tosca.datatypes.model.PropertyDefinition();
+            org.onap.sdc.tosca.datatypes.model.PropertyDefinition toscaProperty =
+                    new org.onap.sdc.tosca.datatypes.model.PropertyDefinition();
 
             toscaProperty.setType(
                     StringUtils.isBlank(pdParameter.getType()) ? "string" : pdParameter.getType());

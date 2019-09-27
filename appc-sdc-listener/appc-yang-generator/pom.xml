@@ -75,8 +75,8 @@ limitations under the License.
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.openecomp.sdc.common</groupId>
-            <artifactId>openecomp-tosca-datatype</artifactId>
+            <groupId>org.onap.sdc.common</groupId>
+            <artifactId>onap-tosca-datatype</artifactId>
             <version>${tosca.datatype.version}</version>
             <exclusions>
                 <exclusion>
