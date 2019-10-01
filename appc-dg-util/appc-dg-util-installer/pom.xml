@@ -25,7 +25,7 @@
         <groupId>org.onap.appc.parent</groupId>
         <artifactId>odlparent-lite</artifactId>
         <version>2.6.3-SNAPSHOT</version>
-        <relativePath />
+        <relativePath/>
     </parent>
   <artifactId>appc-dg-util-installer</artifactId>
   <name>APPC DG Util - Karaf Installer</name>
