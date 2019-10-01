@@ -33,5 +33,5 @@ then
 
 fi
 
-${ODL_KARAF_CLIENT} ${ODL_KARAF_CLIENT_OPTS} feature:repo-add ${features.repositories}
-
+#${ODL_KARAF_CLIENT} ${ODL_KARAF_CLIENT_OPTS} feature:repo-add ${features.repositories}
+sshpass -pkaraf ssh -o StrictHostKeyChecking=no karaf@localhost -p 8101 "feature:repo-add ${features.repositories}"

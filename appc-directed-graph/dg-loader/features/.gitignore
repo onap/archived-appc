@@ -28,3 +28,4 @@
 # Maven
 log/
 target/
+/bin/
