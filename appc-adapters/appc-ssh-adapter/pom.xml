@@ -23,8 +23,8 @@
     <parent>
         <groupId>org.onap.appc.parent</groupId>
         <artifactId>odlparent-lite</artifactId>
-        <version>2.6.3-SNAPSHOT</version>
-        <relativePath />
+        <version>2.7.0-SNAPSHOT</version>
+        <relativePath/>
     </parent>
 	<groupId>org.onap.appc</groupId>
 	<modelVersion>4.0.0</modelVersion>
@@ -38,5 +38,5 @@
 		<module>appc-ssh-adapter-sshd</module>
 		<module>appc-ssh-adapter-features</module>
 	</modules>
-	<version>1.6.5-SNAPSHOT</version>
+	<version>1.7.0-SNAPSHOT</version>
 </project>
