@@ -38,7 +38,8 @@ fi
 
 COUNT=0
 while [ $COUNT -lt 10 ]; do
-    ${ODL_KARAF_CLIENT} ${ODL_KARAF_CLIENT_OPTS} feature:repo-add ${features.repositories} 2> /tmp/installErr
+#    ${ODL_KARAF_CLIENT} ${ODL_KARAF_CLIENT_OPTS} feature:repo-add ${features.repositories} 2> /tmp/installErr
+sshpass -pkaraf ssh -o StrictHostKeyChecking=no karaf@localhost -p 8101 "feature:repo-add ${features.repositories}" 2> /tmp/installErr
     cat /tmp/installErr
     if grep -q 'Failed to get the session' /tmp/installErr; then
         sleep 10
