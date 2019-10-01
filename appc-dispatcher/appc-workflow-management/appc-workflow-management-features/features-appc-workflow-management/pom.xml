@@ -30,10 +30,10 @@ limitations under the License.
 
     <groupId>org.onap.appc</groupId>
     <artifactId>features-appc-workflow-management</artifactId>
-    <version>1.6.5-SNAPSHOT</version>
+    <version>2.6.3-SNAPSHOT</version>
     <packaging>feature</packaging>
 
-    <name></name>
+    <name/>
 
     <dependencies>
         <dependency>

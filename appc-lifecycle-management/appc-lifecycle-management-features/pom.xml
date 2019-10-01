@@ -30,10 +30,10 @@ limitations under the License.
 
     <groupId>org.onap.appc</groupId>
     <artifactId>appc-lifecycle-management-feature-aggregator</artifactId>
-    <version>1.6.5-SNAPSHOT</version>
+    <version>2.6.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name></name>
+    <name/>
 
     <modules>
         <module>onap-appc-lifecycle-management</module>
