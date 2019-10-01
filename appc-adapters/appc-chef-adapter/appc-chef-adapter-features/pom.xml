@@ -25,7 +25,7 @@ limitations under the License.
         <groupId>org.onap.appc.parent</groupId>
         <artifactId>odlparent-lite</artifactId>
         <version>2.6.3-SNAPSHOT</version>
-        <relativePath />
+        <relativePath/>
     </parent>
 
     <groupId>org.onap.appc</groupId>
@@ -33,7 +33,7 @@ limitations under the License.
     <version>1.6.5-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name></name>
+    <name/>
 
     <modules>
         <module>onap-appc-chef-adapter</module>
