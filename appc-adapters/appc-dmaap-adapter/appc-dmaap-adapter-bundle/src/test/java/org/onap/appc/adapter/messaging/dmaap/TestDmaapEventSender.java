@@ -35,7 +35,7 @@ import org.onap.appc.adapter.message.Producer;
 import org.onap.appc.adapter.message.event.EventHeader;
 import org.onap.appc.adapter.message.event.EventMessage;
 import org.onap.appc.adapter.message.event.EventStatus;
-import org.onap.appc.adapter.messaging.dmaap.impl.DmaapProducerImpl;
+import org.onap.appc.adapter.messaging.dmaap.http.HttpDmaapProducerImpl;
 import org.onap.appc.adapter.messaging.dmaap.impl.EventSenderDmaapImpl;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
@@ -74,7 +74,7 @@ public class TestDmaapEventSender {
             props.setProperty(EventSenderDmaapImpl.DMAAP_PASSWORD, eventClientSecret);
         }
 
-        Producer producer = Mockito.mock(DmaapProducerImpl.class);
+        Producer producer = Mockito.mock(HttpDmaapProducerImpl.class);
         producerMap.put(MessageDestination.DCAE.toString(),producer);
         Mockito.when(producer.post(Matchers.anyString(), Matchers.anyString())).thenReturn(true);
 

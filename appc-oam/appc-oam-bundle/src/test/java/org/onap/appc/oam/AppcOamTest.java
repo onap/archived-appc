@@ -69,7 +69,7 @@ import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.status.Status;
 import org.opendaylight.yangtools.yang.common.RpcError;
 import org.opendaylight.yangtools.yang.common.RpcResult;
 import org.powermock.reflect.Whitebox;
-import com.att.aft.dme2.internal.google.common.collect.Iterables;
+import com.google.common.collect.Iterables;
 import com.att.eelf.configuration.EELFLogger;
 import com.google.common.collect.ImmutableMap;
 
