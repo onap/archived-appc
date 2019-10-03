@@ -27,7 +27,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import com.att.aft.dme2.internal.jersey.core.util.Base64;
+import org.apache.commons.codec.binary.Base64;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -85,7 +85,8 @@ public class ProviderOperationsTest {
         assertEquals("http://123.1.2.3", providerOperations.getUrl());
 
         String newAuthentication = providerOperations.setAuthentication("new_user", "new_password");
-        assertEquals("new_user:new_password", Base64.base64Decode(newAuthentication));
+        String authStr = "new_user:new_password";
+        assertEquals(new String(Base64.encodeBase64(authStr.getBytes())), newAuthentication);
     }
 
     @Test

@@ -25,7 +25,7 @@
 
 package org.onap.appc.requesthandler.conv;
 
-import com.att.aft.dme2.internal.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 

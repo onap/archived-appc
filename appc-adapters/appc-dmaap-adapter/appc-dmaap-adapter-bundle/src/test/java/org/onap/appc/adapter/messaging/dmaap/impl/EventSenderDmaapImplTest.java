@@ -37,6 +37,7 @@ import org.onap.appc.adapter.message.MessageDestination;
 import org.onap.appc.adapter.message.Producer;
 import org.onap.appc.adapter.message.event.EventHeader;
 import org.onap.appc.adapter.message.event.EventMessage;
+import org.onap.appc.adapter.messaging.dmaap.http.HttpDmaapProducerImpl;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
 import org.onap.appc.exceptions.APPCException;
@@ -76,7 +77,12 @@ public class EventSenderDmaapImplTest {
         EventHeader eventHeader = Mockito.mock(EventHeader.class);
         Mockito.when(eventHeader.getEventId()).thenReturn("EVENT_ID");
         Mockito.when(eventMessage.getEventHeader()).thenReturn(eventHeader);
-        assertTrue(sender.sendEvent(MessageDestination.DCAE, eventMessage, "TOPIC NAME"));
+        Producer mockProducer = Mockito.mock(HttpDmaapProducerImpl.class);
+        Mockito.when(mockProducer.post(Mockito.anyString(), Mockito.anyString())).thenReturn(true);
+        Map<String,Producer> map = new HashMap<>();
+        map.put(MessageDestination.DCAE.toString(),mockProducer);
+        sender.setProducerMap(map);
+        assertTrue(sender.sendEvent(MessageDestination.DCAE, eventMessage));
     }
 
     @Test

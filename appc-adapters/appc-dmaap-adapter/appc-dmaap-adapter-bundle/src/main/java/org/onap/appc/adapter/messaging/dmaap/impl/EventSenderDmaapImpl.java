@@ -34,6 +34,7 @@ import org.onap.appc.adapter.message.Producer;
 import org.onap.appc.adapter.message.event.EventHeader;
 import org.onap.appc.adapter.message.event.EventMessage;
 import org.onap.appc.adapter.message.event.EventStatus;
+import org.onap.appc.adapter.messaging.dmaap.http.HttpDmaapProducerImpl;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
 import org.onap.appc.exceptions.APPCException;
@@ -91,7 +92,7 @@ public class EventSenderDmaapImpl implements EventSender
             LOG.debug(String.format("pool = %s, taken from property: %s", pool, destination + "." + EVENT_POOL_MEMBERS));
             LOG.debug(String.format("writeTopic = %s, taken from property: %s", writeTopic, destination + "." + EVENT_TOPIC_WRITE));
             LOG.debug(String.format("username = %s, taken from property: %s", username, destination + "." + DMAAP_USERNAME));
-            Producer producer = new DmaapProducerImpl(pool, writeTopic,username, password);
+            Producer producer = new HttpDmaapProducerImpl(pool, writeTopic,username, password);
 
             for (String url : pool) {
                 if (url.contains("3905") || url.contains("https")) {
@@ -138,7 +139,7 @@ public class EventSenderDmaapImpl implements EventSender
         LOG.debug(String.format("pool = %s, taken from property: %s", pool, destination + "." + EVENT_POOL_MEMBERS));
         LOG.debug(String.format("writeTopic = %s, taken from property: %s", eventTopicName, destination + "." + EVENT_TOPIC_WRITE));
         LOG.debug(String.format("username = %s, taken from property: %s", username, destination + "." + DMAAP_USERNAME));
-        Producer producer = new DmaapProducerImpl(pool, eventTopicName, username, password);
+        Producer producer = new HttpDmaapProducerImpl(pool, eventTopicName, username, password);
 
         for (String url : pool) {
             if (url.contains("3905") || url.contains("https")) {

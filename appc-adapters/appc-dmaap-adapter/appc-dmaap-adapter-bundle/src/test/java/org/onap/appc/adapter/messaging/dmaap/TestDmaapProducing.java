@@ -30,7 +30,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.onap.appc.adapter.message.Producer;
 import org.onap.appc.adapter.messaging.dmaap.http.HttpDmaapProducerImpl;
-import org.onap.appc.adapter.messaging.dmaap.impl.DmaapProducerImpl;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
 
@@ -46,7 +45,6 @@ import java.util.List;
 public class TestDmaapProducing {
 
     private static Producer httpProducer;
-    private static Producer dmaapProducer;
 
     @BeforeClass
     public static void setUp() {
@@ -58,7 +56,6 @@ public class TestDmaapProducing {
         String user = configuration.getProperty("dmaap.appc.username");
         String password = configuration.getProperty("dmaap.appc.password");
 
-        dmaapProducer = new DmaapProducerImpl(hosts, topic,user,password);
         httpProducer = new HttpDmaapProducerImpl(hosts, topic);
         httpProducer.updateCredentials(user,password);
     }
@@ -72,7 +69,7 @@ public class TestDmaapProducing {
     @Test
     @Ignore
     public void testPostMessages() {
-        testPostMessage(dmaapProducer);
+        testPostMessage(httpProducer);
     }
 
     private void testPostMessage(Producer producer) {
