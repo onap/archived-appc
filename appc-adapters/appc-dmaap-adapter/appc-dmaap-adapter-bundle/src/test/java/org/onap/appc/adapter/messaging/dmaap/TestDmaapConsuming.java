@@ -29,7 +29,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.appc.adapter.message.Consumer;
 import org.onap.appc.adapter.messaging.dmaap.http.HttpDmaapConsumerImpl;
-import org.onap.appc.adapter.messaging.dmaap.impl.DmaapConsumerImpl;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
 import org.junit.Ignore;
@@ -45,7 +44,6 @@ import java.util.List;
  */
 public class TestDmaapConsuming {
 
-    private static Consumer dmaapConsumer;
     private static Consumer httpConsumer;
 
     @BeforeClass
@@ -62,7 +60,6 @@ public class TestDmaapConsuming {
         String password = configuration.getProperty("dmaap.appc.password");
 
         httpConsumer = new HttpDmaapConsumerImpl(hosts, topic, consumerName, consumerId, msgFilter);
-        dmaapConsumer = new DmaapConsumerImpl(hosts, topic, consumerName, consumerId,user,password,msgFilter);
     }
 
     @Test
@@ -74,7 +71,7 @@ public class TestDmaapConsuming {
      @Test
      @Ignore
     public void testFetchMessages() {
-        testFetchMessages(dmaapConsumer);
+        testFetchMessages(httpConsumer);
     }
 
     private void testFetchMessages(Consumer consumer) {

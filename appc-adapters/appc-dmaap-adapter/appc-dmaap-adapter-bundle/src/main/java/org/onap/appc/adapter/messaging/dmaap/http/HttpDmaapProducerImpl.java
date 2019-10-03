@@ -50,6 +50,11 @@ public class HttpDmaapProducerImpl extends CommonHttpClient implements Producer 
         //for test purposes
     }
 
+    public HttpDmaapProducerImpl(Collection<String> urls, String topicName, String username, String password) {
+        this(urls, topicName);
+        updateCredentials(username, password);
+    }
+    
     public HttpDmaapProducerImpl(Collection<String> urls, String topicName) {
         topics = new HashSet<>();
         topics.add(topicName);
