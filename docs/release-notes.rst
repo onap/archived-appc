@@ -62,8 +62,6 @@ The El Alto added the following feature, bug fixes and security enhancements:
       - `OJSI-104 <https://jira.onap.org/browse/OJSI-104>`_ - appc exposes plain text HTTP endpoint using port 30211
       - `OJSI-113 <https://jira.onap.org/browse/OJSI-113>`_ - appc exposes plain text HTTP endpoint using port 30230
       - `OJSI-146 <https://jira.onap.org/browse/OJSI-146>`_ - appc-cdt exposes plain text HTTP endpoint using port 30289
-      - `OJSI-176 <https://jira.onap.org/browse/OJSI-176>`_ - dev-appc-appc exposes JDWP on port 1830 which allows for arbitrary code execution
-      - `OJSI-177 <https://jira.onap.org/browse/OJSI-177>`_ - dev-appc-appc exposes JDWP on port 8101 which allows for arbitrary code execution
       - `OJSI-185 <https://jira.onap.org/browse/OJSI-185>`_ - appc exposes ssh service on port 30231
 
 Version: 1.5.3
