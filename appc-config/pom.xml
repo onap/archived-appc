@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.onap.appc</groupId>
         <artifactId>appc</artifactId>
-        <version>1.6.5-SNAPSHOT</version>
+        <version>1.7.0-SNAPSHOT</version>
     </parent>
 
     <groupId>org.onap.appc</groupId>
@@ -111,5 +111,5 @@
             <module>appc-config-audit</module>
     </modules>
 
-    <version>1.6.5-SNAPSHOT</version>
+    <version>1.7.0-SNAPSHOT</version>
 </project>
