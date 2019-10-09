@@ -20,8 +20,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ============LICENSE_END=========================================================
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
         <artifactId>odlparent</artifactId>
@@ -257,15 +256,11 @@ limitations under the License.
                 <type>xml</type>
             </dependency>
             <dependency>
-                <groupId>org.opendaylight.mdsal.model</groupId>
-                <artifactId>ietf-inet-types-2013-07-15</artifactId>
-                <version>${odl.ietf-inet-types.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.opendaylight.mdsal.model</groupId>
-                <artifactId>ietf-yang-types-20130715</artifactId>
-                <version>${odl.ietf-yang-types.version}</version>
-            </dependency>
+            <groupId>org.opendaylight.mdsal.binding.model.ietf</groupId>
+            <artifactId>rfc6991</artifactId>
+        </dependency>
+
+            
             <!-- CURRENTLY DOES NOT EXIST IN 3.0. Replacement? -->
             <!-- Required for launching the feature tests -->
             <!-- <dependency> -->

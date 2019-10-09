@@ -38,17 +38,23 @@ fi
 
 # ${ODL_KARAF_CLIENT} ${ODL_KARAF_CLIENT_OPTS} feature:repo-add ${features.repositories}
 
+
 # INSTALLING ODL FEATURES SEPARATELY-->
-${ODL_KARAF_CLIENT} ${ODL_KARAF_CLIENT_OPTS} feature:repo-add ${features.repo.dispatcher}
-${ODL_KARAF_CLIENT} ${ODL_KARAF_CLIENT_OPTS} feature:repo-add ${features.repo.requestHandler}
-${ODL_KARAF_CLIENT} ${ODL_KARAF_CLIENT_OPTS} feature:repo-add ${features.repo.commandExecutor}
-${ODL_KARAF_CLIENT} ${ODL_KARAF_CLIENT_OPTS} feature:repo-add ${features.repo.lifecycleManagement}
-${ODL_KARAF_CLIENT} ${ODL_KARAF_CLIENT_OPTS} feature:repo-add ${features.repo.licenseManager}
-${ODL_KARAF_CLIENT} ${ODL_KARAF_CLIENT_OPTS} feature:repo-add ${features.repo.workflowManagement}
-${ODL_KARAF_CLIENT} ${ODL_KARAF_CLIENT_OPTS} feature:repo-add ${features.repo.lockManager}
+#${ODL_KARAF_CLIENT} ${ODL_KARAF_CLIENT_OPTS} feature:repo-add ${features.repo.dispatcher}
+#${ODL_KARAF_CLIENT} ${ODL_KARAF_CLIENT_OPTS} feature:repo-add ${features.repo.requestHandler}
+#${ODL_KARAF_CLIENT} ${ODL_KARAF_CLIENT_OPTS} feature:repo-add ${features.repo.commandExecutor}
+#${ODL_KARAF_CLIENT} ${ODL_KARAF_CLIENT_OPTS} feature:repo-add ${features.repo.lifecycleManagement}
+#${ODL_KARAF_CLIENT} ${ODL_KARAF_CLIENT_OPTS} feature:repo-add ${features.repo.licenseManager}
+#${ODL_KARAF_CLIENT} ${ODL_KARAF_CLIENT_OPTS} feature:repo-add ${features.repo.workflowManagement}
+#${ODL_KARAF_CLIENT} ${ODL_KARAF_CLIENT_OPTS} feature:repo-add ${features.repo.lockManager}
 
-# INSTALLING appc-license-manager first since it's a dependency on other features
-#${ODL_KARAF_CLIENT} ${ODL_KARAF_CLIENT_OPTS} feature:install -r ${features.boot.licenseManager}
-
+# INSTALLING ODL FEATURES SEPARATELY-->
+sshpass -pkaraf ssh -o StrictHostKeyChecking=no karaf@localhost -p 8101 "feature:repo-add ${features.repo.dispatcher}"
+sshpass -pkaraf ssh -o StrictHostKeyChecking=no karaf@localhost -p 8101 "feature:repo-add ${features.repo.requestHandler}"
+sshpass -pkaraf ssh -o StrictHostKeyChecking=no karaf@localhost -p 8101 "feature:repo-add ${features.repo.commandExecutor}"
+sshpass -pkaraf ssh -o StrictHostKeyChecking=no karaf@localhost -p 8101 "feature:repo-add ${features.repo.lifecycleManagement}"
+sshpass -pkaraf ssh -o StrictHostKeyChecking=no karaf@localhost -p 8101 "feature:repo-add ${features.repo.licenseManager}"
+sshpass -pkaraf ssh -o StrictHostKeyChecking=no karaf@localhost -p 8101 "feature:repo-add ${features.repo.workflowManagement}"
+sshpass -pkaraf ssh -o StrictHostKeyChecking=no karaf@localhost -p 8101 "feature:repo-add ${features.repo.lockManager}"
 
 
