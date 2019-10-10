@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ============LICENSE_START=======================================================
+  ONAP : APPC
+  ================================================================================
+  Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2017 Amdocs
+  ================================================================================
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  ============LICENSE_END=========================================================
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.onap.appc.parent</groupId>
+		<artifactId>binding-parent</artifactId>
+		<version>2.6.2</version>
+                <relativePath />
+	</parent>
+        <groupId>org.onap.appc.services.dmaap</groupId>
+
+	<artifactId>appc-event-listener-bundle</artifactId>
+	<packaging>jar</packaging>
+	<name>Event Listener - bundle</name>
+
+	<dependencies>
+<!--
+		<dependency>
+			<groupId>org.onap.appc</groupId>
+			<artifactId>appc-rest-bundle</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+-->
+                <dependency>
+                     <groupId>ch.qos.logback</groupId>
+                     <artifactId>logback-classic</artifactId>
+	             <version>${logback.version}</version>
+                </dependency>
+		<dependency>
+			<groupId>com.att.eelf</groupId>
+			<artifactId>eelf-core</artifactId>
+                       <exclusions>
+                            <exclusion>
+                                 <groupId>ch.qos.logback</groupId>
+                                 <artifactId>logback-classic</artifactId>
+                            </exclusion>
+                        </exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.onap.appc</groupId>
+			<artifactId>appc-common-bundle</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.onap.appc.services.dmaap</groupId>
+			<artifactId>appc-dmaap-adapter-bundle</artifactId>
+			<version>${project.version}</version>
+            <scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.onap.appc.services.dmaap</groupId>
+			<artifactId>appc-message-adapter-api</artifactId>
+			<version>${project.version}</version>
+            <scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.onap.appc.services.dmaap</groupId>
+			<artifactId>appc-message-adapter-factory</artifactId>
+			<version>${project.version}</version>
+            <scope>provided</scope>
+		</dependency>
+<!--
+		<dependency>
+			<groupId>org.onap.appc</groupId>
+			<artifactId>appc-rest-model</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+-->
+
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+			<version>${apache.httpcomponents.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>equinoxSDK381</groupId>
+			<artifactId>org.eclipse.osgi</artifactId>
+		</dependency>
+                <dependency>
+                  <groupId>commons-codec</groupId>
+                  <artifactId>commons-codec</artifactId>
+                </dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.2</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<version>1.7.0-SNAPSHOT</version>
+</project>
