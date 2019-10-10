@@ -648,6 +648,7 @@ limitations under the License.
                 <module>appc-metric</module>
                 <module>appc-dg</module>
                 <module>appc-dg-util</module>
+                <module>services</module>
             </modules>
         </profile>
     </profiles>
