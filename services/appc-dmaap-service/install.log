@@ -1,0 +1,674 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] appc-message-adapter-api
+[INFO] DMaaP Adapter - bundle
+[INFO] appc-message-adapter-factory
+[INFO] Event Listener - bundle
+[INFO] dmaapService-root
+[INFO] dmaapService
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building appc-message-adapter-api 0.0.1-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:3.0.0:clean (default-clean) @ appc-message-adapter-api ---
+[INFO] Deleting /home/pb071s/lf/services/dmaapService/appc-message-adapter-api/target
+[INFO] 
+[INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-property) @ appc-message-adapter-api ---
+[INFO] 
+[INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-no-snapshots) @ appc-message-adapter-api ---
+[INFO] 
+[INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-maven) @ appc-message-adapter-api ---
+[INFO] 
+[INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-banned-dependencies) @ appc-message-adapter-api ---
+[INFO] 
+[INFO] --- git-commit-id-plugin:2.2.6:revision (get-git-infos) @ appc-message-adapter-api ---
+[INFO] 
+[INFO] --- jacoco-maven-plugin:0.7.7.201606060606:prepare-agent (pre-unit-test) @ appc-message-adapter-api ---
+[INFO] surefireArgLine set to -javaagent:/home/pb071s/.m2/repository/org/jacoco/org.jacoco.agent/0.7.7.201606060606/org.jacoco.agent-0.7.7.201606060606-runtime.jar=destfile=/home/pb071s/lf/services/dmaapService/appc-message-adapter-api/target/code-coverage/jacoco-ut.exec,excludes=**/gen/**:**/generated-sources/**:**/yang-gen/**:**/pax/**
+[INFO] 
+[INFO] --- maven-checkstyle-plugin:2.17:check (check-license) @ appc-message-adapter-api ---
+[INFO] 
+[INFO] --- maven-checkstyle-plugin:2.17:check (default) @ appc-message-adapter-api ---
+[INFO] 
+[INFO] --- maven-checkstyle-plugin:2.17:check (onap-license) @ appc-message-adapter-api ---
+[INFO] 
+[INFO] --- maven-checkstyle-plugin:2.17:check (onap-java-style) @ appc-message-adapter-api ---
+[INFO] 
+[INFO] >>> maven-pmd-plugin:3.8:cpd-check (cpd) > :cpd @ appc-message-adapter-api >>>
+[INFO] 
+[INFO] --- maven-pmd-plugin:3.8:cpd (cpd) @ appc-message-adapter-api ---
+[INFO] 
+[INFO] <<< maven-pmd-plugin:3.8:cpd-check (cpd) < :cpd @ appc-message-adapter-api <<<
+[INFO] 
+[INFO] --- maven-pmd-plugin:3.8:cpd-check (cpd) @ appc-message-adapter-api ---
+[INFO] 
+[INFO] 
+[INFO] --- maven-dependency-plugin:3.0.2:unpack (unpack-license) @ appc-message-adapter-api ---
+[INFO] Configured Artifact: org.opendaylight.odlparent:odl-license:3.1.6:jar
+[INFO] Unpacking /home/pb071s/.m2/repository/org/opendaylight/odlparent/odl-license/3.1.6/odl-license-3.1.6.jar to /home/pb071s/lf/services/dmaapService/appc-message-adapter-api/target/classes with includes "" and excludes "META-INF/**"
+[INFO] 
+[INFO] --- maven-resources-plugin:3.0.1:resources (default-resources) @ appc-message-adapter-api ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 2 resources
+[INFO] skip non existing resourceDirectory /home/pb071s/lf/services/dmaapService/appc-message-adapter-api/target/generated-sources/spi
+[INFO] skip non existing resourceDirectory /home/pb071s/lf/services/dmaapService/appc-message-adapter-api/target/generated-sources/yang
+[INFO] 
+[INFO] --- maven-compiler-plugin:2.5.1:compile (default-compile) @ appc-message-adapter-api ---
+[INFO] Compiling 10 source files to /home/pb071s/lf/services/dmaapService/appc-message-adapter-api/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:3.0.1:testResources (default-testResources) @ appc-message-adapter-api ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/pb071s/lf/services/dmaapService/appc-message-adapter-api/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:2.5.1:testCompile (default-testCompile) @ appc-message-adapter-api ---
+[INFO] Compiling 5 source files to /home/pb071s/lf/services/dmaapService/appc-message-adapter-api/target/test-classes
+[INFO] 
+[INFO] --- maven-antrun-plugin:1.8:run (move-autowire-test) @ appc-message-adapter-api ---
+[INFO] Executing tasks
+
+main:
+     [echo] NOT moving autowire.xml (to org/opendaylight/blueprint)
+[INFO] Executed tasks
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.22.0:test (default-test) @ appc-message-adapter-api ---
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running org.onap.appc.adapter.message.TestMessageDestination
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.086 s - in org.onap.appc.adapter.message.TestMessageDestination
+[INFO] Running org.onap.appc.adapter.message.event.EventMessageTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.446 s - in org.onap.appc.adapter.message.event.EventMessageTest
+[INFO] Running org.onap.appc.adapter.message.event.TestEventStatus
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in org.onap.appc.adapter.message.event.TestEventStatus
+[INFO] Running org.onap.appc.adapter.message.event.TestEventHeader
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in org.onap.appc.adapter.message.event.TestEventHeader
+[INFO] Running org.onap.appc.adapter.message.TestCallableConsumer
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.297 s - in org.onap.appc.adapter.message.TestCallableConsumer
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 20, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jacoco-maven-plugin:0.7.7.201606060606:report (post-unit-test) @ appc-message-adapter-api ---
+[INFO] Loading execution data file /home/pb071s/lf/services/dmaapService/appc-message-adapter-api/target/code-coverage/jacoco-ut.exec
+[INFO] Analyzed bundle 'appc-message-adapter-api' with 7 classes
+[INFO] 
+[INFO] --- script-maven-plugin:1.0.0:execute (default) @ appc-message-adapter-api ---
+[INFO] executing beanshell script
+[INFO] 
+[INFO] --- maven-antrun-plugin:1.8:run (move-autowire-package) @ appc-message-adapter-api ---
+[INFO] Executing tasks
+
+main:
+     [echo] NOT moving autowire.xml (to org/opendaylight/blueprint)
+[INFO] Executed tasks
+[INFO] 
+[INFO] --- maven-jar-plugin:3.0.2:jar (default-jar) @ appc-message-adapter-api ---
+[INFO] Building jar: /home/pb071s/lf/services/dmaapService/appc-message-adapter-api/target/appc-message-adapter-api-0.0.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- maven-javadoc-plugin:2.10.4:jar (attach-javadocs) @ appc-message-adapter-api ---
+[INFO] Building jar: /home/pb071s/lf/services/dmaapService/appc-message-adapter-api/target/appc-message-adapter-api-0.0.1-SNAPSHOT-javadoc.jar
+[INFO] 
+[INFO] --- jacoco-maven-plugin:0.7.7.201606060606:prepare-agent (pre-integration-test) @ appc-message-adapter-api ---
+[INFO] failsafeArgLine set to -javaagent:/home/pb071s/.m2/repository/org/jacoco/org.jacoco.agent/0.7.7.201606060606/org.jacoco.agent-0.7.7.201606060606-runtime.jar=destfile=/home/pb071s/lf/services/dmaapService/appc-message-adapter-api/target/code-coverage/jacoco-it.exec,excludes=**/gen/**:**/generated-sources/**:**/yang-gen/**:**/pax/**
+[INFO] 
+[INFO] --- maven-failsafe-plugin:2.22.0:integration-test (integration-tests) @ appc-message-adapter-api ---
+[INFO] 
+[INFO] --- jacoco-maven-plugin:0.7.7.201606060606:report (post-integration-test) @ appc-message-adapter-api ---
+[INFO] Skipping JaCoCo execution due to missing execution data file.
+[INFO] 
+[INFO] --- duplicate-finder-maven-plugin:1.2.1:check (find-duplicate-classpath-entries) @ appc-message-adapter-api ---
+[INFO] 
+[INFO] --- maven-source-plugin:3.0.1:jar-no-fork (attach-sources) @ appc-message-adapter-api ---
+[INFO] Building jar: /home/pb071s/lf/services/dmaapService/appc-message-adapter-api/target/appc-message-adapter-api-0.0.1-SNAPSHOT-sources.jar
+[INFO] 
+[INFO] --- maven-failsafe-plugin:2.22.0:verify (integration-tests) @ appc-message-adapter-api ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.5.2:install (default-install) @ appc-message-adapter-api ---
+[INFO] Installing /home/pb071s/lf/services/dmaapService/appc-message-adapter-api/target/appc-message-adapter-api-0.0.1-SNAPSHOT.jar to /home/pb071s/.m2/repository/org/onap/appc/appc-message-adapter-api/0.0.1-SNAPSHOT/appc-message-adapter-api-0.0.1-SNAPSHOT.jar
+[INFO] Installing /home/pb071s/lf/services/dmaapService/appc-message-adapter-api/pom.xml to /home/pb071s/.m2/repository/org/onap/appc/appc-message-adapter-api/0.0.1-SNAPSHOT/appc-message-adapter-api-0.0.1-SNAPSHOT.pom
+[INFO] Installing /home/pb071s/lf/services/dmaapService/appc-message-adapter-api/target/appc-message-adapter-api-0.0.1-SNAPSHOT-javadoc.jar to /home/pb071s/.m2/repository/org/onap/appc/appc-message-adapter-api/0.0.1-SNAPSHOT/appc-message-adapter-api-0.0.1-SNAPSHOT-javadoc.jar
+[INFO] Installing /home/pb071s/lf/services/dmaapService/appc-message-adapter-api/target/appc-message-adapter-api-0.0.1-SNAPSHOT-sources.jar to /home/pb071s/.m2/repository/org/onap/appc/appc-message-adapter-api/0.0.1-SNAPSHOT/appc-message-adapter-api-0.0.1-SNAPSHOT-sources.jar
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building DMaaP Adapter - bundle 0.0.1-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:3.0.0:clean (default-clean) @ appc-dmaap-adapter-bundle ---
+[INFO] Deleting /home/pb071s/lf/services/dmaapService/appc-dmaap-adapter-bundle/target
+[INFO] 
+[INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-property) @ appc-dmaap-adapter-bundle ---
+[INFO] 
+[INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-no-snapshots) @ appc-dmaap-adapter-bundle ---
+[INFO] 
+[INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-maven) @ appc-dmaap-adapter-bundle ---
+[INFO] 
+[INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-banned-dependencies) @ appc-dmaap-adapter-bundle ---
+[INFO] 
+[INFO] --- git-commit-id-plugin:2.2.6:revision (get-git-infos) @ appc-dmaap-adapter-bundle ---
+[INFO] 
+[INFO] --- jacoco-maven-plugin:0.7.7.201606060606:prepare-agent (pre-unit-test) @ appc-dmaap-adapter-bundle ---
+[INFO] surefireArgLine set to -javaagent:/home/pb071s/.m2/repository/org/jacoco/org.jacoco.agent/0.7.7.201606060606/org.jacoco.agent-0.7.7.201606060606-runtime.jar=destfile=/home/pb071s/lf/services/dmaapService/appc-dmaap-adapter-bundle/target/code-coverage/jacoco-ut.exec,excludes=**/gen/**:**/generated-sources/**:**/yang-gen/**:**/pax/**
+[INFO] 
+[INFO] --- maven-checkstyle-plugin:2.17:check (check-license) @ appc-dmaap-adapter-bundle ---
+[INFO] 
+[INFO] --- maven-checkstyle-plugin:2.17:check (default) @ appc-dmaap-adapter-bundle ---
+[INFO] 
+[INFO] --- maven-checkstyle-plugin:2.17:check (onap-license) @ appc-dmaap-adapter-bundle ---
+[INFO] 
+[INFO] --- maven-checkstyle-plugin:2.17:check (onap-java-style) @ appc-dmaap-adapter-bundle ---
+[INFO] 
+[INFO] >>> maven-pmd-plugin:3.8:cpd-check (cpd) > :cpd @ appc-dmaap-adapter-bundle >>>
+[INFO] 
+[INFO] --- maven-pmd-plugin:3.8:cpd (cpd) @ appc-dmaap-adapter-bundle ---
+[INFO] 
+[INFO] <<< maven-pmd-plugin:3.8:cpd-check (cpd) < :cpd @ appc-dmaap-adapter-bundle <<<
+[INFO] 
+[INFO] --- maven-pmd-plugin:3.8:cpd-check (cpd) @ appc-dmaap-adapter-bundle ---
+[INFO] CPD Failure: Found 26 lines of duplicated code at locations:
+[INFO]     /home/pb071s/lf/services/dmaapService/appc-dmaap-adapter-bundle/src/main/java/org/onap/appc/adapter/messaging/dmaap/impl/DmaapConsumerImpl.java line 98
+[INFO]     /home/pb071s/lf/services/dmaapService/appc-dmaap-adapter-bundle/src/main/java/org/onap/appc/adapter/messaging/dmaap/impl/DmaapProducerImpl.java line 97
+[INFO] CPD Failure: Found 10 lines of duplicated code at locations:
+[INFO]     /home/pb071s/lf/services/dmaapService/appc-dmaap-adapter-bundle/src/main/java/org/onap/appc/adapter/messaging/dmaap/impl/EventSenderDmaapImpl.java line 83
+[INFO]     /home/pb071s/lf/services/dmaapService/appc-dmaap-adapter-bundle/src/main/java/org/onap/appc/adapter/messaging/dmaap/impl/EventSenderDmaapImpl.java line 130
+[INFO] You have 2 CPD duplications. For more details see: /home/pb071s/lf/services/dmaapService/appc-dmaap-adapter-bundle/target/cpd.xml
+[INFO] 
+[INFO] --- maven-dependency-plugin:3.0.2:unpack (unpack-license) @ appc-dmaap-adapter-bundle ---
+[INFO] Configured Artifact: org.opendaylight.odlparent:odl-license:3.1.6:jar
+[INFO] Unpacking /home/pb071s/.m2/repository/org/opendaylight/odlparent/odl-license/3.1.6/odl-license-3.1.6.jar to /home/pb071s/lf/services/dmaapService/appc-dmaap-adapter-bundle/target/classes with includes "" and excludes "META-INF/**"
+[INFO] 
+[INFO] --- maven-resources-plugin:3.0.1:resources (default-resources) @ appc-dmaap-adapter-bundle ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 5 resources
+[INFO] skip non existing resourceDirectory /home/pb071s/lf/services/dmaapService/appc-dmaap-adapter-bundle/target/generated-sources/spi
+[INFO] skip non existing resourceDirectory /home/pb071s/lf/services/dmaapService/appc-dmaap-adapter-bundle/target/generated-sources/yang
+[INFO] 
+[INFO] --- maven-compiler-plugin:2.5.1:compile (default-compile) @ appc-dmaap-adapter-bundle ---
+[INFO] Compiling 9 source files to /home/pb071s/lf/services/dmaapService/appc-dmaap-adapter-bundle/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:3.0.1:testResources (default-testResources) @ appc-dmaap-adapter-bundle ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 5 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:2.5.1:testCompile (default-testCompile) @ appc-dmaap-adapter-bundle ---
+[INFO] Compiling 14 source files to /home/pb071s/lf/services/dmaapService/appc-dmaap-adapter-bundle/target/test-classes
+[INFO] 
+[INFO] --- maven-antrun-plugin:1.8:run (move-autowire-test) @ appc-dmaap-adapter-bundle ---
+[INFO] Executing tasks
+
+main:
+     [echo] NOT moving autowire.xml (to org/opendaylight/blueprint)
+[INFO] Executed tasks
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.22.0:test (default-test) @ appc-dmaap-adapter-bundle ---
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running org.onap.appc.adapter.messaging.dmaap.TestDmaapEventSender
+[WARNING] Tests run: 7, Failures: 0, Errors: 0, Skipped: 6, Time elapsed: 1.16 s - in org.onap.appc.adapter.messaging.dmaap.TestDmaapEventSender
+[INFO] Running org.onap.appc.adapter.messaging.dmaap.impl.TestConsumerProducerImpl
+[WARNING] Tests run: 6, Failures: 0, Errors: 0, Skipped: 6, Time elapsed: 0.001 s - in org.onap.appc.adapter.messaging.dmaap.impl.TestConsumerProducerImpl
+[INFO] Running org.onap.appc.adapter.messaging.dmaap.impl.TestDmaapConsumerImpl
+[WARNING] Tests run: 13, Failures: 0, Errors: 0, Skipped: 3, Time elapsed: 2.38 s - in org.onap.appc.adapter.messaging.dmaap.impl.TestDmaapConsumerImpl
+[INFO] Running org.onap.appc.adapter.messaging.dmaap.impl.TestDmaapProducerImpl
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.713 s - in org.onap.appc.adapter.messaging.dmaap.impl.TestDmaapProducerImpl
+[INFO] Running org.onap.appc.adapter.messaging.dmaap.impl.EventSenderDmaapImplTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.868 s - in org.onap.appc.adapter.messaging.dmaap.impl.EventSenderDmaapImplTest
+[INFO] Running org.onap.appc.adapter.messaging.dmaap.TestAppcDmaapAdapterActivator
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in org.onap.appc.adapter.messaging.dmaap.TestAppcDmaapAdapterActivator
+[INFO] Running org.onap.appc.adapter.messaging.dmaap.TestDmaapProducing
+[WARNING] Tests run: 2, Failures: 0, Errors: 0, Skipped: 2, Time elapsed: 0 s - in org.onap.appc.adapter.messaging.dmaap.TestDmaapProducing
+[INFO] Running org.onap.appc.adapter.messaging.dmaap.http.TestHttpDmaapProducerImpl
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.114 s - in org.onap.appc.adapter.messaging.dmaap.http.TestHttpDmaapProducerImpl
+[INFO] Running org.onap.appc.adapter.messaging.dmaap.http.TestHttpDmaapConsumerImpl
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.536 s - in org.onap.appc.adapter.messaging.dmaap.http.TestHttpDmaapConsumerImpl
+[INFO] Running org.onap.appc.adapter.messaging.dmaap.http.TestAuthenticationException
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in org.onap.appc.adapter.messaging.dmaap.http.TestAuthenticationException
+[INFO] Running org.onap.appc.adapter.messaging.dmaap.http.TestCommonHttpClient
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s - in org.onap.appc.adapter.messaging.dmaap.http.TestCommonHttpClient
+[INFO] Running org.onap.appc.adapter.messaging.dmaap.TestDmaapConsuming
+[WARNING] Tests run: 2, Failures: 0, Errors: 0, Skipped: 2, Time elapsed: 0 s - in org.onap.appc.adapter.messaging.dmaap.TestDmaapConsuming
+[INFO] Running org.onap.appc.adapter.messaging.dmaap.utils.TestDmaapUtil
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.016 s - in org.onap.appc.adapter.messaging.dmaap.utils.TestDmaapUtil
+[INFO] 
+[INFO] Results:
+[INFO] 
+[WARNING] Tests run: 58, Failures: 0, Errors: 0, Skipped: 19
+[INFO] 
+[INFO] 
+[INFO] --- jacoco-maven-plugin:0.7.7.201606060606:report (post-unit-test) @ appc-dmaap-adapter-bundle ---
+[INFO] Loading execution data file /home/pb071s/lf/services/dmaapService/appc-dmaap-adapter-bundle/target/code-coverage/jacoco-ut.exec
+[INFO] Analyzed bundle 'DMaaP Adapter - bundle' with 9 classes
+[INFO] 
+[INFO] --- script-maven-plugin:1.0.0:execute (default) @ appc-dmaap-adapter-bundle ---
+[INFO] executing beanshell script
+[INFO] 
+[INFO] --- maven-antrun-plugin:1.8:run (move-autowire-package) @ appc-dmaap-adapter-bundle ---
+[INFO] Executing tasks
+
+main:
+     [echo] NOT moving autowire.xml (to org/opendaylight/blueprint)
+[INFO] Executed tasks
+[INFO] 
+[INFO] --- maven-jar-plugin:3.0.2:jar (default-jar) @ appc-dmaap-adapter-bundle ---
+[INFO] Building jar: /home/pb071s/lf/services/dmaapService/appc-dmaap-adapter-bundle/target/appc-dmaap-adapter-bundle-0.0.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- maven-javadoc-plugin:2.10.4:jar (attach-javadocs) @ appc-dmaap-adapter-bundle ---
+[INFO] Building jar: /home/pb071s/lf/services/dmaapService/appc-dmaap-adapter-bundle/target/appc-dmaap-adapter-bundle-0.0.1-SNAPSHOT-javadoc.jar
+[INFO] 
+[INFO] --- jacoco-maven-plugin:0.7.7.201606060606:prepare-agent (pre-integration-test) @ appc-dmaap-adapter-bundle ---
+[INFO] failsafeArgLine set to -javaagent:/home/pb071s/.m2/repository/org/jacoco/org.jacoco.agent/0.7.7.201606060606/org.jacoco.agent-0.7.7.201606060606-runtime.jar=destfile=/home/pb071s/lf/services/dmaapService/appc-dmaap-adapter-bundle/target/code-coverage/jacoco-it.exec,excludes=**/gen/**:**/generated-sources/**:**/yang-gen/**:**/pax/**
+[INFO] 
+[INFO] --- maven-failsafe-plugin:2.22.0:integration-test (integration-tests) @ appc-dmaap-adapter-bundle ---
+[INFO] 
+[INFO] --- jacoco-maven-plugin:0.7.7.201606060606:report (post-integration-test) @ appc-dmaap-adapter-bundle ---
+[INFO] Skipping JaCoCo execution due to missing execution data file.
+[INFO] 
+[INFO] --- duplicate-finder-maven-plugin:1.2.1:check (find-duplicate-classpath-entries) @ appc-dmaap-adapter-bundle ---
+[INFO] 
+[INFO] --- maven-source-plugin:3.0.1:jar-no-fork (attach-sources) @ appc-dmaap-adapter-bundle ---
+[INFO] Building jar: /home/pb071s/lf/services/dmaapService/appc-dmaap-adapter-bundle/target/appc-dmaap-adapter-bundle-0.0.1-SNAPSHOT-sources.jar
+[INFO] 
+[INFO] --- maven-failsafe-plugin:2.22.0:verify (integration-tests) @ appc-dmaap-adapter-bundle ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.5.2:install (default-install) @ appc-dmaap-adapter-bundle ---
+[INFO] Installing /home/pb071s/lf/services/dmaapService/appc-dmaap-adapter-bundle/target/appc-dmaap-adapter-bundle-0.0.1-SNAPSHOT.jar to /home/pb071s/.m2/repository/org/onap/appc/appc-dmaap-adapter-bundle/0.0.1-SNAPSHOT/appc-dmaap-adapter-bundle-0.0.1-SNAPSHOT.jar
+[INFO] Installing /home/pb071s/lf/services/dmaapService/appc-dmaap-adapter-bundle/pom.xml to /home/pb071s/.m2/repository/org/onap/appc/appc-dmaap-adapter-bundle/0.0.1-SNAPSHOT/appc-dmaap-adapter-bundle-0.0.1-SNAPSHOT.pom
+[INFO] Installing /home/pb071s/lf/services/dmaapService/appc-dmaap-adapter-bundle/target/appc-dmaap-adapter-bundle-0.0.1-SNAPSHOT-javadoc.jar to /home/pb071s/.m2/repository/org/onap/appc/appc-dmaap-adapter-bundle/0.0.1-SNAPSHOT/appc-dmaap-adapter-bundle-0.0.1-SNAPSHOT-javadoc.jar
+[INFO] Installing /home/pb071s/lf/services/dmaapService/appc-dmaap-adapter-bundle/target/appc-dmaap-adapter-bundle-0.0.1-SNAPSHOT-sources.jar to /home/pb071s/.m2/repository/org/onap/appc/appc-dmaap-adapter-bundle/0.0.1-SNAPSHOT/appc-dmaap-adapter-bundle-0.0.1-SNAPSHOT-sources.jar
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building appc-message-adapter-factory 0.0.1-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:3.0.0:clean (default-clean) @ appc-message-adapter-factory ---
+[INFO] Deleting /home/pb071s/lf/services/dmaapService/appc-message-adapter-factory/target
+[INFO] 
+[INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-property) @ appc-message-adapter-factory ---
+[INFO] 
+[INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-no-snapshots) @ appc-message-adapter-factory ---
+[INFO] 
+[INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-maven) @ appc-message-adapter-factory ---
+[INFO] 
+[INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-banned-dependencies) @ appc-message-adapter-factory ---
+[INFO] 
+[INFO] --- git-commit-id-plugin:2.2.6:revision (get-git-infos) @ appc-message-adapter-factory ---
+[INFO] 
+[INFO] --- jacoco-maven-plugin:0.7.7.201606060606:prepare-agent (pre-unit-test) @ appc-message-adapter-factory ---
+[INFO] surefireArgLine set to -javaagent:/home/pb071s/.m2/repository/org/jacoco/org.jacoco.agent/0.7.7.201606060606/org.jacoco.agent-0.7.7.201606060606-runtime.jar=destfile=/home/pb071s/lf/services/dmaapService/appc-message-adapter-factory/target/code-coverage/jacoco-ut.exec,excludes=**/gen/**:**/generated-sources/**:**/yang-gen/**:**/pax/**
+[INFO] 
+[INFO] --- maven-checkstyle-plugin:2.17:check (check-license) @ appc-message-adapter-factory ---
+[INFO] 
+[INFO] --- maven-checkstyle-plugin:2.17:check (default) @ appc-message-adapter-factory ---
+[INFO] 
+[INFO] --- maven-checkstyle-plugin:2.17:check (onap-license) @ appc-message-adapter-factory ---
+[INFO] 
+[INFO] --- maven-checkstyle-plugin:2.17:check (onap-java-style) @ appc-message-adapter-factory ---
+[INFO] 
+[INFO] >>> maven-pmd-plugin:3.8:cpd-check (cpd) > :cpd @ appc-message-adapter-factory >>>
+[INFO] 
+[INFO] --- maven-pmd-plugin:3.8:cpd (cpd) @ appc-message-adapter-factory ---
+[INFO] 
+[INFO] <<< maven-pmd-plugin:3.8:cpd-check (cpd) < :cpd @ appc-message-adapter-factory <<<
+[INFO] 
+[INFO] --- maven-pmd-plugin:3.8:cpd-check (cpd) @ appc-message-adapter-factory ---
+[INFO] 
+[INFO] 
+[INFO] --- maven-dependency-plugin:3.0.2:unpack (unpack-license) @ appc-message-adapter-factory ---
+[INFO] Configured Artifact: org.opendaylight.odlparent:odl-license:3.1.6:jar
+[INFO] Unpacking /home/pb071s/.m2/repository/org/opendaylight/odlparent/odl-license/3.1.6/odl-license-3.1.6.jar to /home/pb071s/lf/services/dmaapService/appc-message-adapter-factory/target/classes with includes "" and excludes "META-INF/**"
+[INFO] 
+[INFO] --- maven-resources-plugin:3.0.1:resources (default-resources) @ appc-message-adapter-factory ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 2 resources
+[INFO] skip non existing resourceDirectory /home/pb071s/lf/services/dmaapService/appc-message-adapter-factory/target/generated-sources/spi
+[INFO] skip non existing resourceDirectory /home/pb071s/lf/services/dmaapService/appc-message-adapter-factory/target/generated-sources/yang
+[INFO] 
+[INFO] --- maven-compiler-plugin:2.5.1:compile (default-compile) @ appc-message-adapter-factory ---
+[INFO] Compiling 3 source files to /home/pb071s/lf/services/dmaapService/appc-message-adapter-factory/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:3.0.1:testResources (default-testResources) @ appc-message-adapter-factory ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/pb071s/lf/services/dmaapService/appc-message-adapter-factory/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:2.5.1:testCompile (default-testCompile) @ appc-message-adapter-factory ---
+[INFO] Compiling 3 source files to /home/pb071s/lf/services/dmaapService/appc-message-adapter-factory/target/test-classes
+[INFO] 
+[INFO] --- maven-antrun-plugin:1.8:run (move-autowire-test) @ appc-message-adapter-factory ---
+[INFO] Executing tasks
+
+main:
+     [echo] NOT moving autowire.xml (to org/opendaylight/blueprint)
+[INFO] Executed tasks
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.22.0:test (default-test) @ appc-message-adapter-factory ---
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running org.onap.appc.adapter.factory.MessageServiceTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.093 s - in org.onap.appc.adapter.factory.MessageServiceTest
+[INFO] Running org.onap.appc.adapter.factory.DmaapMessageAdapterFactoryActivatorTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.384 s - in org.onap.appc.adapter.factory.DmaapMessageAdapterFactoryActivatorTest
+[INFO] Running org.onap.appc.adapter.factory.DmaapMessageAdapterFactoryImplTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.358 s - in org.onap.appc.adapter.factory.DmaapMessageAdapterFactoryImplTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jacoco-maven-plugin:0.7.7.201606060606:report (post-unit-test) @ appc-message-adapter-factory ---
+[INFO] Loading execution data file /home/pb071s/lf/services/dmaapService/appc-message-adapter-factory/target/code-coverage/jacoco-ut.exec
+[INFO] Analyzed bundle 'appc-message-adapter-factory' with 3 classes
+[INFO] 
+[INFO] --- script-maven-plugin:1.0.0:execute (default) @ appc-message-adapter-factory ---
+[INFO] executing beanshell script
+[INFO] 
+[INFO] --- maven-antrun-plugin:1.8:run (move-autowire-package) @ appc-message-adapter-factory ---
+[INFO] Executing tasks
+
+main:
+     [echo] NOT moving autowire.xml (to org/opendaylight/blueprint)
+[INFO] Executed tasks
+[INFO] 
+[INFO] --- maven-jar-plugin:3.0.2:jar (default-jar) @ appc-message-adapter-factory ---
+[INFO] Building jar: /home/pb071s/lf/services/dmaapService/appc-message-adapter-factory/target/appc-message-adapter-factory-0.0.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- maven-javadoc-plugin:2.10.4:jar (attach-javadocs) @ appc-message-adapter-factory ---
+[INFO] Building jar: /home/pb071s/lf/services/dmaapService/appc-message-adapter-factory/target/appc-message-adapter-factory-0.0.1-SNAPSHOT-javadoc.jar
+[INFO] 
+[INFO] --- jacoco-maven-plugin:0.7.7.201606060606:prepare-agent (pre-integration-test) @ appc-message-adapter-factory ---
+[INFO] failsafeArgLine set to -javaagent:/home/pb071s/.m2/repository/org/jacoco/org.jacoco.agent/0.7.7.201606060606/org.jacoco.agent-0.7.7.201606060606-runtime.jar=destfile=/home/pb071s/lf/services/dmaapService/appc-message-adapter-factory/target/code-coverage/jacoco-it.exec,excludes=**/gen/**:**/generated-sources/**:**/yang-gen/**:**/pax/**
+[INFO] 
+[INFO] --- maven-failsafe-plugin:2.22.0:integration-test (integration-tests) @ appc-message-adapter-factory ---
+[INFO] 
+[INFO] --- jacoco-maven-plugin:0.7.7.201606060606:report (post-integration-test) @ appc-message-adapter-factory ---
+[INFO] Skipping JaCoCo execution due to missing execution data file.
+[INFO] 
+[INFO] --- duplicate-finder-maven-plugin:1.2.1:check (find-duplicate-classpath-entries) @ appc-message-adapter-factory ---
+[INFO] 
+[INFO] --- maven-source-plugin:3.0.1:jar-no-fork (attach-sources) @ appc-message-adapter-factory ---
+[INFO] Building jar: /home/pb071s/lf/services/dmaapService/appc-message-adapter-factory/target/appc-message-adapter-factory-0.0.1-SNAPSHOT-sources.jar
+[INFO] 
+[INFO] --- maven-failsafe-plugin:2.22.0:verify (integration-tests) @ appc-message-adapter-factory ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.5.2:install (default-install) @ appc-message-adapter-factory ---
+[INFO] Installing /home/pb071s/lf/services/dmaapService/appc-message-adapter-factory/target/appc-message-adapter-factory-0.0.1-SNAPSHOT.jar to /home/pb071s/.m2/repository/org/onap/appc/appc-message-adapter-factory/0.0.1-SNAPSHOT/appc-message-adapter-factory-0.0.1-SNAPSHOT.jar
+[INFO] Installing /home/pb071s/lf/services/dmaapService/appc-message-adapter-factory/pom.xml to /home/pb071s/.m2/repository/org/onap/appc/appc-message-adapter-factory/0.0.1-SNAPSHOT/appc-message-adapter-factory-0.0.1-SNAPSHOT.pom
+[INFO] Installing /home/pb071s/lf/services/dmaapService/appc-message-adapter-factory/target/appc-message-adapter-factory-0.0.1-SNAPSHOT-javadoc.jar to /home/pb071s/.m2/repository/org/onap/appc/appc-message-adapter-factory/0.0.1-SNAPSHOT/appc-message-adapter-factory-0.0.1-SNAPSHOT-javadoc.jar
+[INFO] Installing /home/pb071s/lf/services/dmaapService/appc-message-adapter-factory/target/appc-message-adapter-factory-0.0.1-SNAPSHOT-sources.jar to /home/pb071s/.m2/repository/org/onap/appc/appc-message-adapter-factory/0.0.1-SNAPSHOT/appc-message-adapter-factory-0.0.1-SNAPSHOT-sources.jar
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Event Listener - bundle 0.0.1-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:3.0.0:clean (default-clean) @ appc-event-listener-bundle ---
+[INFO] Deleting /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/target
+[INFO] 
+[INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-property) @ appc-event-listener-bundle ---
+[INFO] 
+[INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-no-snapshots) @ appc-event-listener-bundle ---
+[INFO] 
+[INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-maven) @ appc-event-listener-bundle ---
+[INFO] 
+[INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-banned-dependencies) @ appc-event-listener-bundle ---
+[INFO] 
+[INFO] --- git-commit-id-plugin:2.2.6:revision (get-git-infos) @ appc-event-listener-bundle ---
+[INFO] 
+[INFO] --- jacoco-maven-plugin:0.7.7.201606060606:prepare-agent (pre-unit-test) @ appc-event-listener-bundle ---
+[INFO] surefireArgLine set to -javaagent:/home/pb071s/.m2/repository/org/jacoco/org.jacoco.agent/0.7.7.201606060606/org.jacoco.agent-0.7.7.201606060606-runtime.jar=destfile=/home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/target/code-coverage/jacoco-ut.exec,excludes=**/gen/**:**/generated-sources/**:**/yang-gen/**:**/pax/**
+[INFO] 
+[INFO] --- maven-checkstyle-plugin:2.17:check (check-license) @ appc-event-listener-bundle ---
+[INFO] 
+[INFO] --- maven-checkstyle-plugin:2.17:check (default) @ appc-event-listener-bundle ---
+[INFO] 
+[INFO] --- maven-checkstyle-plugin:2.17:check (onap-license) @ appc-event-listener-bundle ---
+[INFO] 
+[INFO] --- maven-checkstyle-plugin:2.17:check (onap-java-style) @ appc-event-listener-bundle ---
+[INFO] 
+[INFO] >>> maven-pmd-plugin:3.8:cpd-check (cpd) > :cpd @ appc-event-listener-bundle >>>
+[INFO] 
+[INFO] --- maven-pmd-plugin:3.8:cpd (cpd) @ appc-event-listener-bundle ---
+[INFO] 
+[INFO] <<< maven-pmd-plugin:3.8:cpd-check (cpd) < :cpd @ appc-event-listener-bundle <<<
+[INFO] 
+[INFO] --- maven-pmd-plugin:3.8:cpd-check (cpd) @ appc-event-listener-bundle ---
+[INFO] CPD Failure: Found 19 lines of duplicated code at locations:
+[INFO]     /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/src/main/java/org/onap/appc/listener/LCM/operation/ProviderOperations.java line 203
+[INFO]     /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/src/main/java/org/onap/appc/listener/util/HttpClientUtil.java line 59
+[INFO] CPD Failure: Found 30 lines of duplicated code at locations:
+[INFO]     /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/src/main/java/org/onap/appc/listener/LCM/operation/ProviderOperations.java line 237
+[INFO]     /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/src/main/java/org/onap/appc/listener/util/HttpClientUtil.java line 90
+[INFO] CPD Failure: Found 21 lines of duplicated code at locations:
+[INFO]     /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/src/main/java/org/onap/appc/listener/impl/EventHandlerImpl.java line 234
+[INFO]     /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/src/main/java/org/onap/appc/listener/impl/EventHandlerImpl.java line 280
+[INFO] You have 3 CPD duplications. For more details see: /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/target/cpd.xml
+[INFO] 
+[INFO] --- maven-dependency-plugin:3.0.2:unpack (unpack-license) @ appc-event-listener-bundle ---
+[INFO] Configured Artifact: org.opendaylight.odlparent:odl-license:3.1.6:jar
+[INFO] Unpacking /home/pb071s/.m2/repository/org/opendaylight/odlparent/odl-license/3.1.6/odl-license-3.1.6.jar to /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/target/classes with includes "" and excludes "META-INF/**"
+[INFO] 
+[INFO] --- maven-resources-plugin:3.0.1:resources (default-resources) @ appc-event-listener-bundle ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] skip non existing resourceDirectory /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/target/generated-sources/spi
+[INFO] skip non existing resourceDirectory /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/target/generated-sources/yang
+[INFO] 
+[INFO] --- maven-compiler-plugin:2.5.1:compile (default-compile) @ appc-event-listener-bundle ---
+[INFO] Compiling 32 source files to /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:3.0.1:testResources (default-testResources) @ appc-event-listener-bundle ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 4 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:2.5.1:testCompile (default-testCompile) @ appc-event-listener-bundle ---
+[INFO] Compiling 28 source files to /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/target/test-classes
+[INFO] 
+[INFO] --- maven-antrun-plugin:1.8:run (move-autowire-test) @ appc-event-listener-bundle ---
+[INFO] Executing tasks
+
+main:
+     [echo] NOT moving autowire.xml (to org/opendaylight/blueprint)
+[INFO] Executed tasks
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.22.0:test (default-test) @ appc-event-listener-bundle ---
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running org.onap.appc.listener.ListenerPropertiesTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.117 s - in org.onap.appc.listener.ListenerPropertiesTest
+[INFO] Running org.onap.appc.listener.LCM.conv.ConverterTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.843 s - in org.onap.appc.listener.LCM.conv.ConverterTest
+[INFO] Running org.onap.appc.listener.LCM.model.ActionIdentifiersTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s - in org.onap.appc.listener.LCM.model.ActionIdentifiersTest
+[INFO] Running org.onap.appc.listener.LCM.model.DmaapOutgoingMessageTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s - in org.onap.appc.listener.LCM.model.DmaapOutgoingMessageTest
+[INFO] Running org.onap.appc.listener.LCM.model.DmaapMessageTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in org.onap.appc.listener.LCM.model.DmaapMessageTest
+[INFO] Running org.onap.appc.listener.LCM.model.ResponseStatusTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in org.onap.appc.listener.LCM.model.ResponseStatusTest
+[INFO] Running org.onap.appc.listener.LCM.model.CommonHeaderTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s - in org.onap.appc.listener.LCM.model.CommonHeaderTest
+[INFO] Running org.onap.appc.listener.LCM.model.InputBodyTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in org.onap.appc.listener.LCM.model.InputBodyTest
+[INFO] Running org.onap.appc.listener.LCM.model.DmaapIncomingMessageTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in org.onap.appc.listener.LCM.model.DmaapIncomingMessageTest
+[INFO] Running org.onap.appc.listener.LCM.model.OutputBodyTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.021 s - in org.onap.appc.listener.LCM.model.OutputBodyTest
+[INFO] Running org.onap.appc.listener.LCM.operation.ProviderOperationsTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.715 s - in org.onap.appc.listener.LCM.operation.ProviderOperationsTest
+[INFO] Running org.onap.appc.listener.LCM.operation.GenericProviderOperationsRequestFormatterTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s - in org.onap.appc.listener.LCM.operation.GenericProviderOperationsRequestFormatterTest
+[INFO] Running org.onap.appc.listener.LCM.impl.ListenerImplTest
+[WARNING] Tests run: 1, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0 s - in org.onap.appc.listener.LCM.impl.ListenerImplTest
+[INFO] Running org.onap.appc.listener.LCM.impl.WorkerImplTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.029 s - in org.onap.appc.listener.LCM.impl.WorkerImplTest
+[INFO] Running org.onap.appc.listener.util.TestMapper
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.065 s - in org.onap.appc.listener.util.TestMapper
+[INFO] Running org.onap.appc.listener.util.HttpClientUtilTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.019 s - in org.onap.appc.listener.util.HttpClientUtilTest
+[INFO] Running org.onap.appc.listener.AbstractListenerTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.041 s - in org.onap.appc.listener.AbstractListenerTest
+[INFO] Running org.onap.appc.listener.demo.impl.TestProviderOperations
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.13 s - in org.onap.appc.listener.demo.impl.TestProviderOperations
+[INFO] Running org.onap.appc.listener.demo.impl.TestWorkerImpl
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.819 s - in org.onap.appc.listener.demo.impl.TestWorkerImpl
+[INFO] Running org.onap.appc.listener.demo.model.OutgoingMessageTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.413 s - in org.onap.appc.listener.demo.model.OutgoingMessageTest
+[INFO] Running org.onap.appc.listener.demo.model.TestIncomingMessage
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in org.onap.appc.listener.demo.model.TestIncomingMessage
+[INFO] Running org.onap.appc.listener.demo.model.TestMessages
+[WARNING] Tests run: 10, Failures: 0, Errors: 0, Skipped: 5, Time elapsed: 0.028 s - in org.onap.appc.listener.demo.model.TestMessages
+[INFO] Running org.onap.appc.listener.demo.model.TestEnums
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in org.onap.appc.listener.demo.model.TestEnums
+[INFO] Running org.onap.appc.listener.demo.model.TestCommonMessage
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in org.onap.appc.listener.demo.model.TestCommonMessage
+[INFO] Running org.onap.appc.listener.impl.EventHandlerImplTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.081 s - in org.onap.appc.listener.impl.EventHandlerImplTest
+[INFO] Running org.onap.appc.listener.impl.TestController
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.095 s - in org.onap.appc.listener.impl.TestController
+[INFO] 
+[INFO] Results:
+[INFO] 
+[WARNING] Tests run: 101, Failures: 0, Errors: 0, Skipped: 6
+[INFO] 
+[INFO] 
+[INFO] --- jacoco-maven-plugin:0.7.7.201606060606:report (post-unit-test) @ appc-event-listener-bundle ---
+[INFO] Loading execution data file /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/target/code-coverage/jacoco-ut.exec
+[INFO] Analyzed bundle 'Event Listener - bundle' with 39 classes
+[INFO] 
+[INFO] --- script-maven-plugin:1.0.0:execute (default) @ appc-event-listener-bundle ---
+[INFO] executing beanshell script
+[INFO] 
+[INFO] --- maven-antrun-plugin:1.8:run (move-autowire-package) @ appc-event-listener-bundle ---
+[INFO] Executing tasks
+
+main:
+     [echo] NOT moving autowire.xml (to org/opendaylight/blueprint)
+[INFO] Executed tasks
+[INFO] 
+[INFO] --- maven-jar-plugin:3.0.2:jar (default-jar) @ appc-event-listener-bundle ---
+[INFO] Building jar: /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/target/appc-event-listener-bundle-0.0.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- maven-javadoc-plugin:2.10.4:jar (attach-javadocs) @ appc-event-listener-bundle ---
+[INFO] 
+17 warnings
+[WARNING] Javadoc Warnings
+[WARNING] /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/src/main/java/org/onap/appc/listener/Controller.java:40: warning - Tag @see: can't find Listener in org.onap.appc.listener.Controller
+[WARNING] /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/src/main/java/org/onap/appc/listener/Controller.java:40: warning - Tag @see cannot be used in inline documentation.  It can only be used in the following types of documentation: overview, package, class/interface, constructor, field, method.
+[WARNING] /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/src/main/java/org/onap/appc/listener/Controller.java:40: warning - Tag @see cannot be used in inline documentation.  It can only be used in the following types of documentation: overview, package, class/interface, constructor, field, method.
+[WARNING] /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/src/main/java/org/onap/appc/listener/demo/model/CommonMessage.java:267: warning - @param argument "TenantID" is not a parameter name.
+[WARNING] /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/src/main/java/org/onap/appc/listener/demo/model/CommonMessage.java:288: warning - @param argument "TenantID" is not a parameter name.
+[WARNING] /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/src/main/java/org/onap/appc/listener/AppcEventListenerActivator.java:102: warning - @param argument "ctx" is not a parameter name.
+[WARNING] /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/src/main/java/org/onap/appc/listener/AppcEventListenerActivator.java:160: warning - @param argument "ctx" is not a parameter name.
+[WARNING] /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/src/main/java/org/onap/appc/listener/Controller.java:40: warning - Tag @see cannot be used in inline documentation.  It can only be used in the following types of documentation: overview, package, class/interface, constructor, field, method.
+[WARNING] /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/src/main/java/org/onap/appc/listener/Controller.java:40: warning - Tag @see cannot be used in inline documentation.  It can only be used in the following types of documentation: overview, package, class/interface, constructor, field, method.
+[WARNING] /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/src/main/java/org/onap/appc/listener/Controller.java:40: warning - Tag @see cannot be used in inline documentation.  It can only be used in the following types of documentation: overview, package, class/interface, constructor, field, method.
+[WARNING] /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/src/main/java/org/onap/appc/listener/ListenerProperties.java:36: warning - Tag @see cannot be used in inline documentation.  It can only be used in the following types of documentation: overview, package, class/interface, constructor, field, method.
+[WARNING] /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/src/main/java/org/onap/appc/listener/ListenerProperties.java:36: warning - Tag @see cannot be used in inline documentation.  It can only be used in the following types of documentation: overview, package, class/interface, constructor, field, method.
+[WARNING] /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/src/main/java/org/onap/appc/listener/ListenerProperties.java:79: warning - Tag @see cannot be used in inline documentation.  It can only be used in the following types of documentation: overview, package, class/interface, constructor, field, method.
+[WARNING] /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/src/main/java/org/onap/appc/listener/ListenerProperties.java:79: warning - Tag @see cannot be used in inline documentation.  It can only be used in the following types of documentation: overview, package, class/interface, constructor, field, method.
+[WARNING] /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/src/main/java/org/onap/appc/listener/ListenerProperties.java:79: warning - Tag @see cannot be used in inline documentation.  It can only be used in the following types of documentation: overview, package, class/interface, constructor, field, method.
+[WARNING] /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/src/main/java/org/onap/appc/listener/ListenerProperties.java:86: warning - Tag @see cannot be used in inline documentation.  It can only be used in the following types of documentation: overview, package, class/interface, constructor, field, method.
+[WARNING] /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/src/main/java/org/onap/appc/listener/Controller.java:40: warning - Tag @see cannot be used in inline documentation.  It can only be used in the following types of documentation: overview, package, class/interface, constructor, field, method.
+[INFO] Building jar: /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/target/appc-event-listener-bundle-0.0.1-SNAPSHOT-javadoc.jar
+[INFO] 
+[INFO] --- jacoco-maven-plugin:0.7.7.201606060606:prepare-agent (pre-integration-test) @ appc-event-listener-bundle ---
+[INFO] failsafeArgLine set to -javaagent:/home/pb071s/.m2/repository/org/jacoco/org.jacoco.agent/0.7.7.201606060606/org.jacoco.agent-0.7.7.201606060606-runtime.jar=destfile=/home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/target/code-coverage/jacoco-it.exec,excludes=**/gen/**:**/generated-sources/**:**/yang-gen/**:**/pax/**
+[INFO] 
+[INFO] --- maven-failsafe-plugin:2.22.0:integration-test (integration-tests) @ appc-event-listener-bundle ---
+[INFO] 
+[INFO] --- jacoco-maven-plugin:0.7.7.201606060606:report (post-integration-test) @ appc-event-listener-bundle ---
+[INFO] Skipping JaCoCo execution due to missing execution data file.
+[INFO] 
+[INFO] --- duplicate-finder-maven-plugin:1.2.1:check (find-duplicate-classpath-entries) @ appc-event-listener-bundle ---
+[INFO] 
+[INFO] --- maven-source-plugin:3.0.1:jar-no-fork (attach-sources) @ appc-event-listener-bundle ---
+[INFO] Building jar: /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/target/appc-event-listener-bundle-0.0.1-SNAPSHOT-sources.jar
+[INFO] 
+[INFO] --- maven-failsafe-plugin:2.22.0:verify (integration-tests) @ appc-event-listener-bundle ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.5.2:install (default-install) @ appc-event-listener-bundle ---
+[INFO] Installing /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/target/appc-event-listener-bundle-0.0.1-SNAPSHOT.jar to /home/pb071s/.m2/repository/org/onap/appc/appc-event-listener-bundle/0.0.1-SNAPSHOT/appc-event-listener-bundle-0.0.1-SNAPSHOT.jar
+[INFO] Installing /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/pom.xml to /home/pb071s/.m2/repository/org/onap/appc/appc-event-listener-bundle/0.0.1-SNAPSHOT/appc-event-listener-bundle-0.0.1-SNAPSHOT.pom
+[INFO] Installing /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/target/appc-event-listener-bundle-0.0.1-SNAPSHOT-javadoc.jar to /home/pb071s/.m2/repository/org/onap/appc/appc-event-listener-bundle/0.0.1-SNAPSHOT/appc-event-listener-bundle-0.0.1-SNAPSHOT-javadoc.jar
+[INFO] Installing /home/pb071s/lf/services/dmaapService/appc-event-listener-bundle/target/appc-event-listener-bundle-0.0.1-SNAPSHOT-sources.jar to /home/pb071s/.m2/repository/org/onap/appc/appc-event-listener-bundle/0.0.1-SNAPSHOT/appc-event-listener-bundle-0.0.1-SNAPSHOT-sources.jar
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building dmaapService-root 0.0.1-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ dmaapService-root ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ dmaapService-root ---
+[INFO] Installing /home/pb071s/lf/services/dmaapService/pom.xml to /home/pb071s/.m2/repository/org/onap/appc/services/dmaapService-root/0.0.1-SNAPSHOT/dmaapService-root-0.0.1-SNAPSHOT.pom
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building dmaapService 0.0.1-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ dmaapService ---
+[INFO] Deleting /home/pb071s/lf/services/dmaapService/dmaapService/target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ dmaapService ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /home/pb071s/lf/services/dmaapService/dmaapService/src/main/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ dmaapService ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent!
+[INFO] Compiling 1 source file to /home/pb071s/lf/services/dmaapService/dmaapService/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ dmaapService ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /home/pb071s/lf/services/dmaapService/dmaapService/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ dmaapService ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent!
+[INFO] Compiling 1 source file to /home/pb071s/lf/services/dmaapService/dmaapService/target/test-classes
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ dmaapService ---
+[INFO] Surefire report directory: /home/pb071s/lf/services/dmaapService/dmaapService/target/surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running org.onap.appc.services.AppTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 sec
+
+Results :
+
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] 
+[INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ dmaapService ---
+[INFO] Building jar: /home/pb071s/lf/services/dmaapService/dmaapService/target/dmaapService-0.0.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ dmaapService ---
+[INFO] Installing /home/pb071s/lf/services/dmaapService/dmaapService/target/dmaapService-0.0.1-SNAPSHOT.jar to /home/pb071s/.m2/repository/org/onap/appc/services/dmaapService/0.0.1-SNAPSHOT/dmaapService-0.0.1-SNAPSHOT.jar
+[INFO] Installing /home/pb071s/lf/services/dmaapService/dmaapService/pom.xml to /home/pb071s/.m2/repository/org/onap/appc/services/dmaapService/0.0.1-SNAPSHOT/dmaapService-0.0.1-SNAPSHOT.pom
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary:
+[INFO] 
+[INFO] appc-message-adapter-api ........................... SUCCESS [  9.121 s]
+[INFO] DMaaP Adapter - bundle ............................. SUCCESS [ 14.558 s]
+[INFO] appc-message-adapter-factory ....................... SUCCESS [  4.652 s]
+[INFO] Event Listener - bundle ............................ SUCCESS [ 11.112 s]
+[INFO] dmaapService-root .................................. SUCCESS [  0.078 s]
+[INFO] dmaapService ....................................... SUCCESS [  1.864 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 43.664 s
+[INFO] Finished at: 2019-09-23T15:20:21-07:00
+[INFO] Final Memory: 113M/960M
+[INFO] ------------------------------------------------------------------------
