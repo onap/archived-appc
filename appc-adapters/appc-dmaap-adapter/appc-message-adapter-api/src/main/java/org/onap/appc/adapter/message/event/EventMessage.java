@@ -24,11 +24,9 @@
 package org.onap.appc.adapter.message.event;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
-
 import java.io.IOException;
 import java.io.Serializable;
 
@@ -46,8 +44,7 @@ import java.io.Serializable;
     }
 */
 
-
-@JsonSerialize(include = Inclusion.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EventMessage implements Serializable {
 

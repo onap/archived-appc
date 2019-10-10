@@ -23,17 +23,16 @@
 
 package org.onap.appc.seqgen.objects;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.onap.appc.dg.objects.InventoryModel;
 import org.onap.appc.dg.objects.VnfcDependencyModel;
 
 import javax.validation.constraints.NotNull;
 import java.util.Map;
 
-@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SequenceGeneratorInput {
 

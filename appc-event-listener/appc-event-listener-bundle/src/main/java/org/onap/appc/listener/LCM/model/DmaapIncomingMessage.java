@@ -24,16 +24,13 @@
 package org.onap.appc.listener.LCM.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.json.JSONObject;
-import org.onap.appc.listener.util.Mapper;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  * This class represents a message being sent out to DMaaP by APPC to update listeners on the status of a request
  *
  */
-@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DmaapIncomingMessage extends DmaapMessage{
     private final static String defaultCambriaPartition = "APP-C";

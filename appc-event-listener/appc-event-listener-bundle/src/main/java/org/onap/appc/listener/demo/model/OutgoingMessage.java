@@ -37,15 +37,14 @@ import org.onap.appc.listener.util.Mapper;
 import org.onap.appc.util.Time;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
 
 /**
  * This class represents a message being sent out to DMaaP by APPC to update listeners on the status of a request
  *
  */
-@JsonSerialize(include = Inclusion.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OutgoingMessage extends CommonMessage {
 

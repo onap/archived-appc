@@ -26,6 +26,7 @@ package org.onap.appc.requesthandler.impl;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -34,7 +35,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  * note the structure of this class must be adapted to the sync message sent to DMaaP represened in org.onap.appc.listener.LCM.domainmodel.DmaapOutgoingMessage
  *
  */
-@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DmaapOutgoingMessage {
 
@@ -117,7 +118,7 @@ public class DmaapOutgoingMessage {
                 '}';
     }
 
-    @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Body {
         public Body() {
