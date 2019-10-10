@@ -627,7 +627,6 @@ limitations under the License.
             <modules>
                 <module>appc-adapters</module>
                 <module>appc-provider</module>
-                <module>appc-event-listener</module>
                 <module>appc-sdc-listener</module>
                 <module>appc-lifecycle-management</module>
                 <module>appc-oam</module>
@@ -653,6 +652,7 @@ limitations under the License.
                 <module>appc-metric</module>
                 <module>appc-dg</module>
                 <module>appc-dg-util</module>
+                <module>services</module>
             </modules>
         </profile>
     </profiles>
