@@ -1,0 +1,23 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.onap.appc.services</groupId>
+  <artifactId>dmaap-service</artifactId>
+  <packaging>pom</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>appc-dmaap-service</name>
+  <url>http://maven.apache.org</url>
+  <modules>
+  <module>appc-dmaap-adapter-bundle</module>
+  <module>appc-event-listener-bundle</module>
+  <module>appc-message-adapter-api</module>
+  <module>appc-message-adapter-factory</module>
+  <module>appc-dmaap-event-service</module>
+  </modules>
+  
+  <properties>
+   <maven.compiler.source>1.8</maven.compiler.source>
+   <maven.compiler.target>1.8</maven.compiler.target>
+</properties>
+
+</project>
