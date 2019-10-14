@@ -54,6 +54,12 @@ The El Alto added the following feature, bug fixes and security enhancements:
       - `APPC-1713 <https://jira.onap.org/browse/APPC-1713>`_ - Appc eelf logging resource bundle error after ODL upgrade
       - `APPC-1736 <https://jira.onap.org/browse/APPC-1736>`_ - change mountpoint for pax property file
 
+**Known Issues**
+
+      - `APPC-1710 <https://jira.onap.org/browse/APPC-1710>`_ - Need for "ReadWriteMany" access on storage when deploying on Kubernetes?
+         - to work around this is to add "accessMode: ReadWriteOnce" to values.yaml in APPC helm chart
+
+
 **Security Notes**
 
 *Fixed Security Issues*
