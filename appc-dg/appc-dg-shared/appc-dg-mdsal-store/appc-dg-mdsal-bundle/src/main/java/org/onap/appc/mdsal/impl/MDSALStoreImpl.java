@@ -168,7 +168,7 @@ public class MDSALStoreImpl implements MDSALStore {
         StoreYangInput input = builder.build();
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.addMixInAnnotations(StoreYangInput.class, MixIn.class);
+            objectMapper.addMixIn(StoreYangInput.class, MixIn.class);
             String inputJson = objectMapper.writer().withRootName("input").writeValueAsString(input);
             logger.debug("Input JSON :" + inputJson);
             return inputJson;

@@ -413,12 +413,12 @@ public class Converter {
         Builder<?> builder = Converter.convAsyncResponseToBuilder(vnfOperation, rpcName, asyncResponse);
         Object message = builder.build();
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.addMixInAnnotations(message.getClass(), MixInFlagsMessage.class);
-        objectMapper.addMixInAnnotations(CommonHeader.class, MixInCommonHeader.class);
-        objectMapper.addMixInAnnotations(Flags.class, MixIn.class);
-        objectMapper.addMixInAnnotations(Status.class, MixIn.class);
-        objectMapper.addMixInAnnotations(Payload.class, MixIn.class);
-        objectMapper.addMixInAnnotations(ZULU.class, MixIn.class);
+        objectMapper.addMixIn(message.getClass(), MixInFlagsMessage.class);
+        objectMapper.addMixIn(CommonHeader.class, MixInCommonHeader.class);
+        objectMapper.addMixIn(Flags.class, MixIn.class);
+        objectMapper.addMixIn(Status.class, MixIn.class);
+        objectMapper.addMixIn(Payload.class, MixIn.class);
+        objectMapper.addMixIn(ZULU.class, MixIn.class);
 
 //                .configure(SerializationConfig.Feature.SORT_PROPERTIES_ALPHABETICALLY,true)
         ObjectWriter writer = objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL).configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY,true)
@@ -430,12 +430,12 @@ public class Converter {
         logger.debug("Entered Converter.convAsyncResponseToDmaapOutgoingMessageJsonString()");
     	DmaapOutgoingMessage dmaapOutgoingMessage = convAsyncResponseToDmaapOutgoingMessage(vnfOperation, rpcName, asyncResponse);
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.addMixInAnnotations(dmaapOutgoingMessage.getBody().getOutput().getClass(), MixInFlagsMessage.class);
-        objectMapper.addMixInAnnotations(CommonHeader.class, MixInCommonHeader.class);
-        objectMapper.addMixInAnnotations(Flags.class, MixIn.class);
-        objectMapper.addMixInAnnotations(Status.class, MixIn.class);
-        objectMapper.addMixInAnnotations(Payload.class, MixIn.class);
-        objectMapper.addMixInAnnotations(ZULU.class, MixIn.class);
+        objectMapper.addMixIn(dmaapOutgoingMessage.getBody().getOutput().getClass(), MixInFlagsMessage.class);
+        objectMapper.addMixIn(CommonHeader.class, MixInCommonHeader.class);
+        objectMapper.addMixIn(Flags.class, MixIn.class);
+        objectMapper.addMixIn(Status.class, MixIn.class);
+        objectMapper.addMixIn(Payload.class, MixIn.class);
+        objectMapper.addMixIn(ZULU.class, MixIn.class);
 
 //                .configure(SerializationConfig.Feature.SORT_PROPERTIES_ALPHABETICALLY,true)
         ObjectWriter writer = objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL).configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY,true).writer();

@@ -105,10 +105,10 @@ public class Converter {
         DmaapOutgoingMessage dmaapOutgoingMessage = convAsyncResponseToUebOutgoingMessage(rpcName, commonHeader,
                 status);
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.addMixInAnnotations(dmaapOutgoingMessage.getBody().getOutput().getClass(),
+        objectMapper.addMixIn(dmaapOutgoingMessage.getBody().getOutput().getClass(),
                 MixInFlagsMessage.class);
-        objectMapper.addMixInAnnotations(Status.class, MixIn.class);
-        objectMapper.addMixInAnnotations(CommonHeader.class, MixInCommonHeader.class);
+        objectMapper.addMixIn(Status.class, MixIn.class);
+        objectMapper.addMixIn(CommonHeader.class, MixInCommonHeader.class);
         ObjectWriter writer = objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL).configure
                 (MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true).writer();
         return writer.writeValueAsString(dmaapOutgoingMessage);
