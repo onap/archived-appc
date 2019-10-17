@@ -58,6 +58,8 @@ The El Alto added the following feature, bug fixes and security enhancements:
 
       - `APPC-1710 <https://jira.onap.org/browse/APPC-1710>`_ - Need for "ReadWriteMany" access on storage when deploying on Kubernetes?
          - to work around this is to add "accessMode: ReadWriteOnce" to values.yaml in APPC helm chart
+      - `APPC-1766 <https://jira.onap.org/browse/APPC-1766>`_ - openStackEncryptedPassword value is not encrypted
+         - to work around this is to change "provider1.tenant1.password={{.Values.config.openStackEncryptedPassword}}" to "provider1.tenant1.password=<non-encrypted plaintext password>" in APPC helm chart's appc.properties.
 
 
 **Security Notes**
