@@ -107,10 +107,9 @@
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
         </dependency>
-        <dependency>
+    <dependency>
               <groupId>org.mockito</groupId>
               <artifactId>mockito-core</artifactId>
-               <version>1.10.19</version>
               <scope>test</scope>
         </dependency>
     <dependency>
