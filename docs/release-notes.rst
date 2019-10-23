@@ -71,6 +71,8 @@ The El Alto added the following feature, bug fixes and security enhancements:
       - `OJSI-113 <https://jira.onap.org/browse/OJSI-113>`_ - appc exposes plain text HTTP endpoint using port 30230
       - `OJSI-146 <https://jira.onap.org/browse/OJSI-146>`_ - appc-cdt exposes plain text HTTP endpoint using port 30289
       - `OJSI-185 <https://jira.onap.org/browse/OJSI-185>`_ - appc exposes ssh service on port 30231
+	SSH is exposed by ODL in order to use NETCONF within SSH session based on `RFC-6242 <https://tools.ietf.org/html/rfc6242>` so currently it cannot be avoided.
+	Taken into account that this design is well documented in RFC, we no longer consider this to be a security issue but only a hardening opportunity.
 
 Version: 1.5.3
 --------------
