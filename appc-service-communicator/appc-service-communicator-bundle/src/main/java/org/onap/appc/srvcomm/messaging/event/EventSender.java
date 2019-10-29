@@ -37,7 +37,7 @@ import java.util.Date;
 import java.util.Map;
 
 
-public class EventSender
+public class EventSender implements EventSenderInterface
 {
     private final EELFLogger LOG = EELFManager.getInstance().getLogger(EventSender.class);
     public static final String PROPERTY_PREFIX = "dmaap.event";
@@ -50,6 +50,7 @@ public class EventSender
         messagingConnector = new MessagingConnector();
     }
 
+    @Override
     public boolean sendEvent(MessageDestination destination, EventMessage msg) {
         String jsonStr = msg.toJson();
         String id = msg.getEventHeader().getEventId();
@@ -58,6 +59,7 @@ public class EventSender
         return messagingConnector.publishMessage(propertyPrefix, id, jsonStr);
     }
 
+    @Override
     public boolean sendEvent(MessageDestination destination, EventMessage msg, String eventTopicName) {
         String jsonStr = msg.toJson();
         String id = msg.getEventHeader().getEventId();
@@ -66,6 +68,7 @@ public class EventSender
         return messagingConnector.publishMessage(propertyPrefix, id, eventTopicName, jsonStr);
     }
 
+    @Override
     public boolean sendEvent(MessageDestination destination, Map<String, String> params, SvcLogicContext ctx) throws APPCException {
 
         if (params == null) {
@@ -94,4 +97,5 @@ public class EventSender
 
         return sendEvent(destination, eventMessage);
     }
+    
 }
