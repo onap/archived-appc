@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -32,10 +32,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
-import org.onap.appc.adapter.message.EventSender;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.sdc.artifacts.helper.ArtifactStorageService;
 import org.onap.appc.sdc.artifacts.object.SDCArtifact;
+import org.onap.appc.srvcomm.messaging.event.EventSender;
 import org.onap.sdc.api.IDistributionClient;
 import org.onap.sdc.api.notification.IArtifactInfo;
 import org.onap.sdc.api.notification.INotificationData;

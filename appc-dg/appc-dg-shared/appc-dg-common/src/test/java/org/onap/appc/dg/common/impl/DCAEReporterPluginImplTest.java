@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
@@ -30,27 +30,16 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Matchers;
 import org.mockito.Mockito;
-import org.mockito.Spy;
-import org.onap.appc.adapter.message.EventSender;
-import org.onap.appc.adapter.message.MessageDestination;
-import org.onap.appc.adapter.message.event.EventMessage;
 import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.srvcomm.messaging.MessageDestination;
+import org.onap.appc.srvcomm.messaging.event.EventMessage;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(FrameworkUtil.class)
 public class DCAEReporterPluginImplTest {
     private SvcLogicContext ctx;
     private Map<String, String> params;
@@ -59,10 +48,8 @@ public class DCAEReporterPluginImplTest {
     private final Bundle bundleService = Mockito.mock(Bundle.class);
     private final ServiceReference sref = Mockito.mock(ServiceReference.class);
 
-    @InjectMocks
     private DCAEReporterPluginImpl dcaeReporterPlugin;
-    @Spy
-    private EventSenderMock eventSender = new EventSenderMock();
+    private MockEventSender eventSender;
 
     private String apiVer = "2.0.0";
     private String requestId = "123";
@@ -71,11 +58,10 @@ public class DCAEReporterPluginImplTest {
     @SuppressWarnings("unchecked")
     @Before
     public void setUp() throws NoSuchFieldException, IllegalAccessException {
-        PowerMockito.mockStatic(FrameworkUtil.class);
-        PowerMockito.when(FrameworkUtil.getBundle(Matchers.any(Class.class))).thenReturn(bundleService);
-        PowerMockito.when(bundleService.getBundleContext()).thenReturn(bundleContext);
-        PowerMockito.when(bundleContext.getServiceReference(Matchers.any(Class.class))).thenReturn(sref);
-        PowerMockito.when(bundleContext.<EventSender>getService(sref)).thenReturn(eventSender);
+        eventSender = new MockEventSender();
+        dcaeReporterPlugin = new DCAEReporterPluginImpl();
+        dcaeReporterPlugin.setEventSender(eventSender);
+        
     }
 
     @Test
@@ -110,7 +96,7 @@ public class DCAEReporterPluginImplTest {
         ctx.setAttribute("input.common-header.api-ver", apiVer);
         ctx.setAttribute("input.common-header.request-id", requestId);
         dcaeReporterPlugin.report(params, ctx);
-        EventMessage msg = eventSender.getMsg();
+        EventMessage msg = eventSender.getMessage();
         Assert.assertEquals("ERROR DESCRIPTION", msg.getEventStatus().getReason());
     }
 
@@ -120,14 +106,15 @@ public class DCAEReporterPluginImplTest {
         params = new HashMap<>();
         params.put(Constants.DG_ERROR_CODE, "200");
         dcaeReporterPlugin.reportSuccess(params, ctx);
-        EventMessage msg = eventSender.getMsg();
+        EventMessage msg = eventSender.getMessage();
         Assert.assertEquals(new Integer(500), msg.getEventStatus().getCode());
     }
 
     private void errorReasonNullAssert() throws APPCException {
+        eventSender.reset();
         dcaeReporterPlugin.report(params, ctx);
         MessageDestination destination = eventSender.getDestination();
-        EventMessage msg = eventSender.getMsg();
+        EventMessage msg = eventSender.getMessage();
         Assert.assertEquals("wrong API version", apiVer, msg.getEventHeader().getApiVer());
         Assert.assertEquals("wrong requestId", requestId, msg.getEventHeader().getEventId());
         Assert.assertEquals("wrong error message", "Unknown", msg.getEventStatus().getReason());
@@ -135,9 +122,10 @@ public class DCAEReporterPluginImplTest {
     }
 
     private void positiveAssert() throws APPCException {
+        eventSender.reset();
         dcaeReporterPlugin.report(params, ctx);
         MessageDestination destination = eventSender.getDestination();
-        EventMessage msg = eventSender.getMsg();
+        EventMessage msg = eventSender.getMessage();
         Assert.assertEquals("wrong API version", apiVer, msg.getEventHeader().getApiVer());
         Assert.assertEquals("wrong requestId", requestId, msg.getEventHeader().getEventId());
         Assert.assertEquals("wrong error message", error, msg.getEventStatus().getReason());
