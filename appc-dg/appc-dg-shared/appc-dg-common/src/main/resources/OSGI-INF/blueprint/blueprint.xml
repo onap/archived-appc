@@ -33,7 +33,7 @@
     <service id="JsonDgUtil" interface="org.onap.appc.dg.common.JsonDgUtil" ref="JsonDgUtilBean"/>
 
     <reference id="eventSenderReference" availability="mandatory" activation="eager"
-               interface="org.onap.appc.srvcomm.messaging.event.EventSender"/>
+               interface="org.onap.appc.srvcomm.messaging.event.EventSenderInterface"/>
 
     <bean id="DCAEReporterPluginBean" class="org.onap.appc.dg.common.impl.DCAEReporterPluginImpl"
           scope="singleton">

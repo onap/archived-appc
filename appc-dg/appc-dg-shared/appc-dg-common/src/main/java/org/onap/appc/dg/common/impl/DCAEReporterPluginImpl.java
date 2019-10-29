@@ -25,7 +25,7 @@ package org.onap.appc.dg.common.impl;
 
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
-import org.onap.appc.srvcomm.messaging.event.EventSender;
+import org.onap.appc.srvcomm.messaging.event.EventSenderInterface;
 import org.onap.appc.srvcomm.messaging.MessageDestination;
 import org.onap.appc.srvcomm.messaging.event.EventHeader;
 import org.onap.appc.srvcomm.messaging.event.EventMessage;
@@ -39,7 +39,7 @@ public class DCAEReporterPluginImpl implements DCAEReporterPlugin {
     private static final String ATTR_API_VERSION = "input.common-header.api-ver";
     private static final String ATTR_REQUEST_ID = "input.common-header.request-id";
     private static final String PARAM_EVENT_TOPIC_NAME = "event-topic-name";
-    private EventSender eventSender;
+    private EventSenderInterface eventSender;
 
     public DCAEReporterPluginImpl() {
         // do nothing
@@ -50,7 +50,7 @@ public class DCAEReporterPluginImpl implements DCAEReporterPlugin {
      *
      * @param eventSender to be set
      */
-    public void setEventSender(EventSender eventSender) {
+    public void setEventSender(EventSenderInterface eventSender) {
         this.eventSender = eventSender;
     }
 
