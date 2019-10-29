@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
@@ -36,11 +36,10 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
-import org.onap.appc.adapter.message.MessageAdapterFactory;
-import org.onap.appc.adapter.message.Producer;
 import org.onap.appc.configuration.ConfigurationFactory;
 import org.onap.appc.dg.common.IntermediateMessageSender;
 import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.srvcomm.messaging.MessagingConnector;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
@@ -52,8 +51,9 @@ public class IntermediateMessageSenderImpl implements IntermediateMessageSender 
 
     private static final String PARAM_MESSAGE = "message";
     private static final String ATTR_REQUEST_ID = "input.common-header.request-id";
+    private static final String PROPERTIES_PREFIX = "appc.LCM";
 
-    private Producer producer;
+    private MessagingConnector messageService;
 
     private static final String STATUS = "STATUS";
     private static final String FAILURE = "FAILURE";
@@ -64,29 +64,7 @@ public class IntermediateMessageSenderImpl implements IntermediateMessageSender 
     private static final String MSO = "MSO";
 
     public void init() {
-        Properties properties =  ConfigurationFactory.getConfiguration().getProperties();
-
-        String writeTopic = properties.getProperty("appc.LCM.topic.write");
-        String apiKey = properties.getProperty("appc.LCM.client.key");
-        String apiSecret = properties.getProperty("appc.LCM.client.secret");
-        String hostNames = properties.getProperty("appc.LCM.poolMembers");
-
-        logger.debug("Configuration Read : writeTopic = " + writeTopic + ", " +
-            "hostNames = " + hostNames);
-
-        Set<String> pool = new HashSet<>();
-        if (!StringUtils.isEmpty(hostNames)) {
-            pool.addAll(Arrays.asList(hostNames.split(",")));
-        }
-
-        BundleContext ctx = FrameworkUtil.getBundle(IntermediateMessageSenderImpl.class).getBundleContext();
-        if (ctx != null) {
-            ServiceReference svcRef = ctx.getServiceReference(MessageAdapterFactory.class.getName());
-            if (svcRef != null) {
-                MessageAdapterFactory messageAdapterFactory = ((MessageAdapterFactory) ctx.getService(svcRef));
-                    producer = messageAdapterFactory.createProducer(pool, writeTopic, apiKey, apiSecret);
-            }
-        }
+        messageService = new MessagingConnector();
     }
 
     @Override
@@ -97,7 +75,7 @@ public class IntermediateMessageSenderImpl implements IntermediateMessageSender 
             validateInputs(params, context);
             String jsonMessage = getJsonMessage(params, context);
             logger.debug("Constructed JSON Message : " + jsonMessage);
-            producer.post("", jsonMessage);
+            messageService.publishMessage(PROPERTIES_PREFIX, "", jsonMessage);
             context.setAttribute(prefix + STATUS, SUCCESS);
         } catch (Exception e) {
             String errorMessage = "Error sending intermediate message to initiator " + e.getMessage();

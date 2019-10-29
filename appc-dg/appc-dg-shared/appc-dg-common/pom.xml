@@ -3,7 +3,7 @@
   ============LICENSE_START=======================================================
   ONAP : APPC
   ================================================================================
-  Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
   Copyright (C) 2017 Amdocs
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -46,42 +46,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.onap.appc</groupId>
-			<artifactId>appc-message-adapter-api</artifactId>
+			<artifactId>appc-service-communicator-bundle</artifactId>
 			<version>${project.version}</version>
-			<scope>provided</scope>
-			<!-- TODO: WA for fixing build, clueanup dependency tree -->
-			<exclusions>
-				<exclusion>
-					<groupId>equinoxSDK381</groupId>
-					<artifactId>org.eclipse.osgi</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.onap.appc</groupId>
-			<artifactId>appc-dmaap-adapter-bundle</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-			<!-- TODO: WA for fixing build, clueanup dependency tree -->
-			<exclusions>
-				<exclusion>
-					<groupId>equinoxSDK381</groupId>
-					<artifactId>org.eclipse.osgi</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.onap.appc</groupId>
-			<artifactId>appc-message-adapter-factory</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-			<!-- TODO: WA for fixing build, clueanup dependency tree -->
-			<exclusions>
-				<exclusion>
-					<groupId>equinoxSDK381</groupId>
-					<artifactId>org.eclipse.osgi</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.onap.ccsdk.sli.core</groupId>
@@ -224,8 +190,7 @@
 						<Bundle-SymbolicName>appc-dg-common</Bundle-SymbolicName>
 						<Export-Package>org.onap.appc.dg.common,org.onap.appc.dg.common.objects,org.onap.appc.dg.common.utils</Export-Package>
 						<Private-Package>org.onap.appc.dg.common.impl.*</Private-Package>
-						<Import-Package>org.onap.appc.adapter.message.*,org.onap.appc.adapter.factory.*,org.onap.appc.adapter.messaging.*,
-							*;resolution:=optional</Import-Package>
+						<Import-Package>org.onap.appc.srvcomm.messaging.event,org.onap.appc.srvcomm.messaging,*;resolution:=optional</Import-Package>
 						<Embed-Dependency>appc-dg-mdsal-bundle,appc-dg-domain-model-lib,appc-dg-dependency-model,jackson-dataformat-yaml,jackson-databind,jackson-core,jackson-annotations;scope=compile|runtime;inline=false;artifactId=!org.eclipse.osgi</Embed-Dependency>
 
 						<!--Embed-Dependency>eelf-core,logback-core,logback-classic;scope=compile|runtime;inline=false</Embed-Dependency-->

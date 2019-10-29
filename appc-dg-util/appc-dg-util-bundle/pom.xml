@@ -161,11 +161,6 @@
         </dependency>
         <dependency>
             <groupId>org.onap.appc</groupId>
-            <artifactId>appc-dmaap-adapter-bundle</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.appc</groupId>
             <artifactId>appc-netconf-adapter-bundle</artifactId>
             <version>1.6.4-SNAPSHOT</version>
         </dependency>

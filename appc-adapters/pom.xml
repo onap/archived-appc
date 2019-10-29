@@ -2,7 +2,7 @@
   ============LICENSE_START=======================================================
   ONAP : APPC
   ================================================================================
-  Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
   Copyright (C) 2017 Amdocs
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,7 +34,6 @@
 		<module>appc-chef-adapter</module>
 		<module>appc-rest-adapter</module>
 		<module>appc-iaas-adapter</module>
- 		<module>appc-dmaap-adapter</module>
 		<module>appc-netconf-adapter</module>
 		<module>appc-ssh-adapter</module>
 		<module>appc-rest-healthcheck-adapter</module>

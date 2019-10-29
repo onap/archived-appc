@@ -51,19 +51,7 @@
         </dependency>
         <dependency>
             <groupId>org.onap.appc</groupId>
-            <artifactId>appc-dmaap-adapter-bundle</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.appc</groupId>
-            <artifactId>appc-message-adapter-api</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.appc</groupId>
-            <artifactId>appc-message-adapter-factory</artifactId>
+            <artifactId>appc-service-communicator-bundle</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>

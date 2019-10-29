@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -48,6 +48,7 @@ import org.onap.appc.adapter.rest.RequestFactory;
 import org.onap.appc.adapter.rest.RestAdapter;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
+import org.onap.appc.srvcomm.messaging.MessagingConnector;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 /**
@@ -121,7 +122,8 @@ public class RestAdapterImpl implements RestAdapter {
     @Override
     public void commonPost(Map<String, String> params, SvcLogicContext ctx) {
         logger.info("Run post method");
-
+        MessagingConnector mes = new MessagingConnector();
+        mes.publishMessage("appc.LCM", "part1", null, "my message");
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
 

@@ -39,7 +39,7 @@ limitations under the License.
     <dependencies>
         <dependency>
             <groupId>org.onap.appc</groupId>
-            <artifactId>appc-appc-service-communicator</artifactId>
+            <artifactId>appc-service-communicator-bundle</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

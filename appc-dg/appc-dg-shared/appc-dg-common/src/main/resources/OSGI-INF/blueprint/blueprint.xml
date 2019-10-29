@@ -3,7 +3,7 @@
   ============LICENSE_START=======================================================
   ONAP : APPC
   ================================================================================
-  Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
   ================================================================================
   Copyright (C) 2017 Amdocs
   =============================================================================
@@ -33,7 +33,7 @@
     <service id="JsonDgUtil" interface="org.onap.appc.dg.common.JsonDgUtil" ref="JsonDgUtilBean"/>
 
     <reference id="eventSenderReference" availability="mandatory" activation="eager"
-               interface="org.onap.appc.adapter.message.EventSender"/>
+               interface="org.onap.appc.srvcomm.messaging.event.EventSender"/>
 
     <bean id="DCAEReporterPluginBean" class="org.onap.appc.dg.common.impl.DCAEReporterPluginImpl"
           scope="singleton">

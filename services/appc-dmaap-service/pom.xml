@@ -28,9 +28,9 @@
   <url>http://maven.apache.org</url>
   <modules>
   <module>appc-dmaap-adapter-bundle</module>
-  <module>appc-event-listener-bundle</module>
   <module>appc-message-adapter-api</module>
   <module>appc-message-adapter-factory</module>
+  <module>appc-event-listener-bundle</module>
   <module>appc-dmaap-event-service</module>
   </modules>
   
