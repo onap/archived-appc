@@ -24,8 +24,6 @@
 package org.onap.appc.requesthandler.impl;
 
 import org.mockito.Mockito;
-import org.onap.appc.adapter.message.MessageAdapterFactory;
-import org.onap.appc.adapter.message.Producer;
 import org.onap.appc.domainmodel.lcm.ActionIdentifiers;
 import org.onap.appc.domainmodel.lcm.ActionLevel;
 import org.onap.appc.domainmodel.lcm.CommonHeader;
@@ -116,14 +114,5 @@ public interface LocalRequestHanlderTestHelper {
 
         BundleContext myBundleContext = mock(BundleContext.class);
         Mockito.when(myBundle.getBundleContext()).thenReturn(myBundleContext);
-
-        ServiceReference svcRef = mock(ServiceReference.class);
-        Mockito.when(myBundleContext.getServiceReference(MessageAdapterFactory.class.getName())).thenReturn(svcRef);
-
-        Producer producer = mock(Producer.class);
-        MessageAdapterFactory factory = mock(MessageAdapterFactory.class);
-        Mockito.when(myBundleContext.getService(svcRef)).thenReturn(factory);
-        Mockito.when(factory.createProducer(anyCollectionOf(String.class), anyString(), anyString(), anyString()))
-        .thenReturn(producer);
     }
 }

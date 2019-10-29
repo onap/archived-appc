@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -24,7 +24,7 @@ package org.onap.appc.sdc.artifacts.impl;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import org.onap.appc.adapter.message.EventSender;
+import org.onap.appc.srvcomm.messaging.event.EventSender;
 import org.onap.appc.sdc.artifacts.ArtifactProcessor;
 import org.onap.appc.sdc.artifacts.object.ArtifactType;
 import org.onap.sdc.api.IDistributionClient;
