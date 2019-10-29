@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -31,8 +31,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
-import org.onap.appc.adapter.factory.DmaapMessageAdapterFactoryImpl;
-import org.onap.appc.adapter.message.MessageAdapterFactory;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
 import org.onap.appc.domainmodel.lcm.ActionIdentifiers;
@@ -97,12 +95,6 @@ public class RequestHandlerTest {
     private LockManager lockManager;
     private Configuration configuration;
 
-    private final BundleContext bundleContext=Mockito.mock(BundleContext.class);
-    private final Bundle bundleService=Mockito.mock(Bundle.class);
-    private final ServiceReference sref=Mockito.mock(ServiceReference.class);
-    private MessageAdapterFactory factory = new DmaapMessageAdapterFactoryImpl();
-
-    
     @Before
     public void init() throws Exception {
         configuration = ConfigurationFactory.getConfiguration();
@@ -112,10 +104,6 @@ public class RequestHandlerTest {
         configuration.setProperty("appc.LCM.client.secret" , "TEST");
         
         PowerMockito.mockStatic(FrameworkUtil.class);
-        PowerMockito.when(FrameworkUtil.getBundle(MessageAdapterImpl.class)).thenReturn(bundleService);
-        PowerMockito.when(bundleService.getBundleContext()).thenReturn(bundleContext);
-        PowerMockito.when(bundleContext.getServiceReference(MessageAdapterFactory.class.getName())).thenReturn(sref);
-        PowerMockito.when(bundleContext.getService(sref)).thenReturn(factory);
         
     
         requestHandler = new RequestHandlerImpl();

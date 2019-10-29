@@ -67,11 +67,6 @@
         </dependency>
         <dependency>
             <groupId>org.onap.appc</groupId>
-            <artifactId>appc-dmaap-adapter-bundle</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.appc</groupId>
             <artifactId>appc-lifecycle-management-api</artifactId>
             <version>${project.version}</version>
         </dependency>
