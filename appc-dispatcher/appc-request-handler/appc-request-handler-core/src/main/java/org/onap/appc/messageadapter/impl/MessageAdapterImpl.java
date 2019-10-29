@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
@@ -25,12 +25,6 @@
 
 package org.onap.appc.messageadapter.impl;
 
-
-import org.onap.appc.adapter.factory.MessageService;
-import org.onap.appc.adapter.message.MessageAdapterFactory;
-import org.onap.appc.adapter.message.Producer;
-import org.onap.appc.configuration.Configuration;
-import org.onap.appc.configuration.ConfigurationFactory;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -39,23 +33,12 @@ import org.onap.appc.domainmodel.lcm.ResponseContext;
 import org.onap.appc.domainmodel.lcm.VNFOperation;
 import org.onap.appc.messageadapter.MessageAdapter;
 import org.onap.appc.requesthandler.conv.Converter;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.ServiceReference;
-
-import java.util.HashSet;
-import java.util.Properties;
+import org.onap.appc.srvcomm.messaging.MessagingConnector;
 
 public class MessageAdapterImpl implements MessageAdapter{
 
-    private MessageService messageService;
-    private Producer producer;
+    private MessagingConnector messageService;
     private String partition ;
-    private Configuration configuration;
-    private HashSet<String> pool;
-    private String writeTopic;
-    private String apiKey;
-    private String apiSecret;
 
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(MessageAdapterImpl.class);
 
@@ -65,44 +48,7 @@ public class MessageAdapterImpl implements MessageAdapter{
     @Override
     public void init(){
     	logger.debug("MessageAdapterImpl - init");
-        this.producer = getProducer();
-    }
-
-    private Producer getProducer() {
-        configuration = ConfigurationFactory.getConfiguration();
-        Properties properties = configuration.getProperties();
-        updateProperties(properties);
-
-        BundleContext ctx = FrameworkUtil.getBundle(MessageAdapterImpl.class).getBundleContext();
-        if (ctx != null) {
-            ServiceReference svcRef = ctx.getServiceReference(MessageAdapterFactory.class.getName());
-            if (svcRef != null) {
-                producer = ((MessageAdapterFactory) ctx.getService(svcRef)).createProducer(pool, writeTopic, apiKey, apiSecret);
-            }
-        }
-        return producer;
-    }
-
-
-    private void updateProperties(Properties props) {
-        if (logger.isTraceEnabled()) {
-            logger.trace("Entering to updateProperties with Properties = " + ObjectUtils.toString(props));
-        }
-        pool = new HashSet<>();
-        if (props != null) {
-            // readTopic = props.getProperty("dmaap.topic.read");
-            writeTopic = props.getProperty("appc.LCM.topic.write");
-            apiKey = props.getProperty("appc.LCM.client.key");
-            apiSecret = props.getProperty("appc.LCM.client.secret");
-            messageService = MessageService.parse(props.getProperty("message.service.type"));
-            //  READ_TIMEOUT = Integer.valueOf(props.getProperty("dmaap.topic.read.timeout", String.valueOf(READ_TIMEOUT)));
-            String hostnames = props.getProperty("appc.LCM.poolMembers");
-            if (hostnames != null && !hostnames.isEmpty()) {
-                for (String name : hostnames.split(",")) {
-                    pool.add(name);
-                }
-            }
-        }
+        this.messageService = new MessagingConnector();
     }
 
     /**
@@ -125,7 +71,7 @@ public class MessageAdapterImpl implements MessageAdapter{
                 logger.debug("DMaaP Response = " + jsonMessage);
             }
             logger.debug("Before Invoking producer.post(): jsonMessage is::" + jsonMessage);
-            success = producer.post(this.partition, jsonMessage);
+            success = messageService.publishMessage("appc.LCM", this.partition, jsonMessage);
             logger.debug("After Invoking producer.post()");
         } catch (JsonProcessingException e1) {
             logger.error("Error generating Json from DMaaP message " + e1.getMessage());

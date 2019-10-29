@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -28,7 +28,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.apache.commons.lang.StringUtils;
-import org.onap.appc.adapter.message.EventSender;
+import org.onap.appc.srvcomm.messaging.event.EventSender;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.sdc.artifacts.helper.DependencyModelGenerator;
 import org.onap.appc.sdc.artifacts.object.Resource;

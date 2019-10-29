@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -25,11 +25,11 @@ package org.onap.appc.dg.common.impl;
 
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
-import org.onap.appc.adapter.message.EventSender;
-import org.onap.appc.adapter.message.MessageDestination;
-import org.onap.appc.adapter.message.event.EventHeader;
-import org.onap.appc.adapter.message.event.EventMessage;
-import org.onap.appc.adapter.message.event.EventStatus;
+import org.onap.appc.srvcomm.messaging.event.EventSender;
+import org.onap.appc.srvcomm.messaging.MessageDestination;
+import org.onap.appc.srvcomm.messaging.event.EventHeader;
+import org.onap.appc.srvcomm.messaging.event.EventMessage;
+import org.onap.appc.srvcomm.messaging.event.EventStatus;
 import org.onap.appc.dg.common.DCAEReporterPlugin;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
