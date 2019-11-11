@@ -78,8 +78,7 @@ public class StartSequenceGenerator implements SequenceGenerator {
         List<Integer> transactionIds = new LinkedList<>();
         for (Vserver vm : vservers) {
             // check vm-Start-capabilities for this vm's vnfc-function-code (before incrementing transactionId)
-            String vmVnfcFunctionCode = vm.getVnfc().getVnfcFunctionCode();
-            if (!vmSupportsStart(input, vmVnfcFunctionCode)) {
+            if (!vmSupportsStart(input, vm)) {
                 continue;
             }
             Transaction transaction = new Transaction();
@@ -139,8 +138,7 @@ public class StartSequenceGenerator implements SequenceGenerator {
                 if(!vms.isEmpty()) {
                     for (Vserver vm : vms) {
                         // check vm-Start-capabilities for this vm's vnfc-function-code (before incrementing transactionId)
-                        String vmVnfcFunctionCode = vm.getVnfc().getVnfcFunctionCode();
-                        if (!vmSupportsStart(input, vmVnfcFunctionCode)) {
+                        if (!vmSupportsStart(input, vm)) {
                             continue;
                         }
                         Transaction transaction = new Transaction();
@@ -336,28 +334,37 @@ public class StartSequenceGenerator implements SequenceGenerator {
         }
     }
 
-    private boolean vmSupportsStart(SequenceGeneratorInput input, String vnfcFunctionCode) {
+    private boolean vmSupportsStart(SequenceGeneratorInput input, Vserver vm) {
         boolean vmSupported = true;
         if (input.getCapability() == null) {
             logger.info("vmSupportsStart: " + "Capabilities model is null, returning vmSupported=" + vmSupported);
             return vmSupported;
         }
         Map<String, List<String>> vmCapabilities = input.getCapability().getVmCapabilities();
-        logger.info("vmSupportsStart: vnfcFunctionCode=" + vnfcFunctionCode + ", vmCapabilities=" + vmCapabilities);
         if (vmCapabilities != null) {
             if (!vmCapabilities.isEmpty()) {
-                vmSupported = false;
-                if (vmCapabilities.get(Action.START.getActionType()) != null) {
-                    if (vnfcFunctionCode != null && !vnfcFunctionCode.isEmpty()) {
-                        for (String enabledFuncCode : vmCapabilities.get(Action.START.getActionType()) ) {
-                            if (enabledFuncCode.equalsIgnoreCase(vnfcFunctionCode)) {
-                                vmSupported = true;
-                                logger.info("vmSupportsStart: vnfcFunctionCode=" + vnfcFunctionCode + " found in vmCapabilties");
-                                break;
+                List<String> vmCapsForThisAction = vmCapabilities.get(Action.START.getActionType());
+                if (vmCapsForThisAction != null) {
+                    vmSupported = false;
+                    if (!vmCapsForThisAction.isEmpty()) {
+                        if (vm.getVnfc() != null) {
+                            String vnfcFunctionCode = vm.getVnfc().getVnfcFunctionCode();
+                            if (vnfcFunctionCode != null && !vnfcFunctionCode.isEmpty()) {
+                                for (String s : vmCapabilities.get(Action.START.getActionType()) ) {
+                                    if (s.equalsIgnoreCase(vnfcFunctionCode)) {
+                                        vmSupported = true;
+                                        logger.info("vmSupportsStart: vnfcFunctionCode=" + vnfcFunctionCode + " found in vmCapabilities");
+                                        break;
+                                    }
+                                }
+                            } else {
+                                logger.info("vmSupportsStart: " + "Inventory vnfcFunctionCode is null or empty");
                             }
-                        }
+                        } else {
+                            logger.info("vmSupportsStart: " + "Inventory vnfc is null or empty");
+                        } 
                     } else {
-                        logger.info("vmSupportsStart: " + "Inventory vnfcFunctionCode is null or empty");
+                        logger.info("vmSupportsStart: " + "Given action in vm entry in Capabilities model is empty");
                     }
                 } else {
                     logger.info("vmSupportsStart: " + "Given action in vm entry in Capabilities model is null");
@@ -369,7 +376,7 @@ public class StartSequenceGenerator implements SequenceGenerator {
             logger.info("vmSupportsStart: " + "Vm entry in Capabilities model is null");
         }
 
-        logger.info("vmSupportsStart: " + "returning vmSupported=" + vmSupported);
+        logger.info("vmSupportsStart: " + "returning vmSupported=" + vmSupported + ", " + ((vmSupported)?"including":"excluding") + " vm=" + vm.getId());
         return vmSupported;
     }
 }
