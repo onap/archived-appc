@@ -32,6 +32,7 @@ import org.onap.appc.seqgen.SequenceGenerator;
 import org.onap.appc.seqgen.objects.ActionIdentifier;
 import org.onap.appc.seqgen.objects.Constants;
 import org.onap.appc.seqgen.objects.Constants.Action;
+import org.onap.appc.seqgen.objects.Constants.ResponseAction;
 import org.onap.appc.seqgen.objects.Response;
 import org.onap.appc.seqgen.objects.SequenceGeneratorInput;
 import org.onap.appc.seqgen.objects.Transaction;
@@ -59,8 +60,7 @@ public class RestartSequenceGenerator implements SequenceGenerator{
         PayloadGenerator payloadGenerator = new PayloadGenerator();
             for (Vserver vm : vservers) {
                 // check vm-Restart-capabilities for this vm's vnfc-function-code (before incrementing transactionId)
-                String vmVnfcFunctionCode = vm.getVnfc().getVnfcFunctionCode();
-                if (!vmSupportsRestart(input, vmVnfcFunctionCode)) {
+                if (!vmSupportsRestart(input, vm)) {
                     continue;
                 }
                 Transaction transactionStop = new Transaction();
@@ -79,9 +79,9 @@ public class RestartSequenceGenerator implements SequenceGenerator{
                     Response failureResponse = new Response();
                     failureResponse.setResponseMessage(Constants.ResponseMessage.FAILURE.getResponse());
                     Map<String,String> failureAction = new HashMap<>();
-                    //if(!checkLastVM(vservers,vm.getId()))
-                    //{
-                        failureAction.put(Constants.ResponseAction.STOP.getAction(), String.valueOf(transactionId+1));
+                    //if(!checkLastVM(vservers,vm.getId())) {
+                        //failureAction.put(Constants.ResponseAction.STOP.getAction(), String.valueOf(transactionId+1));
+                        failureAction.put(ResponseAction.STOP.getAction(), Boolean.TRUE.toString());
                         failureResponse.setResponseAction(failureAction);
                         transactionStop.addResponse(failureResponse);
                     //}
@@ -101,10 +101,9 @@ public class RestartSequenceGenerator implements SequenceGenerator{
                     Response failureResponse = new Response();
                     failureResponse.setResponseMessage(Constants.ResponseMessage.FAILURE.getResponse());
                     Map<String,String> failureAction = new HashMap<>();
-                    //if(!checkLastVM(vservers,vm.getId()))
-                    //{
-                    //failureAction.put(Constants.ResponseAction.JUMP.getAction(),transactionId.toString());
-                        failureAction.put(Constants.ResponseAction.STOP.getAction(),transactionId.toString());
+                    //if(!checkLastVM(vservers,vm.getId())) {
+                        //failureAction.put(Constants.ResponseAction.JUMP.getAction(),transactionId.toString());
+                        failureAction.put(ResponseAction.STOP.getAction(), Boolean.TRUE.toString());
                         failureResponse.setResponseAction(failureAction);
                         transactionStart.addResponse(failureResponse);
                     //}
@@ -114,28 +113,37 @@ public class RestartSequenceGenerator implements SequenceGenerator{
         return transactionList;
     }
     
-    private boolean vmSupportsRestart(SequenceGeneratorInput input, String vnfcFunctionCode) {
+    private boolean vmSupportsRestart(SequenceGeneratorInput input, Vserver vm) {
         boolean vmSupported = true;
         if (input.getCapability() == null) {
             logger.info("vmSupportsRestart: " + "Capabilities model is null, returning vmSupported=" + vmSupported);
             return vmSupported;
         }
         Map<String, List<String>> vmCapabilities = input.getCapability().getVmCapabilities();
-        logger.info("vmSupportsRestart: vnfcFunctionCode=" + vnfcFunctionCode + ", vmCapabilities=" + vmCapabilities);
         if (vmCapabilities != null) {
             if (!vmCapabilities.isEmpty()) {
-                vmSupported = false;
-                if (vmCapabilities.get(Action.RESTART.getActionType()) != null) {
-                    if (vnfcFunctionCode != null && !vnfcFunctionCode.isEmpty()) {
-                        for (String enabledFuncCode : vmCapabilities.get(Action.RESTART.getActionType()) ) {
-                            if (enabledFuncCode.equalsIgnoreCase(vnfcFunctionCode)) {
-                                vmSupported = true;
-                                logger.info("vmSupportsRestart: vnfcFunctionCode=" + vnfcFunctionCode + " found in vmCapabilties");
-                                break;
+                List<String> vmCapsForThisAction = vmCapabilities.get(Action.RESTART.getActionType());
+                if (vmCapsForThisAction != null) {
+                    vmSupported = false;
+                    if (!vmCapsForThisAction.isEmpty()) {
+                        if (vm.getVnfc() != null) {
+                            String vnfcFunctionCode = vm.getVnfc().getVnfcFunctionCode();
+                            if (vnfcFunctionCode != null && !vnfcFunctionCode.isEmpty()) {
+                                for (String s : vmCapabilities.get(Action.RESTART.getActionType()) ) {
+                                    if (s.equalsIgnoreCase(vnfcFunctionCode)) {
+                                        vmSupported = true;
+                                        logger.info("vmSupportsRestart: vnfcFunctionCode=" + vnfcFunctionCode + " found in vmCapabilities");
+                                        break;
+                                    }
+                                }
+                            } else {
+                                logger.info("vmSupportsRestart: " + "Inventory vnfcFunctionCode is null or empty");
                             }
-                        }
+                        } else {
+                            logger.info("vmSupportsRestart: " + "Inventory vnfc is null or empty");
+                        } 
                     } else {
-                        logger.info("vmSupportsRestart: " + "Inventory vnfcFunctionCode is null or empty");
+                        logger.info("vmSupportsRestart: " + "Given action in vm entry in Capabilities model is empty");
                     }
                 } else {
                     logger.info("vmSupportsRestart: " + "Given action in vm entry in Capabilities model is null");
@@ -147,9 +155,10 @@ public class RestartSequenceGenerator implements SequenceGenerator{
             logger.info("vmSupportsRestart: " + "Vm entry in Capabilities model is null");
         }
 
-        logger.info("vmSupportsRestart: " + "returning vmSupported=" + vmSupported);
+        logger.info("vmSupportsRestart: " + "returning vmSupported=" + vmSupported + ", " + ((vmSupported)?"including":"excluding") + " vm=" + vm.getId());
         return vmSupported;
     }
+
 
     private boolean checkLastVM(List<Vserver> vservers, String vmId){
         Vserver vm= vservers.get(vservers.size()-1);

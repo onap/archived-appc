@@ -123,6 +123,12 @@
     "strategy" : "FORWARD",
     "wait-time": "120",
     "retry-count": "5"
+  },
+   "capabilities" : {
+        "vm" : [],
+        "vnfc" : [],
+        "vf-module" : [],
+        "vnf" : []
   }
 }
 

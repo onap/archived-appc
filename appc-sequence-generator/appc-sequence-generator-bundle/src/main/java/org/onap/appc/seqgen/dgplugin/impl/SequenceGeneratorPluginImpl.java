@@ -72,12 +72,12 @@ public class SequenceGeneratorPluginImpl implements SequenceGeneratorPlugin {
             SequenceGeneratorInput sequenceGeneratorInput = buildSequenceGeneratorInput(inputJSON);
             List<Transaction> sequence = generateSequence(sequenceGeneratorInput);
             if (sequence.isEmpty()) {
-                logger.error("Error generating sequence");
+                logger.error("Transaction list is empty");
                 context.setAttribute("error-code", "450");
                 context.setAttribute("error-message", "Request is not supported");
             } else { 
                 String output = objectMapper.writeValueAsString(sequence);
-                logger.debug("Sequence Generator Output " + output);
+                logger.info("Sequence Generator Output " + output);
                 context.setAttribute("output", output);
             }
         } catch (Exception e) {
@@ -294,11 +294,14 @@ public class SequenceGeneratorPluginImpl implements SequenceGeneratorPlugin {
             Vserver vserver = new Vserver();
             vserver.setId(vserverId);
             vserver.setUrl(vmId);
-            if (vm.get("vnfc")!=null&& vm.get("vnfc").get("vnfc-name") != null && vm.get("vnfc").get("vnfc-type")!= null) {
-                Vnfc vfc = new Vnfc();
-                vfc.setVnfcType(vm.get("vnfc").get("vnfc-type").asText());
-                vfc.setVnfcName(vm.get("vnfc").get("vnfc-name").asText());
-                vfc.setVnfcFunctionCode(vm.get("vnfc").get("vnfc-function-code").asText());
+            Vnfc vfc = new Vnfc();
+            if (vm.get("vnfc") != null ) {
+                if (vm.get("vnfc").get("vnfc-name") != null)
+                    vfc.setVnfcName(vm.get("vnfc").get("vnfc-name").asText());
+                if (vm.get("vnfc").get("vnfc-type") != null) 
+                    vfc.setVnfcType(vm.get("vnfc").get("vnfc-type").asText());
+                if (vm.get("vnfc").get("vnfc-function-code") != null) 
+                    vfc.setVnfcFunctionCode(vm.get("vnfc").get("vnfc-function-code").asText());
                 vserver.setVnfc(vfc);
                 List<Vserver> vServers = vfcs.get(vfc);
                 if (vServers == null) {
@@ -318,6 +321,7 @@ public class SequenceGeneratorPluginImpl implements SequenceGeneratorPlugin {
 
         return new InventoryModel(vnf);
     }
+
     private CapabilityModel buildCapabilitiesModel(String inputJson) throws IOException, APPCException {
         logger.info("Entering buildCapabilitiesModel");
 
