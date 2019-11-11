@@ -1,0 +1,85 @@
+{
+  "request-info": {
+    "action": "Restart",
+    "action-level": "vnf",
+    "action-identifier": {
+      "vnf-id": "dbgx0001v"
+    },
+    "payload":  " {\"vnf-host-ip-address\": \"10.147.124.163\" }"
+
+  },
+  "inventory-info": {
+    "vnf-info": {
+      "vnf-id" : "abc",
+      "vnf-name": "vSCP",
+      "vnf-type": "vSCP",
+      "vnf-version" : "1.0",
+      "identity-url" : "test_url",
+      "vm": [
+        {
+          "vserver-id" : "no_vnfc_info",
+          "vm-id" : "vm_id1"
+        },
+        {
+          "vserver-id" : "empty_vnfc_info",
+          "vm-id" : "vm_id1",
+          "vnfc":
+          {
+          }
+        },
+        {
+          "vserver-id" : "nofunctioncode",
+          "vm-id" : "vm_id1",
+          "vnfc":
+          {
+            "vnfc-type": "SMP",
+            "vnfc-name": "SMP - Name"
+          }
+        },
+        {
+          "vserver-id" : "be_vserverid1",
+          "vm-id" : "vm_id1",
+          "vnfc":
+          {
+            "vnfc-type": "BE",
+            "vnfc-function-code": "pld",
+            "vnfc-name": "BE - Name"
+          }
+        },
+        {
+          "vserver-id" : "be_vserverid2",
+          "vm-id" : "vm_id1",
+          "vnfc":
+          {
+            "vnfc-type": "BE",
+            "vnfc-function-code": "pld",
+            "vnfc-name": "BE - Name"
+          }
+        },
+                {
+          "vserver-id" : "unsupportedfunctioncode",
+          "vm-id" : "vm_id1",
+          "vnfc":
+          {
+            "vnfc-type": "BE",
+            "vnfc-function-code": "xyz",
+            "vnfc-name": "BE - Name"
+          }
+        }
+      ]
+    }
+  },
+  "dependency-info" : {
+  },
+  "tunable-parameters" : {
+    "strategy" : "FORWARD",
+    "waitTime" : "120",
+    "retryCount" : "5"
+  },
+  "capabilities" : {
+    "vnf": ["Stop", "Start", "StartApplication","StopApplication"],
+    "vf-module": ["Stop", "Start"],
+    "vm" : [{"Stop" :["pld", "ssc", "dbo"]}, {"Start" :["pld", "ssc", "dbo"]}, {"Restart" :["pld", "ssc", "dbo"]}],
+    "vnfc": ["StopApplication", "StartApplication","HealthCheck"]
+  }
+}
