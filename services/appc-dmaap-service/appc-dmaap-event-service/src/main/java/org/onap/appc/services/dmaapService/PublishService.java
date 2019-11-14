@@ -30,12 +30,18 @@ import org.onap.appc.adapter.factory.DmaapMessageAdapterFactoryImpl;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
 import org.springframework.stereotype.Service;
+
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+
 import org.onap.appc.adapter.message.MessageAdapterFactory;
 import org.onap.appc.adapter.message.Producer;
 import org.onap.appc.adapter.messaging.dmaap.http.HttpDmaapProducerImpl;
 
 @Service
 public class PublishService {
+    
+    private static final EELFLogger LOG = EELFManager.getInstance().getLogger(PublishService.class);
     
     private Map<String,Producer> producers;
     private MessageAdapterFactory factory;
@@ -100,6 +106,14 @@ public class PublishService {
                 for (String name : hostnames.split(",")) {
                     pool.add(name);
                 }
+            }
+            if(pool.isEmpty()) {
+                LOG.error("There are no dmaap server pools. Check the property " + key + ".poolMembers");
+                return null;
+            }
+            if(writeTopic == null || writeTopic.isEmpty()) {
+                LOG.error("There is no write topic defined in the message request or in the properties file");
+                return null;
             }
             return factory.createProducer(pool, writeTopic, apiKey, apiSecret);
         }
