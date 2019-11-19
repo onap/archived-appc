@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab67fda4_8091a75a",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/ConfigComponentAdaptor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2019-11-19T21:37:45Z",
+      "side": 1,
+      "message": "any reason that log msg commented?",
+      "range": {
+        "startLine": 166,
+        "startChar": 59,
+        "endLine": 166,
+        "endChar": 68
+      },
+      "revId": "d6801d69b3d29ce0aa99d3214f7cf4bfd02fb706",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "238ef692_76a0596c",
+        "filename": "appc-config/appc-config-audit/provider/src/main/java/org/onap/sdnc/config/audit/node/CompareXmlData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2019-11-19T21:37:45Z",
+      "side": 1,
+      "message": "something is a standard we have to follow with?",
+      "range": {
+        "startLine": 127,
+        "startChar": 77,
+        "endLine": 127,
+        "endChar": 85
+      },
+      "revId": "d6801d69b3d29ce0aa99d3214f7cf4bfd02fb706",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
