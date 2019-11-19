@@ -28,6 +28,7 @@ import static org.onap.appc.flow.controller.utils.FlowControllerConstants.DESING
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.GRAPH;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_PARAM_RESPONSE_PREFIX;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.NODE;
+import static org.onap.appc.flow.controller.utils.FlowControllerConstants.OUTPUT_PARAM_ERROR_CODE;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.OUTPUT_PARAM_ERROR_MESSAGE;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.OUTPUT_PARAM_STATUS;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.OUTPUT_STATUS_FAILURE;
@@ -104,6 +105,7 @@ public class FlowControlNode implements SvcLogicJavaPlugin {
         } catch (Exception e) {
             ctx.setAttribute(responsePrefix + OUTPUT_PARAM_STATUS, OUTPUT_STATUS_FAILURE);
             ctx.setAttribute(responsePrefix + OUTPUT_PARAM_ERROR_MESSAGE, e.getMessage());
+            ctx.setAttribute(responsePrefix + OUTPUT_PARAM_ERROR_CODE, ctx.getAttribute(OUTPUT_PARAM_ERROR_CODE));
             log.error("Error occurred in processFlow ", e);
             throw new SvcLogicException(e.getMessage());
         }

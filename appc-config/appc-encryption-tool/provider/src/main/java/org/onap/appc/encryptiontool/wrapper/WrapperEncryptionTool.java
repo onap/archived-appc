@@ -52,8 +52,8 @@ public class WrapperEncryptionTool {
         String action = args[4];
         String port = args[5];
         String url = args[6];
-        log.info("vnfType = " + vnfType + " protocol = " + protocol + " " + USER_PARAM + "=" + user + " " + PASS_PARAM
-                + "=" + password + " action=" + action + " " + PORT_PARAM + "=" + port + " " + URL_PARAM + "=" + url);
+        //log.info("vnfType = " + vnfType + " protocol = " + protocol + " " + USER_PARAM + "=" + user + " " + PASS_PARAM
+        //      + "=" + password + " action=" + action + " " + PORT_PARAM + "=" + port + " " + URL_PARAM + "=" + url);
 
         if (StringUtils.isBlank(user)) {
             log.info("ERROR-USER can not be null");

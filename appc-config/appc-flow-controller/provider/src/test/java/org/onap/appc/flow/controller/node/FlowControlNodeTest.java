@@ -37,7 +37,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.onap.appc.flow.controller.data.ResponseAction;
-import org.onap.appc.flow.controller.data.Transaction;
 import org.onap.appc.flow.controller.dbervices.FlowControlDBService;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;

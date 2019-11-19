@@ -52,7 +52,8 @@ public class RestExecutor implements FlowExecutorInterface {
 
     @Override
     public Map<String, String> execute(Transaction transaction, SvcLogicContext ctx) throws Exception {
-        log.info("Configuring Rest Operation....." + transaction.toString());
+        String woPswd = transaction.toString().replaceAll("pswd=(.*?), ", "pswd=XXXX, ");
+        log.info("Configuring Rest Operation....." + woPswd);
         Map<String, String> outputMessage = new HashMap<>();
         Client client = null;
 

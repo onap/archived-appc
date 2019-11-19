@@ -34,6 +34,7 @@ public class FlowControllerConstants {
 
     public static final String OUTPUT_PARAM_STATUS = "status";
     public static final String OUTPUT_PARAM_ERROR_MESSAGE = "error-message";
+    public static final String OUTPUT_PARAM_ERROR_CODE = "error-code";
     public static final String OUTPUT_STATUS_SUCCESS = "success";
     public static final String OUTPUT_STATUS_FAILURE = "failure";
 

@@ -171,7 +171,6 @@ public class FlowSequenceGeneratorTest {
 
     String flowSequence = flowSequenceGenerator.getFlowSequence(inParams, ctx, localCtx);
 
-    //Assert.assertEquals("{'dummy-json-object':'some-param'}".replaceAll("'", "\""), flowSequence);
     Assert.assertEquals("{'transactions':[{'transaction-id':'1','payload':''}]}".replaceAll("'", "\""), flowSequence);
   }
 
@@ -185,7 +184,7 @@ public class FlowSequenceGeneratorTest {
     // {"status":{"code":450,"message":"Request is not supported"}}
     map.put("restResponse", "{'output':{'status':{'code':450,'message':'Request is not supported'}}}".replaceAll("'", "\""));
     when(restExecutor.execute(any(Transaction.class), eq(localCtx))).thenReturn(map);
-    expectedException.expectMessage("No transactions were generated for this request");
+    expectedException.expectMessage("Failed to generate the sequence for this request");
     
     String flowSequence = flowSequenceGenerator.getFlowSequence(inParams, ctx, localCtx);
   }

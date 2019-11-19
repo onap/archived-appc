@@ -163,7 +163,7 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
 
         parmval = parameters.get("config-component-configPassword");
         if ((parmval != null) && (parmval.length() > 0)) {
-            log.debug("Overwriting configPassword with " + parmval);
+            //log.debug("Overwriting configPassword with " + parmval);
             configPassword = parmval;
         }
 

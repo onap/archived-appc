@@ -23,6 +23,8 @@ import static org.onap.appc.flow.controller.utils.FlowControllerConstants.DESING
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.EXTERNAL;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.FLOW_SEQUENCE;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.GENERATION_NODE;
+import static org.onap.appc.flow.controller.utils.FlowControllerConstants.OUTPUT_PARAM_ERROR_CODE;
+import static org.onap.appc.flow.controller.utils.FlowControllerConstants.OUTPUT_PARAM_ERROR_MESSAGE;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.RUNTIME;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.SEQUENCE_TYPE;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.VNFC_TYPE;
@@ -131,8 +133,21 @@ class FlowSequenceGenerator {
       flowSequence = output.toString();
       log.info("MultistepSequenceGenerator-Output: " + flowSequence);
 
-      if (!flowSequence.contains("transactions")) {
-          throw new Exception("No transactions were generated for this request");
+      // check for transactions data
+      if (!flowSequence.contains("transaction-id")) {
+          // check for status data
+          JSONObject statusJson = new JSONObject(output.toString()).optJSONObject("status");
+          if (statusJson != null) {
+              log.info("statusJson=" + statusJson);
+              if (statusJson.has("code")) {
+                  // extract code and set into ctx
+                  log.info("Setting " + OUTPUT_PARAM_ERROR_CODE + "=" + statusJson.get("code").toString() + " in context ctx");
+                  ctx.setAttribute(OUTPUT_PARAM_ERROR_CODE, statusJson.get("code").toString());
+                  log.info("Setting " + OUTPUT_PARAM_ERROR_MESSAGE + "=" + statusJson.get("message").toString() + " in context ctx");
+                  ctx.setAttribute(OUTPUT_PARAM_ERROR_MESSAGE, statusJson.get("message").toString());
+              }
+          }
+          throw new Exception("Failed to generate the sequence for this request");
       }
 
     } else if (sequenceType.equalsIgnoreCase(EXTERNAL)) {

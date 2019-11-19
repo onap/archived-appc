@@ -26,6 +26,8 @@ package org.onap.sdnc.config.generator.tool;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import java.io.StringReader;
+
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.codehaus.jettison.json.JSONArray;
@@ -73,6 +75,10 @@ public class CheckDataTool {
     public static boolean isXML(String data) {
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            dbFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            dbFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            dbFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             dBuilder.parse(new InputSource(new StringReader(data)));
             return true;
