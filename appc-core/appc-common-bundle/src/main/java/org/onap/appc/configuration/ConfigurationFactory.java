@@ -36,6 +36,7 @@ import java.util.Properties;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
+import org.apache.commons.lang3.StringUtils;
 import org.onap.appc.i18n.Msg;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -312,7 +313,10 @@ public final class ConfigurationFactory {
                 }
             }
             for (String key : config.getProperties().stringPropertyNames()) {
-                logger.info(Msg.PROPERTY_VALUE, key, config.getProperty(key));
+                if ((!StringUtils.containsIgnoreCase(key, "pass"))&&(!StringUtils.containsIgnoreCase(key, "secret")))
+                    logger.info(Msg.PROPERTY_VALUE, key, config.getProperty(key));
+                else
+                    logger.info(Msg.PROPERTY_VALUE, key, config.getProperty(key));
             }
         } else {
             logger.info(Msg.NO_DEFAULTS_FOUND, DEFAULT_PROPERTIES);
