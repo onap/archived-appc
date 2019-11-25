@@ -97,6 +97,7 @@ public class ArtifactHandlerNodeTest {
         JSONObject documentInfo = getDocumentInfo("templates/reference_template");
         documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_NAME, "reference_Junit.json");
         requestInfo.put("RequestInfo", "testValue");
+        requestInfo.put("request-id","testREQUEST_ID");
         input.put(SdcArtifactHandlerConstants.DOCUMENT_PARAMETERS, documentInfo);
         input.put(SdcArtifactHandlerConstants.REQUEST_INFORMATION, requestInfo);
         postData.put("input", input);
@@ -273,6 +274,7 @@ public class ArtifactHandlerNodeTest {
         JSONObject documentInfo = getDocumentInfo("templates/pd_template");
         documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_NAME, "pd_Junit.json");
         requestInfo.put("RequestInfo", "testValue");
+        requestInfo.put("request-id","testREQUEST_ID");
         input.put(SdcArtifactHandlerConstants.DOCUMENT_PARAMETERS, documentInfo);
         input.put(SdcArtifactHandlerConstants.REQUEST_INFORMATION, requestInfo);
         postData.put("input", input);

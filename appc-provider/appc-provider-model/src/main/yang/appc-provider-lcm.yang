@@ -73,7 +73,7 @@ module appc-provider-lcm {
                 string) as follows yyyy-MM-ddTHH:mm:ss.SSSSSSSSZ";
         type string {
             length "16..28";
-            pattern "[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}T[0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}.[0-9]{1,6}Z";
+            pattern "[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}T[0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}[.][0-9]{1,6}Z";
         }
     }
 
@@ -97,6 +97,7 @@ module appc-provider-lcm {
             enum "Terminate";
             enum "SoftwareUpload";
             enum "HealthCheck";
+            enum "LicenseManagement";
             enum "LiveUpgrade";
             enum "Lock";
             enum "Unlock";
@@ -123,8 +124,20 @@ module appc-provider-lcm {
             enum "Reboot";
             enum "AttachVolume";
             enum "DetachVolume";
+            enum "PreConfigure";
+            enum "GetConfig";
             enum "DistributeTraffic";
             enum "DistributeTrafficCheck";
+            enum "PostRebuild";
+            enum "PreRebuild";
+            enum "PreEvacuate";
+            enum "PostEvacuate";
+            enum "PreMigrate";
+            enum "PostMigrate";
+            enum "Provisioning";
+            enum "StartTraffic";
+            enum "StatusTraffic";
+            enum "StopTraffic";
         }
         description "The action to be taken by APP-C, e.g. Restart, Rebuild, Migrate";
     }
@@ -492,6 +505,10 @@ module appc-provider-lcm {
         output {
             uses common-header;
             uses status;
+            leaf payload {
+                type payload;
+                mandatory false;
+            }
         }
     }
 
@@ -516,6 +533,10 @@ module appc-provider-lcm {
         output {
             uses common-header;
             uses status;
+            leaf payload {
+                type payload;
+                mandatory false;
+            }
         }
     }
 
@@ -566,6 +587,10 @@ module appc-provider-lcm {
         output {
             uses common-header;
             uses status;
+            leaf payload {
+                type payload;
+                mandatory false;
+            }
         }
     }
 
@@ -616,6 +641,10 @@ module appc-provider-lcm {
         output {
             uses common-header;
             uses status;
+            leaf payload {
+                type payload;
+                mandatory false;
+            }
         }
     }
 
@@ -639,6 +668,10 @@ module appc-provider-lcm {
         output {
             uses common-header;
             uses status;
+            leaf payload {
+                type payload;
+                mandatory false;
+             }
         }
     }
 
@@ -797,7 +830,7 @@ module appc-provider-lcm {
                 uses action-identifiers;
                 leaf payload {
                     type payload;
-                    mandatory true;
+                    mandatory false;
                 }
             }
             output {
@@ -973,9 +1006,8 @@ module appc-provider-lcm {
             uses status;
             leaf payload {
                 type payload;
-                mandatory true;
-                         }
-
+                mandatory false;
+            }
         }
     }
 
@@ -1157,6 +1189,10 @@ module appc-provider-lcm {
             output {
                 uses common-header;
                 uses status;
+                leaf payload {
+                    type payload;
+                    mandatory false;
+                }
             }
         }
 
@@ -1180,6 +1216,10 @@ module appc-provider-lcm {
         output {
             uses common-header;
             uses status;
+            leaf payload {
+                type payload;
+                mandatory false;
+            }
         }
     }
 
@@ -1318,6 +1358,60 @@ module appc-provider-lcm {
     }
 
     /**********************************************************************************
+     * Define the PreConfigure service
+    **********************************************************************************/
+    rpc pre-configure {
+        description "An operation to retrieve the current config";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory true; 
+            }
+        }
+        output {
+            uses common-header;
+            uses status;
+            leaf payload {
+                type payload;
+                mandatory false;
+            }
+        }
+    }
+
+    /**********************************************************************************
+     * Define the VNF GetConfig service
+    **********************************************************************************/
+    rpc get-config {
+        description "An operation to retrieve the current running config";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory true; 
+            }
+        }
+        output {
+            uses common-header;
+            uses status;
+            leaf payload {
+                type payload;
+                mandatory false;
+            }
+        }
+    }
+
+    /**********************************************************************************
      * Define the traffic distribution service
      **********************************************************************************/
     rpc distribute-traffic {
@@ -1363,8 +1457,304 @@ module appc-provider-lcm {
         }
     }
 
+    /**********************************************************************************
+     * Define the PreRebuild service
+    **********************************************************************************/
+    rpc pre-rebuild {
+        description "An operation to perform prerequisite steps before a rebuild action";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory true; 
+            }
+        }
+        output {
+            uses common-header;
+            uses status;
+            leaf payload {
+                type payload;
+                mandatory false;
+                           }
+        }
+    }
 
- /**********************************************************************************
+    /**********************************************************************************
+     * Define the PostRebuild service
+    **********************************************************************************/
+    rpc post-rebuild {
+        description "An operation to perform subsequent steps after a rebuild action";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory true; 
+            }
+        }
+        output {
+            uses common-header;
+            uses status;
+            leaf payload {
+                type payload;
+                mandatory false;
+                           }
+        }
+    }
+
+    /**********************************************************************************
+     * Define the PreEvacuate service
+     **********************************************************************************/
+    rpc pre-evacuate {
+        description "An operation to perform prerequisite steps before an evacuate action";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory false; 
+            }
+        }
+        output {
+            uses common-header;
+            uses status;
+            leaf payload {
+                type payload;
+                mandatory false;
+            }
+        }
+    }
+
+    /**********************************************************************************
+     * Define the PostEvacuate service
+     **********************************************************************************/
+    rpc post-evacuate {
+        description "An operation to perform postevacuate on  specified Ansible virtual machine (VM)";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory false;
+            }
+         }
+        output {
+            uses common-header;
+            uses status;
+            leaf payload {
+                type payload;
+                mandatory false;
+            }
+        }
+    }
+
+    /**********************************************************************************
+     * Define the PreMigrate service
+     **********************************************************************************/
+    rpc pre-migrate {
+        description "An operation to perform premigrate on  specified Ansible virtual machine (VM)";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory false;
+            }
+         }
+        output {
+            uses common-header;
+            uses status;
+            leaf payload {
+                type payload;
+                mandatory false;
+            }
+        }
+    }
+
+    /**********************************************************************************
+     * Define the PostMigrate service
+     **********************************************************************************/
+    rpc post-migrate {
+        description "An operation to perform postmigrate on  specified Ansible virtual machine (VM)";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory false;
+            }
+         }
+        output {
+            uses common-header;
+            uses status;
+            leaf payload {
+                type payload;
+                mandatory false;
+            }
+        }
+    }
+
+    /**********************************************************************************
+     * Define the StartTraffic service
+     **********************************************************************************/
+    rpc start-traffic {
+        description "An operation to start a traffic action on specified Ansible virtual machine (VM)";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory false; 
+            }
+        }
+        output {
+            uses common-header;
+            uses status;
+            leaf payload {
+                type payload;
+                mandatory false; 
+            }
+        }
+    }
+
+    /**********************************************************************************
+     * Define the StatusTraffic service
+     **********************************************************************************/
+    rpc status-traffic {
+        description "An operation to perform status-traffic on specified Ansible virtual machine (VM)";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory false; 
+            }
+        }
+        output {
+            uses common-header;
+            uses status;
+            leaf payload {
+                type payload;
+                mandatory false; 
+            }
+        }
+    }
+
+    /**********************************************************************************
+     * Define the StopTraffic service
+     **********************************************************************************/
+    rpc stop-traffic {
+        description "An operation to stop an in-process traffic action";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory false; 
+            }
+        }
+        output {
+            uses common-header;
+            uses status;
+            leaf payload {
+                type payload;
+                mandatory false; 
+            }
+        }
+    }
+
+    /**********************************************************************************
+     * Define the VNF provisioning service
+     **********************************************************************************/
+    rpc provisioning {
+        description "An vnf operation for  provisioning";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory true; 
+            }
+        }
+        output {
+            uses common-header;
+            uses status;
+            leaf payload {
+                type payload;
+                mandatory false;
+                           }
+        }
+    }
+
+    /**********************************************************************************
+     * Define the VNF LicenseManagement service
+     **********************************************************************************/
+    rpc license-management {
+        description "An vnf operation for  provisioning";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory true; 
+            }
+        }
+        output {
+            uses common-header;
+            uses status;
+            leaf payload {
+                type payload;
+                mandatory false;
+                           }
+        }
+    }
+
+    /**********************************************************************************
      * Additional RPCs added here...
- **********************************************************************************/
+     **********************************************************************************/
 }

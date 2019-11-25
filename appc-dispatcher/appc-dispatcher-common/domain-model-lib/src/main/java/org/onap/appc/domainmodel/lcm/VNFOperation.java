@@ -39,16 +39,26 @@ public enum VNFOperation {
     ConfigRestore,
     ConfigScaleOut,
     DetachVolume,
+    DistributeTraffic,
+    DistributeTrafficCheck,
     Evacuate,
+    GetConfig,
     HealthCheck,
+    LicenseManagement,
     LiveUpgrade,
     Lock(true),
     Migrate,
+    PostEvacuate,
+    PostMigrate,
+    PostRebuild,
+    Provisioning,
+    PreConfigure,
+    PreEvacuate,
+    PreMigrate,
+    PreRebuild,
     Query,
     QuiesceTraffic,
     ResumeTraffic,
-    DistributeTraffic,
-    DistributeTrafficCheck,
     Reboot,
     Rebuild,
     Restart,
@@ -57,8 +67,11 @@ public enum VNFOperation {
     SoftwareUpload,
     Start,
     StartApplication,
+    StartTraffic,
+    StatusTraffic,
     Stop,
     StopApplication,
+    StopTraffic,
     Sync,
     Terminate,
     Test,
@@ -73,7 +86,7 @@ public enum VNFOperation {
     private boolean builtIn;
 
     VNFOperation() {
-        this.builtIn=false;
+        this.builtIn = false;
     }
 
     /**
