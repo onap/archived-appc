@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "7f9b9a2e_e404d51e",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2019-11-25T21:49:04Z",
+      "side": 1,
+      "message": "a typo? RESOURCE_NAME?",
+      "range": {
+        "startLine": 63,
+        "startChar": 79,
+        "endLine": 63,
+        "endChar": 91
+      },
+      "revId": "6685bf84f3804906890103fd71ce124d92a5241e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c8b1351_e0a997b5",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2019-11-25T21:49:04Z",
+      "side": 1,
+      "message": "Why would those LCMs need to run the following lines: 623-635",
+      "range": {
+        "startLine": 620,
+        "startChar": 65,
+        "endLine": 620,
+        "endChar": 66
+      },
+      "revId": "6685bf84f3804906890103fd71ce124d92a5241e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0de04a8e_dc048071",
         "filename": "appc-provider/appc-provider-model/src/main/yang/appc-provider-lcm.yang",
         "patchSetId": 1
