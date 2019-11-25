@@ -284,8 +284,10 @@ public class ProviderAdapterImpl implements ProviderAdapter {
                                 break;
                             case Property.PROVIDER_TENANT_PASSWORD:
                                 // convert password from Base64 encrypted string prefixed with 'enc:'
-                                password = EncryptionTool.getInstance().encrypt(node2.getValue());
-                                ProviderAdapterImpl.DEFAULT_PASS = node2.getValue();
+                                //Note: the EncryptionTool decrypt methods will only decrypt the password if it is
+                                //preceded by "enc:". Otherwise the method will return the input value.
+                                password = EncryptionTool.getInstance().decrypt(node2.getValue());
+                                ProviderAdapterImpl.DEFAULT_PASS = EncryptionTool.getInstance().decrypt(node2.getValue());
                                 break;
                             case Property.PROVIDER_TENANT_DOMAIN:
                                 domain = node2.getValue();
