@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0de04a8e_dc048071",
+        "filename": "appc-provider/appc-provider-model/src/main/yang/appc-provider-lcm.yang",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2019-11-25T21:44:52Z",
+      "side": 1,
+      "message": "should we keep the \".\" not \"[.]\"?",
+      "range": {
+        "startLine": 76,
+        "startChar": 83,
+        "endLine": 76,
+        "endChar": 88
+      },
+      "revId": "6685bf84f3804906890103fd71ce124d92a5241e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9731b6c0_714aa9e6",
+        "filename": "appc-provider/appc-provider-model/src/main/yang/appc-provider-lcm.yang",
+        "patchSetId": 1
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2019-11-25T21:44:52Z",
+      "side": 1,
+      "message": "Regarding the old LCMs, do we need to change the output?",
+      "range": {
+        "startLine": 508,
+        "startChar": 25,
+        "endLine": 508,
+        "endChar": 26
+      },
+      "revId": "6685bf84f3804906890103fd71ce124d92a5241e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
