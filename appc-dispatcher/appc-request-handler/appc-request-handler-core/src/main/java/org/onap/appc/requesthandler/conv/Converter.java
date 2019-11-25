@@ -69,20 +69,20 @@ public class Converter {
 
     public static Builder<?> convAsyncResponseToBuilder(VNFOperation vnfOperation, String rpcName, ResponseContext response) {
         Builder<?> outObj = null;
-        if(response == null){
+        if (response == null) {
             throw new IllegalArgumentException("empty asyncResponse");
         }
-        if(vnfOperation == null){
+        if (vnfOperation == null) {
             throw new IllegalArgumentException("empty asyncResponse.action");
         }
-        logger.debug("Entered Converter.convAsyncResponseToBuilder() : Operation Name "+ vnfOperation.name());
+        logger.debug("Entered Converter.convAsyncResponseToBuilder(): Operation Name " + vnfOperation.name());
         org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.Action action = org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.Action.valueOf(vnfOperation.name());
         logger.debug("After resolving action");
         CommonHeader commonHeader = convAsyncResponseTorev160108CommonHeader(response);
         Status status = convAsyncResponseTorev160108Status(response);
         Payload payload = convAsyncResponseTorev160108Payload(response);
-        logger.debug("Extracted action, status, payload ");
-        switch (action){
+        logger.debug("Extracted action, status, payload");
+        switch (action) {
             case Rollback:
                 outObj = new RollbackOutputBuilder();
                 ((RollbackOutputBuilder)outObj).setCommonHeader(commonHeader);
@@ -93,7 +93,8 @@ public class Converter {
                 ((SnapshotOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((SnapshotOutputBuilder)outObj).setStatus(status);
                 try {
-                    ((SnapshotOutputBuilder) outObj).setSnapshotId(response.getAdditionalContext().get("output.snapshot-id"));
+                    ((SnapshotOutputBuilder) outObj)
+                        .setSnapshotId(response.getAdditionalContext().get("output.snapshot-id"));
                 } catch (NullPointerException ignored) {
                     // in case of negative response, snapshotID does not populated, so just ignore NPL
                 }
@@ -109,7 +110,7 @@ public class Converter {
                 ((HealthCheckOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((HealthCheckOutputBuilder)outObj).setStatus(status);
                 ((HealthCheckOutputBuilder)outObj).setPayload(payload);
-                logger.debug("In HealthCheck case- created outObj, returning");
+                logger.debug("In HealthCheck case: created outObj, returning");
                 return outObj;
             case LiveUpgrade:
                 outObj = new LiveUpgradeOutputBuilder();
@@ -227,26 +228,31 @@ public class Converter {
                 outObj = new StopApplicationOutputBuilder();
                 ((StopApplicationOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((StopApplicationOutputBuilder)outObj).setStatus(status);
+                ((StopApplicationOutputBuilder)outObj).setPayload(payload);
                 return outObj;
             case StartApplication:
                 outObj = new StartApplicationOutputBuilder();
                 ((StartApplicationOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((StartApplicationOutputBuilder)outObj).setStatus(status);
+                ((StartApplicationOutputBuilder)outObj).setPayload(payload);
                 return outObj;
-    case QuiesceTraffic:
+            case QuiesceTraffic:
                 outObj = new QuiesceTrafficOutputBuilder();
                 ((QuiesceTrafficOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((QuiesceTrafficOutputBuilder)outObj).setStatus(status);
+                ((QuiesceTrafficOutputBuilder)outObj).setPayload(payload);
                 return outObj;
             case ResumeTraffic:
                 outObj = new ResumeTrafficOutputBuilder();
                 ((ResumeTrafficOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((ResumeTrafficOutputBuilder)outObj).setStatus(status);
+                ((ResumeTrafficOutputBuilder)outObj).setPayload(payload);
                 return outObj;
             case UpgradeSoftware:
                 outObj = new UpgradeSoftwareOutputBuilder();
                 ((UpgradeSoftwareOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((UpgradeSoftwareOutputBuilder)outObj).setStatus(status);
+                ((UpgradeSoftwareOutputBuilder)outObj).setPayload(payload);
                 return outObj;
             case UpgradePostCheck:
                 outObj = new UpgradePostCheckOutputBuilder();
@@ -258,11 +264,13 @@ public class Converter {
                 outObj = new UpgradeBackupOutputBuilder();
                 ((UpgradeBackupOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((UpgradeBackupOutputBuilder)outObj).setStatus(status);
+                ((UpgradeBackupOutputBuilder)outObj).setPayload(payload);
                 return outObj;
             case UpgradeBackout:
                 outObj = new UpgradeBackoutOutputBuilder();
                 ((UpgradeBackoutOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((UpgradeBackoutOutputBuilder)outObj).setStatus(status);
+                ((UpgradeBackoutOutputBuilder)outObj).setPayload(payload);
                 return outObj;
             case UpgradePreCheck:
                 outObj = new UpgradePreCheckOutputBuilder();
@@ -290,28 +298,106 @@ public class Converter {
                 ((DistributeTrafficCheckOutputBuilder) outObj).setCommonHeader(commonHeader);
                 ((DistributeTrafficCheckOutputBuilder)outObj).setStatus(status);
                 return outObj;
+            case PreConfigure:
+                outObj = new PreConfigureOutputBuilder();
+                ((PreConfigureOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((PreConfigureOutputBuilder)outObj).setStatus(status);
+                 ((PreConfigureOutputBuilder)outObj).setPayload(payload);
+                return outObj;
+            case GetConfig:
+                outObj = new GetConfigOutputBuilder();
+                ((GetConfigOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((GetConfigOutputBuilder)outObj).setStatus(status);
+                ((GetConfigOutputBuilder)outObj).setPayload(payload);
+                return outObj;
+            case PostEvacuate:
+                outObj = new PostEvacuateOutputBuilder();
+                ((PostEvacuateOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((PostEvacuateOutputBuilder)outObj).setStatus(status);
+                ((PostEvacuateOutputBuilder)outObj).setPayload(payload);
+                return outObj;
+            case PreMigrate:
+                outObj = new PreMigrateOutputBuilder();
+                ((PreMigrateOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((PreMigrateOutputBuilder)outObj).setStatus(status);
+                ((PreMigrateOutputBuilder)outObj).setPayload(payload);
+                return outObj;
+            case PostMigrate:
+                outObj = new PostMigrateOutputBuilder();
+                ((PostMigrateOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((PostMigrateOutputBuilder)outObj).setStatus(status);
+                ((PostMigrateOutputBuilder)outObj).setPayload(payload);
+                return outObj;
+            case PreRebuild:
+                outObj = new PreRebuildOutputBuilder();
+                ((PreRebuildOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((PreRebuildOutputBuilder)outObj).setStatus(status);
+                ((PreRebuildOutputBuilder)outObj).setPayload(payload);
+                return outObj;
+            case Provisioning:
+                outObj = new ProvisioningOutputBuilder();
+                ((ProvisioningOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((ProvisioningOutputBuilder)outObj).setStatus(status);
+                ((ProvisioningOutputBuilder)outObj).setPayload(payload);
+                return outObj;
+            case PostRebuild:
+                outObj = new PostRebuildOutputBuilder();
+                ((PostRebuildOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((PostRebuildOutputBuilder)outObj).setStatus(status);
+                ((PostRebuildOutputBuilder)outObj).setPayload(payload);
+                return outObj;
+            case PreEvacuate:
+                outObj = new PreEvacuateOutputBuilder();
+                ((PreEvacuateOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((PreEvacuateOutputBuilder)outObj).setStatus(status);
+                ((PreEvacuateOutputBuilder)outObj).setPayload(payload);
+                return outObj;
+            case StartTraffic:
+                outObj = new StartTrafficOutputBuilder();
+                ((StartTrafficOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((StartTrafficOutputBuilder)outObj).setStatus(status);
+                ((StartTrafficOutputBuilder)outObj).setPayload(payload);
+                return outObj;
+            case StatusTraffic:
+                outObj = new StatusTrafficOutputBuilder();
+                ((StatusTrafficOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((StatusTrafficOutputBuilder)outObj).setStatus(status);
+                ((StatusTrafficOutputBuilder)outObj).setPayload(payload);
+                return outObj;
+            case StopTraffic:
+                outObj = new StopTrafficOutputBuilder();
+                ((StopTrafficOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((StopTrafficOutputBuilder)outObj).setStatus(status);
+                ((StopTrafficOutputBuilder)outObj).setPayload(payload);
+                return outObj;
+            case LicenseManagement:
+                 outObj = new LicenseManagementOutputBuilder();
+                ((LicenseManagementOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((LicenseManagementOutputBuilder)outObj).setStatus(status);
+                ((LicenseManagementOutputBuilder)outObj).setPayload(payload);
+                return outObj;
             default:
                 throw new IllegalArgumentException(action+" action is not supported");
         }
     }
 
     public static Payload convAsyncResponseTorev160108Payload(ResponseContext inObj)  {
-    	logger.debug("Entering convAsyncResponseTorev160108Payload" );
+    	logger.debug("Entering convAsyncResponseTorev160108Payload");
         Payload payload = null;
-        if(inObj.getPayload() != null) {
+        if (inObj.getPayload() != null) {
             payload = new Payload(inObj.getPayload());
         }
-        logger.debug("Exiting convAsyncResponseTorev160108Payload" );
+        logger.debug("Exiting convAsyncResponseTorev160108Payload");
         return payload;
     }
 
     public static String convPayloadObjectToJsonString(Object inObj) throws ParseException {
         String payloadAsString = null;
-        if(inObj != null) {
+        if (inObj != null) {
 
-                if(inObj instanceof String){
+                if (inObj instanceof String) {
                     payloadAsString = (String)inObj;
-                }else {
+                } else {
                     try {
                         ObjectMapper objectMapper = new ObjectMapper();
                         payloadAsString = objectMapper.writeValueAsString(inObj);
@@ -336,13 +422,13 @@ public class Converter {
     public static CommonHeader convAsyncResponseTorev160108CommonHeader(ResponseContext inObj) {
     	logger.debug("Entered into convAsyncResponseTorev160108CommonHeader");
         CommonHeader outObj = null;
-        if(inObj == null){
+        if (inObj == null) {
             throw new IllegalArgumentException("empty asyncResponse");
         }
 
         CommonHeaderBuilder commonHeaderBuilder = new CommonHeaderBuilder();
         org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.common.header.Flags commonHeaderFlags;
-        if(inObj.getCommonHeader().getFlags() != null){
+        if (inObj.getCommonHeader().getFlags() != null) {
             commonHeaderFlags = Converter.convFlagsMapTorev160108Flags(inObj.getCommonHeader().getFlags());
             commonHeaderBuilder.setFlags(commonHeaderFlags);
         }
@@ -350,15 +436,15 @@ public class Converter {
         logger.debug("Before setApiVer");
         commonHeaderBuilder.setApiVer(inObj.getCommonHeader().getApiVer());
         commonHeaderBuilder.setRequestId(inObj.getCommonHeader().getRequestId());
-        if(inObj.getCommonHeader().getSubRequestId() != null){
+        if (inObj.getCommonHeader().getSubRequestId() != null) {
             commonHeaderBuilder.setSubRequestId(inObj.getCommonHeader().getSubRequestId());
         }
         logger.debug("Before getOriginatorId");
-        if(inObj.getCommonHeader().getOriginatorId() != null){
+        if (inObj.getCommonHeader().getOriginatorId() != null) {
             commonHeaderBuilder.setOriginatorId(inObj.getCommonHeader().getOriginatorId());
         }
         logger.debug("Before getTimeStamp");
-        if(inObj.getCommonHeader().getTimeStamp() != null){
+        if (inObj.getCommonHeader().getTimeStamp() != null) {
             String zuluTimestampStr = Converter.convDateToZuluString(inObj.getCommonHeader().getTimeStamp());
             logger.debug("After invoking convDateToZuluString()");
             ZULU zuluTimestamp = new ZULU(zuluTimestampStr);
@@ -366,7 +452,7 @@ public class Converter {
             commonHeaderBuilder.setTimestamp(zuluTimestamp);
         }
         outObj = commonHeaderBuilder.build();
-        logger.debug("Exiting from convAsyncResponseTorev160108CommonHeader: Returning outObj::"+outObj.toString());
+        logger.debug("Exiting from convAsyncResponseTorev160108CommonHeader: Returning outObj::"+ outObj.toString());
         return outObj;
 
     }
@@ -409,7 +495,9 @@ public class Converter {
         return rev160108flags;
     }
 
-    public static String convAsyncResponseToJsonStringBody(VNFOperation vnfOperation, String rpcName, ResponseContext asyncResponse) throws JsonProcessingException {
+    public static String convAsyncResponseToJsonStringBody(
+            VNFOperation vnfOperation, String rpcName, ResponseContext asyncResponse)
+            throws JsonProcessingException {
         Builder<?> builder = Converter.convAsyncResponseToBuilder(vnfOperation, rpcName, asyncResponse);
         Object message = builder.build();
         ObjectMapper objectMapper = new ObjectMapper();
@@ -421,14 +509,21 @@ public class Converter {
         objectMapper.addMixIn(ZULU.class, MixIn.class);
 
 //                .configure(SerializationConfig.Feature.SORT_PROPERTIES_ALPHABETICALLY,true)
-        ObjectWriter writer = objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL).configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY,true)
-                .writer(SerializationFeature.WRAP_ROOT_VALUE).withRootName(DMaaP_ROOT_VALUE).withoutFeatures(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS);
+        ObjectWriter writer = objectMapper
+                .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+                .configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true)
+                .writer(SerializationFeature.WRAP_ROOT_VALUE)
+                .withRootName(DMaaP_ROOT_VALUE)
+                .withoutFeatures(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS);
         return writer.writeValueAsString(message);
     }
 
-    public static String convAsyncResponseToDmaapOutgoingMessageJsonString(VNFOperation vnfOperation, String rpcName, ResponseContext asyncResponse) throws JsonProcessingException {
+    public static String convAsyncResponseToDmaapOutgoingMessageJsonString(
+            VNFOperation vnfOperation, String rpcName, ResponseContext asyncResponse)
+            throws JsonProcessingException {
         logger.debug("Entered Converter.convAsyncResponseToDmaapOutgoingMessageJsonString()");
-    	DmaapOutgoingMessage dmaapOutgoingMessage = convAsyncResponseToDmaapOutgoingMessage(vnfOperation, rpcName, asyncResponse);
+    	DmaapOutgoingMessage dmaapOutgoingMessage = 
+    	        convAsyncResponseToDmaapOutgoingMessage(vnfOperation, rpcName, asyncResponse);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.addMixIn(dmaapOutgoingMessage.getBody().getOutput().getClass(), MixInFlagsMessage.class);
         objectMapper.addMixIn(CommonHeader.class, MixInCommonHeader.class);
@@ -438,31 +533,37 @@ public class Converter {
         objectMapper.addMixIn(ZULU.class, MixIn.class);
 
 //                .configure(SerializationConfig.Feature.SORT_PROPERTIES_ALPHABETICALLY,true)
-        ObjectWriter writer = objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL).configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY,true).writer();
+        ObjectWriter writer = objectMapper
+                .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+                .configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true)
+                .writer();
         logger.debug("Exiting Converter.convAsyncResponseToDmaapOutgoingMessageJsonString()");
         return writer.writeValueAsString(dmaapOutgoingMessage);
     }
 
-    public static DmaapOutgoingMessage convAsyncResponseToDmaapOutgoingMessage(VNFOperation vnfOperation, String rpcName, ResponseContext asyncResponse) throws JsonProcessingException {
+    public static DmaapOutgoingMessage convAsyncResponseToDmaapOutgoingMessage(
+            VNFOperation vnfOperation, String rpcName, ResponseContext asyncResponse) 
+            throws JsonProcessingException {
     	logger.debug("Entered Converter.convAsyncResponseToDmaapOutgoingMessage()");
     	DmaapOutgoingMessage outObj = new DmaapOutgoingMessage();
         String correlationID = getCorrelationID(asyncResponse);
         outObj.setCorrelationID(correlationID);
         outObj.setType("response");
         outObj.setRpcName(rpcName);
-        logger.debug("In onverter.convAsyncResponseToDmaapOutgoingMessage() before invoking convAsyncResponseToBuilder");
+        logger.debug("In Converter.convAsyncResponseToDmaapOutgoingMessage()"
+                + " before invoking convAsyncResponseToBuilder");
         Builder<?> builder = Converter.convAsyncResponseToBuilder(vnfOperation, rpcName, asyncResponse);
         Object messageBody = builder.build();
         DmaapOutgoingMessage.Body body = new DmaapOutgoingMessage.Body(messageBody);
         outObj.setBody(body);
-        logger.debug("Exiting Converter.convAsyncResponseToDmaapOutgoingMessage():messageBody is :::"+body.toString());
+        logger.debug("Exiting Converter.convAsyncResponseToDmaapOutgoingMessage(): messageBody is:" + body.toString());
         return outObj;
     }
 
     private static String getCorrelationID(ResponseContext context) {
         return context.getCommonHeader().getRequestId()
                 + (context.getCommonHeader().getSubRequestId() == null ?
-                    "":"-" + context.getCommonHeader().getSubRequestId());
+                    "" : "-" + context.getCommonHeader().getSubRequestId());
     }
 
     abstract class MixIn {

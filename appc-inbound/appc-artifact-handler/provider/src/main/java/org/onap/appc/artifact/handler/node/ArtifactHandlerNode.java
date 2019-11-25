@@ -60,6 +60,7 @@ import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.R
 import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.REQUEST_ID;
 import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.REQUEST_INFORMATION;
 import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.RESOURCE_INSTANCE_NAME;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.REOURCE_NAME;
 import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.RESOURCE_TYPE;
 import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.RESOURCE_UUID;
 import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.RESOURCE_VERSION;
@@ -119,7 +120,14 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
     private static final String CONFIGURE_PARAM = "Configure";
     private static final String CONFIG_SCALE_OUT_PARAM = "ConfigScaleOut";
     private static final String CONFIG_MODIFY_PARAM = "ConfigModify";
-
+    private static final String GET_CONFIG = "GetConfig";
+    private static final String POST_EVACUATE= "PostEvacuate";
+    private static final String PRE_EVACUATE = "PreEvacuate";
+    private static final String POST_MIGRATE = "PostMigrate";
+    private static final String PRE_MIGRATE = "PreMigrate";
+    private static final String PRE_REBUILD = "PreRebuild";
+    private static final String POST_REBUILD = "PostRebuild";
+    private static final String STOP_TRAFFIC = "StopTraffic";
     public void processArtifact(Map<String, String> inParams, SvcLogicContext ctx) throws ArtifactProcessorException {
 
         if (inParams == null || inParams.isEmpty()) {
@@ -155,6 +163,7 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
             }
 
             updateStoreArtifacts(requestInfo, documentInfo);
+
             if (artifactName.toLowerCase().startsWith(REFERENCE)) {
                 return storeReferenceData(requestInfo, documentInfo);
             } else if (artifactName.toLowerCase().startsWith(PD)) {
@@ -172,6 +181,7 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
     }
 
     public void validateAnsibleAdminArtifact(JSONObject documentInfo) throws ArtifactHandlerInternalException {
+
         String fn = "ArtifactHandlerNode.validateAnsibleAdminArtifact";
         String artifactName = documentInfo.getString(ARTIFACT_NAME);
         log.info(fn + ": Received Admin File Name: " + artifactName + " ArtifactCotent : "
@@ -345,6 +355,7 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
         setAttribute(context, documentInfo::getString, RESOURCE_UUID);
         setAttribute(context, documentInfo::getString, RESOURCE_INSTANCE_NAME);
         setAttribute(context, documentInfo::getString, RESOURCE_VERSION);
+        setAttribute(context, documentInfo::getString, REOURCE_NAME);
         setAttribute(context, documentInfo::getString, RESOURCE_TYPE);
         setAttribute(context, documentInfo::getString, ARTIFACT_UUID);
         setAttribute(context, documentInfo::getString, ARTIFACT_TYPE);
@@ -598,7 +609,16 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
     public void processConfigTypeActions(JSONObject content, DBService dbservice, SvcLogicContext context)
             throws ArtifactHandlerInternalException {
         try {
-            if (isContentActionConfig(content)) {
+            if (isContentActionConfig(content) 
+                    || contentsActionEquals(content, GET_CONFIG)
+                    || contentsActionEquals(content, POST_EVACUATE)
+                    || contentsActionEquals(content, PRE_EVACUATE)
+                    || contentsActionEquals(content, POST_MIGRATE)
+                    || contentsActionEquals(content, PRE_MIGRATE)
+                    || contentsActionEquals(content, POST_REBUILD)
+                    || contentsActionEquals(content, PRE_REBUILD)
+                    || contentsActionEquals(content, STOP_TRAFFIC)
+                ) {
 
                 if (content.has(DOWNLOAD_DG_REFERENCE) && content.getString(DOWNLOAD_DG_REFERENCE).length() > 0) {
 
@@ -763,7 +783,7 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
 
     private void populateProtocolReference(DBService dbservice, JSONObject content)
             throws ArtifactHandlerInternalException {
-        log.info("Begin-->populateProtocolReference ");
+        log.info("Begin-->populateProtocolReference");
         try {
             SvcLogicContext context = new SvcLogicContext();
             JSONObject scope = content.getJSONObject("scope");
@@ -784,7 +804,7 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
             log.error("Error inserting record into protocolReference", e);
             throw new ArtifactHandlerInternalException("Error inserting record into protocolReference", e);
         } finally {
-            log.info("End-->populateProtocolReference ");
+            log.info("End-->populateProtocolReference");
         }
     }
 

@@ -46,8 +46,21 @@ import org.onap.appc.provider.lcm.service.ResumeTrafficService;
 import org.onap.appc.provider.lcm.service.UpgradeService;
 import org.onap.appc.provider.lcm.service.VolumeService;
 import org.onap.appc.provider.lcm.service.ConfigScaleOutService;
+import org.onap.appc.provider.lcm.service.PreConfigure;
+import org.onap.appc.provider.lcm.service.PreRebuild;
+import org.onap.appc.provider.lcm.service.GetConfigService;
+import org.onap.appc.provider.lcm.service.PostRebuild;
+import org.onap.appc.provider.lcm.service.PostEvacuateService;
+import org.onap.appc.provider.lcm.service.PreMigrateService;
+import org.onap.appc.provider.lcm.service.PostMigrateService;
 import org.onap.appc.provider.lcm.service.DistributeTrafficService;
 import org.onap.appc.provider.lcm.service.DistributeTrafficCheckService;
+import org.onap.appc.provider.lcm.service.PreEvacuate;
+import org.onap.appc.provider.lcm.service.ProvisioningService;
+import org.onap.appc.provider.lcm.service.LicenseManagementService;
+import org.onap.appc.provider.lcm.service.StartTraffic;
+import org.onap.appc.provider.lcm.service.StatusTraffic;
+import org.onap.appc.provider.lcm.service.StopTraffic;
 import org.onap.appc.provider.lcm.util.RequestInputBuilder;
 import org.onap.appc.provider.lcm.util.ValidationService;
 import org.onap.appc.requesthandler.objects.RequestHandlerInput;
@@ -556,6 +569,96 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
     }
 
     @Override
+    public ListenableFuture<RpcResult<PreConfigureOutput>> preConfigure(PreConfigureInput input) {
+        logger.debug(String.format("LCM PreConfigure received input: %s", input.toString()));
+        PreConfigureOutputBuilder outputBuilder = new PreConfigure().process(input);
+        RpcResult<PreConfigureOutput> result =
+                RpcResultBuilder.<PreConfigureOutput>status(true).withResult(outputBuilder.build()).build();
+        return Futures.immediateFuture(result);
+    }
+
+    @Override
+    public ListenableFuture<RpcResult<GetConfigOutput>> getConfig(GetConfigInput input) {
+        logger.debug(String.format("LCM getConfig received input: %s", input.toString()));
+        GetConfigOutputBuilder outputBuilder = new GetConfigService().process(input);
+        RpcResult<GetConfigOutput> result =
+                RpcResultBuilder.<GetConfigOutput>status(true).withResult(outputBuilder.build()).build();
+        return Futures.immediateFuture(result);
+    }
+
+    @Override
+    public ListenableFuture<RpcResult<PreRebuildOutput>> preRebuild(PreRebuildInput input) {
+        logger.debug(String.format("LCM PreRebuild received input: %s", input.toString()));
+        PreRebuildOutputBuilder outputBuilder = new PreRebuild().process(input);
+        RpcResult<PreRebuildOutput> result =
+                RpcResultBuilder.<PreRebuildOutput>status(true).withResult(outputBuilder.build()).build();
+        return Futures.immediateFuture(result);
+    }
+
+    @Override
+    public ListenableFuture<RpcResult<PostRebuildOutput>> postRebuild(PostRebuildInput input) {
+        logger.debug(String.format("LCM PostRebuild received input: %s", input.toString()));
+        PostRebuildOutputBuilder outputBuilder = new PostRebuild().process(input);
+        RpcResult<PostRebuildOutput> result =
+                RpcResultBuilder.<PostRebuildOutput>status(true).withResult(outputBuilder.build()).build();
+        return Futures.immediateFuture(result);
+    }
+
+    @Override
+    public ListenableFuture<RpcResult<PreEvacuateOutput>> preEvacuate(PreEvacuateInput input) {
+        logger.debug(String.format("LCM PreEvacuate received input: %s", input.toString()));
+        PreEvacuateOutputBuilder outputBuilder = new PreEvacuate().process(input);
+        RpcResult<PreEvacuateOutput> result =
+                RpcResultBuilder.<PreEvacuateOutput>status(true).withResult(outputBuilder.build()).build();
+        return Futures.immediateFuture(result);
+    }
+
+    @Override
+    public ListenableFuture<RpcResult<ProvisioningOutput>> provisioning(ProvisioningInput input) {
+        logger.debug(String.format("LCM ProvisioningService received input: %s", input.toString()));
+        ProvisioningOutputBuilder outputBuilder = new ProvisioningService().process(input);
+        RpcResult<ProvisioningOutput> result =
+                RpcResultBuilder.<ProvisioningOutput>status(true).withResult(outputBuilder.build()).build();
+        return Futures.immediateFuture(result);
+    }
+
+ @Override
+    public ListenableFuture<RpcResult<LicenseManagementOutput>> licenseManagement(LicenseManagementInput input) {
+        logger.debug(String.format("LCM licensemangementService received input: %s", input.toString()));
+        LicenseManagementOutputBuilder outputBuilder = new LicenseManagementService().process(input);
+        RpcResult<LicenseManagementOutput> result =
+                RpcResultBuilder.<LicenseManagementOutput>status(true).withResult(outputBuilder.build()).build();
+        return Futures.immediateFuture(result);
+    }
+
+    @Override
+    public ListenableFuture<RpcResult<StartTrafficOutput>> startTraffic(StartTrafficInput input) {
+        logger.debug(String.format("LCM StartTraffic received input: %s", input.toString()));
+        StartTrafficOutputBuilder outputBuilder = new StartTraffic().process(input);
+        RpcResult<StartTrafficOutput> result =
+                RpcResultBuilder.<StartTrafficOutput>status(true).withResult(outputBuilder.build()).build();
+        return Futures.immediateFuture(result);
+    }
+
+    @Override
+    public ListenableFuture<RpcResult<StatusTrafficOutput>> statusTraffic(StatusTrafficInput input) {
+        logger.debug(String.format("LCM StatusTraffic received input: %s", input.toString()));
+        StatusTrafficOutputBuilder outputBuilder = new StatusTraffic().process(input);
+        RpcResult<StatusTrafficOutput> result =
+                RpcResultBuilder.<StatusTrafficOutput>status(true).withResult(outputBuilder.build()).build();
+        return Futures.immediateFuture(result);
+    }
+
+    @Override
+    public ListenableFuture<RpcResult<StopTrafficOutput>> stopTraffic(StopTrafficInput input) {
+        logger.debug(String.format("LCM StopTraffic received input: %s", input.toString()));
+        StopTrafficOutputBuilder outputBuilder = new StopTraffic().process(input);
+        RpcResult<StopTrafficOutput> result =
+                RpcResultBuilder.<StopTrafficOutput>status(true).withResult(outputBuilder.build()).build();
+        return Futures.immediateFuture(result);
+    }
+
+    @Override
     public ListenableFuture<RpcResult<TerminateOutput>> terminate(TerminateInput input) {
         logger.debug("Input received : " + input.toString());
         TerminateOutputBuilder outputBuilder = new TerminateOutputBuilder();
@@ -670,6 +773,30 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
         logger.debug("Input received : " + input.toString());
         ConfigScaleOutOutputBuilder outputBuilder = new ConfigScaleOutService().process(input);
         RpcResult<ConfigScaleOutOutput> result = RpcResultBuilder.<ConfigScaleOutOutput> status(true).withResult(outputBuilder.build()).build();
+        return Futures.immediateFuture(result);
+    }
+
+    @Override
+    public ListenableFuture<RpcResult<PostEvacuateOutput>> postEvacuate(PostEvacuateInput input) {
+        logger.debug("Input received : " + input.toString());
+        PostEvacuateOutputBuilder outputBuilder = new PostEvacuateService().process(input);
+        RpcResult<PostEvacuateOutput> result = RpcResultBuilder.<PostEvacuateOutput> status(true).withResult(outputBuilder.build()).build();
+        return Futures.immediateFuture(result);
+    }
+
+   @Override
+    public ListenableFuture<RpcResult<PreMigrateOutput>> preMigrate(PreMigrateInput input) {
+        logger.debug("Input received : " + input.toString());
+        PreMigrateOutputBuilder outputBuilder = new PreMigrateService().process(input);
+        RpcResult<PreMigrateOutput> result = RpcResultBuilder.<PreMigrateOutput> status(true).withResult(outputBuilder.build()).build();
+        return Futures.immediateFuture(result);
+    }
+
+    @Override
+    public ListenableFuture<RpcResult<PostMigrateOutput>> postMigrate(PostMigrateInput input) {
+        logger.debug("Input received : " + input.toString());
+        PostMigrateOutputBuilder outputBuilder = new PostMigrateService().process(input);
+        RpcResult<PostMigrateOutput> result = RpcResultBuilder.<PostMigrateOutput> status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
