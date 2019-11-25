@@ -33,7 +33,6 @@ import org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation;
 import org.onap.appc.adapter.iaas.provider.operation.impl.EvacuateServer;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
-import org.onap.appc.encryption.EncryptionTool;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.util.StructuredPropertyHelper;
 import org.onap.appc.util.StructuredPropertyHelper.Node;
@@ -283,8 +282,9 @@ public class ProviderAdapterImpl implements ProviderAdapter {
                                 ProviderAdapterImpl.DEFAULT_USER = node2.getValue();
                                 break;
                             case Property.PROVIDER_TENANT_PASSWORD:
-                                // convert password from Base64 encrypted string prefixed with 'enc:'
-                                password = EncryptionTool.getInstance().encrypt(node2.getValue());
+                                //The passwords are automatically decrpyted by the appc Configuration
+                                //class and require no additional method calls to decrypt.
+                                password = node2.getValue();
                                 ProviderAdapterImpl.DEFAULT_PASS = node2.getValue();
                                 break;
                             case Property.PROVIDER_TENANT_DOMAIN:
