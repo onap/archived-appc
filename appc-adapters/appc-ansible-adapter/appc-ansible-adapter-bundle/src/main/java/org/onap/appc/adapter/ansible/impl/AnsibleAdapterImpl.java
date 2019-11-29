@@ -8,6 +8,8 @@
  * =============================================================================
  * Modifications Copyright (C) 2019 IBM
  * =============================================================================
+ * Modifications Copyright (C) 2019 Orange
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -25,14 +27,15 @@
 
 package org.onap.appc.adapter.ansible.impl;
 
+import java.io.*;
 import java.util.Map;
+import java.util.HashMap;
 import java.util.Properties;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONArray;
 import org.onap.appc.adapter.ansible.AnsibleAdapter;
 import org.onap.appc.adapter.ansible.model.AnsibleMessageParser;
 import org.onap.appc.adapter.ansible.model.AnsibleResult;
@@ -284,6 +287,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
             // create json object to send request
             jsonPayload = messageProcessor.reqMessage(params);
 
+            logger.info("Initial Payload  = " + jsonPayload.toString());
             agentUrl = (String) jsonPayload.remove("AgentUrl");
             user = (String) jsonPayload.remove("User");
             password = (String)jsonPayload.remove(PASSWORD);
@@ -293,6 +297,20 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
             timeout = jsonPayload.getString("Timeout");
             if (StringUtils.isBlank(timeout))
                 timeout = "600";
+
+            String autoNodeList = (String) jsonPayload.remove("AutoNodeList");
+            if (autoNodeList != null && Boolean.parseBoolean(autoNodeList)) {
+                JSONArray generatedNodeList = generateNodeList(params, ctx);
+                if (generatedNodeList.length() > 0) {
+                    jsonPayload.put("NodeList", generatedNodeList);
+                    jsonPayload.put("InventoryNames", "VM");
+                } else {
+                    doFailure(ctx, AnsibleResultCodes.INVALID_PAYLOAD.getValue(),
+                            "Auto generation of Node List Failed - no elements on the list");
+                }
+            } else
+                logger.debug("Auto Node List is DISABLED");
+
             payload = jsonPayload.toString();
             ctx.setAttribute("AnsibleTimeout", timeout);
             logger.info("Updated Payload  = " + payload + " timeout = " + timeout);
@@ -358,6 +376,110 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
         ctx.setAttribute(RESULT_CODE_ATTRIBUTE_NAME, Integer.toString(code));
         ctx.setAttribute(MESSAGE_ATTRIBUTE_NAME, message);
         ctx.setAttribute(ID_ATTRIBUTE_NAME, id);
+    }
+
+    /**
+     * Method is used to automatically generate NodeList section base on the svc context
+     *
+     * @see org.onap.appc.adapter.ansible.AnsibleAdapter#reqExecResult(java.util.Map,
+     *      org.onap.ccsdk.sli.core.sli.SvcLogicContext)
+     */
+    private JSONArray generateNodeList(Map<String, String> params, SvcLogicContext ctx) throws SvcLogicException {
+        String vfModuleId = params.get("vf-module-id");
+        String vnfcName = params.get("vnfc-name");
+        String vServerId = params.get("vserver-id");
+        String vnfcType = params.get("vnfc-type");
+        logger.info("GENERATING NODE LIST");
+        JSONArray result = new JSONArray();
+
+        if (vServerId != null && !vServerId.equals(""))
+            logger.debug("Auto Node List filtering parameter vserver-id " + vServerId);
+        else
+            vServerId = null;
+        if (vnfcName != null && !vnfcName.equals(""))
+            logger.debug("Auto Node List filtering parameter vnfc-name " + vnfcName);
+        else
+            vnfcName = null;
+        if (vnfcType != null && !vnfcType.equals(""))
+            logger.debug("Auto Node List filtering parameter vnfc-type " + vnfcType);
+        else
+            vnfcType = null;
+        if (vfModuleId != null && !vfModuleId.equals(""))
+            logger.debug("Auto Node List filtering parameter vf-module-id " + vfModuleId);
+        else
+            vfModuleId = null;
+
+        Map<String, JSONObject> candidates = new HashMap<String, JSONObject>();
+        for (int i = 0; ; i++) {
+            String vmKey = "tmp.vnfInfo.vm[" + Integer.toString(i) + "]";
+            logger.info("Looking for attributes of: " + vmKey);
+            if (ctx.getAttribute(vmKey + ".vnfc-name") != null) {
+                String vmVnfcName = ctx.getAttribute(vmKey + ".vnfc-name");
+                String vmVnfcIpv4Address = ctx.getAttribute(vmKey + ".vnfc-ipaddress-v4-oam-vip");
+                String vmVnfcType = ctx.getAttribute(vmKey + ".vnfc-type");
+
+                if (vmVnfcName != null && vmVnfcIpv4Address != null && vmVnfcType != null
+                    && !vmVnfcName.equals("") && !vmVnfcIpv4Address.equals("") && !vmVnfcType.equals("")) {
+                    if (vServerId != null) {
+                        String vmVserverId = ctx.getAttribute(vmKey + ".vserver-id");
+                        if (vmVserverId == null || !vmVserverId.equals(vServerId)) {
+                            logger.debug("Auto Node List candidate " + vmVnfcName + " dropped. vserver-id mismatch");
+                            continue;
+                        }
+                    }
+                    if (vfModuleId != null) {
+                        String vmVfModuleId = ctx.getAttribute(vmKey + ".vf-module-id");
+                        if (vmVfModuleId == null || !vmVfModuleId.equals(vfModuleId)) {
+                            logger.debug("Auto Node List candidate " + vmVnfcName + " dropped. vf-module-id mismatch");
+                            continue;
+                        }
+                    }
+                    if (vnfcName != null) {
+                        if (!vmVnfcName.equals(vnfcName)) {
+                            logger.debug("Auto Node List candidate " + vmVnfcName + " dropped. vnfc-name mismatch");
+                            continue;
+                        }
+                    }
+                    if (vnfcType != null) {
+                        if (!vmVnfcType.equals(vnfcType)) {
+                            logger.debug("Auto Node List candidate " + vmVnfcType + " dropped. vnfc-type mismatch");
+                            continue;
+                        }
+                    }
+
+                    logger.info("Auto Node List candidate " + vmVnfcName + " [" + vmVnfcIpv4Address + "," + vmVnfcType + "]");
+
+                    JSONObject vnfTypeCandidates = null;
+                    JSONArray vmList = null;
+                    if (!candidates.containsKey(vmVnfcType)) {
+                        vnfTypeCandidates = new JSONObject();
+                        vmList = new JSONArray();
+                        vnfTypeCandidates.put("site", "site");
+                        vnfTypeCandidates.put("vnfc-type", vmVnfcType);
+                        vnfTypeCandidates.put("vm-info", vmList);
+                        candidates.put(vmVnfcType, vnfTypeCandidates);
+                    } else {
+                        vnfTypeCandidates = candidates.get(vmVnfcType);
+                        vmList = (JSONArray) vnfTypeCandidates.get("vm-info");
+                    }
+
+                    JSONObject candidate = new JSONObject();
+                    candidate.put("ne_id", vmVnfcName);
+                    candidate.put("fixed_ip_address", vmVnfcIpv4Address);
+                    vmList.put(candidate);
+                } else {
+                    logger.warn("Incomplete information for Auto Node List candidate " + vmKey);
+                }
+            } else
+                break;
+        }
+
+        for(JSONObject vnfcCandidates : candidates.values()) {
+            result.put(vnfcCandidates);
+        }
+
+        logger.info("GENERATING NODE LIST COMPLETED");
+        return result;
     }
 
     /**
