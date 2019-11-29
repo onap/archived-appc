@@ -127,9 +127,31 @@ public abstract class AbstractBaseService extends AbstractBaseUtils {
             return validatedStatus;
         }
 
-        validatedStatus = validateMustHaveParamValue(actionIdentifiers.getVnfId(), "vnf-id");
+        validatedStatus = validateMustHaveParamValue(actionIdentifiers.getVnfId(), ACTID_KEYS.VNF_ID.getKeyName());
         if (validatedStatus == null) {
             validatedStatus = validateExcludedActIds(actionIdentifiers, EnumSet.of(ACTID_KEYS.VNF_ID));
+        }
+
+        return validatedStatus;
+    }
+
+    /**
+     * Validate input as well as VF MODULE ID in actionIdentifier
+     *
+     * @param commonHeader      of the input
+     * @param action            of the input
+     * @param actionIdentifiers of the input
+     * @return null if validation passed, otherwise, return Status with validation failure details.
+     */
+    Status validateVfModuleId(CommonHeader commonHeader, Action action, ActionIdentifiers actionIdentifiers) {
+        Status validatedStatus = validateInput(commonHeader, action, actionIdentifiers);
+        if (validatedStatus != null) {
+            return validatedStatus;
+        }
+
+        validatedStatus = validateMustHaveParamValue(actionIdentifiers.getVfModuleId(), ACTID_KEYS.VF_MODULE_ID.getKeyName());
+        if (validatedStatus == null) {
+            validatedStatus = validateExcludedActIds(actionIdentifiers, EnumSet.of(ACTID_KEYS.VF_MODULE_ID));
         }
 
         return validatedStatus;
@@ -149,12 +171,84 @@ public abstract class AbstractBaseService extends AbstractBaseUtils {
             return validatedStatus;
         }
 
-        validatedStatus = validateMustHaveParamValue(actionIdentifiers.getVserverId(), "vserver-id");
+        validatedStatus = validateMustHaveParamValue(actionIdentifiers.getVserverId(), ACTID_KEYS.VSERVER_ID.getKeyName());
         if (validatedStatus == null) {
             validatedStatus = validateExcludedActIds(actionIdentifiers, EnumSet.of(ACTID_KEYS.VSERVER_ID));
         }
 
         return validatedStatus;
+    }
+
+    /**
+     * Validate input as well as VNFC NAME in actionIdentifier
+     *
+     * @param commonHeader      of the input
+     * @param action            of the input
+     * @param actionIdentifiers of the input
+     * @return null if validation passed, otherwise, return Status with validation failure details.
+     */
+    Status validateVnfcName(CommonHeader commonHeader, Action action, ActionIdentifiers actionIdentifiers) {
+        Status validatedStatus = validateInput(commonHeader, action, actionIdentifiers);
+        if (validatedStatus != null) {
+            return validatedStatus;
+        }
+
+        validatedStatus = validateMustHaveParamValue(actionIdentifiers.getVnfcName(), ACTID_KEYS.VNFC_NAME.getKeyName());
+        if (validatedStatus == null) {
+            validatedStatus = validateExcludedActIds(actionIdentifiers, EnumSet.of(ACTID_KEYS.VNFC_NAME));
+        }
+
+        return validatedStatus;
+    }
+
+    /**
+     * Validate input as well as VNFC NAME in actionIdentifier
+     *
+     * @param commonHeader      of the input
+     * @param action            of the input
+     * @param actionIdentifiers of the input
+     * @return null if validation passed, otherwise, return Status with validation failure details.
+     */
+    Status validateAllVnfActIds(CommonHeader commonHeader, Action action, ActionIdentifiers actionIdentifiers) {
+        Status validatedStatus = validateInput(commonHeader, action, actionIdentifiers);
+        if (validatedStatus != null) {
+            return validatedStatus;
+        }
+
+        validatedStatus = validateMustHaveParamValue(actionIdentifiers.getVnfId(), ACTID_KEYS.VNF_ID.getKeyName());
+
+        if (validatedStatus != null) {
+            return validatedStatus;
+        }
+
+        Status validatedFinalStatus = null;
+
+        for (ACTID_KEYS key : ACTID_KEYS.values()) {
+            if (key.equals(ACTID_KEYS.SERVICE_INSTANCE_ID) || key.equals(ACTID_KEYS.VNF_ID)) {
+                continue;
+            }
+            validatedStatus = null;
+            switch (key) {
+                case VF_MODULE_ID:
+                    validatedStatus = validateMustHaveParamValue(actionIdentifiers.getVfModuleId(),
+                            ACTID_KEYS.VF_MODULE_ID.getKeyName());
+                    break;
+                case VSERVER_ID:
+                    validatedStatus = validateMustHaveParamValue(actionIdentifiers.getVserverId(),
+                            ACTID_KEYS.VSERVER_ID.getKeyName());
+                    break;
+                case VNFC_NAME:
+                    validatedStatus = validateMustHaveParamValue(actionIdentifiers.getVnfcName(),
+                            ACTID_KEYS.VNFC_NAME.getKeyName());
+                    break;
+            }
+            if (validatedStatus == null) {
+                validatedFinalStatus = validateExcludedActIds(actionIdentifiers, EnumSet.of(ACTID_KEYS.VNF_ID, key));
+                break;
+            }
+        }
+
+        return validatedFinalStatus;
     }
 
     /**

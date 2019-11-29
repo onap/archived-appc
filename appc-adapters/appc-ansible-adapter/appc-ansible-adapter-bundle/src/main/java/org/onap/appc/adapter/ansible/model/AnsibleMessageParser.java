@@ -8,6 +8,8 @@
  * =============================================================================
  * Modifications Copyright (C) 2019 IBM
  * =============================================================================
+ * Modifications Copyright (C) 2019 Orange
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -62,6 +64,7 @@ public class AnsibleMessageParser {
     private static final String FILE_PARAMETERS_OPT_KEY = "FileParameters";
     private static final String ENV_PARAMETERS_OPT_KEY = "EnvParameters";
     private static final String NODE_LIST_OPT_KEY = "NodeList";
+    private static final String AUTO_NODE_LIST_OPT_KEY = "AutoNodeList";
     private static final String TIMEOUT_OPT_KEY = "Timeout";
     private static final String VERSION_OPT_KEY = "Version";
     private static final String INVENTORY_NAMES_OPT_KEY = "InventoryNames";
@@ -84,7 +87,8 @@ public class AnsibleMessageParser {
     public JSONObject reqMessage(Map<String, String> params) throws APPCException {
         final String[] mandatoryTestParams = { AGENT_URL_KEY, PLAYBOOK_NAME_KEY, USER_KEY, PASS_KEY };
         final String[] optionalTestParams = { ENV_PARAMETERS_OPT_KEY, NODE_LIST_OPT_KEY, LOCAL_PARAMETERS_OPT_KEY,
-                TIMEOUT_OPT_KEY, VERSION_OPT_KEY, FILE_PARAMETERS_OPT_KEY, ACTION_OPT_KEY, INVENTORY_NAMES_OPT_KEY };
+                TIMEOUT_OPT_KEY, VERSION_OPT_KEY, FILE_PARAMETERS_OPT_KEY, ACTION_OPT_KEY, INVENTORY_NAMES_OPT_KEY,
+                AUTO_NODE_LIST_OPT_KEY };
 
         JSONObject jsonPayload = new JSONObject();
 
@@ -302,7 +306,13 @@ public class AnsibleMessageParser {
             }
             jsonPayload.put(key, payload);
             break;
-
+        case AUTO_NODE_LIST_OPT_KEY:
+            if (payload.equalsIgnoreCase("true") || payload.equalsIgnoreCase("false")) {
+                jsonPayload.put(key, payload);
+            } else {
+                throw new IllegalArgumentException(" : specified invalid boolean value of AutoNodeList = " + payload);
+            }
+            break;
         case VERSION_OPT_KEY:
         case INVENTORY_NAMES_OPT_KEY:
             jsonPayload.put(key, payload);
