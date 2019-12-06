@@ -61,6 +61,7 @@ public class TestAnsibleAdapterImpl {
     private static final String STATUS_MESSAGE = "StatusMessage";
     private static final String PENDING = "100";
     private static final String SUCCESS = "200";
+    private static final String TRANSUCCESS = "400";
 
     private AnsibleAdapterImpl adapter;
     private boolean testMode = true;
@@ -109,6 +110,7 @@ public class TestAnsibleAdapterImpl {
         result = new AnsibleResult();
         result.setStatusMessage("Success");
         result.setResults("Success");
+        result.setOutput("{}");
         Whitebox.setInternalState(adapter, "messageProcessor", messageProcessor);
         spyAdapter = Mockito.spy(adapter);
     }
@@ -153,11 +155,11 @@ public class TestAnsibleAdapterImpl {
     @Test
     public void reqExecResult_shouldSetSuccess() throws SvcLogicException, APPCException {
         params.put("Id", "100");
-        result.setStatusCode(Integer.valueOf(SUCCESS));
+        result.setStatusCode(Integer.valueOf(TRANSUCCESS));
         when(messageProcessor.reqUriResult(params)).thenReturn(agentUrl);
         when(messageProcessor.parseGetResponse(anyString())).thenReturn(result);
         spyAdapter.reqExecResult(params, svcContext);
-        assertEquals("400", svcContext.getAttribute(RESULT_CODE_ATTRIBUTE_NAME));
+        assertEquals(SUCCESS, svcContext.getAttribute(RESULT_CODE_ATTRIBUTE_NAME));
     }
 
     /**
@@ -174,6 +176,10 @@ public class TestAnsibleAdapterImpl {
         params.put("Id", "100");
         result.setStatusCode(100);
         result.setStatusMessage("Failed");
+        JSONObject cData = new JSONObject();
+        cData.put("GatewayInfo", "Radius");
+        result.setconfigData(cData.toString());
+        result.setOutput(cData.toString());
         when(messageProcessor.reqUriResult(params)).thenReturn(agentUrl);
         when(messageProcessor.parseGetResponse(anyString())).thenReturn(result);
         adapter.reqExecResult(params, svcContext);
