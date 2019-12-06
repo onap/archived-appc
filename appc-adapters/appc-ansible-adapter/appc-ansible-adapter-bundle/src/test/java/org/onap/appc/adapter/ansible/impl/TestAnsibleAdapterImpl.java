@@ -109,6 +109,7 @@ public class TestAnsibleAdapterImpl {
         result = new AnsibleResult();
         result.setStatusMessage("Success");
         result.setResults("Success");
+        result.setOutput("{}");
         Whitebox.setInternalState(adapter, "messageProcessor", messageProcessor);
         spyAdapter = Mockito.spy(adapter);
     }
@@ -157,7 +158,7 @@ public class TestAnsibleAdapterImpl {
         when(messageProcessor.reqUriResult(params)).thenReturn(agentUrl);
         when(messageProcessor.parseGetResponse(anyString())).thenReturn(result);
         spyAdapter.reqExecResult(params, svcContext);
-        assertEquals("400", svcContext.getAttribute(RESULT_CODE_ATTRIBUTE_NAME));
+        assertEquals(SUCCESS, svcContext.getAttribute(RESULT_CODE_ATTRIBUTE_NAME));
     }
 
     /**
@@ -174,6 +175,10 @@ public class TestAnsibleAdapterImpl {
         params.put("Id", "100");
         result.setStatusCode(100);
         result.setStatusMessage("Failed");
+        JSONObject cData = new JSONObject();
+        cData.put("GatewayInfo", "Radius");
+        result.setconfigData(cData.toString());
+        result.setOutput(cData.toString());
         when(messageProcessor.reqUriResult(params)).thenReturn(agentUrl);
         when(messageProcessor.parseGetResponse(anyString())).thenReturn(result);
         adapter.reqExecResult(params, svcContext);
