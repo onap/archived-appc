@@ -398,6 +398,8 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
         String message = StringUtils.EMPTY;
         String results = StringUtils.EMPTY;
         String output = StringUtils.EMPTY;
+        String configData = StringUtils.EMPTY;
+        String finalResponse = StringUtils.EMPTY;
         try {
             // Try to retrieve the test results (modify the URL for that)
             AnsibleResult testResult = queryServer(reqUri, params.get("User"),
@@ -413,10 +415,22 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
                 message = testResult.getStatusMessage();
                 results = testResult.getResults();
                 output = testResult.getOutput();
-                ctx.setAttribute(OUTPUT_ATTRIBUTE_NAME, output);
+                configData = testResult.getconfigData();            
+                if ((StringUtils.isBlank(output) ) ||(output.trim().equalsIgnoreCase("{}")))
+                {
+                      finalResponse = results;
+                }
+                else
+                {
+                    finalResponse = output;
+                }
+                logger.info("configData from ansible's response = " + configData);
+                ctx.setAttribute("device-running-config", configData);
             }
             logger.info("Request response = " + message);
         } catch (APPCException e) {
+            ctx.setAttribute(RESULTS_ATTRIBUTE_NAME, results);
+            ctx.setAttribute(OUTPUT_ATTRIBUTE_NAME, finalResponse);
             doFailure(ctx, AnsibleResultCodes.UNKNOWN_EXCEPTION.getValue(),
                     "Exception encountered retrieving result : " + e.getMessage());
             return;
@@ -432,16 +446,16 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
             logger.info(String.format("Ansible Request  %s finished with Result %s, Message = %s", params.get("Id"),
                     OUTCOME_FAILURE, message));
             ctx.setAttribute(RESULTS_ATTRIBUTE_NAME, results);
-            ctx.setAttribute(OUTPUT_ATTRIBUTE_NAME, output);
+            ctx.setAttribute(OUTPUT_ATTRIBUTE_NAME, finalResponse);
             doFailure(ctx, code, message);
             return;
         }
 
         // In case of 200,400,FINISHED return 400
-        ctx.setAttribute(RESULT_CODE_ATTRIBUTE_NAME, "400");
+         ctx.setAttribute(RESULT_CODE_ATTRIBUTE_NAME, Integer.toString(400));
         ctx.setAttribute(MESSAGE_ATTRIBUTE_NAME, message);
         ctx.setAttribute(RESULTS_ATTRIBUTE_NAME, results);
-        ctx.setAttribute(OUTPUT_ATTRIBUTE_NAME, output);
+        ctx.setAttribute(OUTPUT_ATTRIBUTE_NAME, finalResponse);
         ctx.setStatus(OUTCOME_SUCCESS);
     }
 
