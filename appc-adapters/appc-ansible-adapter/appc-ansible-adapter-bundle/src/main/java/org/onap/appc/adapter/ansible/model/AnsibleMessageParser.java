@@ -68,6 +68,7 @@ public class AnsibleMessageParser {
     private static final String TIMEOUT_OPT_KEY = "Timeout";
     private static final String VERSION_OPT_KEY = "Version";
     private static final String INVENTORY_NAMES_OPT_KEY = "InventoryNames";
+    private static final String EXTRAVARS_OPT_KEY ="ExtraVars";
     private static final String ACTION_OPT_KEY = "Action";
     private static final String OUTPUT_OPT_KEY = "Output";
     private static final String JSON_ERROR_MESSAGE = "JSONException: Error parsing response";
@@ -217,7 +218,7 @@ public class AnsibleMessageParser {
         int codeStatus = postRsp.getInt(STATUS_CODE_KEY);
         String messageStatus = postRsp.getString(STATUS_MESSAGE_KEY);
         int finalCode = AnsibleResultCodes.FINAL_SUCCESS.getValue();
-
+        JSONObject config = null; 
         boolean valCode = AnsibleResultCodes.CODE.checkValidCode(AnsibleResultCodes.FINALRESPONSE.getValue(),
                 codeStatus);
 
@@ -228,6 +229,7 @@ public class AnsibleMessageParser {
 
         ansibleResult.setStatusCode(codeStatus);
         ansibleResult.setStatusMessage(messageStatus);
+        ansibleResult.setconfigData("UNKNOWN");
         LOGGER.info("Received response with code = {}, Message = {}", codeStatus, messageStatus);
 
         if (!postRsp.isNull("Results")) {
@@ -254,6 +256,17 @@ public class AnsibleMessageParser {
 
                     if (subCode != 200 || !(("SUCCESS").equals(message))) {
                         finalCode = AnsibleResultCodes.REQ_FAILURE.getValue();
+                    }
+                   if ((hostResponse.optJSONObject("Output")) != null) {
+                        if ((hostResponse.optJSONObject("Output").optJSONObject("info")) != null) {
+                            if ((hostResponse.optJSONObject("Output").optJSONObject("info")
+                                    .optJSONObject("configData")) != null) {
+                                config = hostResponse.optJSONObject("Output").optJSONObject("info")
+                                        .optJSONObject("configData");
+                                
+                                ansibleResult.setconfigData(config.toString());
+                            }
+                        }
                     }
                 } catch (JSONException e) {
                     LOGGER.error(JSON_ERROR_MESSAGE, e);
@@ -300,6 +313,8 @@ public class AnsibleMessageParser {
 
         switch (key) {
         case TIMEOUT_OPT_KEY:
+            if (dataIsVariable(payload))
+                break;
             int timeout = Integer.parseInt(payload);
             if (timeout < 0) {
                 throw new NumberFormatException(" : specified negative integer for timeout = " + payload);
@@ -314,22 +329,27 @@ public class AnsibleMessageParser {
             }
             break;
         case VERSION_OPT_KEY:
-        case INVENTORY_NAMES_OPT_KEY:
-            jsonPayload.put(key, payload);
-            break;
-
         case LOCAL_PARAMETERS_OPT_KEY:
         case ENV_PARAMETERS_OPT_KEY:
-            JSONObject paramsJson = new JSONObject(payload);
-            jsonPayload.put(key, paramsJson);
-            break;
-
+        case EXTRAVARS_OPT_KEY:
+                JSONObject paramsJson = new JSONObject(payload);
+                jsonDataIsVariable(paramsJson);
+                jsonPayload.put(key, paramsJson);
+                break;
         case NODE_LIST_OPT_KEY:
-            JSONArray paramsArray = new JSONArray(payload);
-            jsonPayload.put(key, paramsArray);
-            break;
-
+              if(payload.startsWith("$"))
+                    break;
+              JSONArray paramsArray = new JSONArray(payload);
+              jsonPayload.put(key, paramsArray);
+              break;
+        case  INVENTORY_NAMES_OPT_KEY:
+                if (dataIsVariable(payload))
+                    break;
+                jsonPayload.put(key, payload);
+                break;
         case FILE_PARAMETERS_OPT_KEY:
+              if (dataIsVariable(payload))
+                    break;
             jsonPayload.put(key, getFilePayload(payload));
             break;
 
@@ -357,5 +377,45 @@ public class AnsibleMessageParser {
                     "Ansible: Mandatory AnsibleAdapter key %s not found in parameters provided by calling agent !",
                     key));
         }
+        
+        if (StringUtils.startsWith(params.get(key), "$")) {
+            throw new APPCException(String.format(
+                    "Ansible: Mandatory AnsibleAdapter key %s is a variable",
+                    key));
+        }
+    }
+
+
+    private boolean varObjContainsNoData(Object obj) {
+        if (obj instanceof String) {
+            if (StringUtils.startsWith(obj.toString(), "$") || StringUtils.isEmpty(obj.toString()))
+                return true;
+        }
+        return false;
+
+    }
+
+    private boolean dataIsVariable(String payload) {
+        if (StringUtils.startsWith(payload, "$") || StringUtils.isEmpty(payload))
+            return true;
+        else
+            return false;
+
+    }
+
+     private JSONObject jsonDataIsVariable(JSONObject paramsJson) {
+        LOGGER.info("input json is " + paramsJson);
+        String[] keys = JSONObject.getNames(paramsJson);
+        for (String k : keys) {
+            Object a = paramsJson.get(k);
+            if (a instanceof String) {
+                if (StringUtils.startsWith(a.toString(), "$") || StringUtils.isEmpty(a.toString())) {
+                    LOGGER.info("removing key " + k);
+                    paramsJson.remove(k);
+                }
+            }
+        }
+        LOGGER.info("returning json as " + paramsJson);
+        return paramsJson;
     }
 }
