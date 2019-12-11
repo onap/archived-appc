@@ -35,6 +35,7 @@ public class AnsibleResult {
     private String results;
     private String output;
     private String serverIp;
+    private String configData;
 
     public AnsibleResult() {
         this(-1, EMPTY_VALUE, EMPTY_VALUE);
@@ -104,6 +105,14 @@ public class AnsibleResult {
     public String getServerIp() {
         return this.serverIp;
     }
+   
+    public String getconfigData() {
+		return this.configData;
+	}
+
+    public void setconfigData(String configData) {
+		this.configData = configData;
+	}
 
 
 }
