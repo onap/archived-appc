@@ -165,8 +165,10 @@ public class TestAnsibleMessageParser {
         params.put("Password", "TestPassword");
         params.put("Timeout", "3");
         params.put("Version", "1");
+        params.put("InventoryNames", "VNFC");
         JSONObject jObject = msgParser.reqMessage(params);
         assertEquals("1", jObject.get("Version"));
+        assertEquals("VNFC",jObject.get("InventoryNames"));
     }
 
     @Test
@@ -182,6 +184,34 @@ public class TestAnsibleMessageParser {
         assertEquals("TestPlaybookName",result.get("PlaybookName"));
         assertEquals("TestUser",result.get("User"));
         assertEquals("TestPassword",result.get("Password"));
+    }
+
+    @Test
+    public void TestParseGetConfigResponseResult() throws Exception {
+        AnsibleResult ansibleResult;
+        String input = "{\"StatusCode\":\"200\",\"StatusMessage\":\"TestMessage\",\"Results\":{\"host\":{\"StatusCode\":\"200\",\"StatusMessage\":\"SUCCESS\",\"Output\":{\"info\":{\"configData\":{\"abc\":\"TestOutPutResult\",\"rtr\":\"vfc\"}}}}}}";
+        ansibleResult = msgParser.parseGetResponse(input);
+        String result = "abc";
+        assertEquals(true, ansibleResult.getconfigData().contains(result));
+    }
+
+    @Test
+    public void testParseOptionalParamTest2() throws Exception {
+        
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("AgentUrl", "TestAgentUrl");
+        params.put("PlaybookName", "TestPlaybookName");
+        params.put("User", "TestUser");
+        params.put("Password", "TestPassword");
+        //params.put("Timeout", "3");
+        params.put("Version", "1");
+        params.put("InventoryNames", "VNFC");
+        params.put("Timeout", "4");
+        params.put("EnvParameters", "{ \"userID\": \"$0002\", \"vnf-type\" : \"\", \"vnf\" : \"abc\" }");
+        params.put("NodeList", "${Nodelist}");
+        JSONObject jObject = msgParser.reqMessage(params);
+        assertEquals("1", jObject.get("Version"));
+        assertEquals("4",jObject.get("Timeout"));
     }
     
     @Test
