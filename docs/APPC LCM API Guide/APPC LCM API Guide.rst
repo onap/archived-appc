@@ -578,11 +578,31 @@ Commands, or actions, may be currently supported on all VNF types or a limited s
 +-----------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
 |     Evacuate                |           |                  |                | Yes      |     Any (uses OpenStack command)                           |
 +-----------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
+|     GetConfig               | Yes       |                  |                |          |     Ansible                                                |
++-----------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
 |     HealthCheck             | Yes       |                  |                |          |     Any (requires self-service onboarding)                 |
++-----------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
+|     LicenseManagement       | Yes       |                  |                |          |     Ansible                                                |
 +-----------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
 |     Lock                    | Yes       |                  |                |          |     Any                                                    |
 +-----------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
 |     Migrate                 |           |                  |                | Yes      |     Any (uses OpenStack command)                           |
++-----------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
+|     PostEvacuate            | Yes       |                  |                |          |     Ansible                                                |
++-----------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
+|     PostMigrate             | Yes       |                  |                |          |     Ansible                                                |
++-----------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
+|     PostRebuild             | Yes       |                  |                |          |     Ansible                                                |
++-----------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
+|     PreConfigure            | Yes       |                  |                |          |     Ansible                                                |
++-----------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
+|     PreEvacuate             | Yes       |                  |                |          |     Ansible                                                |
++-----------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
+|     PreMigrate              | Yes       |                  |                |          |     Ansible                                                |
++-----------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
+|     PreRebuild              | Yes       |                  |                |          |     Ansible                                                |
++-----------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
+|     Provisioning            | Yes       |                  |                |          |     Ansible                                                |
 +-----------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
 |     QuiesceTraffic          | Yes       |                  |                |          | Chef and Ansible only (requires self-service onboarding)   |
 +-----------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
@@ -600,9 +620,15 @@ Commands, or actions, may be currently supported on all VNF types or a limited s
 +-----------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
 |     StartApplication        | Yes       |                  |                |          | Chef and Ansible only (requires self-service onboarding)   |
 +-----------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
+|     StartTraffic            | Yes       |                  |                |          |     Ansible                                                |
++-----------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
+|     StatusTraffic           | Yes       |                  |                |          |     Ansible                                                |
++-----------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
 |     Stop                    |           |                  |                | Yes      |     Any (uses OpenStack command)                           |
 +-----------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
 |     StopApplication         | Yes       |                  |                |          | Chef and Ansible only (requires self-service onboarding)   |
++-----------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
+|     StopTraffic             | Yes       |                  |                |          |     Ansible                                                |
 +-----------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
 |     Sync                    | Yes       |                  |                |          |     Any (requires self-service onboarding)                 |
 +-----------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
@@ -1458,6 +1484,44 @@ Evacuate Response:
 **Failure:** A failed Evacuate returns a failure code 401 and the failure message.
 
 
+GetConfig
+---------
+
+GetConfig LCM action for the MVM VNF types using the GetConfig playbook
+to retrieve the current config. This is limited to Ansible.
+
+A successful GetConfig request returns a success response.
+
+A failed GetConfig action returns a failure response code and the
+specific failure message in the response block.
+
+
+====================== =================================================
+**Target URL**         /restconf/operations/appc-provider-lcm: GetConfig
+====================== =================================================
+**Action**             GetConfig
+**Action-Identifiers** vnf-id
+**Payload Parameters** See table
+**Revision History**   New in Frankfurt
+====================== =================================================
+
+========================= ========================================================================================================= ============= ======================================================================================================
+**Payload Parameter**     **Description**                                                                                           **Required?** **Example**
+========================= ========================================================================================================= ============= ======================================================================================================
+request- parameters       Not used. This request is limited to Ansible only.                                                        No            "payload": "{\"configuration-parameters\":{\"vnf_name\":\"test\",\"operations_timeout\":\"3600\"}}" or
+                                                                                                                                                 
+                                                                                                                                                  "payload": "{}"
+configuration- parameters A set of instance specific configuration parameters should be specified, as required by Ansible playbook. No           
+========================= ========================================================================================================= ============= ======================================================================================================
+
+GetConfig Response:
+~~~~~~~~~~~~~~~~~~~
+
+Success: A successful GetConfig returns a success status code 400.
+
+Failure: A failed GetConfig returns a failure code 401 and the failure
+message.
+
 
 HealthCheck
 -----------
@@ -1523,6 +1587,55 @@ HealthCheck Response
 		}
 
 **Failure:** If the VNF is unable to run the HealthCheck. APP-C returns the error code 401 and the http error message.
+
+LicenseManagement
+-----------------
+
+For LicenseManagement LCM action, invoke the LicenseManagement playbook.
+This is limited to Ansible.
+
+A successful LicenseManagement request returns a success response.
+
+A failed LicenseManagement action returns a failure response code and
+the specific failure message in the response block.
+
+
+====================== ========================================================
+**Target URL**         /restconf/operations/appc-provider-lcm:LicenseManagement
+====================== ========================================================
+**Action**             LicenseManagement
+**Action-Identifiers** vnf-id
+**Payload Parameters** See below
+**Revision History**   New in Frankfurt
+====================== ========================================================
+
+========================= ========================================================================================================= ============= ======================================================================================================================
+**Payload Parameter**     **Description**                                                                                           **Required?** **Example**
+========================= ========================================================================================================= ============= ======================================================================================================================
+request- parameters       Not used. This request is limited to Ansible only.                                                        No            "action": "LicenseManagement",
+                                                                                                                                                 
+                                                                                                                                                  "action-identifiers": {
+                                                                                                                                                 
+                                                                                                                                                  "vnf-id": "rarf9901v"
+                                                                                                                                                 
+                                                                                                                                                  },
+                                                                                                                                                 
+                                                                                                                                                  "payload": "{\"configuration-parameters\":{\"vnf_name\":\"rarf9901v\",\"license_action\":\"update\"}}" ---
+                                                                                                                                                 
+                                                                                                                                                  license_action can have any of these values ={ upload \| add \| install \| update \| renew \| delete \| revoke \| … }:
+configuration- parameters A set of instance specific configuration parameters should be specified, as required by Ansible playbook. No           
+========================= ========================================================================================================= ============= ======================================================================================================================
+
+LicenseManagement Response\ **:** 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Success: A successful LicenseManagement returns a success status code
+400.
+
+Failure: A failed LicenseManagement returns a failure code 401 and the
+failure message.
+
+
 
 
 Lock
@@ -1614,6 +1727,309 @@ Migrate Response
 **Success:** A successful Migrate returns a success status code 400.
 
 **Failure:** A failed Migrate returns a failure code 401 and the failure message.
+
+
+PostEvacuate 
+-------------
+
+PostEvacuate LCM action using the PostEvacuate playbook. This is limited
+to Ansible.
+
+A successful PostEvacuate request returns a success response.
+
+A failed PostEvacuate action returns a failure response code and the
+specific failure message in the response block.
+
+====================== ====================================================
+**Target URL**         /restconf/operations/appc-provider-lcm: PostEvacuate
+====================== ====================================================
+**Action**             PostEvacuate
+**Action-Identifiers** vnf-id
+**Payload Parameters** See table
+**Revision History**   New in Frankfurt
+====================== ====================================================
+
+========================= ========================================================================================================= ============= =====================================================================================================
+**Payload Parameter**     **Description**                                                                                           **Required?** **Example**
+========================= ========================================================================================================= ============= =====================================================================================================
+request- parameters       Not used. This request is limited to Ansible only.                                                        No            "payload" : "{\"configuration-parameters\":{\"vnf_name\":\"xxxxxx\",\"vm_name\":\"135.21.178.100\"}}"
+configuration- parameters A set of instance specific configuration parameters should be specified, as required by Ansible playbook. No           
+========================= ========================================================================================================= ============= =====================================================================================================
+
+PostEvacuate Response:
+~~~~~~~~~~~~~~~~~~~~~~
+
+Success: A successful PostEvacuate returns a success status code 400.
+
+Failure: A failed PostEvacuate returns a failure code 401 and the
+failure message.
+
+
+PostMigrate
+-----------
+
+PostMigrate LCM action using the PostMigrate playbook. This is limited
+to Ansible.
+
+A successful PostMigrate request returns a success response.
+
+A failed PostMigrate action returns a failure response code and the
+specific failure message in the response block.
+
+
+====================== ===================================================
+**Target URL**         /restconf/operations/appc-provider-lcm: PostMigrate
+====================== ===================================================
+**Action**             PostMigrate
+**Action-Identifiers** vnf-id
+**Payload Parameters** See below
+**Revision History**   New in Frankfurt
+====================== ===================================================
+
+========================= ========================================================================================================= ============= =====================================================================================================
+**Payload Parameter**     **Description**                                                                                           **Required?** **Example**
+========================= ========================================================================================================= ============= =====================================================================================================
+request- parameters       Not used. This request is limited to Ansible only.                                                        No            "payload" : "{\"configuration-parameters\":{\"vnf_name\":\"xxxxxx\",\"vm_name\":\"135.21.178.100\"}}"
+configuration- parameters A set of instance specific configuration parameters should be specified, as required by Ansible playbook. No           
+========================= ========================================================================================================= ============= =====================================================================================================
+
+PostMigrate Response:
+~~~~~~~~~~~~~~~~~~~~~
+
+Success: A successful PostMigrate returns a success status code 400.
+
+Failure: A failed PostMigrate returns a failure code 401 and the failure
+message.
+
+
+
+PostRebuild
+-----------
+
+PostRebuild LCM action using the PostRebuild playbook. This is limited
+to Ansible.
+
+A successful PostRebuild request returns a success response.
+
+A failed PostRebuild action returns a failure response code and the
+specific failure message in the response block.
+
+====================== ===================================================
+**Target URL**         /restconf/operations/appc-provider-lcm: PostRebuild
+====================== ===================================================
+**Action**             PostRebuild
+**Action-Identifiers** vnf-id
+**Payload Parameters** See table
+**Revision History**   New in Frankfurt
+====================== ===================================================
+
+========================= ========================================================================================================= ============= =====================================================================================================
+**Payload Parameter**     **Description**                                                                                           **Required?** **Example**
+========================= ========================================================================================================= ============= =====================================================================================================
+request- parameters       Not used. This request is limited to Ansible only.                                                        No            "payload" : "{\"configuration-parameters\":{\"vnf_name\":\"xxxxxx\",\"vm_name\":\"135.21.178.100\"}}"
+configuration- parameters A set of instance specific configuration parameters should be specified, as required by Ansible playbook. No           
+========================= ========================================================================================================= ============= =====================================================================================================
+
+PostRebuild Response:
+~~~~~~~~~~~~~~~~~~~~~
+
+Success: A successful PostRebuild returns a success status code 400.
+
+Failure: A failed PostRebuild returns a failure code 401 and the failure
+message.
+
+
+PreConfig
+---------
+
+PreConfig LCM action for the MVM VNF types using the PreConfigure
+playbook. This is limited to Ansible.
+
+A successful PreConfig request returns a success response.
+
+A failed PreConfig action returns a failure response code and the
+specific failure message in the response block.
+
+
+====================== =================================================
+**Target URL**         /restconf/operations/appc-provider-lcm: PreConfig
+====================== =================================================
+**Action**             PreConfig
+**Action-Identifiers** vnf-id
+**Payload Parameters** See table
+**Revision History**   New in Frankfurt
+====================== =================================================
+
+========================= ========================================================================================================= ============= ======================================================================================================
+**Payload Parameter**     **Description**                                                                                           **Required?** **Example**
+========================= ========================================================================================================= ============= ======================================================================================================
+request- parameters       Not used. This request is limited to Ansible only.                                                        No            "payload": "{\"configuration-parameters\":{\"vnf_name\":\"test\",\"operations_timeout\":\"3600\"}}" or
+                                                                                                                                                 
+                                                                                                                                                  "payload": "{}"
+configuration- parameters A set of instance specific configuration parameters should be specified, as required by Ansible playbook. No           
+========================= ========================================================================================================= ============= ======================================================================================================
+
+PreConfig Response:
+-------------------
+
+Success: A successful PreConfig returns a success status code 400.
+
+Failure: A failed PreConfig returns a failure code 401 and the failure
+message.
+
+PreEvacuate 
+------------
+
+PreEvacuate LCM action using the PreEvacuate playbook. This is limited
+to Ansible.
+
+A successful PreEvacuate request returns a success response.
+
+A failed PreEvacuate action returns a failure response code and the
+specific failure message in the response block.
+
+
+====================== ===================================================
+**Target URL**         /restconf/operations/appc-provider-lcm: PreEvacuate
+====================== ===================================================
+**Action**             PreEvacuate
+**Action-Identifiers** vnf-id
+**Payload Parameters** See table
+**Revision History**   New in Frankfurt
+====================== ===================================================
+
+========================= ========================================================================================================= ============= =====================================================================================================
+**Payload Parameter**     **Description**                                                                                           **Required?** **Example**
+========================= ========================================================================================================= ============= =====================================================================================================
+request- parameters       Not used. This request is limited to Ansible only.                                                        No            "payload" : "{\"configuration-parameters\":{\"vnf_name\":\"xxxxxx\",\"vm_name\":\"135.21.178.100\"}}"
+configuration- parameters A set of instance specific configuration parameters should be specified, as required by Ansible playbook. No           
+========================= ========================================================================================================= ============= =====================================================================================================
+
+PreEvacuate Response:
+~~~~~~~~~~~~~~~~~~~~~
+
+Success: A successful PreEvacuate returns a success status code 400.
+
+Failure: A failed PreEvacuate returns a failure code 401 and the failure
+message.
+
+PreMigrate
+----------
+
+PreMigrate LCM action using the PreMigrate playbook. This is limited to
+Ansible.
+
+A successful PreMigrate request returns a success response.
+
+A failed PreMigrate action returns a failure response code and the
+specific failure message in the response block.
+
+====================== ==================================================
+**Target URL**         /restconf/operations/appc-provider-lcm: PreMigrate
+====================== ==================================================
+**Action**             PreMigrate
+**Action-Identifiers** vnf-id
+**Payload Parameters** See table
+**Revision History**   New in Frankfurt
+====================== ==================================================
+
+========================= ========================================================================================================= ============= =====================================================================================================
+**Payload Parameter**     **Description**                                                                                           **Required?** **Example**
+========================= ========================================================================================================= ============= =====================================================================================================
+request- parameters       Not used. This request is limited to Ansible only.                                                        No            "payload" : "{\"configuration-parameters\":{\"vnf_name\":\"xxxxxx\",\"vm_name\":\"135.21.178.100\"}}"
+configuration- parameters A set of instance specific configuration parameters should be specified, as required by Ansible playbook. No           
+========================= ========================================================================================================= ============= =====================================================================================================
+
+PreMigrate Response:
+~~~~~~~~~~~~~~~~~~~~
+
+Success: A successful PreMigrate returns a success status code 400.
+
+Failure: A failed PreMigrate returns a failure code 401 and the failure
+message.
+
+
+PreRebuild
+----------
+
+PreRebuild LCM action using the PreRebuild playbook. This is limited to
+Ansible.
+
+A successful PreRebuild request returns a success response.
+
+A failed PreRebuild action returns a failure response code and the
+specific failure message in the response block.
+
+
+====================== ==================================================
+**Target URL**         /restconf/operations/appc-provider-lcm: PreRebuild
+====================== ==================================================
+**Action**             PreRebuild
+**Action-Identifiers** vnf-id
+**Payload Parameters** See table
+**Revision History**   New in Frankfurt
+====================== ==================================================
+
+========================= ========================================================================================================= ============= =====================================================================================================
+**Payload Parameter**     **Description**                                                                                           **Required?** **Example**
+========================= ========================================================================================================= ============= =====================================================================================================
+request- parameters       Not used. This request is limited to Ansible only.                                                        No            "payload" : "{\"configuration-parameters\":{\"vnf_name\":\"xxxxxx\",\"vm_name\":\"135.21.178.100\"}}"
+configuration- parameters A set of instance specific configuration parameters should be specified, as required by Ansible playbook. No           
+========================= ========================================================================================================= ============= =====================================================================================================
+
+PreRebuild Response:
+~~~~~~~~~~~~~~~~~~~~
+
+Success: A successful PreRebuild returns a success status code 400.
+
+Failure: A failed PreRebuild returns a failure code 401 and the failure
+message.
+
+
+Provisioning
+------------
+
+For Provisioning LCM action, invoke the Provisioning playbook. This is
+limited to Ansible.
+
+A successful Provisioning request returns a success response.
+
+A failed Provisioning action returns a failure response code and the
+specific failure message in the response block.
+
+
+====================== ===================================================
+**Target URL**         /restconf/operations/appc-provider-lcm:Provisioning
+====================== ===================================================
+**Action**             Provisioning
+**Action-Identifiers** vnf-id
+**Payload Parameters** See table
+**Revision History**   New in Frankfurt
+====================== ===================================================
+
+========================= ========================================================================================================= ============= =========================
+**Payload Parameter**     **Description**                                                                                           **Required?** **Example**
+========================= ========================================================================================================= ============= =========================
+request- parameters       Not used. This request is limited to Ansible only.                                                        No            "action": "Provisioning",
+                                                                                                                                                 
+                                                                                                                                                  "action-identifiers": {
+                                                                                                                                                 
+                                                                                                                                                  "vnf-id": "rarf9901v"
+                                                                                                                                                 
+                                                                                                                                                  },
+                                                                                                                                                 
+                                                                                                                                                  "payload": "{}"
+configuration- parameters A set of instance specific configuration parameters should be specified, as required by Ansible playbook. No           
+========================= ========================================================================================================= ============= =========================
+
+Provisioning Response\ **:** 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Success: A successful Provisioning returns a success status code 400.
+
+Failure: A failed Provisioning returns a failure code 401 and the
+failure message.
+
 
 
 QuiesceTraffic
@@ -1970,6 +2386,96 @@ StartApplication Response
 
 The StartApplication response returns an indication of success or failure of the request.
 
+StartTraffic
+------------
+
+For StartTraffic LCM action, invoke the StartTraffic playbook. This is
+limited to Ansible.
+
+A successful StartTraffic request returns a success response.
+
+A failed StartTraffic action returns a failure response code and the
+specific failure message in the response block.
+
+
+====================== ===================================================
+**Target URL**         /restconf/operations/appc-provider-lcm:StartTraffic
+====================== ===================================================
+**Action**             StartTraffic
+**Action-Identifiers** vnf-id
+**Payload Parameters** See table
+**Revision History**   New in Frankfurt
+====================== ===================================================
+
+========================= ========================================================================================================= ============= =========================
+**Payload Parameter**     **Description**                                                                                           **Required?** **Example**
+========================= ========================================================================================================= ============= =========================
+request- parameters       Not used. This request is limited to Ansible only.                                                        No            "action": "StartTraffic",
+                                                                                                                                                 
+                                                                                                                                                  "action-identifiers": {
+                                                                                                                                                 
+                                                                                                                                                  "vnf-id": "rarf9901v"
+                                                                                                                                                 
+                                                                                                                                                  },
+                                                                                                                                                 
+                                                                                                                                                  "payload": "{}"
+configuration- parameters A set of instance specific configuration parameters should be specified, as required by Ansible playbook. No           
+========================= ========================================================================================================= ============= =========================
+
+StartTraffic Response\ **:** 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Success: A successful StartTraffic returns a success status code 400.
+
+Failure: A failed StartTraffic returns a failure code 401 and the
+failure message.
+
+
+
+StatusTraffic
+-------------
+
+For StatusTraffic LCM action, invoke the StatusTraffic playbook. This is
+limited to Ansible.
+
+A successful StatusTraffic request returns a success response.
+
+A failed StatusTraffic action returns a failure response code and the
+specific failure message in the response block.
+
+====================== ====================================================
+**Target URL**         /restconf/operations/appc-provider-lcm:StatusTraffic
+====================== ====================================================
+**Action**             StatusTraffic
+**Action-Identifiers** vnf-id
+**Payload Parameters** See table
+**Revision History**   New in Frankfurt
+====================== ====================================================
+
+========================= ========================================================================================================= ============= ==========================
+**Payload Parameter**     **Description**                                                                                           **Required?** **Example**
+========================= ========================================================================================================= ============= ==========================
+request- parameters       Not used. This request is limited to Ansible only.                                                        No            "action": "StatusTraffic",
+                                                                                                                                                 
+                                                                                                                                                  "action-identifiers": {
+                                                                                                                                                 
+                                                                                                                                                  "vnf-id": "rarf9901v"
+                                                                                                                                                 
+                                                                                                                                                  },
+                                                                                                                                                 
+                                                                                                                                                  "payload": "{}"
+configuration- parameters A set of instance specific configuration parameters should be specified, as required by Ansible playbook. No           
+========================= ========================================================================================================= ============= ==========================
+
+StatusTraffic Response\ **:** 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Success: A successful StatusTraffic returns a success status code 400.
+
+Failure: A failed StatusTraffic returns a failure code 401 and the
+failure message.
+
+
 Stop
 ----
 
@@ -2045,6 +2551,51 @@ StopApplication Response
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 The StopApplication response returns an indication of success or failure of the request.
+
+StopTraffic
+-----------
+
+For StopTraffic LCM action, invoke the StopTraffic playbook. This is
+limited to Ansible.
+
+A successful StopTraffic request returns a success response.
+
+A failed StopTraffic action returns a failure response code and the
+specific failure message in the response block.
+
+
+====================== ==================================================
+**Target URL**         /restconf/operations/appc-provider-lcm:StopTraffic
+====================== ==================================================
+**Action**             Provisioning
+**Action-Identifiers** vnf-id
+**Payload Parameters** See table
+**Revision History**   New in Frankfurt
+====================== ==================================================
+
+========================= ========================================================================================================= ============= ========================================================================
+**Payload Parameter**     **Description**                                                                                           **Required?** **Example**
+========================= ========================================================================================================= ============= ========================================================================
+request- parameters       Not used. This request is limited to Ansible only.                                                        No            "action": "StopTraffic",
+                                                                                                                                                 
+                                                                                                                                                  "action-identifiers": {
+                                                                                                                                                 
+                                                                                                                                                  "vnf-id": "rarf9901v"
+                                                                                                                                                 
+                                                                                                                                                  },
+                                                                                                                                                 
+                                                                                                                                                  "payload": "{\"configuration-parameters\":{\"vnf_name\":\"rarf9901v\"}}"
+configuration- parameters A set of instance specific configuration parameters should be specified, as required by Ansible playbook. No           
+========================= ========================================================================================================= ============= ========================================================================
+
+StopTraffic Response\ **:** 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Success: A successful StopTraffic returns a success status code 400.
+
+Failure: A failed StopTraffic returns a failure code 401 and the failure
+message.
+
 
 Sync
 ----
