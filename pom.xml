@@ -69,9 +69,9 @@ limitations under the License.
         <sonar.language>java</sonar.language>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.surefire.reportsPath>${project.build.directory}/surefire-reports</sonar.surefire.reportsPath>
-        <sonar.jacoco.reportPath>${project.build.directory}/code-coverage/jacoco-ut.exec</sonar.jacoco.reportPath>
-        <sonar.jacoco.reportMissing.force.zero>true</sonar.jacoco.reportMissing.force.zero>
+        <sonar.jacoco.reportPath>${project.build.directory}/code-coverage/jacoco.exec</sonar.jacoco.reportPath>
         <sonar.projectVersion>${project.version}</sonar.projectVersion>
+        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 
         <salGeneratorPath>target/generated-sources/yang-gen-sal</salGeneratorPath>
         <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
