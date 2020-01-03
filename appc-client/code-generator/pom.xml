@@ -26,7 +26,7 @@
     <parent>
         <artifactId>appc-java-client</artifactId>
         <groupId>org.onap.appc.client</groupId>
-        <version>1.6.2-SNAPSHOT</version>
+        <version>1.7.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>code-generator</artifactId>
@@ -80,6 +80,12 @@
               <groupId>org.opendaylight.yangtools</groupId>
               <artifactId>yang-parser-impl</artifactId>
               <version>${yang.parser.impl.version}</version>
+              <exclusions>
+                  <exclusion>
+                      <groupId>com.google.code.findbugs</groupId>
+                      <artifactId>jsr305</artifactId>
+                  </exclusion>
+              </exclusions>
           </dependency>
         <dependency>
             <groupId>org.opendaylight.controller</groupId>
@@ -90,6 +96,12 @@
             <groupId>org.opendaylight.yangtools</groupId>
             <artifactId>yang-model-api</artifactId>
             <version>${yang.parser.impl.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.code.findbugs</groupId>
+                    <artifactId>jsr305</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

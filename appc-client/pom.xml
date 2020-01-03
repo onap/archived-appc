@@ -28,12 +28,12 @@
     <parent>
         <groupId>org.onap.appc</groupId>
         <artifactId>appc</artifactId>
-        <version>1.6.2-SNAPSHOT</version>
+        <version>1.7.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>appc-java-client</artifactId>
     <groupId>org.onap.appc.client</groupId>
-    <version>1.6.2-SNAPSHOT</version>
+    <version>1.7.0-SNAPSHOT</version>
 
     <name>appc-java-client</name>
     <description>APPC Java Client</description>
@@ -181,6 +181,12 @@
                  <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>18.0</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.google.code.findbugs</groupId>
+                        <artifactId>jsr305</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
