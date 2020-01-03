@@ -644,6 +644,10 @@ Commands, or actions, may be currently supported on all VNF types or a limited s
 +-----------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
 |     UpgradeSoftware         | Yes       |                  |                |          | Chef and Ansible only (requires self-service onboarding)   |
 +-----------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
+|     DownloadNeSw            | Yes       |                  |                |          | Chef and Ansible only (requires self-service onboarding)   |
++-----------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
+|     ActivateNeSw            | Yes       |                  |                |          | Chef and Ansible only (requires self-service onboarding)   |
++-----------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
 
 
 
@@ -2927,4 +2931,109 @@ APPC template: The APPC templates for the Upgrade commands can be common across 
     {vnf-type}/UpgradeSoftware/${existing_software_version}_${new-software-version}/
     SoftwareUpgrade_{existing-software-version_new-software-version}.
 
+
+DownloadNeSw
+---------------
+
+The DownloadNeSw LCM action downloads the target software needed for a software upgrade. This command can be executed on a running VNF (i.e. processing traffic).
+
+This command is executed using an Ansible playbook or Chef cookbook.
+
+Request Structure:
+
++--------------------------+------------------------------------------------------------+
+| **Target URL**           | /restconf/operations/appc-provider-lcm:download-ne-sw      |
++--------------------------+------------------------------------------------------------+
+| **Action**               | DownloadNeSw                                               |
++--------------------------+------------------------------------------------------------+
+| **Action-identifiers**   | vnf-id                                                     |
++--------------------------+------------------------------------------------------------+
+| **Payload Parameters**   | existing-software-version, new-software-version            |
++--------------------------+------------------------------------------------------------+
+| **Revision History**     | New in Frankfurt                                           |
++--------------------------+------------------------------------------------------------+
+
+Request Payload Parameters:
+
++-----------------------+-------------------------------------+---------------------+-----------------------------------------------------------------------------------------------+
+| **Parameter**         |     **Description**                 |     **Required?**   |     **Example**                                                                               |
++=======================+=====================================+=====================+===============================================================================================+
+| swToBeDownloaded      |     The software to be downloaded   |     Yes             |     "payload":                                                                                |
+|                       |                                     |                     |     "{\"swToBeDownloaded\": \"\\\\'[{\\\\\\\"swLocation\\\\\\\":                              |
+|                       |                                     |                     |      \\\\\\\"http://192.168.1.10:10080/ran_du_pkg1-v2.zip\\\\\\\"}]\\\\'\"}"                  |
++-----------------------+-------------------------------------+---------------------+-----------------------------------------------------------------------------------------------+
+
+DownloadNeSw Response
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+**Success:** If the DownloadNeSw runs successfully, it returns a success status code 400. The response payload contains the results of the download.
+
+Response Payload Parameters:
+
++-----------------+---------------------------+---------------------+----------------------------------------------------------------------------------------------------------------------------------+
+| **Parameter**   |     **Description**       |     **Required?**   |     **Example**                                                                                                                  |
++=================+===========================+=====================+==================================================================================================================================+
+| result          |     Returns the result    |     Yes             |                                                                                                                                  |
+|                 |     of the download-ne-sw |                     |     "payload":                                                                                                                   |
+|                 |     Indicates Success or  |                     |     "{\\"result\\": \\"Success\\"}”                                                                                              |
+|                 |     Failure               |                     |                                                                                                                                  |
++-----------------+---------------------------+---------------------+                                                                                                                                  |
+|     message     |     If Not Success,       |                     |                                                                                                                                  |
+|                 |     message contains      |                     |                                                                                                                                  |
+|                 |     explanation.          |                     |                                                                                                                                  |
++-----------------+---------------------------+---------------------+----------------------------------------------------------------------------------------------------------------------------------+
+
+**Failure:** If a DownloadNeSw fails to run, it returns a failure code 401 and the failure message from the Ansible or Chef server in the response payload block.
+
+ActivateNeSw
+---------------
+
+The ActivateNeSw LCM action activates the target software version needed for a software upgrade. This command can be executed on a running VNF (i.e. processing traffic).
+
+This command is executed using an Ansible playbook or Chef cookbook.
+
+Request Structure:
+
++--------------------------+------------------------------------------------------------+
+| **Target URL**           | /restconf/operations/appc-provider-lcm:activate-ne-sw      |
++--------------------------+------------------------------------------------------------+
+| **Action**               | ActivateNeSw                                               |
++--------------------------+------------------------------------------------------------+
+| **Action-identifiers**   | vnf-id                                                     |
++--------------------------+------------------------------------------------------------+
+| **Payload Parameters**   | swVersionToBeActivated                                     |
++--------------------------+------------------------------------------------------------+
+| **Revision History**     | New in Frankfurt                                           |
++--------------------------+------------------------------------------------------------+
+
+Request Payload Parameters:
+
++--------------------------+-------------------------------------+---------------------+-----------------------------------------------------------------------------------------------+
+| **Parameter**            |     **Description**                 |     **Required?**   |     **Example**                                                                               |
++==========================+=====================================+=====================+===============================================================================================+
+|  swVersionToBeActivated  |     The software to be activated    |     Yes             |     "payload":                                                                                |
+|                          |                                     |                     |     "{\"swVersionToBeActivated\": \"v2\"}"                                                    |
++--------------------------+-------------------------------------+---------------------+-----------------------------------------------------------------------------------------------+
+
+ActivateNeSw Response
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+**Success:** If the ActivateNeSw runs successfully, it returns a success status code 400. The response payload contains the results of the download.
+
+Response Payload Parameters:
+
++-----------------+---------------------------+---------------------+----------------------------------------------------------------------------------------------------------------------------------+
+| **Parameter**   |     **Description**       |     **Required?**   |     **Example**                                                                                                                  |
++=================+===========================+=====================+==================================================================================================================================+
+| result          |     Returns the result    |     Yes             |                                                                                                                                  |
+|                 |     of the activate-ne-sw |                     |     "payload":                                                                                                                   |
+|                 |     Indicates Success or  |                     |     "{\\"result\\": \\"Success\\"}”                                                                                              |
+|                 |     Failure               |                     |                                                                                                                                  |
++-----------------+---------------------------+---------------------+                                                                                                                                  |
+|     message     |     If Not Success,       |                     |                                                                                                                                  |
+|                 |     message contains      |                     |                                                                                                                                  |
+|                 |     explanation.          |                     |                                                                                                                                  |
++-----------------+---------------------------+---------------------+----------------------------------------------------------------------------------------------------------------------------------+
+
+**Failure:** If an ActivateNeSw fails to run, it returns a failure code 401 and the failure message from the Ansible or Chef server in the response payload block.
 

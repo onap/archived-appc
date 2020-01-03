@@ -48,6 +48,8 @@ public class UpgradeServiceTest {
     private UpgradeService upgradePreAction;
     private UpgradeService upgradePostAction;
     private UpgradeService upgradeSoftAction;
+    private UpgradeService downloadNeSwAction;
+    private UpgradeService activateNeSwAction;
     private UpgradeService upgradeBackupAction;
     private UpgradeService upgradeBackoutAction;
 
@@ -56,6 +58,8 @@ public class UpgradeServiceTest {
         upgradePreAction = spy(new UpgradeService("upgradePre"));
         upgradePostAction = spy(new UpgradeService("upgradePost"));
         upgradeSoftAction = spy(new UpgradeService("upgradeSoft"));
+        downloadNeSwAction = spy(new UpgradeService("downloadNeSw"));
+        activateNeSwAction = spy(new UpgradeService("activateNeSw"));
         upgradeBackupAction = spy(new UpgradeService("upgradeBackup"));
         upgradeBackoutAction = spy(new UpgradeService("upgradeBackout"));
     }
@@ -79,6 +83,18 @@ public class UpgradeServiceTest {
                 (Action) org.powermock.reflect.Whitebox.getInternalState(upgradeSoftAction, "expectedAction"));
         Assert.assertEquals("Should have upgrade-software RPC name", "upgrade-software",
                 (org.powermock.reflect.Whitebox.getInternalState(upgradeSoftAction, "rpcName")).toString());
+
+        expectedAction = Action.DownloadNeSw;
+        Assert.assertEquals("Should have proper ACTION", expectedAction,
+            (Action) org.powermock.reflect.Whitebox.getInternalState(downloadNeSwAction, "expectedAction"));
+        Assert.assertEquals("Should have download-ne-sw RPC name", "download-ne-sw",
+            (org.powermock.reflect.Whitebox.getInternalState(downloadNeSwAction, "rpcName")).toString());
+
+        expectedAction = Action.ActivateNeSw;
+        Assert.assertEquals("Should have proper ACTION", expectedAction,
+            (Action) org.powermock.reflect.Whitebox.getInternalState(activateNeSwAction, "expectedAction"));
+        Assert.assertEquals("Should have activate-ne-sw RPC name", "activate-ne-sw",
+            (org.powermock.reflect.Whitebox.getInternalState(activateNeSwAction, "rpcName")).toString());
 
         expectedAction = Action.UpgradeBackup;
         Assert.assertEquals("Should have proper ACTION", expectedAction,

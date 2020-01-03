@@ -542,6 +542,24 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
     }
 
     @Override
+    public ListenableFuture<RpcResult<DownloadNeSwOutput>> downloadNeSw(DownloadNeSwInput input) {
+        logger.debug(String.format("LCM downloadnesw received input: %s", input.toString()));
+        DownloadNeSwOutputBuilder outputBuilder = new UpgradeService("downloadNeSw").downloadNeSw(input);
+        RpcResult<DownloadNeSwOutput> result =
+                RpcResultBuilder.<DownloadNeSwOutput>status(true).withResult(outputBuilder.build()).build();
+        return Futures.immediateFuture(result);
+    }
+
+    @Override
+    public ListenableFuture<RpcResult<ActivateNeSwOutput>> activateNeSw(ActivateNeSwInput input) {
+        logger.debug(String.format("LCM activatenesw received input: %s", input.toString()));
+        ActivateNeSwOutputBuilder outputBuilder = new UpgradeService("activateNeSw").activateNeSw(input);
+        RpcResult<ActivateNeSwOutput> result =
+                RpcResultBuilder.<ActivateNeSwOutput>status(true).withResult(outputBuilder.build()).build();
+        return Futures.immediateFuture(result);
+    }
+
+    @Override
     public ListenableFuture<RpcResult<UpgradePostCheckOutput>> upgradePostCheck(UpgradePostCheckInput input) {
         logger.debug(String.format("LCM upgradepostcheck received input: %s", input.toString()));
         UpgradePostCheckOutputBuilder outputBuilder = new UpgradeService("upgradePost").upgradePostCheck(input);

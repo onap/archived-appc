@@ -28,6 +28,10 @@ import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradePreCheckI
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradePreCheckOutputBuilder;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradeSoftwareInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradeSoftwareOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.DownloadNeSwInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.DownloadNeSwOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ActivateNeSwInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ActivateNeSwOutputBuilder;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradePostCheckInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradePostCheckOutputBuilder;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradeBackupInput;
@@ -65,6 +69,14 @@ public class UpgradeService extends AbstractBaseService {
     		case "upgradeSoft":
                 rpcName = getRpcName(Action.UpgradeSoftware);
                 expectedAction = Action.UpgradeSoftware;
+                break;
+    		case "downloadNeSw":
+                rpcName = getRpcName(Action.DownloadNeSw);
+                expectedAction = Action.DownloadNeSw;
+                break;
+    		case "activateNeSw":
+                rpcName = getRpcName(Action.ActivateNeSw);
+                expectedAction = Action.ActivateNeSw;
                 break;
     		case "upgradeBackup":
                 rpcName = getRpcName(Action.UpgradeBackup);
@@ -110,6 +122,39 @@ public class UpgradeService extends AbstractBaseService {
         outputBuilder.setCommonHeader(input.getCommonHeader());
         return outputBuilder;
     }
+
+    public DownloadNeSwOutputBuilder downloadNeSw(DownloadNeSwInput input) {
+        CommonHeader commonHeader = input.getCommonHeader();
+        ActionIdentifiers actionIdentifiers = input.getActionIdentifiers();
+        Payload payload = input.getPayload();
+
+        validate(commonHeader, input.getAction(), actionIdentifiers, payload);
+        if (status == null) {
+            proceedAction(commonHeader, actionIdentifiers, payload);
+        }
+
+        DownloadNeSwOutputBuilder outputBuilder = new DownloadNeSwOutputBuilder();
+        outputBuilder.setStatus(status);
+        outputBuilder.setCommonHeader(input.getCommonHeader());
+        return outputBuilder;
+    }
+
+    public ActivateNeSwOutputBuilder activateNeSw(ActivateNeSwInput input) {
+        CommonHeader commonHeader = input.getCommonHeader();
+        ActionIdentifiers actionIdentifiers = input.getActionIdentifiers();
+        Payload payload = input.getPayload();
+
+        validate(commonHeader, input.getAction(), actionIdentifiers, payload);
+        if (status == null) {
+            proceedAction(commonHeader, actionIdentifiers, payload);
+        }
+
+        ActivateNeSwOutputBuilder outputBuilder = new ActivateNeSwOutputBuilder();
+        outputBuilder.setStatus(status);
+        outputBuilder.setCommonHeader(input.getCommonHeader());
+        return outputBuilder;
+    }
+
     public UpgradePostCheckOutputBuilder upgradePostCheck(UpgradePostCheckInput input) {
         CommonHeader commonHeader = input.getCommonHeader();
         ActionIdentifiers actionIdentifiers = input.getActionIdentifiers();

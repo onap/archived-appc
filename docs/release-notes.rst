@@ -376,6 +376,8 @@ The Beijing release added the following functionality:
 		  - QuiesceTraffic
 		  - ResumeTraffic
 		  - UpgradeSoftware
+		  - DownloadNeSw
+		  - ActivateNeSw
 		  - UpgradePreCheck
 		  - UpgradePostCheck
 		  - UpgradeBackup

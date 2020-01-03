@@ -87,6 +87,7 @@ public class Converter {
                 outObj = new RollbackOutputBuilder();
                 ((RollbackOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((RollbackOutputBuilder)outObj).setStatus(status);
+                ((RollbackOutputBuilder)outObj).setPayload(payload);
                 return outObj;
             case Snapshot:
                 outObj = new SnapshotOutputBuilder();
@@ -253,6 +254,18 @@ public class Converter {
                 ((UpgradeSoftwareOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((UpgradeSoftwareOutputBuilder)outObj).setStatus(status);
                 ((UpgradeSoftwareOutputBuilder)outObj).setPayload(payload);
+                return outObj;
+            case DownloadNeSw:
+                outObj = new DownloadNeSwOutputBuilder();
+                ((DownloadNeSwOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((DownloadNeSwOutputBuilder)outObj).setStatus(status);
+                ((DownloadNeSwOutputBuilder)outObj).setPayload(payload);
+                return outObj;
+            case ActivateNeSw:
+                outObj = new ActivateNeSwOutputBuilder();
+                ((ActivateNeSwOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((ActivateNeSwOutputBuilder)outObj).setStatus(status);
+                ((ActivateNeSwOutputBuilder)outObj).setPayload(payload);
                 return outObj;
             case UpgradePostCheck:
                 outObj = new UpgradePostCheckOutputBuilder();

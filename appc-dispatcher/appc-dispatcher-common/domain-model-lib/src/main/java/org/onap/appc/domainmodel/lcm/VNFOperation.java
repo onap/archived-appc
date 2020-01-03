@@ -79,6 +79,8 @@ public enum VNFOperation {
     Unlock(true),
     UpgradePreCheck,
     UpgradeSoftware,
+    DownloadNeSw,
+    ActivateNeSw,
     UpgradePostCheck,
     UpgradeBackup,
     UpgradeBackout;
