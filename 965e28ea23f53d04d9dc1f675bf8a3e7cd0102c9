@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "355bac80_09606f6d",
+        "filename": "appc-provider/appc-provider-model/src/main/yang/appc-provider-lcm.yang",
+        "patchSetId": 1
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-01-03T16:10:50Z",
+      "side": 1,
+      "message": "How do you do the A\u0026AI query for PNF? I do not see any change for A\u0026AI PNF Inventory query associate with this change.",
+      "parentUuid": "21670144_65d70ad3",
+      "range": {
+        "startLine": 331,
+        "startChar": 4,
+        "endLine": 335,
+        "endChar": 13
+      },
+      "revId": "965e28ea23f53d04d9dc1f675bf8a3e7cd0102c9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "829ecef6_d608a803",
         "filename": "docs/APPC CDT Guide/APPC CDT Guide.rst",
         "patchSetId": 1
