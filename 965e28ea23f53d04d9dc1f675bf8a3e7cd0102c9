@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1599ed8c_6c5678c3",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/main/java/org/onap/appc/requesthandler/conv/Converter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5302
+      },
+      "writtenOn": "2020-01-03T16:04:28Z",
+      "side": 1,
+      "message": "The PNF software upgrade use case in Frankfurt release is not using Rollback action. But in order to be compatible with the Dublin release, I try to add the optional payload field to Rollback action. If it will introduce some incompatibilities, I can remove these lines.",
+      "parentUuid": "dbab7061_19ff2f81",
+      "range": {
+        "startLine": 90,
+        "startChar": 16,
+        "endLine": 90,
+        "endChar": 68
+      },
+      "revId": "965e28ea23f53d04d9dc1f675bf8a3e7cd0102c9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "827b3093_45456232",
         "filename": "appc-provider/appc-provider-model/src/main/yang/appc-provider-lcm.yang",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2020-01-03T14:48:42Z",
       "side": 1,
       "message": "Are you trying to support pnf?",
+      "range": {
+        "startLine": 331,
+        "startChar": 4,
+        "endLine": 335,
+        "endChar": 13
+      },
+      "revId": "965e28ea23f53d04d9dc1f675bf8a3e7cd0102c9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21670144_65d70ad3",
+        "filename": "appc-provider/appc-provider-model/src/main/yang/appc-provider-lcm.yang",
+        "patchSetId": 1
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 5302
+      },
+      "writtenOn": "2020-01-03T16:04:28Z",
+      "side": 1,
+      "message": "The appc-client is used by SO, and it supports LCM APIs of both APPC and SDNC. The LCM APIs of SDNC support PNF, such as PNF software upgrade.\nTherefore, in order to call the new added DownloadNeSw and ActivateNeSw actions by SO for PNF software upgrade use case, I need to add supports for PNF to APPC (especially for appc-client).",
+      "parentUuid": "827b3093_45456232",
       "range": {
         "startLine": 331,
         "startChar": 4,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "6f7ac91a_e022a3b5",
+        "filename": "docs/APPC CDT Guide/APPC CDT Guide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 5302
+      },
+      "writtenOn": "2020-01-03T16:04:28Z",
+      "side": 1,
+      "message": "I will fix these in the next patch set.",
+      "parentUuid": "829ecef6_d608a803",
+      "range": {
+        "startLine": 460,
+        "startChar": 18,
+        "endLine": 460,
+        "endChar": 41
+      },
+      "revId": "965e28ea23f53d04d9dc1f675bf8a3e7cd0102c9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3e03d89c_a265ee6b",
         "filename": "docs/APPC LCM API Guide/APPC LCM API Guide.rst",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2020-01-03T14:48:42Z",
       "side": 1,
       "message": "alphabetical order pls.",
+      "range": {
+        "startLine": 647,
+        "startChar": 5,
+        "endLine": 647,
+        "endChar": 20
+      },
+      "revId": "965e28ea23f53d04d9dc1f675bf8a3e7cd0102c9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40b6fa0c_a14e37a7",
+        "filename": "docs/APPC LCM API Guide/APPC LCM API Guide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 5302
+      },
+      "writtenOn": "2020-01-03T16:04:28Z",
+      "side": 1,
+      "message": "I will fix these in the next patch set.",
+      "parentUuid": "3e03d89c_a265ee6b",
       "range": {
         "startLine": 647,
         "startChar": 5,
@@ -151,6 +247,30 @@
       "writtenOn": "2020-01-03T14:48:42Z",
       "side": 1,
       "message": "new LCMs would be added to Frankfurt release. Usually release note will be modified prior to release date. so please keep as it is now.",
+      "range": {
+        "startLine": 379,
+        "startChar": 6,
+        "endLine": 380,
+        "endChar": 18
+      },
+      "revId": "965e28ea23f53d04d9dc1f675bf8a3e7cd0102c9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "640494cd_9a02cde3",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 5302
+      },
+      "writtenOn": "2020-01-03T16:04:28Z",
+      "side": 1,
+      "message": "I will fix these in the next patch set.",
+      "parentUuid": "4b8154e9_e156e39b",
       "range": {
         "startLine": 379,
         "startChar": 6,
