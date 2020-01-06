@@ -87,6 +87,7 @@ public class Converter {
                 outObj = new RollbackOutputBuilder();
                 ((RollbackOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((RollbackOutputBuilder)outObj).setStatus(status);
+                ((RollbackOutputBuilder)outObj).setPayload(payload);
                 return outObj;
             case Snapshot:
                 outObj = new SnapshotOutputBuilder();
@@ -375,6 +376,18 @@ public class Converter {
                 ((LicenseManagementOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((LicenseManagementOutputBuilder)outObj).setStatus(status);
                 ((LicenseManagementOutputBuilder)outObj).setPayload(payload);
+                return outObj;
+            case DownloadNeSw:
+                outObj = new DownloadNeSwOutputBuilder();
+                ((DownloadNeSwOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((DownloadNeSwOutputBuilder)outObj).setStatus(status);
+                ((DownloadNeSwOutputBuilder)outObj).setPayload(payload);
+                return outObj;
+            case ActivateNeSw:
+                outObj = new ActivateNeSwOutputBuilder();
+                ((ActivateNeSwOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((ActivateNeSwOutputBuilder)outObj).setStatus(status);
+                ((ActivateNeSwOutputBuilder)outObj).setPayload(payload);
                 return outObj;
             default:
                 throw new IllegalArgumentException(action+" action is not supported");

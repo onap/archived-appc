@@ -199,5 +199,9 @@ public class AbstractBaseUtilsTest {
                 "upgrade-backup", testAbstractBaseUtils.getRpcName(Action.UpgradeBackup));
         Assert.assertEquals("Should return upgrade-backout",
                 "upgrade-backout", testAbstractBaseUtils.getRpcName(Action.UpgradeBackout));
+        Assert.assertEquals("Should return download-ne-sw",
+                "download-ne-sw", testAbstractBaseUtils.getRpcName(Action.DownloadNeSw));
+        Assert.assertEquals("Should return activate-ne-sw",
+                "activate-ne-sw", testAbstractBaseUtils.getRpcName(Action.ActivateNeSw));
     }
 }
