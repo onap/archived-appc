@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "98a7d23e_ad21b0da",
+        "filename": "appc-provider/appc-provider-model/src/main/yang/appc-provider-lcm.yang",
+        "patchSetId": 1
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 5302
+      },
+      "writtenOn": "2020-01-06T11:47:17Z",
+      "side": 1,
+      "message": "The next patch set will not add the pnf-id, but the pnf-id is needed by SO and SDN-C, so we will try to add the pnf-id in other changes set.",
+      "parentUuid": "355bac80_09606f6d",
+      "range": {
+        "startLine": 331,
+        "startChar": 4,
+        "endLine": 335,
+        "endChar": 13
+      },
+      "revId": "965e28ea23f53d04d9dc1f675bf8a3e7cd0102c9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "829ecef6_d608a803",
         "filename": "docs/APPC CDT Guide/APPC CDT Guide.rst",
         "patchSetId": 1
