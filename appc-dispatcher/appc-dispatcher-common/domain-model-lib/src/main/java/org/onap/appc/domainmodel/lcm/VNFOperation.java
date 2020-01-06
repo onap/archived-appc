@@ -27,6 +27,7 @@ package org.onap.appc.domainmodel.lcm;
 
 public enum VNFOperation {
     ActionStatus,
+    ActivateNESw,
     AttachVolume,
     Audit,
     Backup,
@@ -41,6 +42,7 @@ public enum VNFOperation {
     DetachVolume,
     DistributeTraffic,
     DistributeTrafficCheck,
+    DownloadNESw,
     Evacuate,
     GetConfig,
     HealthCheck,

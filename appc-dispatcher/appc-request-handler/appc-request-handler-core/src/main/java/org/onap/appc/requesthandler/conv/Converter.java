@@ -87,6 +87,7 @@ public class Converter {
                 outObj = new RollbackOutputBuilder();
                 ((RollbackOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((RollbackOutputBuilder)outObj).setStatus(status);
+                ((RollbackOutputBuilder)outObj).setPayload(payload);
                 return outObj;
             case Snapshot:
                 outObj = new SnapshotOutputBuilder();
@@ -376,6 +377,18 @@ public class Converter {
                 ((LicenseManagementOutputBuilder)outObj).setStatus(status);
                 ((LicenseManagementOutputBuilder)outObj).setPayload(payload);
                 return outObj;
+            case DownloadNESw:
+                outObj = new DownloadNESwOutputBuilder();
+                ((DownloadNESwOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((DownloadNESwOutputBuilder)outObj).setStatus(status);
+                ((DownloadNESwOutputBuilder)outObj).setPayload(payload);
+                return outObj;
+            case ActivateNESw:
+                outObj = new ActivateNESwOutputBuilder();
+                ((ActivateNESwOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((ActivateNESwOutputBuilder)outObj).setStatus(status);
+                ((ActivateNESwOutputBuilder)outObj).setPayload(payload);
+                return outObj;
             default:
                 throw new IllegalArgumentException(action+" action is not supported");
         }
@@ -564,6 +577,12 @@ public class Converter {
         return context.getCommonHeader().getRequestId()
                 + (context.getCommonHeader().getSubRequestId() == null ?
                     "" : "-" + context.getCommonHeader().getSubRequestId());
+    }
+
+    public static String getRpcName(String action) {
+        String regex = "([a-zA-Z])(?=[A-Z])";
+        String replacement = "$1-";
+        return action.replaceAll(regex, replacement).toLowerCase();
     }
 
     abstract class MixIn {

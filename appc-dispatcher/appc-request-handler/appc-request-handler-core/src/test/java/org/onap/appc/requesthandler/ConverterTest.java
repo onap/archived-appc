@@ -39,7 +39,7 @@ import java.util.HashMap;
 public class ConverterTest {
     private String expectedJsonBodyStr ="{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}}";
     private String expectedDmaapOutgoingMessageJsonStringTest ="{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"test\",\"type\":\"response\"}";
-    private String expectedDmaapOutgoingMessageJsonStringRollback ="{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"rollback\",\"type\":\"response\"}";
+    private String expectedDmaapOutgoingMessageJsonStringRollback ="{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"payload\":\"{}\",\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"rollback\",\"type\":\"response\"}";
     private String expectedDmaapOutgoingMessageJsonStringSnapshot ="{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"snapshot\",\"type\":\"response\"}";
     private String expectedDmaapOutgoingMessageJsonStringAudit ="{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"payload\":\"{}\",\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"audit\",\"type\":\"response\"}";
     private String expectedDmaapOutgoingMessageJsonStringHealthCheck ="{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"payload\":\"{}\",\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"health-check\",\"type\":\"response\"}";
@@ -73,6 +73,8 @@ public class ConverterTest {
     private String expectedDmaapOutgoingMessageJsonStringStatusTraffic ="{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"payload\":\"{}\",\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"status-traffic\",\"type\":\"response\"}";
     private String expectedDmaapOutgoingMessageJsonStringStopTraffic ="{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"payload\":\"{}\",\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"stop-traffic\",\"type\":\"response\"}";
     private String expectedDmaapOutgoingMessageJsonStringProvisioning ="{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"payload\":\"{}\",\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"provisioning\",\"type\":\"response\"}";
+    private String expectedDmaapOutgoingMessageJsonStringDownloadNESw ="{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"payload\":\"{}\",\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"download-n-e-sw\",\"type\":\"response\"}";
+    private String expectedDmaapOutgoingMessageJsonStringActivateNESw ="{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"payload\":\"{}\",\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"activate-n-e-sw\",\"type\":\"response\"}";
  
     @Test
     public void convDateToZuluStringTest(){
@@ -112,16 +114,16 @@ public class ConverterTest {
 
     @Test
     public void convAsyncResponseToBuilderRollbackTest() throws JsonProcessingException {
-        ResponseContext asyncResponse = buildAsyncResponse();
+        ResponseContext asyncResponse = buildAsyncResponsewithPayload();
         VNFOperation action = VNFOperation.Rollback;
         String rpcName = action.name().toLowerCase();
         String jsonStr = Converter.convAsyncResponseToJsonStringBody(action, rpcName, asyncResponse);
-        Assert.assertEquals(expectedJsonBodyStr, jsonStr);
+        Assert.assertEquals(expectedJsonBodyStrwithPayload, jsonStr);
     }
 
     @Test
     public void convAsyncResponseToDmaapOutgoingMessageJsonStringRollbackTest() throws JsonProcessingException {
-        ResponseContext asyncResponse = buildAsyncResponse();
+        ResponseContext asyncResponse = buildAsyncResponsewithPayload();
         VNFOperation action = VNFOperation.Rollback;
         String rpcName = action.name().toLowerCase();
         String jsonStr = Converter.convAsyncResponseToDmaapOutgoingMessageJsonString(action, rpcName, asyncResponse);
@@ -740,6 +742,44 @@ public class ConverterTest {
         Assert.assertEquals(expectedDmaapOutgoingMessageJsonStringStopTraffic, jsonStr);
     }
 
+    @Test
+    public void convAsyncResponseToBuilderDownloadNESwTest() throws JsonProcessingException {
+        ResponseContext asyncResponse = buildAsyncResponsewithPayload();
+        VNFOperation action = VNFOperation.DownloadNESw;
+        String rpcName = convertActionNameToUrl(action.name());
+        String jsonStr = Converter.convAsyncResponseToJsonStringBody(action, rpcName, asyncResponse);
+        Assert.assertEquals(expectedJsonBodyStrwithPayload, jsonStr);
+    }
+
+    @Test
+    public void convAsyncResponseToDmaapOutgoingMessageJsonStringDownloadNESwTest() throws JsonProcessingException {
+        ResponseContext asyncResponse = buildAsyncResponsewithPayload();
+        VNFOperation action = VNFOperation.DownloadNESw;
+        String rpcName = convertActionNameToUrl(action.name());
+        String jsonStr = Converter.convAsyncResponseToDmaapOutgoingMessageJsonString(action, rpcName, asyncResponse);
+        System.out.println("jsonStr = " + jsonStr);
+        Assert.assertEquals(expectedDmaapOutgoingMessageJsonStringDownloadNESw, jsonStr);
+    }
+
+    @Test
+    public void convAsyncResponseToBuilderActivateNESwTest() throws JsonProcessingException {
+        ResponseContext asyncResponse = buildAsyncResponsewithPayload();
+        VNFOperation action = VNFOperation.ActivateNESw;
+        String rpcName = convertActionNameToUrl(action.name());
+        String jsonStr = Converter.convAsyncResponseToJsonStringBody(action, rpcName, asyncResponse);
+        Assert.assertEquals(expectedJsonBodyStrwithPayload, jsonStr);
+    }
+
+    @Test
+    public void convAsyncResponseToDmaapOutgoingMessageJsonStringActivateNESwTest() throws JsonProcessingException {
+        ResponseContext asyncResponse = buildAsyncResponsewithPayload();
+        VNFOperation action = VNFOperation.ActivateNESw;
+        String rpcName = convertActionNameToUrl(action.name());
+        String jsonStr = Converter.convAsyncResponseToDmaapOutgoingMessageJsonString(action, rpcName, asyncResponse);
+        System.out.println("jsonStr = " + jsonStr);
+        Assert.assertEquals(expectedDmaapOutgoingMessageJsonStringActivateNESw, jsonStr);
+    }
+
     /*@Test
     public void convAsyncResponseToBuilderTest() throws JsonProcessingException {
         AsyncResponse asyncResponse = buildAsyncResponse();
@@ -794,11 +834,6 @@ public class ConverterTest {
     }
 
     private String convertActionNameToUrl(String action) {
-        String regex = "([a-z])([A-Z]+)";
-        String replacement = "$1-$2";
-        return action.replaceAll(regex, replacement)
-                .toLowerCase();
+        return Converter.getRpcName(action);
     }
-
-
 }

@@ -82,6 +82,8 @@ import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradeBackupInp
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradePostCheckInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradePreCheckInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradeSoftwareInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.DownloadNESwInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ActivateNESwInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ZULU;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.action.identifiers.ActionIdentifiersBuilder;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.CommonHeaderBuilder;
@@ -357,6 +359,20 @@ public class AppcProviderLcmTest {
         UpgradeBackoutInput upgradeBackoutInput = mock(UpgradeBackoutInput.class);
         Mockito.doReturn(Action.UpgradeBackout).when(upgradeBackoutInput).getAction();
         assertTrue(underTest.upgradeBackout(upgradeBackoutInput).isDone());
+    }
+
+    @Test
+    public void downloadNESwTest() {
+        DownloadNESwInput downloadNESwInput = mock(DownloadNESwInput.class);
+        Mockito.doReturn(Action.DownloadNESw).when(downloadNESwInput).getAction();
+        assertTrue(underTest.downloadNESw(downloadNESwInput).isDone());
+    }
+
+    @Test
+    public void activateNESwTest() {
+        ActivateNESwInput activateNESwInput = mock(ActivateNESwInput.class);
+        Mockito.doReturn(Action.ActivateNESw).when(activateNESwInput).getAction();
+        assertTrue(underTest.activateNESw(activateNESwInput).isDone());
     }
 
     @Test
