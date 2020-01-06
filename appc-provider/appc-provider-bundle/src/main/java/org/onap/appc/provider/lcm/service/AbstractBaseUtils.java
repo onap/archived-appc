@@ -149,8 +149,8 @@ public class AbstractBaseUtils {
      * @return RPC name of the Action
      */
     protected String getRpcName(Action action) {
-        String regex = "([a-z])([A-Z]+)";
-        String replacement = "$1-$2";
+        String regex = "([a-zA-Z])(?=[A-Z])";
+        String replacement = "$1-";
         return action.name().replaceAll(regex, replacement).toLowerCase();
     }
 }
