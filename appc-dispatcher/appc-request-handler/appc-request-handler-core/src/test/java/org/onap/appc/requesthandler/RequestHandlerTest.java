@@ -52,6 +52,7 @@ import org.onap.appc.lockmanager.api.LockException;
 import org.onap.appc.lockmanager.api.LockManager;
 import org.onap.appc.messageadapter.MessageAdapter;
 import org.onap.appc.messageadapter.impl.MessageAdapterImpl;
+import org.onap.appc.requesthandler.conv.Converter;
 import org.onap.appc.requesthandler.exceptions.DGWorkflowNotFoundException;
 import org.onap.appc.requesthandler.exceptions.DuplicateRequestException;
 import org.onap.appc.requesthandler.exceptions.LCMOperationsDisabledException;
@@ -588,10 +589,7 @@ public class RequestHandlerTest {
     }
 
     private String convertActionNameToUrl(String action) {
-        String regex = "([a-z])([A-Z]+)";
-        String replacement = "$1-$2";
-        return action.replaceAll(regex, replacement)
-                .toLowerCase();
+        return Converter.getRpcName(action);
     }
 }
 

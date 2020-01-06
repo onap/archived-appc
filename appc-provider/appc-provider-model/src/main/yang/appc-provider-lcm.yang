@@ -138,6 +138,8 @@ module appc-provider-lcm {
             enum "StartTraffic";
             enum "StatusTraffic";
             enum "StopTraffic";
+            enum "DownloadNESw";
+            enum "ActivateNESw";
         }
         description "The action to be taken by APP-C, e.g. Restart, Rebuild, Migrate";
     }
@@ -323,6 +325,11 @@ module appc-provider-lcm {
             leaf vserver-id {
                 description "identifies a specific VM within the given service/vnf to which
                                 this action is to be applied";
+                type string;
+                mandatory false;
+            }
+            leaf pnf-id {
+                description "identifies the PNF to which this action is to be applied.";
                 type string;
                 mandatory false;
             }
@@ -703,6 +710,10 @@ module appc-provider-lcm {
         output {
             uses common-header;
             uses status;
+            leaf payload {
+                type payload;
+                mandatory false;
+            }
         }
     }
 
@@ -1751,6 +1762,60 @@ module appc-provider-lcm {
                 type payload;
                 mandatory false;
                            }
+        }
+    }
+
+    /**********************************************************************************
+     * Define the downloadNESw operation
+     **********************************************************************************/
+    rpc download-n-e-sw {
+        description "An operation to download NE software";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory true;
+           }
+        }
+        output {
+            uses common-header;
+            uses status;
+            leaf payload {
+                type payload;
+                mandatory true;
+            }
+        }
+    }
+
+    /**********************************************************************************
+     * Define the activateNESw operation
+     **********************************************************************************/
+    rpc activate-n-e-sw {
+        description "An operation to activate NE software";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory true;
+           }
+        }
+        output {
+            uses common-header;
+            uses status;
+            leaf payload {
+                type payload;
+                mandatory true;
+            }
         }
     }
 
