@@ -61,6 +61,8 @@ import org.onap.appc.provider.lcm.service.LicenseManagementService;
 import org.onap.appc.provider.lcm.service.StartTraffic;
 import org.onap.appc.provider.lcm.service.StatusTraffic;
 import org.onap.appc.provider.lcm.service.StopTraffic;
+import org.onap.appc.provider.lcm.service.DownloadNeSwService;
+import org.onap.appc.provider.lcm.service.ActivateNeSwService;
 import org.onap.appc.provider.lcm.util.RequestInputBuilder;
 import org.onap.appc.provider.lcm.util.ValidationService;
 import org.onap.appc.requesthandler.objects.RequestHandlerInput;
@@ -655,6 +657,24 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
         StopTrafficOutputBuilder outputBuilder = new StopTraffic().process(input);
         RpcResult<StopTrafficOutput> result =
                 RpcResultBuilder.<StopTrafficOutput>status(true).withResult(outputBuilder.build()).build();
+        return Futures.immediateFuture(result);
+    }
+
+    @Override
+    public ListenableFuture<RpcResult<DownloadNeSwOutput>> downloadNeSw(DownloadNeSwInput input) {
+        logger.debug(String.format("LCM DownloadNeSw received input: %s", input.toString()));
+        DownloadNeSwOutputBuilder outputBuilder = new DownloadNeSwService().process(input);
+        RpcResult<DownloadNeSwOutput> result =
+                RpcResultBuilder.<DownloadNeSwOutput>status(true).withResult(outputBuilder.build()).build();
+        return Futures.immediateFuture(result);
+    }
+
+    @Override
+    public ListenableFuture<RpcResult<ActivateNeSwOutput>> activateNeSw(ActivateNeSwInput input) {
+        logger.debug(String.format("LCM ActivateNeSw received input: %s", input.toString()));
+        ActivateNeSwOutputBuilder outputBuilder = new ActivateNeSwService().process(input);
+        RpcResult<ActivateNeSwOutput> result =
+                RpcResultBuilder.<ActivateNeSwOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 

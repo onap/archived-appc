@@ -138,6 +138,8 @@ module appc-provider-lcm {
             enum "StartTraffic";
             enum "StatusTraffic";
             enum "StopTraffic";
+            enum "DownloadNeSw";
+            enum "ActivateNeSw";
         }
         description "The action to be taken by APP-C, e.g. Restart, Rebuild, Migrate";
     }
@@ -703,6 +705,10 @@ module appc-provider-lcm {
         output {
             uses common-header;
             uses status;
+            leaf payload {
+                type payload;
+                mandatory false;
+            }
         }
     }
 
@@ -1751,6 +1757,60 @@ module appc-provider-lcm {
                 type payload;
                 mandatory false;
                            }
+        }
+    }
+
+    /**********************************************************************************
+     * Define the downloadNeSw operation
+     **********************************************************************************/
+    rpc download-ne-sw {
+        description "An operation to download NE software";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory true;
+           }
+        }
+        output {
+            uses common-header;
+            uses status;
+            leaf payload {
+                type payload;
+                mandatory true;
+            }
+        }
+    }
+
+    /**********************************************************************************
+     * Define the activateNeSw operation
+     **********************************************************************************/
+    rpc activate-ne-sw {
+        description "An operation to activate NE software";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory true;
+           }
+        }
+        output {
+            uses common-header;
+            uses status;
+            leaf payload {
+                type payload;
+                mandatory true;
+            }
         }
     }
 
