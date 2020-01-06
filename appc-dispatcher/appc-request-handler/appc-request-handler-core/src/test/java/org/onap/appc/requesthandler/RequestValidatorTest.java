@@ -51,6 +51,7 @@ import org.onap.appc.domainmodel.lcm.VNFContext;
 import org.onap.appc.domainmodel.lcm.VNFOperation;
 import org.onap.appc.exceptions.InvalidInputException;
 import org.onap.appc.lockmanager.api.LockManager;
+import org.onap.appc.requesthandler.conv.Converter;
 import org.onap.appc.requesthandler.exceptions.DuplicateRequestException;
 import org.onap.appc.requesthandler.exceptions.LCMOperationsDisabledException;
 import org.onap.appc.requesthandler.exceptions.RequestValidationException;
@@ -483,10 +484,7 @@ public class RequestValidatorTest {
     }
 
     private String convertActionNameToUrl(String action) {
-        String regex = "([a-z])([A-Z]+)";
-        String replacement = "$1-$2";
-        return action.replaceAll(regex, replacement)
-            .toLowerCase();
+        return Converter.getRpcName(action);
     }
 
     private RuntimeContext putInputToRuntimeContext(RequestHandlerInput input) {
