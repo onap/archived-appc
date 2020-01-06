@@ -22,6 +22,30 @@
       "revId": "adde3cb85f8a958522876818b5de476e06e98ee3",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b1286e6_9441a7bd",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1985
+      },
+      "writtenOn": "2020-01-06T15:04:03Z",
+      "side": 1,
+      "message": "fix includes-ansibe server for some actions sends finalresponse in output json block and sometimes in results block and device-running-config  is response recieved for configure related actions such as post-pre configure",
+      "parentUuid": "97c52bd3_d54028b3",
+      "range": {
+        "startLine": 540,
+        "startChar": 39,
+        "endLine": 540,
+        "endChar": 40
+      },
+      "revId": "adde3cb85f8a958522876818b5de476e06e98ee3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
