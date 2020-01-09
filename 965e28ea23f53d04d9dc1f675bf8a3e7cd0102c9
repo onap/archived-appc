@@ -168,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "2aa50ac4_d2e5953e",
+        "filename": "appc-provider/appc-provider-model/src/main/yang/appc-provider-lcm.yang",
+        "patchSetId": 1
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-01-09T15:57:22Z",
+      "side": 1,
+      "message": "adding pnf-id in yang does not mean pnf would work for APPC. I won\u0027t merge your change until you have the logic to get pnf inventory from A\u0026AI. And let me know if you need more help.",
+      "parentUuid": "4724b5d1_c60d910c",
+      "range": {
+        "startLine": 331,
+        "startChar": 4,
+        "endLine": 335,
+        "endChar": 13
+      },
+      "revId": "965e28ea23f53d04d9dc1f675bf8a3e7cd0102c9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "829ecef6_d608a803",
         "filename": "docs/APPC CDT Guide/APPC CDT Guide.rst",
         "patchSetId": 1
