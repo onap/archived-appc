@@ -67,9 +67,9 @@ limitations under the License.
 
         <!-- SONAR -->
         <sonar.language>java</sonar.language>
-        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-        <sonar.surefire.reportsPath>${project.build.directory}/surefire-reports</sonar.surefire.reportsPath>
-        <sonar.jacoco.reportPath>${project.build.directory}/code-coverage/jacoco.exec</sonar.jacoco.reportPath>
+        <sonar.coverage.jacoco.xmlReportPaths>
+            ${project.reporting.outputDirectory}/jacoco-ut/jacoco.xml
+        </sonar.coverage.jacoco.xmlReportPaths>
         <sonar.projectVersion>${project.version}</sonar.projectVersion>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 
