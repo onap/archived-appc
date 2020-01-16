@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
@@ -11,15 +11,14 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
  * ============LICENSE_END=========================================================
  */
 
@@ -135,12 +134,13 @@ public class MDSALStoreImpl implements MDSALStore {
 
     @Override
     public void storeYangModuleOnLeader(String yang, String moduleName) throws MDSALStoreException {
+        String msg;
         try {
             String leader = getLeaderNode();
-            if (Constants.SELF.equals(leader)){
+            if (Constants.SELF.equals(leader)) {
                 logger.debug("Current node is a leader.");
-            }else{
-                logger.debug("Attempting to load yang module on Leader: " + leader );
+            } else {
+                logger.debug("Attempting to load yang module on Leader: " + leader);
                 String inputJson = createInputJson(yang, moduleName);
                 RestClientInvoker remoteClient = getRemoteClient(leader);
                 HttpResponse response = remoteClient.doPost(Constants.YANG_LOADER_PATH, inputJson);
@@ -154,11 +154,13 @@ public class MDSALStoreImpl implements MDSALStore {
                 }
             }
         } catch (APPCException e) {
-            logger.error("Error loading Yang on Leader. Error message: " + e.getMessage());
-            throw new MDSALStoreException("Error loading Yang on Leader. Error message: " + e.getMessage(), e);
+            msg = "Error loading Yang on Leader. Error message: " + e.getMessage();
+            logger.error(msg);
+            throw new MDSALStoreException(msg, e);
         } catch (IOException e) {
-            logger.error("Error reading response from remote client. Error message: " + e.getMessage());
-            throw new MDSALStoreException("Error reading response from remote client. Error message: " + e.getMessage(), e);
+            msg = "Error reading response from remote client. Error message: " + e.getMessage();
+            logger.error(msg);
+            throw new MDSALStoreException(msg, e);
         }
     }
 
@@ -170,11 +172,13 @@ public class MDSALStoreImpl implements MDSALStore {
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.addMixIn(StoreYangInput.class, MixIn.class);
             String inputJson = objectMapper.writer().withRootName("input").writeValueAsString(input);
-            logger.debug("Input JSON :" + inputJson);
+            logger.debug("Input JSON: " + inputJson);
             return inputJson;
         } catch (JsonProcessingException e) {
-            logger.error(String.format("Error creating JSON input using yang: %s. Error message: %s",yang ,e.getMessage()));
-            throw new MDSALStoreException(String.format("Error creating JSON input using yang: %s. Error message: %s",yang ,e.getMessage()), e);
+            String msg = String.format("Error creating JSON input using yang: %s. Error message: %s",
+                    yang, e.getMessage());
+            logger.error(msg);
+            throw new MDSALStoreException(msg, e);
         }
     }
 
@@ -182,24 +186,30 @@ public class MDSALStoreImpl implements MDSALStore {
         if (remoteClientMap.containsKey(leader)) {
             return remoteClientMap.get(leader);
         } else {
+            String msg;
             Configuration configuration = ConfigurationFactory.getConfiguration();
             Properties properties = configuration.getProperties();
             if (properties != null) {
                 try {
-                    URL configUrl = new URL(properties.getProperty(Constants.CONFIG_URL_PROPERTY, Constants.CONFIG_URL_DEFAULT));
+                    URL configUrl =
+                            new URL(properties.getProperty(Constants.CONFIG_URL_PROPERTY,
+                                Constants.CONFIG_URL_DEFAULT));
                     String user = properties.getProperty(Constants.CONFIG_USER_PROPERTY);
                     String password = properties.getProperty(Constants.CONFIG_PASS_PROPERTY);
-                    RestClientInvoker remoteClient = getRestClientInvoker(new URL(configUrl.getProtocol(), leader, configUrl.getPort(), ""));
+                    RestClientInvoker remoteClient =
+                            getRestClientInvoker(new URL(configUrl.getProtocol(), leader, configUrl.getPort(), ""));
                     remoteClient.setAuthentication(user, password);
                     remoteClientMap.put(leader, remoteClient);
                     return remoteClient;
                 } catch (MalformedURLException e) {
-                    logger.error("Error initializing remote RestConf client: " + e.getMessage(), e);
-                    throw new MDSALStoreException("Error initializing Remote RestConf client: " + e.getMessage(), e);
+                    msg = "Error initializing remote RestConf client: " + e.getMessage();
+                    logger.error(msg, e);
+                    throw new MDSALStoreException(msg, e);
                 }
             } else {
-                logger.error("Error initializing Remote RestConf client. Could not read appc properties");
-                throw new MDSALStoreException("Error initializing Remote RestConf client. Could not read appc properties");
+                msg = "Error initializing remote RestConf client. Could not read appc properties";
+                logger.error(msg);
+                throw new MDSALStoreException(msg);
             }
         }
     }
@@ -224,7 +234,7 @@ public class MDSALStoreImpl implements MDSALStore {
         try {
             String path = requestFormatter.buildPath(module, org.onap.appc.Constants.YANG_BASE_CONTAINER,
                     org.onap.appc.Constants.YANG_VNF_CONFIG_LIST, requestId, org.onap.appc.Constants.YANG_VNF_CONFIG);
-            logger.debug("Configuration Path : " + path);
+            logger.debug("Configuration Path: " + path);
             HttpResponse response = client.doPut(path, configJson);
             int httpCode = response.getStatusLine().getStatusCode();
             String respBody = IOUtils.toString(response.getEntity().getContent());
@@ -252,7 +262,8 @@ public class MDSALStoreImpl implements MDSALStore {
                 }
             }
             logger.error("Failed to load config JSON to MD SAL store. " + errorMessage.toString());
-            throw new MDSALStoreException("Failed to load config JSON to MD SAL store. Error Message: " + errorMessage.toString());
+            throw new MDSALStoreException("Failed to load config JSON to MD SAL store. Error Message: "
+                    + errorMessage.toString());
         } catch (IOException e) {
             logger.error("Failed to process error response from RestConf: " + e.getMessage());
             throw new MDSALStoreException("Failed to process RestConf response. Error Message: " + e.toString(), e);
@@ -263,17 +274,23 @@ public class MDSALStoreImpl implements MDSALStore {
 
         Manifest manifest = new Manifest();
         manifest.getMainAttributes().put(Attributes.Name.MANIFEST_VERSION, Constants.MANIFEST_VALUE_VERSION);
-        manifest.getMainAttributes().put(new Attributes.Name(Constants.MANIFEST_ATTR_BUNDLE_NAME), bundleInfo.getName());
-        manifest.getMainAttributes().put(new Attributes.Name(Constants.MANIFEST_ATTR_BUNDLE_SYMBOLIC_NAME), bundleInfo.getName());
-        manifest.getMainAttributes().put(new Attributes.Name(Constants.MANIFEST_ATTR_BUNDLE_DESCRIPTION), bundleInfo.getDescription());
-        manifest.getMainAttributes().put(new Attributes.Name(Constants.MANIFEST_ATTR_BUNDLE_MANIFEST_VERSION), Constants.MANIFEST_VALUE_BUNDLE_MAN_VERSION);
-        manifest.getMainAttributes().put(new Attributes.Name(Constants.MANIFEST_ATTR_BUNDLE_VERSION), String.valueOf(bundleInfo.getVersion()));
-        manifest.getMainAttributes().put(new Attributes.Name(Constants.MANIFEST_ATTR_BUNDLE_BLUEPRINT), Constants.MANIFEST_VALUE_BUNDLE_BLUEPRINT);
+        manifest.getMainAttributes().put(new Attributes.Name(Constants.MANIFEST_ATTR_BUNDLE_NAME),
+                bundleInfo.getName());
+        manifest.getMainAttributes().put(new Attributes.Name(Constants.MANIFEST_ATTR_BUNDLE_SYMBOLIC_NAME),
+                bundleInfo.getName());
+        manifest.getMainAttributes().put(new Attributes.Name(Constants.MANIFEST_ATTR_BUNDLE_DESCRIPTION),
+                bundleInfo.getDescription());
+        manifest.getMainAttributes().put(new Attributes.Name(Constants.MANIFEST_ATTR_BUNDLE_MANIFEST_VERSION),
+                Constants.MANIFEST_VALUE_BUNDLE_MAN_VERSION);
+        manifest.getMainAttributes().put(new Attributes.Name(Constants.MANIFEST_ATTR_BUNDLE_VERSION),
+                String.valueOf(bundleInfo.getVersion()));
+        manifest.getMainAttributes().put(new Attributes.Name(Constants.MANIFEST_ATTR_BUNDLE_BLUEPRINT),
+                Constants.MANIFEST_VALUE_BUNDLE_BLUEPRINT);
 
         byte[] retunValue;
 
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-             JarOutputStream jarOutputStream = new JarOutputStream(outputStream, manifest)) {
+                JarOutputStream jarOutputStream = new JarOutputStream(outputStream, manifest)) {
             jarOutputStream.putNextEntry(new JarEntry("META-INF/yang/"));
             jarOutputStream.putNextEntry(new JarEntry("META-INF/yang/" + bundleInfo.getName() + ".yang"));
             jarOutputStream.write(yang.getBytes());
@@ -287,7 +304,8 @@ public class MDSALStoreImpl implements MDSALStore {
             retunValue = outputStream.toByteArray();
         } catch (Exception e) {
             logger.error("Error creating bundle jar: " + bundleInfo.getName() + ". Error message: " + e.getMessage());
-            throw new MDSALStoreException("Error creating bundle jar: " + bundleInfo.getName() + " " + e.getMessage(), e);
+            throw new MDSALStoreException("Error creating bundle jar: " + bundleInfo.getName() + " " + e.getMessage(),
+                    e);
         }
         return retunValue;
     }
@@ -299,7 +317,7 @@ public class MDSALStoreImpl implements MDSALStore {
             int httpCode = response.getStatusLine().getStatusCode();
             String respBody = IOUtils.toString(response.getEntity().getContent());
             logger.debug(String.format("Get node status returned Code: %s. Response: %s ", httpCode, respBody));
-            if (httpCode == 200 && mapper.readTree(respBody).get(Constants.JSON_RESPONSE_VALUE) !=null ) {
+            if (httpCode == 200 && mapper.readTree(respBody).get(Constants.JSON_RESPONSE_VALUE) != null) {
                 JsonNode responseValue = mapper.readTree(respBody).get(Constants.JSON_RESPONSE_VALUE);
                     String leaderShard = responseValue.get("Leader").asText();
                     if (shardName.equals(leaderShard)) {
@@ -309,7 +327,8 @@ public class MDSALStoreImpl implements MDSALStore {
                         String[] peers = responseValue.get("PeerAddresses").asText().split(",");
                         for (String peer : peers) {
                             if (peer.trim().startsWith(leaderShard)) {
-                                String leader = peer.substring(peer.indexOf('@') + 1, peer.indexOf(':', peer.indexOf('@')));
+                                String leader =
+                                        peer.substring(peer.indexOf('@') + 1, peer.indexOf(':', peer.indexOf('@')));
                                 logger.debug(String.format("Node %s is a leader", leader));
                                 return leader;
                             }
@@ -322,7 +341,7 @@ public class MDSALStoreImpl implements MDSALStore {
                 throw new MDSALStoreException("Error while retrieving leader node.");
             }
         } catch (IOException | APPCException e) {
-            logger.error(String.format("Error while retrieving leader Node. Error message : %s ", e.getMessage()), e);
+            logger.error(String.format("Error while retrieving leader Node. Error message: %s ", e.getMessage()), e);
             throw new MDSALStoreException(e);
         }
     }
@@ -337,18 +356,22 @@ public class MDSALStoreImpl implements MDSALStore {
                 JsonNode responseValue = mapper.readTree(respBody).get(Constants.JSON_RESPONSE_VALUE);
                 if (responseValue != null && responseValue.get(Constants.JSON_RESPONSE_MEMBER_NAME) != null) {
                     String name = responseValue.get(Constants.JSON_RESPONSE_MEMBER_NAME).asText();
-                    logger.debug("Node name : " + name);
+                    logger.debug("Node name: " + name);
                     return name;
-                }else{
-                    logger.error(String.format("Error while retrieving node name from response. Response body: %s.", respBody));
-                    throw new MDSALStoreException(String.format("Error while retrieving node name from response. Response body: %s.", respBody));
+                } else {
+                    String msg = String.format("Error while retrieving node name from response. Response body: %s.",
+                            respBody);
+                    logger.error(msg);
+                    throw new MDSALStoreException(msg);
                 }
             } else {
-                logger.error(String.format("Error while retrieving node name. Error code: %s. Error response: %s.", httpCode, respBody));
-                throw new MDSALStoreException(String.format("Error while retrieving node name. Error code: %s. Error response: %s.", httpCode, respBody));
+                String msg = String.format("Error while retrieving node name. Error code: %s. Error response: %s.",
+                        httpCode, respBody);
+                logger.error(msg);
+                throw new MDSALStoreException(msg);
             }
         } catch (IOException | APPCException e) {
-            logger.error("Error while getting node name " + e.getMessage(), e);
+            logger.error("Error while getting node name: " + e.getMessage(), e);
             throw new MDSALStoreException(e);
         }
     }

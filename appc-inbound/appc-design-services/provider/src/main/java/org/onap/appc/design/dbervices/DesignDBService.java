@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
@@ -30,39 +30,45 @@ import com.att.eelf.configuration.EELFManager;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import org.json.JSONObject;
 import org.onap.appc.design.data.ArtifactInfo;
 import org.onap.appc.design.data.DesignInfo;
 import org.onap.appc.design.data.DesignResponse;
 import org.onap.appc.design.data.StatusInfo;
+import org.onap.appc.design.data.UserPermissionInfo;
 import org.onap.appc.design.services.util.ArtifactHandlerClient;
 import org.onap.appc.design.services.util.DesignServiceConstants;
 import org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
-import org.apache.commons.lang.StringUtils;
 
 public class DesignDBService {
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(DesignDBService.class);
     private static DesignDBService dgGeneralDBService;
-
+    private static ArtifactHandlerFactory artifactHandlerFactory = new ArtifactHandlerFactory();
     private static final String SUCCESS_JSON = "{\"update\" : \"success\" } ";
     private static final String STATUS = "STATUS";
-    private static final String INFO_STR = "Info : ";
-    private static final String DB_OPERATION_ERROR = "Error while DB operation : ";
+    private static final String INFO_STR = "Info: ";
+    private static final String DB_OPERATION_ERROR = "Error during DB operation: ";
     private static final String VNFC_TYPE = "vnfc-type";
-    private static final String QUERY_STR = "Query String :";
+    private static final String VNF_TYPE = "vnf-type";
+    private static final String QUERY_STR = "Query String: ";
     private static final String USER_ID = "userID";
+    private static final String COLUMN_USER_ID = "user_id";
+    private static final String COLUMN_PERMISSION = "permission";
 
     private SvcLogicResource serviceLogic;
     private DbService dbservice;
-    private static ArtifactHandlerFactory artifactHandlerFactory = new ArtifactHandlerFactory();
-
     public static DesignDBService initialise() {
         if (dgGeneralDBService == null) {
             dgGeneralDBService = new DesignDBService();
@@ -76,144 +82,277 @@ public class DesignDBService {
         }
     }
 
-    public String execute(String action, String payload, String requestID) throws Exception {
+    public String execute(String action, String payload, String requestId) throws Exception {
 
-        log.info("Received execute request for action : " + action + "  with Payload : " + payload);
+        log.info("Received execute request for action: " + action + " with Payload: " + payload);
         RequestValidator.validate(action, payload);
         String response;
         dbservice = new DbService();
         switch (action) {
             case DesignServiceConstants.GETDESIGNS:
-                response = getDesigns(payload, requestID);
+                response = getDesigns(payload, requestId);
                 break;
             case DesignServiceConstants.GETAPPCTIMESTAMPUTC:
-                response =  getAppcTimestampUTC( requestID );
+                response =  getAppcTimestampUTC(requestId);
                 break;
             case DesignServiceConstants.ADDINCART:
-                response = setInCart(payload, requestID);
+                response = setInCart(payload, requestId);
                 break;
             case DesignServiceConstants.GETARTIFACTREFERENCE:
-                response = getArtifactReference(payload, requestID);
+                response = getArtifactReference(payload, requestId);
                 break;
             case DesignServiceConstants.GETARTIFACT:
-                response = getArtifact(payload, requestID);
+                response = getArtifact(payload, requestId);
                 break;
             case DesignServiceConstants.GETGUIREFERENCE:
-                response = getGuiReference(payload, requestID);
+                response = getGuiReference(payload, requestId);
                 break;
             case DesignServiceConstants.GETSTATUS:
-                response = getStatus(payload, requestID);
+                response = getStatus(payload, requestId);
                 break;
             case DesignServiceConstants.SETSTATUS:
-                response = setStatus(payload, requestID);
+                response = setStatus(payload, requestId);
                 break;
             case DesignServiceConstants.UPLOADARTIFACT:
-                response = uploadArtifact(payload, requestID);
+                response = uploadArtifact(payload, requestId);
                 break;
             case DesignServiceConstants.SETPROTOCOLREFERENCE:
-                response = setProtocolReference(payload, requestID);
+                response = setProtocolReference(payload, requestId);
                 break;
             case DesignServiceConstants.UPLOADADMINARTIFACT:
-                response = uploadAdminArtifact(payload, requestID);
+                response = uploadAdminArtifact(payload, requestId);
                 break;
             case DesignServiceConstants.CHECKVNF:
-                response = checkVNF(payload, requestID);
+                response = checkVNF(payload, requestId);
+                break;
+            case DesignServiceConstants.RETRIEVEVNFPERMISSIONS:
+                response = retrieveVnfPermissions(payload, requestId);
+                break;
+            case DesignServiceConstants.SAVEVNFPERMISSIONS:
+                response = saveUserPermissionInfo(payload, requestId);
                 break;
             default:
-                throw new DBException(" Action " + action + " not found while processing request ");
+                throw new DBException("Action " + action + " not found while processing request");
 
         }
         return response;
     }
 
+    private String saveUserPermissionInfo(String payload, String requestId) throws Exception {
+        try {
+            if (requestId == null || requestId.isEmpty()) {
+                throw new DBException("requestId in saveUserPermissionInfo request is null or Blank");
+            }
+            log.info("Received Save User Permission from " + requestId + " with payload " + payload);
+            Date startTime = new Date();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String dbDate = dateFormat.format(startTime);
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode payloadObject = objectMapper.readTree(payload);
+            String vnf_type = payloadObject.get(DesignServiceConstants.VNF_TYPE).textValue();
+            String modifier = payloadObject.get(DesignServiceConstants.CREATORUSERID).textValue();
+            JsonNode users = payloadObject.get("users");
+            if (users == null || !users.isArray()) {
+                throw new DBException("Users list is not provided in the input payload");
+            }
+            for (JsonNode node : users) {
+                String userId = node.get(DesignServiceConstants.USER_ID).textValue();
+                String permission = node.get(DesignServiceConstants.PERMISSION).textValue();
+                ArrayList<String> argList = new ArrayList<>();
+                argList.add(vnf_type);
+                argList.add(userId);
+                log.info("Checking User - " + userId + " current permissions in db for this vnf type");
+                String queryString = "SELECT PERMISSION FROM DT_USER_PERMISSIONS WHERE VNF_TYPE = ? AND USER_ID = ?";
+                log.info(QUERY_STR + queryString);
+                String user_permission = null;
+                int rowCount = 0;
+                try (ResultSet data = dbservice.getDBData(queryString, argList)) {
+                    while (data.next()) {
+                        rowCount++;
+                        user_permission = data.getString("PERMISSION");
+                        if (Strings.isNullOrEmpty(permission)) {
+                            log.info("Received request to delete db record for User - " + userId);
+                            ArrayList<String> delArgList = new ArrayList<>();
+                            delArgList.add(vnf_type);
+                            delArgList.add(userId);
+                            String deleteQuery = "DELETE FROM DT_USER_PERMISSIONS WHERE VNF_TYPE = ? AND USER_ID = ?";
+                            log.info(QUERY_STR + deleteQuery);
+                            log.info("Arguments List: " + delArgList);
+                            boolean status = dbservice.updateDBData(deleteQuery, delArgList);
+                            if (!status) {
+                                throw new DBException("Error while deleting record from DT_USER_PERMISSIONS");
+                            } else {
+                                log.info("Record deleted");
+                            }
+                        } else if (user_permission.matches(permission)) {
+                            log.info("User " + userId + " permission record found in db for same vnf_type " + vnf_type
+                                    + ". No update needed.");
+                        } else {
+                            log.info("User's permission record will be updated. New permission: " + permission
+                                    + " for user " + userId + " as requested by " + requestId
+                                    + " will be saved to database.");
+                            ArrayList<String> updateArgList = new ArrayList<>();
+                            updateArgList.add(permission);
+                            updateArgList.add(modifier);
+                            updateArgList.add(dbDate);
+                            updateArgList.add(vnf_type);
+                            updateArgList.add(userId);
+
+                            String updateQuery =
+                                    "UPDATE DT_USER_PERMISSIONS SET PERMISSION = ?, MODIFIER = ?, DATE_MODIFIED = ?"
+                                    + " WHERE VNF_TYPE = ? AND USER_ID = ?";
+                            log.info(QUERY_STR + updateQuery);
+                            log.info("Arguments List: " + updateArgList);
+                            boolean updateStatus = dbservice.updateDBData(updateQuery, updateArgList);
+                            if (!updateStatus) {
+                                throw new DBException("Error while updating User Permissions");
+                            }
+                        }
+                    }
+                }
+                if (rowCount == 0 && !(Strings.isNullOrEmpty(permission))) {
+                    log.info("User not found in database for this vnf_type. The new permission " + permission
+                            + " for user " + userId + " and vnf_type " + vnf_type + " as requested by " + requestId
+                            + " will be saved to database.");
+                    ArrayList<String> insertArgList = new ArrayList<>();
+                    insertArgList.add(vnf_type);
+                    insertArgList.add(userId);
+                    insertArgList.add(permission);
+                    insertArgList.add(modifier);
+                    String insertQuery =
+                            "INSERT INTO DT_USER_PERMISSIONS (VNF_TYPE, USER_ID, PERMISSION, DATE_MODIFIED, MODIFIER)"
+                            + " VALUES (?, ?, ?, sysdate(), ?)";
+                    log.info(QUERY_STR + insertQuery);
+                    log.info("Arguments List: " + insertArgList);
+                    boolean updateStatus = dbservice.updateDBData(insertQuery, insertArgList);
+                    if (!updateStatus) {
+                        throw new DBException("Error while inserting record for User Permissions");
+                    }
+                }
+            }
+        } catch (Exception e) {
+            log.error("An error occurred in saveUserPermissionInfo " + e.getMessage(), e);
+            throw e;
+        }
+        return SUCCESS_JSON;
+    }
+
     private String checkVNF(String payload, String requestId) throws Exception {
+        try {
+            log.info("Got into Check VNF Request with payload: " + payload);
+            if (payload == null || payload.isEmpty()) {
+                throw new DBException("Payload in CheckVNF request is null or Blank");
+            }
+            if (requestId == null || requestId.isEmpty()) {
+                throw new DBException("requestId in CheckVNF request is null or Blank");
+            }
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode payloadObject = objectMapper.readTree(payload);
+            String vnfType = payloadObject.get("vnf-type").textValue();
 
-        log.info("Got into Check VNF Request with payload: " + payload);
-        if (StringUtils.isBlank(payload))
-            throw new DBException("Payload in CheckVNF request is null or Blank");
-        if (StringUtils.isBlank(requestId))
-            throw new DBException("requestId in CheckVNF request is null or Blank");
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode payloadObject = objectMapper.readTree(payload);
-        String vnfType = payloadObject.get("vnf-type").textValue();
-        log.info("Check VNF Request with VNF TYPE: " + vnfType);
-        ArrayList<String> argList = new ArrayList<>();
-        argList.add(vnfType);
-        String queryString = "SELECT DT_ACTION_STATUS_ID,USER FROM sdnctl.DT_ACTION_STATUS WHERE VNF_TYPE = ? ORDER BY DT_ACTION_STATUS_ID DESC LIMIT 1 ; ";
-        log.info(QUERY_STR + queryString);
-        ResultSet data = dbservice.getDBData(queryString, argList);
-        int rowCount = 0;
-        String user = null;
-        String dtActionStatusId = null;
-        while (data.next()) {
-            rowCount++;
-            user = data.getString("USER");
-            dtActionStatusId = data.getString("DT_ACTION_STATUS_ID");
-        }
-        log.debug("DT_ACTION_STATUS_ID-> " + dtActionStatusId + " user-> " + user);
-        JSONObject jObject = new JSONObject();
-        if (rowCount == 0) {
-            log.debug("vnf-type does not present in APPC DB, row Count:" + rowCount);
-            jObject.put("result", "No");
-        } else {
-            log.debug("vnf-type present in APPC DB, row Count:" + rowCount);
-            jObject.put("result", "Yes");
-            jObject.put("user", user);
-        }
-        log.info("Check VNF result: " + jObject.toString());
+            log.info("Check VNF Request with VNF TYPE: " + vnfType);
 
-        return jObject.toString();
+            ArrayList<String> argList = new ArrayList<>();
+            argList.add(vnfType);
+
+            String queryString =
+                    "SELECT DT_ACTION_STATUS_ID, USER FROM sdnctl.DT_ACTION_STATUS WHERE VNF_TYPE = ?"
+                    + " ORDER BY DT_ACTION_STATUS_ID DESC LIMIT 1;";
+
+            log.info(QUERY_STR + queryString);
+            try (ResultSet data = dbservice.getDBData(queryString, argList)) {
+
+                int rowCount = 0;
+                String user = null;
+                String dtActionStatusId = null;
+
+                while (data.next()) {
+                    rowCount++;
+                    user = data.getString("USER");
+                    dtActionStatusId = data.getString("DT_ACTION_STATUS_ID");
+                }
+
+                log.debug("DT_ACTION_STATUS_ID " + dtActionStatusId + " user " + user);
+
+                JSONObject jObject = new JSONObject();
+
+
+                if (rowCount == 0) {
+                    log.debug("vnf-type not present in APPC DB, row Count: " + rowCount);
+                    jObject.put("result", "No");
+                } else {
+                    log.debug("vnf-type present in APPC DB, row Count: " + rowCount);
+                    jObject.put("result", "Yes");
+                    jObject.put("user", user);
+                }
+
+                log.info("Check VNF result: " + jObject.toString());
+                return jObject.toString();
+
+            }
+        } catch (Exception e) {
+            log.error("An error occurred in checkVNF " + e.getMessage(), e);
+            throw e;
+        }
 
     }
 
     private String uploadAdminArtifact(String payload, String requestId) throws Exception {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
+            JsonNode payloadObject = objectMapper.readTree(payload);
+            log.info("Got upload Admin Artifact with requestId: " + requestId + " & Payload: "
+                    + payloadObject.asText());
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
-        JsonNode payloadObject = objectMapper.readTree(payload);
-        log.info("Got upload Admin Aritfact with  requestId : " + requestId + " & Payload" + payloadObject.asText());
+            if (Strings.isNullOrEmpty(requestId)) {
+                throw new DBException("Request-id is missing in the uploadAdminArtifact payload.");
+            }
 
-        if (StringUtils.isBlank(requestId)) {
-            throw new DBException("Request-id is missing in the uploadAdminArtifact payload . ");
+            ArtifactHandlerClient ac = new ArtifactHandlerClient();
+            String requestString = ac.createArtifactData(payload, requestId);
+            ac.execute(requestString, "POST");
+
+
+
+            int sdcArtifactId = getSDCArtifactIDbyRequestID(requestId);
+            if (sdcArtifactId == 0) {
+                throw new DBException("Error occurred while validating/Saving the artifact to SDC_ARTIFACTS"
+                        + " or getting SDC_ARTIFACTS_ID.");
+            }
+
+            JsonNode json = payloadObject.get(DesignServiceConstants.USER_ID);
+            if (json == null) {
+                throw new DBException("User Id is null");
+            } else if (json.asText().trim().isEmpty()) {
+                log.info("UserId in Admin Artifact is blank, User Id: " + json.asText());
+                throw new DBException("User Id is blank");
+            }
+
+            int sdcReferenceId = 0;
+            createArtifactTrackingRecord(payload, requestId, sdcArtifactId, sdcReferenceId);
+
+        } catch (Exception e) {
+            log.error("An error occurred in uploadAdminArtifact: " + e.getMessage(), e);
+            throw e;
         }
-
-        ArtifactHandlerClient ac = new ArtifactHandlerClient();
-        String requestString = ac.createArtifactData(payload, requestId);
-        ac.execute(requestString, "POST");
-
-        int sdcArtifactId = getSDCArtifactIDbyRequestID(requestId);
-        if (sdcArtifactId == 0)
-            throw new DBException(
-                    "Error occured while validating/Saving the artifact to SDC_ARTIFACTS or getting SDC_ARTIFACTS_ID .");
-        JsonNode json = payloadObject.get(DesignServiceConstants.USER_ID);
-      if (json == null) {
-        throw new DBException("User Id is null");
-      } else if (json.asText().trim().isEmpty()) {
-        log.info("UserId in Admin Aritfact is blank, User Id : " + json.asText());
-        throw new DBException("User Id is blank");
-      }
-
-        int sdcReferenceId = 0;
-        createArtifactTrackingRecord(payload, requestId, sdcArtifactId, sdcReferenceId);
-
         return SUCCESS_JSON;
     }
 
-    private String getAppcTimestampUTC( String requestID) throws Exception
-    {
-      log.info("Starting getAppcTimestampUTC: requestID:" + requestID );
-      java.util.TimeZone gmtTZ= java.util.TimeZone.getTimeZone("GMT");
-      java.text.SimpleDateFormat formatter =
-        new java.text.SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" );
-      formatter.setTimeZone( gmtTZ );
-      java.util.Date dateVal= new java.util.Date();
-      log.info("getAppcTimestampUTC: current local Date:[" + dateVal+ "]");
-      String timeStr= formatter.format( dateVal );
-      log.info("getAppcTimestampUTC: returning:[" + timeStr + "]");
-      return timeStr;
+    private String getAppcTimestampUTC(String requestId) throws Exception {
+        log.info("Starting getAppcTimestampUTC: requestId: " + requestId);
+        java.util.TimeZone gmtTZ = java.util.TimeZone.getTimeZone("GMT");
+        java.text.SimpleDateFormat formatter =
+                new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        formatter.setTimeZone(gmtTZ);
+        java.util.Date dateVal = new java.util.Date();
+        log.info("getAppcTimestampUTC: current local Date: [" + dateVal + "]");
+        String timeStr = formatter.format(dateVal);
+        log.info("getAppcTimestampUTC: returning: [" + timeStr + "]");
+        return timeStr;
     }
 
-    private String setInCart(String payload, String requestID) throws Exception {
+    private String setInCart(String payload, String requestId) throws Exception {
 
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode payloadObject = objectMapper.readTree(payload);
@@ -221,16 +360,16 @@ public class DesignDBService {
         argList.add(payloadObject.get(DesignServiceConstants.INCART).textValue());
         argList.add(payloadObject.get(DesignServiceConstants.VNF_TYPE).textValue());
 
-        String queryString = "UPDATE DT_ARTIFACT_TRACKING SET INCART= ? WHERE ASDC_REFERENCE_ID  IN "
-            + " (SELECT ASDC_REFERENCE_ID FROM ASDC_REFERENCE_ID WHERE VNF_TYPE = ? ";
+        String queryString =
+                "UPDATE DT_ARTIFACT_TRACKING SET INCART = ? WHERE ASDC_REFERENCE_ID IN"
+                + " (SELECT ASDC_REFERENCE_ID FROM ASDC_REFERENCE_ID WHERE VNF_TYPE = ?";
 
-        if (payloadObject.get(DesignServiceConstants.VNF_TYPE) != null && !payloadObject
-            .get(DesignServiceConstants.VNF_TYPE).textValue().isEmpty()) {
-            queryString = queryString + "  AND VNFC_TYPE = ? ) AND USER = ? ";
+        if (payloadObject.get(DesignServiceConstants.VNFC_TYPE) != null
+                && !payloadObject.get(DesignServiceConstants.VNFC_TYPE).textValue().isEmpty()) {
+            queryString += " AND VNFC_TYPE = ?";
             argList.add(payloadObject.get(DesignServiceConstants.VNFC_TYPE).textValue());
-        } else {
-            queryString = queryString + "  ) AND USER = ? ";
         }
+        queryString += ") AND USER = ?";
         argList.add(payloadObject.get(DesignServiceConstants.USER_ID).textValue());
         log.info(QUERY_STR + queryString);
         boolean data = dbservice.updateDBData(queryString, argList);
@@ -241,7 +380,7 @@ public class DesignDBService {
         return SUCCESS_JSON;
     }
 
-    private String setProtocolReference(String payload, String requestID) throws Exception {
+    private String setProtocolReference(String payload, String requestId) throws Exception {
 
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode payloadObject = objectMapper.readTree(payload);
@@ -252,9 +391,9 @@ public class DesignDBService {
         argList.add(payloadObject.get(DesignServiceConstants.VNF_TYPE).textValue());
         argList.add(payloadObject.get(DesignServiceConstants.PROTOCOL).textValue());
 
-        String queryString = " DELETE FROM PROTOCOL_REFERENCE WHERE ACTION = ? AND ACTION_LEVEL AND VNF_TYPE= ?  AND PROTOCOL = ? ";
+        String queryString = "DELETE FROM PROTOCOL_REFERENCE WHERE ACTION = ? AND ACTION_LEVEL AND VNF_TYPE = ? AND PROTOCOL = ?";
 
-        log.info("Delete Query String :" + queryString);
+        log.info("Delete Query String: " + queryString);
         boolean data;
 
         log.info("Record Deleted");
@@ -270,10 +409,9 @@ public class DesignDBService {
         if (payloadObject.get(DesignServiceConstants.VNFC_TYPE) != null &&
             !payloadObject.get(DesignServiceConstants.VNFC_TYPE).textValue().isEmpty()) {
 
-            queryString = queryString + " AND  VNFC_TYPE =  ? )";
-        } else {
-            queryString = queryString + " ) ";
+            queryString += " AND VNFC_TYPE = ?";
         }
+        queryString += ")";
         log.info(QUERY_STR + queryString);
         data = dbservice.updateDBData(queryString, argList);
 
@@ -283,32 +421,71 @@ public class DesignDBService {
         return SUCCESS_JSON;
     }
 
-    private String uploadArtifact(String payload, String requestID) throws Exception {
+    private String uploadArtifact(String payload, String requestId) throws Exception {
 
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
         JsonNode payloadObject = objectMapper.readTree(payload);
-        log.info("Got upload Aritfact with Payload : " + payloadObject.asText());
+        log.info("Got upload Artifact with Payload: " + payloadObject.asText());
         try {
             ArtifactHandlerClient ac = artifactHandlerFactory.ahi();
-            String requestString = ac.createArtifactData(payload, requestID);
+            String requestString = ac.createArtifactData(payload, requestId);
             ac.execute(requestString, "POST");
-            int sdcArtifactId = getSDCArtifactIDbyRequestID(requestID);
+            int sdcArtifactId = getSDCArtifactIDbyRequestID(requestId);
             int sdcReferenceId = getSDCReferenceID(payload);
-            createArtifactTrackingRecord(payload, requestID, sdcArtifactId, sdcReferenceId);
+            createArtifactTrackingRecord(payload, requestId, sdcArtifactId, sdcReferenceId);
             String status = getDataFromActionStatus(payload, STATUS);
             if (status == null || status.isEmpty()) {
-              log.info("Action Status is: "+ status);
-              setActionStatus(payload, "Not Tested");
+                log.info("Action Status is: " + status);
+                setActionStatus(payload, "Not Tested");
             }
             linkstatusRelationShip(sdcArtifactId, sdcReferenceId, payload);
-
+            savePermissionInfo(payload, requestId);
         } catch (Exception e) {
-            log.error("An error occured in uploadArtifact", e);
+            log.error("An error occurred in uploadArtifact", e);
             throw e;
         }
         return SUCCESS_JSON;
 
+    }
+    private void savePermissionInfo(String payload, String requestId) throws Exception {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode payloadObject = objectMapper.readTree(payload);
+        ArrayList<String> argList = new ArrayList<>();
+        argList.add(payloadObject.get(DesignServiceConstants.VNF_TYPE).textValue());
+        argList.add(payloadObject.get(DesignServiceConstants.USER_ID).textValue());
+        log.info("Entered savePermissionInfo from uploadArtifact with payload " + payload);
+        String queryString = "SELECT PERMISSION FROM DT_USER_PERMISSIONS WHERE VNF_TYPE = ? AND USER_ID = ?";
+        log.info(QUERY_STR + queryString);
+        try (ResultSet data = dbservice.getDBData(queryString, argList)) {
+            String user_permission = null;
+            int rowCount = 0;
+            while (data.next()) {
+                rowCount++;
+                user_permission = data.getString("PERMISSION");
+                log.info("User exists in database with permission = " + user_permission);
+            }
+            if (rowCount == 0) {
+                log.info("No record found in database");
+                log.info("Inserting one record in database");
+                String permission = "owner";
+                ArrayList<String> insertArgList = new ArrayList<>();
+                insertArgList.add(payloadObject.get(DesignServiceConstants.VNF_TYPE).textValue());
+                insertArgList.add(payloadObject.get(DesignServiceConstants.USER_ID).textValue());
+                insertArgList.add(permission);
+                insertArgList.add(payloadObject.get(DesignServiceConstants.USER_ID).textValue());
+                String insertQuery =
+                        "INSERT INTO DT_USER_PERMISSIONS (VNF_TYPE, USER_ID, PERMISSION, DATE_MODIFIED, MODIFIER)"
+                        + " VALUES (?, ?, ?, sysdate(), ?)";
+                log.info(QUERY_STR + insertQuery);
+                log.info("Arguments List: " + insertArgList);
+                boolean updateStatus = dbservice.updateDBData(insertQuery, insertArgList);
+                if (!updateStatus) {
+                    throw new DBException("Error while inserting record to DT_USER_PERMISSIONS");
+                }
+            }
+        }
     }
 
     private void linkstatusRelationShip(int sdcArtifactId, int sdcReferenceId, String payload) throws Exception {
@@ -323,21 +500,22 @@ public class DesignDBService {
         argList.add(payloadObject.get(DesignServiceConstants.USER_ID).textValue());
 
         String queryString =
-            "INSERT INTO DT_STATUS_RELATIONSHIP (DT_ARTIFACT_TRACKING_ID,DT_ACTION_STATUS_ID) VALUES " +
-                "(( SELECT DT_ARTIFACT_TRACKING_ID FROM DT_ARTIFACT_TRACKING WHERE ASDC_ARTIFACTS_ID = ? AND ASDC_REFERENCE_ID = ? ) , "
-                + "( SELECT DT_ACTION_STATUS_ID FROM DT_ACTION_STATUS WHERE  VNF_TYPE = ? AND ACTION = ?  AND USER = ? ";
+                "INSERT INTO DT_STATUS_RELATIONSHIP (DT_ARTIFACT_TRACKING_ID, DT_ACTION_STATUS_ID) VALUES"
+                + " ((SELECT DT_ARTIFACT_TRACKING_ID FROM DT_ARTIFACT_TRACKING"
+                    + " WHERE ASDC_ARTIFACTS_ID = ? AND ASDC_REFERENCE_ID = ?),"
+                + " (SELECT DT_ACTION_STATUS_ID FROM DT_ACTION_STATUS"
+                    + " WHERE VNF_TYPE = ? AND ACTION = ? AND USER = ?";
 
-        if (payloadObject.get(DesignServiceConstants.VNFC_TYPE) != null && !payloadObject
-            .get(DesignServiceConstants.VNFC_TYPE).textValue().isEmpty()) {
-            queryString = queryString + " AND  VNFC_TYPE =  ? GROUP BY VNF_TYPE HAVING COUNT(VNF_TYPE)>=1 ) )";
-        } else {
-            queryString = queryString + " GROUP BY VNF_TYPE HAVING COUNT(VNF_TYPE)>=1 ) ) ";
+        if (payloadObject.get(DesignServiceConstants.VNFC_TYPE) != null
+                && !payloadObject.get(DesignServiceConstants.VNFC_TYPE).textValue().isEmpty()) {
+            queryString += " AND VNFC_TYPE = ?";
         }
+        queryString += " GROUP BY VNF_TYPE HAVING COUNT(VNF_TYPE)>=1 ))";
         log.info(QUERY_STR + queryString);
         boolean data = dbservice.updateDBData(queryString, argList);
 
         if (!data) {
-            throw new DBException("Error while updating RelationShip table");
+            throw new DBException("Error while updating Relationship table");
         }
 
     }
@@ -352,29 +530,30 @@ public class DesignDBService {
         argList.add(payloadObject.get(DesignServiceConstants.ARTIFACT_TYPE).textValue());
         argList.add(payloadObject.get(DesignServiceConstants.ARTIFACT_NAME).textValue());
 
-        String queryString = " SELECT ASDC_REFERENCE_ID FROM ASDC_REFERENCE WHERE VNF_TYPE = ?  "
-            + " AND ARTIFACT_TYPE = ?  AND ARTIFACT_NAME = ? ";
+        String queryString =
+                "SELECT ASDC_REFERENCE_ID FROM ASDC_REFERENCE WHERE VNF_TYPE = ?"
+                + " AND ARTIFACT_TYPE = ? AND ARTIFACT_NAME = ?";
 
-        if (payloadObject.get(DesignServiceConstants.ACTION) != null && !payloadObject
-            .get(DesignServiceConstants.ACTION).textValue().isEmpty()) {
+        if (payloadObject.get(DesignServiceConstants.ACTION) != null
+                && !payloadObject.get(DesignServiceConstants.ACTION).textValue().isEmpty()) {
             argList.add(payloadObject.get(DesignServiceConstants.ACTION).textValue());
-            queryString = queryString + " AND ACTION = ? ";
+            queryString += " AND ACTION = ?";
         }
-        if (payloadObject.get(DesignServiceConstants.VNFC_TYPE) != null && !payloadObject
-            .get(DesignServiceConstants.VNFC_TYPE).textValue().isEmpty()) {
+        if (payloadObject.get(DesignServiceConstants.VNFC_TYPE) != null
+                && !payloadObject.get(DesignServiceConstants.VNFC_TYPE).textValue().isEmpty()) {
             argList.add(payloadObject.get(DesignServiceConstants.VNFC_TYPE).textValue());
-            queryString = queryString + " AND VNFC_TYPE = ? ";
-
+            queryString += " AND VNFC_TYPE = ?";
         }
 
         log.info(QUERY_STR + queryString);
-        ResultSet data = dbservice.getDBData(queryString, argList);
-        int sdcReferenceId = 0;
-        while (data.next()) {
-            sdcReferenceId = data.getInt("ASDC_REFERENCE_ID");
+        try (ResultSet data = dbservice.getDBData(queryString, argList)) {
+            int sdcReferenceId = 0;
+            while (data.next()) {
+                sdcReferenceId = data.getInt("ASDC_REFERENCE_ID");
+            }
+            log.info("Got sdcReferenceId = " + sdcReferenceId);
+            return sdcReferenceId;
         }
-        log.info("Got sdcReferenceId= " + sdcReferenceId);
-        return sdcReferenceId;
     }
 
     private String getDataFromActionStatus(String payload, String dataValue) throws Exception {
@@ -386,19 +565,20 @@ public class DesignDBService {
         argList.add(payloadObject.get(DesignServiceConstants.ACTION).textValue());
         argList.add(payloadObject.get(DesignServiceConstants.USER_ID).textValue());
         String queryString =
-            " SELECT " + dataValue + " FROM DT_ACTION_STATUS WHERE VNF_TYPE = ? AND ACTION = ? AND USER = ? ";
-        if (payloadObject.get(DesignServiceConstants.VNFC_TYPE) != null && !payloadObject
-            .get(DesignServiceConstants.VNFC_TYPE).textValue().isEmpty()) {
+                "SELECT " + dataValue + " FROM DT_ACTION_STATUS WHERE VNF_TYPE = ? AND ACTION = ? AND USER = ?";
+        if (payloadObject.get(DesignServiceConstants.VNFC_TYPE) != null
+                && !payloadObject.get(DesignServiceConstants.VNFC_TYPE).textValue().isEmpty()) {
             argList.add(payloadObject.get(DesignServiceConstants.VNFC_TYPE).textValue());
-            queryString = queryString + " AND VNFC_TYPE = ? ";
+            queryString += " AND VNFC_TYPE = ?";
         }
         log.info(QUERY_STR + queryString);
-        ResultSet data = dbservice.getDBData(queryString, argList);
-        while (data.next()) {
-            status = data.getString(STATUS);
+        try (ResultSet data = dbservice.getDBData(queryString, argList)) {
+            while (data.next()) {
+                status = data.getString(STATUS);
+            }
+            log.info("DT_ACTION_STATUS Status = " + status);
+            return status;
         }
-        log.info("DT_ACTION_STATUS Status = " + status);
-        return status;
     }
 
     private void setActionStatus(String payload, String status) throws Exception {
@@ -409,16 +589,16 @@ public class DesignDBService {
         argList.add(payloadObject.get(DesignServiceConstants.VNF_TYPE).textValue());
 
         String insertQuery = " INSERT INTO DT_ACTION_STATUS (ACTION, VNF_TYPE, VNFC_TYPE, USER, TECHNOLOGY, UPDATED_DATE, STATUS) VALUES (?,?,?,?,?,sysdate() , ?); ";
-        if (payloadObject.get(DesignServiceConstants.VNFC_TYPE) != null && !payloadObject
-            .get(DesignServiceConstants.VNFC_TYPE).textValue().isEmpty()) {
+        if (payloadObject.get(DesignServiceConstants.VNFC_TYPE) != null
+                && !payloadObject.get(DesignServiceConstants.VNFC_TYPE).textValue().isEmpty()) {
             argList.add(payloadObject.get(DesignServiceConstants.VNFC_TYPE).textValue());
             log.info("Vnfc-Type: " + payloadObject.get(DesignServiceConstants.VNFC_TYPE).textValue());
         } else {
             argList.add(null);
         }
         argList.add(payloadObject.get(DesignServiceConstants.USER_ID).textValue());
-        if (payloadObject.get(DesignServiceConstants.TECHNOLOGY) != null && !payloadObject
-            .get(DesignServiceConstants.TECHNOLOGY).textValue().isEmpty()) {
+        if (payloadObject.get(DesignServiceConstants.TECHNOLOGY) != null
+                && !payloadObject.get(DesignServiceConstants.TECHNOLOGY).textValue().isEmpty()) {
             argList.add(payloadObject.get(DesignServiceConstants.TECHNOLOGY).textValue());
         } else {
             argList.add(null);
@@ -428,12 +608,13 @@ public class DesignDBService {
         log.info("QueryString: " + insertQuery);
         log.info("Arguments List: " + argList);
         boolean updateStatus = dbservice.updateDBData(insertQuery, argList);
-        if (!updateStatus)
+        if (!updateStatus) {
             throw new DBException("Error while updating Action Status");
+        }
     }
 
-    private void createArtifactTrackingRecord(String payload, String requestID, int sdcArtifactId, int sdcReferenceId)
-        throws Exception {
+    private void createArtifactTrackingRecord(String payload, String requestId, int sdcArtifactId, int sdcReferenceId)
+            throws Exception {
 
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode payloadObject = objectMapper.readTree(payload);
@@ -442,51 +623,55 @@ public class DesignDBService {
         argList.add(String.valueOf(sdcArtifactId));
         argList.add(String.valueOf(sdcReferenceId));
         argList.add(payloadObject.get(DesignServiceConstants.USER_ID).textValue());
-        if (payloadObject.get(DesignServiceConstants.TECHNOLOGY) != null && !payloadObject
-            .get(DesignServiceConstants.TECHNOLOGY).textValue().isEmpty()) {
+        if (payloadObject.get(DesignServiceConstants.TECHNOLOGY) != null
+                && !payloadObject.get(DesignServiceConstants.TECHNOLOGY).textValue().isEmpty()) {
             argList.add(payloadObject.get(DesignServiceConstants.TECHNOLOGY).textValue());
         } else {
             argList.add("");
         }
 
-        if (payloadObject.get(DesignServiceConstants.PROTOCOL) != null && !payloadObject
-            .get(DesignServiceConstants.PROTOCOL).textValue().isEmpty()) {
+        if (payloadObject.get(DesignServiceConstants.PROTOCOL) != null
+                && !payloadObject.get(DesignServiceConstants.PROTOCOL).textValue().isEmpty()) {
             argList.add(payloadObject.get(DesignServiceConstants.PROTOCOL).textValue());
         } else {
             argList.add("");
         }
 
-        String queryString = "INSERT INTO DT_ARTIFACT_TRACKING (ASDC_ARTIFACTS_ID, ASDC_REFERENCE_ID, USER, TECHNOLOGY, CREATION_DATE, UPDATED_DATE, ARTIFACT_STATUS, PROTOCOL, IN_CART) VALUES (? , ? , ?, ?, sysdate() , sysdate(), 'Created',  ? ,'N' )";
+        String queryString =
+                "INSERT INTO DT_ARTIFACT_TRACKING (ASDC_ARTIFACTS_ID, ASDC_REFERENCE_ID, USER, TECHNOLOGY,"
+                + " CREATION_DATE, UPDATED_DATE, ARTIFACT_STATUS, PROTOCOL, IN_CART)"
+                + " VALUES (?, ?, ?, ?, sysdate(), sysdate(), 'Created', ?, 'N')";
 
         log.info(QUERY_STR + queryString);
         boolean data = dbservice.updateDBData(queryString, argList);
         if (!data) {
-            throw new DBException("Error Updating DT_ARTIFACT_TRACKING ");
+            throw new DBException("Error Updating DT_ARTIFACT_TRACKING");
         }
     }
 
-    private int getSDCArtifactIDbyRequestID(String requestID) throws Exception {
+    private int getSDCArtifactIDbyRequestID(String requestId) throws Exception {
         log.info("Starting getArtifactIDbyRequestID DB Operation");
         int artifactId = 0;
         try {
             ArrayList<String> argList = new ArrayList<>();
-            argList.add("TLSUUID" + requestID);
-            String queryString = " SELECT ASDC_ARTIFACTS_ID FROM ASDC_ARTIFACTS where SERVICE_UUID = ? ";
-            log.info(QUERY_STR + queryString+ " & UUID or" + "TLSUUID :" + requestID);
-            ResultSet data = dbservice.getDBData(queryString, argList);
-            while (data.next()) {
-                artifactId = data.getInt("ASDC_ARTIFACTS_ID");
+            argList.add("TLSUUID" + requestId);
+            String queryString = "SELECT ASDC_ARTIFACTS_ID FROM ASDC_ARTIFACTS where SERVICE_UUID = ?";
+            log.info(QUERY_STR + queryString + " & UUID: " + "TLSUUID" + requestId);
+            try (ResultSet data = dbservice.getDBData(queryString, argList)) {
+                while (data.next()) {
+                    artifactId = data.getInt("ASDC_ARTIFACTS_ID");
+                }
             }
         } catch (Exception e) {
             log.error("An error occurred in getSDCArtifactIDbyRequestID", e);
             throw e;
         }
-        log.info("Got SDC_ARTIFACTS_ID As :" + artifactId);
+        log.info("Got SDC_ARTIFACTS_ID As: " + artifactId);
         return artifactId;
     }
 
 
-    private String getArtifact(String payload, String requestID) throws Exception {
+    private String getArtifact(String payload, String requestId) throws Exception {
         log.info("Starting getArtifact DB Operation");
         try {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -496,29 +681,40 @@ public class DesignDBService {
             argList.add(artifactName);
             argList.add(payloadObject.get("artifact-type").textValue());
 
-            String queryString = "SELECT INTERNAL_VERSION, ARTIFACT_CONTENT FROM ASDC_ARTIFACTS where "
-                    + " ARTIFACT_NAME = ? AND ARTIFACT_TYPE = ?  ";
+            String queryString =
+                    "SELECT INTERNAL_VERSION, ARTIFACT_CONTENT FROM ASDC_ARTIFACTS"
+                    + " where ARTIFACT_NAME = ? AND ARTIFACT_TYPE = ?";
+
             log.info(QUERY_STR + queryString);
-            ResultSet data = dbservice.getDBData(queryString, argList);
             String artifactContent = null;
-            int rowCount = 0;
-            int hightestVerion = -1;
-            while (data.next()) {
-                rowCount++;
-                int version = data.getInt("INTERNAL_VERSION");
-                if (hightestVerion < version) {
-                    artifactContent = data.getString("ARTIFACT_CONTENT");
-                    hightestVerion = version;
+            try (ResultSet data = dbservice.getDBData(queryString, argList)) {
+
+                int rowCount = 0;
+                int highestVersion = -1;
+
+                while (data.next()) {
+                    rowCount++;
+
+                    int version = data.getInt("INTERNAL_VERSION");
+                    if (highestVersion < version) {
+                        artifactContent = data.getString("ARTIFACT_CONTENT");
+                        highestVersion = version;
+                    }
+                }
+
+                log.debug("No of rows: " + rowCount + " highest Internal Version " + highestVersion);
+
+                if (rowCount == 0) {
+                    throw new DBException(
+                            "Sorry!!! APPC DB doesn't have any artifact Named: " + artifactName);
+                }
+
+                if (artifactContent == null || artifactContent.isEmpty()) {
+                    throw new DBException("Sorry!!! Artifact Content is stored blank in APPC DB for " + artifactName
+                        + " and Internal version " + highestVersion);
                 }
             }
-            log.debug("No of rows: " + rowCount + " highest Inetrnal Version" + hightestVerion);
-            if (rowCount == 0) {
-                throw new DBException("Sorry !!!APPC DB doesn't have any artifact Named : " + artifactName);
-            }
-            if (artifactContent == null || artifactContent.isEmpty()) {
-                throw new DBException("Sorry !!! Artifact Content is stored blank in APPC DB for " + artifactName
-                        + " and Internal version " + hightestVerion);
-            }
+
             DesignResponse designResponse = new DesignResponse();
             List<ArtifactInfo> artifactInfoList = new ArrayList<>();
             ArtifactInfo artifactInfo = new ArtifactInfo();
@@ -527,7 +723,7 @@ public class DesignDBService {
             designResponse.setArtifactInfo(artifactInfoList);
             ObjectMapper mapper = new ObjectMapper();
             String jsonString = mapper.writeValueAsString(designResponse);
-            log.debug("End of getArtifact:" + INFO_STR + jsonString);
+            log.debug("End of getArtifact: " + INFO_STR + jsonString);
             return jsonString;
         } catch (Exception e) {
             log.error(DB_OPERATION_ERROR, e);
@@ -535,7 +731,7 @@ public class DesignDBService {
         }
     }
 
-    private String setStatus(String payload, String requestID) throws Exception {
+    private String setStatus(String payload, String requestId) throws Exception {
 
         log.info("Starting getStatus DB Operation");
         try {
@@ -557,7 +753,7 @@ public class DesignDBService {
 
             if (payloadObject.get(VNFC_TYPE) != null && !payloadObject.get(VNFC_TYPE).textValue().isEmpty()) {
                 argList.add(payloadObject.get(VNFC_TYPE).textValue());
-                queryString = queryString + " and DAS.VNFC_TYPE = ? ";
+                queryString += " and DAS.VNFC_TYPE = ?";
             }
 
             log.info(QUERY_STR + queryString);
@@ -579,7 +775,7 @@ public class DesignDBService {
         }
     }
 
-    private String getStatus(String payload, String requestID) throws Exception {
+    private String getStatus(String payload, String requestId) throws Exception {
         log.info("Starting getStatus DB Operation");
         try {
             String vnfcType = null;
@@ -595,15 +791,16 @@ public class DesignDBService {
             argList.add(userID);
             argList.add(vnfType);
 
-            String queryString = "SELECT DAS.VNF_TYPE, DAS.VNFC_TYPE,  DAS.STATUS, DAS.ACTION, DAT.ARTIFACT_STATUS "
-                + "from  DT_ACTION_STATUS DAS , DT_ARTIFACT_TRACKING DAT, DT_STATUS_RELATIONSHIP DSR " +
-                " where  DAT.USER = DAS.USER and DSR.DT_ARTIFACT_TRACKING_ID = DAT.DT_ARTIFACT_TRACKING_ID "
-                + " and DSR.DT_ACTION_STATUS_ID = DAS.DT_ACTION_STATUS_ID and DAT.USER = ? "
-                + " and  DAS.VNF_TYPE = ? ";
+            String queryString =
+                    "SELECT DAS.VNF_TYPE, DAS.VNFC_TYPE, DAS.STATUS, DAS.ACTION, DAT.ARTIFACT_STATUS"
+                    + "  from  DT_ACTION_STATUS DAS, DT_ARTIFACT_TRACKING DAT, DT_STATUS_RELATIONSHIP DSR"
+                    + "  where  DAT.USER = DAS.USER and DSR.DT_ARTIFACT_TRACKING_ID = DAT.DT_ARTIFACT_TRACKING_ID"
+                    + " and DSR.DT_ACTION_STATUS_ID = DAS.DT_ACTION_STATUS_ID and DAT.USER = ?"
+                    + " and DAS.VNF_TYPE = ?";
 
             if (vnfcType != null && !vnfcType.isEmpty()) {
                 argList.add(vnfcType);
-                queryString = queryString + " and DAS.VNFC_TYPE = ? ";
+                queryString = queryString + " and DAS.VNFC_TYPE = ?";
             }
 
             log.info(QUERY_STR + queryString);
@@ -611,20 +808,21 @@ public class DesignDBService {
             DesignResponse designResponse = new DesignResponse();
             designResponse.setUserId(userID);
             List<StatusInfo> statusInfoList = new ArrayList<>();
-            ResultSet data = dbservice.getDBData(queryString, argList);
-            while (data.next()) {
-                StatusInfo statusInfo = new StatusInfo();
-                statusInfo.setAction(data.getString("ACTION"));
-                statusInfo.setAction_status(data.getString(STATUS));
-                statusInfo.setArtifact_status(data.getString("ARTIFACT_STATUS"));
-                statusInfo.setVnf_type(data.getString("VNF_TYPE"));
-                statusInfo.setVnfc_type(data.getString("VNFC_TYPE"));
-                statusInfoList.add(statusInfo);
-            }
+            try (ResultSet data = dbservice.getDBData(queryString, argList)) {
+                while (data.next()) {
+                    StatusInfo statusInfo = new StatusInfo();
+                    statusInfo.setAction(data.getString("ACTION"));
+                    statusInfo.setAction_status(data.getString(STATUS));
+                    statusInfo.setArtifact_status(data.getString("ARTIFACT_STATUS"));
+                    statusInfo.setVnf_type(data.getString("VNF_TYPE"));
+                    statusInfo.setVnfc_type(data.getString("VNFC_TYPE"));
+                    statusInfoList.add(statusInfo);
+                }
 
-            if (statusInfoList.isEmpty()) {
-                throw new DBException(
-                    "OOPS !!!! No VNF information available for VNF-TYPE : " + vnfType + " for User : " + userID);
+                if (statusInfoList.isEmpty()) {
+                    throw new DBException(
+                            "OOPS!!!! No VNF information available for VNF-TYPE: " + vnfType + " for User: " + userID);
+                }
             }
             designResponse.setStatusInfoList(statusInfoList);
             ObjectMapper mapper = new ObjectMapper();
@@ -636,22 +834,22 @@ public class DesignDBService {
             throw e;
         } catch (Exception e) {
             log.error(DB_OPERATION_ERROR + e.getMessage());
-            log.error("Exception : ", e);
+            log.error("Exception:", e);
             throw e;
         }
     }
 
-    private String getGuiReference(String payload, String requestID) {
+    private String getGuiReference(String payload, String requestId) {
         // TODO Auto-generated method stub
         return null;
     }
 
-    private String getArtifactReference(String payload, String requestID) {
+    private String getArtifactReference(String payload, String requestId) {
         // TODO Auto-generated method stub
         return null;
     }
 
-    private String getDesigns(String payload, String requestID) throws Exception {
+    private String getDesigns(String payload, String requestId) throws Exception {
 
         String queryString;
         log.info("Starting getDesigns DB Operation");
@@ -666,41 +864,45 @@ public class DesignDBService {
             }
             ArrayList<String> argList = new ArrayList<>();
             argList.add(userID);
+            argList.add(userID);
+            queryString =
+                    "SELECT DISTINCT AR.VNF_TYPE, AR.VNFC_TYPE, DAT.PROTOCOL, DAT.IN_CART, AR.ACTION, AR.ARTIFACT_NAME,"
+                    + " AR.ARTIFACT_TYPE, DUP.PERMISSION, DAS.USER  FROM  "
+                    + DesignServiceConstants.DB_DT_ARTIFACT_TRACKING + " DAT, "
+                    + DesignServiceConstants.DB_SDC_REFERENCE + " AR, " + DesignServiceConstants.DB_DT_USER_PERMISSIONS
+                    + " DUP, " + DesignServiceConstants.DB_DT_ACTION_STATUS + " DAS "
+                    + " WHERE  AR.VNF_TYPE = DUP.VNF_TYPE AND DAS.VNF_TYPE = DUP.VNF_TYPE"
+                    + " AND DAT.ASDC_REFERENCE_ID = AR.ASDC_REFERENCE_ID AND DUP.USER_ID = ? AND AR.VNF_TYPE IN"
+                    + " (SELECT DUP.VNF_TYPE FROM DT_USER_PERMISSIONS DUP"
+                    + " WHERE DUP.PERMISSION IN('owner','contributor') AND DUP.USER_ID = ? GROUP BY VNF_TYPE)";
 
             if (filterKey != null) {
-                queryString =
-                    "SELECT AR.VNF_TYPE, AR.VNFC_TYPE,  DAT.PROTOCOL, DAT.IN_CART, AR.ACTION, AR.ARTIFACT_NAME, AR.ARTIFACT_TYPE from  "
-                        +
-                        DesignServiceConstants.DB_DT_ARTIFACT_TRACKING + " DAT , "
-                        + DesignServiceConstants.DB_SDC_REFERENCE +
-                        " AR where DAT.ASDC_REFERENCE_ID= AR.ASDC_REFERENCE_ID  and DAT.USER = ? and AR.ARTIFACT_NAME like '%"
-                        + filterKey + "%' GROUP BY AR.VNF_TYPE,AR.ARTIFACT_NAME";
-            } else {
-                queryString =
-                    "SELECT AR.VNF_TYPE, AR.VNFC_TYPE,  DAT.PROTOCOL, DAT.IN_CART, AR.ACTION, AR.ARTIFACT_NAME, AR.ARTIFACT_TYPE from  "
-                        +
-                        DesignServiceConstants.DB_DT_ARTIFACT_TRACKING + " DAT , "
-                        + DesignServiceConstants.DB_SDC_REFERENCE +
-                        " AR where DAT.ASDC_REFERENCE_ID= AR.ASDC_REFERENCE_ID  and DAT.USER = ? GROUP BY AR.VNF_TYPE,AR.ARTIFACT_NAME";
+                queryString += " AND AR.ARTIFACT_NAME like '%" + filterKey + "%'";
             }
+            queryString += " GROUP BY AR.VNF_TYPE, AR.ARTIFACT_NAME";
+
+            log.info("QUERY FOR getDesigns: " + queryString);
             DesignResponse designResponse = new DesignResponse();
             designResponse.setUserId(userID);
             List<DesignInfo> designInfoList = new ArrayList<>();
-            ResultSet data = dbservice.getDBData(queryString, argList);
-            while (data.next()) {
-                DesignInfo designInfo = new DesignInfo();
-                designInfo.setInCart(data.getString("IN_CART"));
-                designInfo.setProtocol(data.getString("PROTOCOL"));
-                designInfo.setVnf_type(data.getString("VNF_TYPE"));
-                designInfo.setVnfc_type(data.getString("VNFC_TYPE"));
-                designInfo.setAction(data.getString("ACTION"));
-                designInfo.setArtifact_type(data.getString("ARTIFACT_TYPE"));
-                designInfo.setArtifact_name(data.getString("ARTIFACT_NAME"));
-                designInfoList.add(designInfo);
-            }
-            if (designInfoList.isEmpty()) {
-                throw new DBException(
-                    " Welcome to CDT, Looks like you dont have Design Yet... Lets create some....");
+            try (ResultSet data = dbservice.getDBData(queryString, argList)) {
+                while (data.next()) {
+                    DesignInfo designInfo = new DesignInfo();
+                    designInfo.setInCart(data.getString("IN_CART"));
+                    designInfo.setProtocol(data.getString("PROTOCOL"));
+                    designInfo.setVnf_type(data.getString("VNF_TYPE"));
+                    designInfo.setVnfc_type(data.getString("VNFC_TYPE"));
+                    designInfo.setAction(data.getString("ACTION"));
+                    designInfo.setArtifact_type(data.getString("ARTIFACT_TYPE"));
+                    designInfo.setArtifact_name(data.getString("ARTIFACT_NAME"));
+                    designInfo.setPermission(data.getString("PERMISSION"));
+                    designInfo.setCreatorUserId(data.getString("USER"));
+                    designInfoList.add(designInfo);
+                }
+                if (designInfoList.isEmpty()) {
+                    throw new DBException(
+                            "Welcome to CDT, Looks like you don't have Design Yet... Let's create some....");
+                }
             }
             designResponse.setDesignInfoList(designInfoList);
             ObjectMapper mapper = new ObjectMapper();
@@ -708,15 +910,60 @@ public class DesignDBService {
             log.info(INFO_STR + jsonString);
             return jsonString;
         } catch (Exception e) {
-            log.error("Error while Starting getDesgins DB operation : ", e);
+            log.error("Error while Starting getDesigns DB operation:", e);
+            throw e;
+        }
+    }
+
+    private String retrieveVnfPermissions(String payload, String requestId) throws Exception {
+        log.info("Starting retrieveVnfPermissions DB Operation");
+
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode payloadObject = objectMapper.readTree(payload);
+            ArrayList<String> argList = new ArrayList<>();
+            String vnfType = payloadObject.get(VNF_TYPE).textValue();
+            argList.add(vnfType);
+
+            String queryString = "SELECT USER_ID, PERMISSION FROM DT_USER_PERMISSIONS WHERE VNF_TYPE = ?";
+            log.info(QUERY_STR + queryString);
+            List<UserPermissionInfo> userPermList = new ArrayList<>();
+            try (ResultSet data = dbservice.getDBData(queryString, argList)) {
+
+                int rowCount = 0;
+
+                while (data.next()) {
+                    rowCount++;
+                    UserPermissionInfo userPermInfo = new UserPermissionInfo();
+                    userPermInfo.setUserID(data.getString(COLUMN_USER_ID));
+                    userPermInfo.setPermission(data.getString(COLUMN_PERMISSION));
+                    userPermList.add(userPermInfo);
+                }
+                log.info("Number of rows=" + rowCount + ", for vnf-type=" + vnfType);
+
+                if (userPermList.isEmpty()) {
+                    throw new DBException("No user permissions information available for VNF-TYPE: " + vnfType);
+                }
+            }
+            DesignResponse designResponse = new DesignResponse();
+            designResponse.setUsers(userPermList);
+            designResponse.setVnfType(vnfType);
+            ObjectMapper mapper = new ObjectMapper();
+            String jsonString = mapper.writeValueAsString(designResponse);
+            log.info("End of retrieveVnfPermissions: " + INFO_STR + jsonString);
+            return jsonString;
+
+        } catch (Exception e) {
+            log.error("Error while Starting retrieveVnfPermissions DB operation:", e);
             throw e;
         }
     }
 
     public static class ArtifactHandlerFactory {
-
-        public ArtifactHandlerClient ahi() throws Exception{
+        public ArtifactHandlerClient ahi() throws Exception {
             return new ArtifactHandlerClient();
         }
     }
+
 }
+

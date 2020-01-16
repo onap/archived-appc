@@ -4,6 +4,8 @@
  * ================================================================================
  * Modifications Copyright (C) 2018 Nokia
  * ================================================================================
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -61,15 +63,15 @@ public class LicenseManagerImplTest {
     public void retrieveLicenseModel_shouldThrowException_whenRetrieveLicenseModelDataIsEmpty() {
 
         // GIVEN
-        String expectedMessage = String
-            .format("License model not found for vnfType='%s' and vnfVersion='%s'", VNF_TYPE, VNF_VERSION);
+        String expectedMessage =
+                String.format("License model not found for vnfType='%s' and vnfVersion='%s'", VNF_TYPE, VNF_VERSION);
         given(licenseDataAccessService.retrieveLicenseModelData(VNF_TYPE, VNF_VERSION))
-            .willReturn(Collections.emptyMap());
+                .willReturn(Collections.emptyMap());
 
         // WHEN THEN
         assertThatExceptionOfType(DataAccessException.class)
-            .isThrownBy(() -> licenseManager.retrieveLicenseModel(VNF_TYPE, VNF_VERSION))
-            .withMessage(expectedMessage);
+                .isThrownBy(() -> licenseManager.retrieveLicenseModel(VNF_TYPE, VNF_VERSION))
+                .withMessage(expectedMessage);
     }
 
     @Test
@@ -81,11 +83,11 @@ public class LicenseManagerImplTest {
         Map<String, String> licenseModelData = new HashMap<>();
         licenseModelData.put(ARTIFACT_CONTENT.name(), malformedXml);
         given(licenseDataAccessService.retrieveLicenseModelData(VNF_TYPE, VNF_VERSION))
-            .willReturn(licenseModelData);
+                .willReturn(licenseModelData);
 
         // WHEN THEN
         assertThatExceptionOfType(DataAccessException.class)
-            .isThrownBy(() -> licenseManager.retrieveLicenseModel(VNF_TYPE, VNF_VERSION));
+                .isThrownBy(() -> licenseManager.retrieveLicenseModel(VNF_TYPE, VNF_VERSION));
     }
 
     @Test
@@ -102,7 +104,7 @@ public class LicenseManagerImplTest {
         Map<String, String> licenseModelData = new HashMap<>();
         licenseModelData.put(ARTIFACT_CONTENT.name(), correctlyFormedXml);
         given(licenseDataAccessService.retrieveLicenseModelData(VNF_TYPE, VNF_VERSION))
-            .willReturn(licenseModelData);
+                .willReturn(licenseModelData);
 
         // WHEN
         LicenseModel licenseModel = licenseManager.retrieveLicenseModel(VNF_TYPE, VNF_VERSION);

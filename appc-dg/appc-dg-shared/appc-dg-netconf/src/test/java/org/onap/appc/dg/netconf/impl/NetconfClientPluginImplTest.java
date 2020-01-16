@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
@@ -11,15 +11,14 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
  * ============LICENSE_END=========================================================
  */
 
@@ -60,7 +59,6 @@ import java.util.Map;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 
-
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({OperationalStateValidatorFactory.class, FrameworkUtil.class, ObjectMapper.class})
 
@@ -84,36 +82,40 @@ public class NetconfClientPluginImplTest {
     int port = 8080;
     String username = "test";
     String password = "test";
-    String connectionDetails = "{\"host\":\"" + host + "\",\"port\":" + port + ",\"username\":\"" + username + "\",\"password\":\"" + password + "\",\"capabilities\":null,\"additionalProperties\":null}";
-    String fileContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-            "<rpc message-id=\"101\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n" +
-            "\t<get-config>\n" +
-            "\t\t<source>\n" +
-            "\t\t\t<running/>\n" +
-            "\t\t </source>\n" +
-            "\t</get-config>\n" +
-            "</rpc>'";
-    String operationalState = "<rpc message-id=\"101\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n" +
-            "       <get>\n" +
-            "              <filter>\n" +
-            "                     <ManagedElement xmlns=\"urn:org:onap:appc:Test\">\n" +
-            "                           <VnfFunction xmlns=\"urn:org:openecomop:appc:Test\">\n" +
-            "                                  <ProcessorManagement>\n" +
-            "                                         <MatedPair>\n" +
-            "                                                <operationalState/>\n" +
-            "                                                <PayloadProcessor>\n" +
-            "                                                       <operationalState/>\n" +
-            "                                                </PayloadProcessor>\n" +
-            "                                         </MatedPair>\n" +
-            "                                         <SystemController>\n" +
-            "                                                <operationalState/>\n" +
-            "                                         </SystemController>\n" +
-            "                                  </ProcessorManagement>\n" +
-            "                           </VnfFunction>\n" +
-            "                     </ManagedElement>\n" +
-            "              </filter>\n" +
-            "       </get>\n" +
-            "</rpc>\n";
+    String connectionDetails =
+            "{\"host\":\"" + host + "\",\"port\":" + port + ",\"username\":\"" + username
+            + "\",\"password\":\"" + password + "\",\"capabilities\":null,\"additionalProperties\":null}";
+    String fileContent =
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+            + "<rpc message-id=\"101\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n"
+            + "\t<get-config>\n"
+            + "\t\t<source>\n"
+            + "\t\t\t<running/>\n"
+            + "\t\t </source>\n"
+            + "\t</get-config>\n"
+            + "</rpc>'";
+    String operationalState =
+            "<rpc message-id=\"101\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n"
+            + "       <get>\n"
+            + "              <filter>\n"
+            + "                     <ManagedElement xmlns=\"urn:org:onap:appc:Test\">\n"
+            + "                           <VnfFunction xmlns=\"urn:org:openecomop:appc:Test\">\n"
+            + "                                  <ProcessorManagement>\n"
+            + "                                         <MatedPair>\n"
+            + "                                                <operationalState/>\n"
+            + "                                                <PayloadProcessor>\n"
+            + "                                                       <operationalState/>\n"
+            + "                                                </PayloadProcessor>\n"
+            + "                                         </MatedPair>\n"
+            + "                                         <SystemController>\n"
+            + "                                                <operationalState/>\n"
+            + "                                         </SystemController>\n"
+            + "                                  </ProcessorManagement>\n"
+            + "                           </VnfFunction>\n"
+            + "                     </ManagedElement>\n"
+            + "              </filter>\n"
+            + "       </get>\n"
+            + "</rpc>\n";
 
 
     @Before
@@ -143,7 +145,7 @@ public class NetconfClientPluginImplTest {
             Assert.assertEquals("wrong password", password, client.getLastConnectionDetails().getPassword());
             Assert.assertFalse(client.isConnection());
         } catch (Exception e) {
-            Assert.fail("failed with because of " + e.getCause());
+            Assert.fail("failed because of " + e.getCause());
         }
     }
 
@@ -186,7 +188,8 @@ public class NetconfClientPluginImplTest {
         validatorMock.setConfigurationFileName("VnfGetRunningConfig");
 
         PowerMockito.mockStatic(OperationalStateValidatorFactory.class);
-        when(OperationalStateValidatorFactory.getOperationalStateValidator(Matchers.any(VnfType.class))).thenReturn(validatorMock);
+        when(OperationalStateValidatorFactory.getOperationalStateValidator(Matchers.any(VnfType.class)))
+                .thenReturn(validatorMock);
 
         netconfClientPlugin.operationStateValidation(params, ctx);
 
@@ -212,7 +215,8 @@ public class NetconfClientPluginImplTest {
         validatorMock.setConfigurationFileName("VnfGetRunningConfig");
 
         PowerMockito.mockStatic(OperationalStateValidatorFactory.class);
-        when(OperationalStateValidatorFactory.getOperationalStateValidator(Matchers.any(VnfType.class))).thenReturn(validatorMock);
+        when(OperationalStateValidatorFactory.getOperationalStateValidator(Matchers.any(VnfType.class)))
+                .thenReturn(validatorMock);
         substituteMapper(true);
 
         try {
@@ -244,7 +248,8 @@ public class NetconfClientPluginImplTest {
         validatorMock.setConfigurationFileName("VnfGetRunningConfig");
 
         PowerMockito.mockStatic(OperationalStateValidatorFactory.class);
-        when(OperationalStateValidatorFactory.getOperationalStateValidator(Matchers.any(VnfType.class))).thenReturn(validatorMock);
+        when(OperationalStateValidatorFactory.getOperationalStateValidator(Matchers.any(VnfType.class)))
+                .thenReturn(validatorMock);
         ObjectMapper mapper = PowerMockito.mock(ObjectMapper.class);
         final NetconfConnectionDetails netconfConnectionDetails = null;
         when(mapper.readValue(Matchers.anyString(), Matchers.any(Class.class))).thenReturn(netconfConnectionDetails);
@@ -277,7 +282,8 @@ public class NetconfClientPluginImplTest {
         validatorMock.setConfigurationFileName("VnfGetRunningConfig");
 
         PowerMockito.mockStatic(OperationalStateValidatorFactory.class);
-        when(OperationalStateValidatorFactory.getOperationalStateValidator(Matchers.any(VnfType.class))).thenReturn(validatorMock);
+        when(OperationalStateValidatorFactory.getOperationalStateValidator(Matchers.any(VnfType.class)))
+                .thenReturn(validatorMock);
 
         try {
             netconfClientPlugin.operationStateValidation(params, ctx);
@@ -308,7 +314,8 @@ public class NetconfClientPluginImplTest {
         validatorMock.setConfigurationFileName("VnfGetRunningConfig");
 
         PowerMockito.mockStatic(OperationalStateValidatorFactory.class);
-        when(OperationalStateValidatorFactory.getOperationalStateValidator(Matchers.any(VnfType.class))).thenReturn(validatorMock);
+        when(OperationalStateValidatorFactory.getOperationalStateValidator(Matchers.any(VnfType.class)))
+                .thenReturn(validatorMock);
 
         netconfClientPlugin.operationStateValidation(params, ctx);
 
@@ -335,7 +342,8 @@ public class NetconfClientPluginImplTest {
         validatorMock.setConfigurationFileName("VnfGetRunningConfig");
 
         PowerMockito.mockStatic(OperationalStateValidatorFactory.class);
-        when(OperationalStateValidatorFactory.getOperationalStateValidator(Matchers.any(VnfType.class))).thenReturn(validatorMock);
+        when(OperationalStateValidatorFactory.getOperationalStateValidator(Matchers.any(VnfType.class)))
+                .thenReturn(validatorMock);
 
         netconfClientPlugin.operationStateValidation(params, ctx);
 
@@ -554,7 +562,7 @@ public class NetconfClientPluginImplTest {
         Assert.assertEquals("wrong host", connectionDetails1.getHost(), connectionDetailsActual.getHost());
         Assert.assertEquals("wrong password", connectionDetails1.getPassword(), connectionDetailsActual.getPassword());
         Assert.assertEquals("wrong port", connectionDetails1.getPort(), connectionDetailsActual.getPort());
-        Assert.assertEquals("wrong usename", connectionDetails1.getUsername(), connectionDetailsActual.getUsername());
+        Assert.assertEquals("wrong username", connectionDetails1.getUsername(), connectionDetailsActual.getUsername());
     }
 
 
@@ -582,7 +590,8 @@ public class NetconfClientPluginImplTest {
         DAOServiceMock daoServiceMock = (DAOServiceMock) dao;
         daoServiceMock.setConfigFile(fileContent);
 
-        Assert.assertEquals("wrong config in a database", fileContent, netconfClientPlugin.retrieveConfigurationFileContent("VnfGetRunningConfig"));
+        Assert.assertEquals("wrong config in a database",
+                fileContent, netconfClientPlugin.retrieveConfigurationFileContent("VnfGetRunningConfig"));
     }
 
     private ConnectionDetails getConnectionDetails() {

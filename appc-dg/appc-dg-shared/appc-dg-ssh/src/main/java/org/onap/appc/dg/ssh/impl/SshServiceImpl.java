@@ -2,24 +2,21 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
- * ================================================================================
- * Modifications (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
  * ============LICENSE_END=========================================================
  */
 
@@ -48,6 +45,11 @@ public class SshServiceImpl implements SshService {
 
     private SshAdapter sshAdapter;
 
+    /**
+     * Set sshAdapter.
+     * <p>Used through blueprint.
+     * @param sshAdapter the SshAdapter
+     */
     public void setSshAdapter(SshAdapter sshAdapter) {
         this.sshAdapter = sshAdapter;
     }
@@ -57,7 +59,9 @@ public class SshServiceImpl implements SshService {
         SshConnectionDetails connectionDetails = resolveConnectionDetails(params.get(PARAM_IN_connection_details));
         String command = params.get(PARAM_IN_command);
         logger.debug("=> Connecting to SSH server...");
-        SshConnection sshConnection = sshAdapter.getConnection(connectionDetails.getHost(), connectionDetails.getPort(), connectionDetails.getUsername(), connectionDetails.getPassword());
+        SshConnection sshConnection =
+                sshAdapter.getConnection(connectionDetails.getHost(), connectionDetails.getPort(),
+                    connectionDetails.getUsername(), connectionDetails.getPassword());
         sshConnection.connect();
         try {
             logger.debug("=> Connected to SSH server...");
@@ -97,11 +101,11 @@ public class SshServiceImpl implements SshService {
     public void execWithStatusCheck(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
         exec(params, ctx);
         int status = Integer.parseInt(ctx.getAttribute(PARAM_OUT_status));
-        if(status != DEF_SUCCESS_STATUS) {
+        if (status != DEF_SUCCESS_STATUS) {
             StringBuilder errmsg = new StringBuilder();
             errmsg.append("SSH command returned error status [").append(status).append(']');
             String stderr = ctx.getAttribute(PARAM_OUT_stderr);
-            if((stderr != null) && !stderr.isEmpty()) {
+            if ((stderr != null) && !stderr.isEmpty()) {
                 errmsg.append(". Error: [").append(stderr).append(']');
             }
             throw new APPCException(errmsg.toString());

@@ -9,15 +9,14 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
  * ============LICENSE_END=========================================================
  */
 
@@ -87,6 +86,9 @@ public class RequestValidator {
             case DesignServiceConstants.UPLOADADMINARTIFACT:
                 errorString = resolveUploadArtifactErrorString(payloadObject);
                 break;
+            case DesignServiceConstants.RETRIEVEVNFPERMISSIONS:
+                errorString = resolveRetrieveVnfPermissionsErrorString(payloadObject);
+                break;
             case SETPROTOCOLREFERENCE:
             case SETINCART:
                 errorString = resolveErrorString(payloadObject);
@@ -94,14 +96,23 @@ public class RequestValidator {
             case DesignServiceConstants.CHECKVNF:
                 errorString = resolveCheckVNFErrorString(payloadObject);
                 break;
+            case DesignServiceConstants.SAVEVNFPERMISSIONS:
+                errorString = resolveSaveUserPermissionErrorString(payloadObject);
+                break;
             default:
                 throw new RequestValidationException(" Action " + action + " not found while processing request ");
         }
         checkForErrorString(errorString);
     }
 
+    private static String resolveSaveUserPermissionErrorString(JsonNode payloadObject) {
+        if (nullOrEmpty(payloadObject, VNF_TYPE))
+            return VNF_TYPE;
+        return null;
+    }
+
     private static String resolveCheckVNFErrorString(JsonNode payloadObject) {
-        if (nullOrEmpty(payloadObject, VNF_TYPE)) 
+        if (nullOrEmpty(payloadObject, VNF_TYPE))
             return VNF_TYPE;
         return null;
     }
@@ -192,6 +203,10 @@ public class RequestValidator {
         return payload == null || payload.textValue().trim().isEmpty();
     }
 
+    private static String resolveRetrieveVnfPermissionsErrorString(JsonNode payloadObject) {
+        if (nullOrEmpty(payloadObject, VNF_TYPE)) {
+            return VNF_TYPE;
+        }
+        return null;
+    }
 }
-
-

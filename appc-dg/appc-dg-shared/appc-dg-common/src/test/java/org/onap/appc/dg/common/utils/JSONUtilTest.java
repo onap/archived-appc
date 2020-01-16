@@ -2,7 +2,7 @@
 * ============LICENSE_START=======================================================
 * ONAP : APPC
 * ================================================================================
-* Copyright 2018 AT&T
+* Copyright 2018-2019 AT&T
 *=================================================================================
 * Modifications Copyright 2018 IBM.
 *=================================================================================
@@ -43,7 +43,8 @@ public class JSONUtilTest {
     public void testFromJsonReader() {
 
         try {
-            JSONUtilVnfTest jOut = JSONUtil.fromJson(new FileReader("src/test/resources/data/input.json"), JSONUtilVnfTest.class);
+            JSONUtilVnfTest jOut =
+                    JSONUtil.fromJson(new FileReader("src/test/resources/data/input.json"), JSONUtilVnfTest.class);
             assertEquals("I1", jOut.getVnfId());
             assertEquals("T1", jOut.getVnfType());
         } catch (UncheckedIOException uioe) {
@@ -97,9 +98,9 @@ public class JSONUtilTest {
             Map<String, String> map = JSONUtil.extractPlainValues(refJson, "vnfId", "vnfType");
 
             HashMap<String, String> hashMap =
-                 (map instanceof HashMap)
-                  ? (HashMap) map
-                  : new HashMap<String, String>(map);
+                    (map instanceof HashMap)
+                        ? (HashMap) map
+                        : new HashMap<String, String>(map);
             assertEquals(hashMap.get("vnfId"), "I2");
             assertEquals(hashMap.get("vnfType"), "T2");
 
@@ -108,10 +109,9 @@ public class JSONUtilTest {
             fail(uioe.getMessage() + " Unchecked IO exception encountered");
         }
     }
-    
+
     @Test(expected=UncheckedIOException.class)
-    public void testCatchSectionOfToJson() throws IOException
-    {
-       JSONUtil.toJson(new Object());
+    public void testCatchSectionOfToJson() throws IOException {
+        JSONUtil.toJson(new Object());
     }
 }

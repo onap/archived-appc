@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
@@ -11,15 +11,14 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
  * ============LICENSE_END=========================================================
  */
 
@@ -52,15 +51,15 @@ public class NetconfDBPluginImplTest {
     int port = 8080;
     String username = "test";
     String password = "test";
-    String configContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-            "<rpc message-id=\"101\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n" +
-            "\t<get-config>\n" +
-            "\t\t<source>\n" +
-            "\t\t\t<running/>\n" +
-            "\t\t </source>\n" +
-            "\t</get-config>\n" +
-            "</rpc>'";
-
+    String configContent =
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+            + "<rpc message-id=\"101\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n"
+            + "\t<get-config>\n"
+            + "\t\t<source>\n"
+            + "\t\t\t<running/>\n"
+            + "\t\t </source>\n"
+            + "\t</get-config>\n"
+            + "</rpc>'";
 
     @Test
     public void testRetrieveDSConfiguration() throws Exception {
@@ -98,7 +97,8 @@ public class NetconfDBPluginImplTest {
         SvcLogicContext ctx = new SvcLogicContext();
         netconfDBPlugin.retrieveVMDSConfiguration(params, ctx);
 
-        Assert.assertEquals("lack of success of retrieveVMDSConfiguration_Result", "success", ctx.getAttribute("retrieveVMDSConfiguration_Result"));
+        Assert.assertEquals("lack of success of retrieveVMDSConfiguration_Result",
+                "success", ctx.getAttribute("retrieveVMDSConfiguration_Result"));
         Assert.assertEquals("wrong entity", "VNF", ctx.getAttribute("entity"));
         assertConnectionDetails(ctx, host);
     }
@@ -117,7 +117,6 @@ public class NetconfDBPluginImplTest {
             Assert.assertEquals("failure", ctx.getAttribute("retrieveVMDSConfiguration_Result"));
         }
     }
-
 
     @Test
     public void testRetrieveVMDSConfigurationNegativeJsonProcessingException() throws Exception {
@@ -180,7 +179,6 @@ public class NetconfDBPluginImplTest {
         }
     }
 
-
     @Test
     public void testRetrieveConnectionDetailsNegativeMissingConfiguration() throws Exception {
         init();
@@ -204,7 +202,8 @@ public class NetconfDBPluginImplTest {
 
     private void assertConnectionDetails(SvcLogicContext ctx, String host) throws IOException {
         String sConnectionDetails = ctx.getAttribute("connection-details");
-        NetconfConnectionDetails connectionDetails = new ObjectMapper().readValue(sConnectionDetails, NetconfConnectionDetails.class);
+        NetconfConnectionDetails connectionDetails =
+                new ObjectMapper().readValue(sConnectionDetails, NetconfConnectionDetails.class);
         Assert.assertEquals(host, connectionDetails.getHost());
         Assert.assertEquals(port, connectionDetails.getPort());
         Assert.assertEquals(username, connectionDetails.getUsername());
@@ -220,7 +219,6 @@ public class NetconfDBPluginImplTest {
         daoMock = (DAOServiceMock) daoService;
         daoMock.setConfigFile(configContent);
         daoMock.setConnection(getConnectionDetails());
-
     }
 
     private ConnectionDetails getConnectionDetails() {

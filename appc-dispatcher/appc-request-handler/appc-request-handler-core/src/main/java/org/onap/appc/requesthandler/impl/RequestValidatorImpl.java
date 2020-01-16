@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
@@ -19,20 +19,16 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  * ============LICENSE_END=========================================================
  */
 
 package org.onap.appc.requesthandler.impl;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
-import java.util.stream.Collectors;
+import com.att.eelf.i18n.EELFResourceManager;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
@@ -70,16 +66,22 @@ import org.onap.appc.validationpolicy.objects.RuleResult;
 import org.onap.appc.workflow.WorkFlowManager;
 import org.onap.appc.workflow.objects.WorkflowExistsOutput;
 import org.onap.appc.workflow.objects.WorkflowRequest;
-import org.onap.ccsdk.sli.adaptors.aai.AAIService;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
+import org.onap.ccsdk.sli.adaptors.aai.AAIService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
-import com.att.eelf.i18n.EELFResourceManager;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Properties;
+import java.util.stream.Collectors;
 
 public class RequestValidatorImpl extends AbstractRequestValidatorImpl {
 
@@ -102,7 +104,6 @@ public class RequestValidatorImpl extends AbstractRequestValidatorImpl {
         String user = null;
         String pass = null;
         String transactionWindow = null;
-
         Properties properties = configuration.getProperties();
         if (properties != null) {
             endpoint = properties.getProperty(SCOPE_OVERLAP_ENDPOINT);
@@ -213,20 +214,21 @@ public class RequestValidatorImpl extends AbstractRequestValidatorImpl {
         }
 
         List<TransactionRecord> inProgressTransactionsAll = transactionRecorder
-                .getInProgressRequests(runtimeContext.getTransactionRecord(),0);
+                .getInProgressRequests(runtimeContext.getTransactionRecord(), 0);
         List<TransactionRecord> inProgressTransactions = transactionRecorder
-                .getInProgressRequests(runtimeContext.getTransactionRecord(),transactionWindowInterval);
-
-        long inProgressTransactionsAllCount = inProgressTransactionsAll.size();
-        long inProgressTransactionsRelevant = inProgressTransactions.size();
+                .getInProgressRequests(runtimeContext.getTransactionRecord(), transactionWindowInterval);
+        long inProgressTransactionsAllCount = inProgressTransactionsAll == null ? 0 : inProgressTransactionsAll.size();
+        long inProgressTransactionsRelevant = inProgressTransactions == null ? 0 : inProgressTransactions.size();
         logger.debug("In progress requests " + inProgressTransactions.toString());
 
-        if ( inProgressTransactions.isEmpty()){ //No need to check for scope overlap
+        if (inProgressTransactionsRelevant == 0) { //No need for further checks
             return;
         }
 
-        logInProgressTransactions(inProgressTransactions,inProgressTransactionsAllCount,
-            inProgressTransactionsRelevant );
+        if (logger.isInfoEnabled()) {
+            logger.info(logInProgressTransactions(inProgressTransactions, inProgressTransactionsAllCount,
+                    inProgressTransactionsRelevant));
+        }
 
         Long exclusiveRequestCount = inProgressTransactions.stream()
                 .filter(record -> record.getMode().equals(Flags.Mode.EXCLUSIVE.name())).count();
@@ -493,7 +495,7 @@ public class RequestValidatorImpl extends AbstractRequestValidatorImpl {
                     this.getClass().getCanonicalName());
             throw new WorkflowNotFoundException(
                     "Workflow mapping not found for vnfType = " + vnfContext.getType() + ", command = "
-                            + requestContext.getAction().name(),
+                    + requestContext.getAction().name(),
                     vnfContext.getType(), requestContext.getAction().name());
         }
         if (!workflowExistsOutput.isDgExist()) {
@@ -507,7 +509,7 @@ public class RequestValidatorImpl extends AbstractRequestValidatorImpl {
                     this.getClass().getCanonicalName());
             throw new DGWorkflowNotFoundException(
                     "Workflow not found for vnfType = " + vnfContext.getType() + ", command = "
-                            + requestContext.getAction().name(),
+                    + requestContext.getAction().name(),
                     workflowExistsOutput.getWorkflowModule(), workflowExistsOutput.getWorkflowName(),
                     workflowExistsOutput.getWorkflowVersion(), vnfContext.getType(), requestContext.getAction().name());
         }
@@ -526,25 +528,24 @@ public class RequestValidatorImpl extends AbstractRequestValidatorImpl {
 
     public String logInProgressTransactions(List<TransactionRecord> inProgressTransactions,
             long inProgressTransactionsAllCount, long inProgressTransactionsRelevant) {
-            if (inProgressTransactionsAllCount > inProgressTransactionsRelevant) {
-                logger.info("Found Stale Transactions! Ignoring Stale Transactions for target, only considering "
+        if (inProgressTransactionsAllCount > inProgressTransactionsRelevant) {
+            logger.info("Found Stale Transactions! Ignoring Stale Transactions for target, only considering "
                     + "transactions within the last " + transactionWindowInterval + " hours as transactions in-progress");
-            }
-            String logMsg="";
-            for (TransactionRecord tr: inProgressTransactions) {
-                logMsg = ("In Progress transaction for Target ID - "+ tr.getTargetId()
-                        + " in state " + tr.getRequestState()
-                        + " with Start time " + tr.getStartTime().toString()
-                        + " for more than configurable time period " + transactionWindowInterval
-                        + " hours [transaction details - Request ID - " + tr.getTransactionId()
-                        + ", Service Instance Id -" + tr.getServiceInstanceId()
-                        + ", Vserver_id - " + tr.getVserverId()
-                        + ", VNFC_name - "+ tr.getVnfcName()
-                        + ", VF module Id - " + tr.getVfModuleId()
-                        + " Start time " + tr.getStartTime().toString()
-                        + "]" );
-            }
-            return logMsg;
-
+        }
+        String logMsg = "";
+        for (TransactionRecord tr: inProgressTransactions) {
+            logMsg = ("In Progress transaction for Target ID - " + tr.getTargetId()
+                    + " in state " + tr.getRequestState()
+                    + " with Start time " + tr.getStartTime().toString()
+                    + " for more than configurable time period " + transactionWindowInterval
+                    + " hours [transaction details - Request ID - " + tr.getTransactionId()
+                    + ", Service Instance Id - " + tr.getServiceInstanceId()
+                    + ", Vserver_id - " + tr.getVserverId()
+                    + ", VNFC_name - " + tr.getVnfcName()
+                    + ", VF module Id - " + tr.getVfModuleId()
+                    + " Start time " + tr.getStartTime().toString()
+                    + "]");
+        }
+        return logMsg;
     }
 }

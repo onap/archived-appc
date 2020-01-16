@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
@@ -13,15 +13,14 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
  * ============LICENSE_END=========================================================
  */
 
@@ -38,7 +37,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class XResponseProcessor {
 
     private final EELFLogger log = EELFManager.getInstance().getLogger(XInterfaceService.class);
-    private static final String EXCEPTION_WHILE_RECEIVING_DATA = "Exception occured while receiving data";
+    private static final String EXCEPTION_WHILE_RECEIVING_DATA = "Exception occurred while receiving data";
     Dme2Client dme2Client;
 
     public static XResponseProcessor getInstance() {
@@ -61,37 +60,39 @@ public class XResponseProcessor {
             // check the payload whether its having ipaddr along with subnet
             ipAddress = payloadObject.get(DesignServiceConstants.INSTAR_V4_ADDRESS) != null
                     ? payloadObject.get(DesignServiceConstants.INSTAR_V4_ADDRESS).textValue()
-                            : (payloadObject.get(DesignServiceConstants.INSTAR_V6_ADDRESS) != null)
-                            ? payloadObject.get(DesignServiceConstants.INSTAR_V6_ADDRESS).textValue()
-                                    .toUpperCase()
-                                    : null;
+                    : (payloadObject.get(DesignServiceConstants.INSTAR_V6_ADDRESS) != null)
+                        ? payloadObject.get(DesignServiceConstants.INSTAR_V6_ADDRESS).textValue().toUpperCase()
+                        : null;
 
-                                    mask = payloadObject.get(DesignServiceConstants.INSTAR_V4_MASK) != null
-                                            ? payloadObject.get(DesignServiceConstants.INSTAR_V4_MASK).textValue()
-                                                    : (payloadObject.get(DesignServiceConstants.INSTAR_V6_MASK) != null)
-                                                    ? payloadObject.get(DesignServiceConstants.INSTAR_V6_MASK).textValue().toUpperCase()
-                                                            : null;
+            mask = payloadObject.get(DesignServiceConstants.INSTAR_V4_MASK) != null
+                    ? payloadObject.get(DesignServiceConstants.INSTAR_V4_MASK).textValue()
 
-                                                    // TODO -short format
+                    : (payloadObject.get(DesignServiceConstants.INSTAR_V6_MASK) != null)
+                        ? payloadObject.get(DesignServiceConstants.INSTAR_V6_MASK).textValue().toUpperCase()
+                        : null;
 
-                                                    /*
-                                                     * if (mask != null) { queryParam = ipAddress + "," +mask ;
-                                                     * log.info("Calling Instar with IpAddress "+ ipAddress + " Mask value: "+ mask ); } else {
-                                                     * queryParam = "ipAddress "+ipAddress ; log.info("Calling Instar with IpAddress "+
-                                                     * ipAddress); }
-                                                     */
+            // TODO -short format
 
-                                                    payload = new HashMap<String, String>();
-                                                    payload.put("ipAddress", ipAddress);
-                                                    payload.put("mask", mask);
-                                                    log.info("Calling Instar with IpAddress " + ipAddress + " Mask value: " + mask);
-                                                    dme2Client = new Dme2Client("getVnfbyIpadress", "payload", payload);
+            /* if (mask != null) {
+             *     queryParam = ipAddress + "," + mask;
+             *     log.info("Calling Instar with IpAddress " + ipAddress + " Mask value: " + mask);
+             * } else {
+             *     queryParam = "ipAddress " + ipAddress;
+             *     log.info("Calling Instar with IpAddress " + ipAddress);
+             * }
+             */
 
-                                                    instarResponse = dme2Client.send();
+            payload = new HashMap<String, String>();
+            payload.put("ipAddress", ipAddress);
+            payload.put("mask", mask);
+            log.info("Calling Instar with IpAddress " + ipAddress + " Mask value: " + mask);
+            dme2Client = new Dme2Client("getVnfbyIpadress", "payload", payload);
 
-                                                    log.debug("Resposne from Instar = " + instarResponse);
-                                                    if (instarResponse == null || instarResponse.length() < 0)
-                                                        throw new Exception("No Data received from Instar for this action " + action);
+            instarResponse = dme2Client.send();
+
+            log.debug("Response from Instar = " + instarResponse);
+            if (instarResponse == null || instarResponse.length() < 0)
+                throw new Exception("No Data received from Instar for this action " + action);
         } catch (Exception e) {
             log.error(EXCEPTION_WHILE_RECEIVING_DATA, e);
             throw e;

@@ -3,6 +3,8 @@
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2019 Ericsson
+ * ================================================================================
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,8 +59,8 @@ import java.net.URL;
 @PrepareForTest(FrameworkUtil.class)
 public class MDSALStoreImplTest {
 
-    private final BundleContext bundleContext= Mockito.mock(BundleContext.class);
-    private final Bundle bundleService=Mockito.mock(Bundle.class);
+    private final BundleContext bundleContext = Mockito.mock(BundleContext.class);
+    private final Bundle bundleService = Mockito.mock(Bundle.class);
     private MDSALStoreImpl mdsalStore;
 
     @Rule
@@ -86,7 +88,8 @@ public class MDSALStoreImplTest {
     }
 
     @Test
-    public void testStoreYangModuleOnLeader() throws MDSALStoreException, APPCException, IllegalStateException, IOException {
+    public void testStoreYangModuleOnLeader()
+            throws MDSALStoreException, APPCException, IllegalStateException, IOException {
         RestClientInvoker mockInvoker = Mockito.mock(RestClientInvoker.class);
         Whitebox.setInternalState(mdsalStore, "client", mockInvoker);
         HttpResponse mockResponse = Mockito.mock(HttpResponse.class);
@@ -100,7 +103,8 @@ public class MDSALStoreImplTest {
         Mockito.doReturn(mockStatusLine).when(mockResponse).getStatusLine();
         Mockito.doReturn(200).when(mockStatusLine).getStatusCode();
         HttpResponse mockLeaderResponse = Mockito.mock(HttpResponse.class);
-        Mockito.doReturn(mockLeaderResponse).when(mockInvoker).doGet(String.format(Constants.GET_NODE_STATUS_PATH_FORMAT, "NodeName-shard-default-config"));
+        Mockito.doReturn(mockLeaderResponse).when(mockInvoker)
+                .doGet(String.format(Constants.GET_NODE_STATUS_PATH_FORMAT, "NodeName-shard-default-config"));
         String httpLeaderString = "{\"value\":{\"Leader\":\"NodeName-shard-default-config\"}}";
         InputStream isLeader = new ByteArrayInputStream(httpLeaderString.getBytes(Charset.defaultCharset()));
         HttpEntity mockLeaderEntity = Mockito.mock(HttpEntity.class);
@@ -114,9 +118,10 @@ public class MDSALStoreImplTest {
         mdsalStore.storeYangModuleOnLeader("", "");
         Mockito.verify(mockLogger).debug("Current node is a leader.");
     }
-    
+
     @Test
-    public void testStoreYangModuleOnLeaderNotLeader() throws MDSALStoreException, APPCException, IllegalStateException, IOException {
+    public void testStoreYangModuleOnLeaderNotLeader()
+            throws MDSALStoreException, APPCException, IllegalStateException, IOException {
         RestClientInvoker mockInvoker = Mockito.mock(RestClientInvoker.class);
         Whitebox.setInternalState(mdsalStore, "client", mockInvoker);
         HttpResponse mockResponse = Mockito.mock(HttpResponse.class);
@@ -130,8 +135,10 @@ public class MDSALStoreImplTest {
         Mockito.doReturn(mockStatusLine).when(mockResponse).getStatusLine();
         Mockito.doReturn(200).when(mockStatusLine).getStatusCode();
         HttpResponse mockLeaderResponse = Mockito.mock(HttpResponse.class);
-        Mockito.doReturn(mockLeaderResponse).when(mockInvoker).doGet(String.format(Constants.GET_NODE_STATUS_PATH_FORMAT, "NodeName-shard-default-config"));
-        String httpLeaderString = "{\"value\":{\"Leader\":\"OtherShardName\",\"PeerAddresses\":\"OtherShardName@adf:a\"}}";
+        Mockito.doReturn(mockLeaderResponse).when(mockInvoker)
+                .doGet(String.format(Constants.GET_NODE_STATUS_PATH_FORMAT, "NodeName-shard-default-config"));
+        String httpLeaderString =
+                "{\"value\":{\"Leader\":\"OtherShardName\",\"PeerAddresses\":\"OtherShardName@adf:a\"}}";
         InputStream isLeader = new ByteArrayInputStream(httpLeaderString.getBytes(Charset.defaultCharset()));
         HttpEntity mockLeaderEntity = Mockito.mock(HttpEntity.class);
         Mockito.doReturn(isLeader).when(mockLeaderEntity).getContent();
@@ -174,7 +181,8 @@ public class MDSALStoreImplTest {
     }
 
     @Test
-    public void testStoreJsonRestconfResponse() throws MDSALStoreException, APPCException, IllegalStateException, IOException {
+    public void testStoreJsonRestconfResponse()
+            throws MDSALStoreException, APPCException, IllegalStateException, IOException {
         RestClientInvoker mockInvoker = Mockito.mock(RestClientInvoker.class);
         Whitebox.setInternalState(mdsalStore, "client", mockInvoker);
         HttpResponse mockResponse = Mockito.mock(HttpResponse.class);
