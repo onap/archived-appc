@@ -69,8 +69,8 @@ public class SdcListener {
         config = new SdcConfig(props);
         ukey = props.getProperty("appc.sdc.provider.user");
         uval = props.getProperty("appc.sdc.provider.pass");
-        logger.debug(String.format("[%d] created SDC config provider URL [%s]", timeStamp, config.getStoreOpURI().toString()));
-
+        logger.debug(String.format("[%d] created SDC config provider URL [%s]",
+                timeStamp, config.getStoreOpURI().toString()));
 
         client = DistributionClientFactory.createDistributionClient();
         logger.debug(String.format("[%d] created SDC client", timeStamp));
@@ -197,14 +197,21 @@ public class SdcListener {
                 URL url = new URL(String.format("http%s://%s/sdc2/rest/v1/consumers",
                         host.contains("443") ? "s" : "", host));
 
-                logger.info(String.format("Attempting to register user %s on %s with salted pass of %s",
-                        config.getUser(), url, saltedPass[1]));
+                /*logger.info(String.format("Attempting to register user %s on %s with salted pass of %s",
+                        config.getUser(), url, saltedPass[1]));*/
+                logger.info(String.format("Attempting to register user %s on %s with salted pass",
+                        config.getUser(), url));
 
                 ProviderOperations providerOperations = new ProviderOperations();
                 ProviderOperations.setDefaultUrl(config.getStoreOpURI().toURL());
                 ProviderOperations.setAuthentication(ukey, uval);
                 ProviderResponse result = providerOperations.post(url, json, headers);
+/*
+                result = ProviderOperations.post(config.getStoreOpURI().toURL(), "{\"input\": {\"document-parameters\":{\"service-uuid\":\"c2d96f2c-58b2-45c1-b952-56d4982b48f4\",\"artifact-name\":\"reference_AllAction_vDBE_Svc_VoLTE_DBE_vDBE_U_vDBE_VF_VoLTE_DBE0_0.0.1V.json\",\"artifact-version\":\"1\",\"resource-name\":\"vDBE_VF_VoLTE_DBE\",\"artifact-description\":\"Reference file of VoLTE\",\"distribution-id\":\"6bdabf7d-2270-4da7-ba50-9b57e4a5e95b\",\"service-name\":\"vDBE_Svc_VoLTE_DBE_vDBE_U\",\"resource-instance-name\":\"vDBE_VF_VoLTE_DBE 0\",\"artifact-uuid\":\"93e9a91f-4b7f-4234-ae43-d7b3ba7bfb84\",\"resource-version\":\"7.0\",\"artifact-type\":\"APPC_CONFIG\",\"service-artifacts\":\"[]\",\"service-description\":\"ASDC vDBE Service for the VoLTE-vDBE project\",\"resource-uuid\":\"93bf7180-eba8-4b49-b81d-78fcd515ec89\",\"resource-type\":\"VF\",\"artifact-contents\":\"{\n\t\\\"reference_data\\\": [\n\t\t{\n\t\t\t\\\"action\\\": \\\"Configure\\\",\n\t\t\t\\\"action-level\\\": \\\"vnf\\\",\n\t\t\t\\\"scope\\\": {\n\t\t\t\t\\\"vnf-type\\\": \\\"vDBE_Svc_VoLTE_DBE_vDBE_U/vDBE_VF_VoLTE_DBE 0\\\",\n\t\t\t\t\\\"vnfc-type\\\": \\\"\\\"\n\t\t\t},\n\t\t\t\\\"template\\\": \\\"Y\\\",\n\t\t\t\\\"vm\\\": [\n\t\t\t\t{\n\t\t\t\t\t\\\"vm-instance\\\": 1,\n\t\t\t\t\t\\\"vnfc\\\": [\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\\\"vnfc-instance\\\": \\\"1\\\",\n\t\t\t\t\t\t\t\\\"vnfc-function-code\\\": \\\"dbu\\\",\n\t\t\t\t\t\t\t\\\"ipaddress-v4-oam-vip\\\": \\\"Y\\\",\n\t\t\t\t\t\t\t\\\"group-notation-type\\\": \\\"first-vnfc-name\\\",\n\t\t\t\t\t\t\t\\\"group-notation-value\\\": \\\"pair\\\",\n\t\t\t\t\t\t\t\\\"vnfc-type\\\": \\\"vDBE-V - DBUX\\\"\n\t\t\t\t\t\t}\n\t\t\t\t\t]\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\\\"vm-instance\\\": 2,\n\t\t\t\t\t\\\"vnfc\\\": [\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\\\"vnfc-instance\\\": \\\"1\\\",\n\t\t\t\t\t\t\t\\\"vnfc-function-code\\\": \\\"dbu\\\",\n\t\t\t\t\t\t\t\\\"ipaddress-v4-oam-vip\\\": \\\"Y\\\",\n\t\t\t\t\t\t\t\\\"group-notation-type\\\": \\\"first-vnfc-name\\\",\n\t\t\t\t\t\t\t\\\"group-notation-value\\\": \\\"pair\\\",\n\t\t\t\t\t\t\t\\\"vnfc-type\\\": \\\"vDBE-V - DBUX\\\"\n\t\t\t\t\t\t}\n\t\t\t\t\t]\n\t\t\t\t}\n\t\t\t],\n\t\t\t\\\"device-protocol\\\": \\\"NETCONF-XML\\\",\n\t\t\t\\\"user-name\\\": \\\"root\\\",\n\t\t\t\\\"port-number\\\": \\\"830\\\",\n\t\t\t\\\"artifact-list\\\": [\n\t\t\t\t{\n\t\t\t\t\t\\\"artifact-name\\\": \\\"template_Configure_vDBE_Svc_VoLTE_DBE_vDBE_U_vDBE_VF_VoLTE_DBE0_0.0.1V.xml\\\",\n\t\t\t\t\t\\\"artifact-type\\\": \\\"config_template\\\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\\\"artifact-name\\\": \\\"pd_Configure_vDBE_Svc_VoLTE_DBE_vDBE_U_vDBE_VF_VoLTE_DBE0_0.0.1V.yaml\\\",\n\t\t\t\t\t\\\"artifact-type\\\": \\\"parameter_definitions\\\"\n\t\t\t\t}\n\t\t\t],\n\t\t\t\\\"scopeType\\\": \\\"vnf-type\\\"\n\t\t},\n\t\t{\n\t\t\t\\\"action\\\": \\\"AllAction\\\",\n\t\t\t\\\"action-level\\\": \\\"vnf\\\",\n\t\t\t\\\"scope\\\": {\n\t\t\t\t\\\"vnf-type\\\": \\\"vDBE_Svc_VoLTE_DBE_vDBE_U/vDBE_VF_VoLTE_DBE 0\\\",\n\t\t\t\t\\\"vnfc-type\\\": \\\"\\\"\n\t\t\t},\n\t\t\t\\\"artifact-list\\\": [\n\t\t\t\t{\n\t\t\t\t\t\\\"artifact-name\\\": \\\"reference_AllAction_vDBE_Svc_VoLTE_DBE_vDBE_U_vDBE_VF_VoLTE_DBE0_0.0.1V.json\\\",\n\t\t\t\t\t\\\"artifact-type\\\": \\\"reference_template\\\"\n\t\t\t\t}\n\t\t\t]\n\t\t}\n\t]\n}\"}, \"request-information\":{\"request-action\":\"StoreSdcDocumentRequest\",\"source\":\"SDC\",\"request-id\":\"c2d96f2c-58b2-45c1-b952-56d4982b48f4\"}}}", null);
+                logger.info(String.format("Result Status 3 = %d", result.getStatus()));
+*/
                 return result.getStatus() == 200;
+
             } catch (Exception e) {
                 logger.error(
                         "Error performing initial registration with SDC server. User may not be able to connect",

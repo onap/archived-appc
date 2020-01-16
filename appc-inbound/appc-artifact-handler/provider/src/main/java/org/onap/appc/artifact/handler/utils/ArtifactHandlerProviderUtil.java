@@ -2,22 +2,21 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
  * ============LICENSE_END=========================================================
  */
 
@@ -84,28 +83,28 @@ public class ArtifactHandlerProviderUtil {
 
         JSONObject docParams = new JSONObject();
         docParams.put(SdcArtifactHandlerConstants.SERVICE_UUID,
-            "TLSUUID" + templateData.getRequestInformation().getRequestId());
+                "TLSUUID" + templateData.getRequestInformation().getRequestId());
         docParams.put(SdcArtifactHandlerConstants.DISTRIBUTION_ID, "TLDID" + random);
         docParams.put(SdcArtifactHandlerConstants.SERVICE_NAME, "TLServiceName");
         docParams.put(SdcArtifactHandlerConstants.SERVICE_DESCRIPTION, "Template Loader Test");
         docParams.put(SdcArtifactHandlerConstants.SERVICE_ARTIFACTS, "[]");
         docParams.put(SdcArtifactHandlerConstants.RESOURCE_UUID, "TLRUID" + random);
         docParams.put(SdcArtifactHandlerConstants.RESOURCE_INSTANCE_NAME, "TLRIName");
-        docParams.put(SdcArtifactHandlerConstants.REOURCE_NAME, "TLResourceName");
+        docParams.put(SdcArtifactHandlerConstants.RESOURCE_NAME, "TLResourceName");
         docParams.put(SdcArtifactHandlerConstants.RESOURCE_VERSION, "TLResourceVersion");
         docParams.put(SdcArtifactHandlerConstants.RESOURCE_TYPE, "TLResourceType");
         docParams.put(SdcArtifactHandlerConstants.ARTIFACT_UUID, "TLAUUID" + random);
         docParams
-            .put(SdcArtifactHandlerConstants.ARTIFACT_NAME, templateData.getDocumentParameters().getArtifactName());
+                .put(SdcArtifactHandlerConstants.ARTIFACT_NAME, templateData.getDocumentParameters().getArtifactName());
         docParams.put(SdcArtifactHandlerConstants.ARTIFACT_TYPE, "APPC-CONFIG");
         docParams.put(SdcArtifactHandlerConstants.ARTIFACT_VERSION,
-            templateData.getDocumentParameters().getArtifactVersion());
-        docParams.put(SdcArtifactHandlerConstants.ARTIFACT_DESRIPTION, "SdcTestDescription");
+                templateData.getDocumentParameters().getArtifactVersion());
+        docParams.put(SdcArtifactHandlerConstants.ARTIFACT_DESCRIPTION, "SdcTestDescription");
         docParams.put("artifact-contents", templateData.getDocumentParameters().getArtifactContents());
         json.put(SdcArtifactHandlerConstants.REQUEST_INFORMATION, requestInfo);
         json.put(SdcArtifactHandlerConstants.DOCUMENT_PARAMETERS, docParams);
 
-        log.info("Final data =" + this.templateData);
+        log.info("Final data = " + this.templateData);
         return String.format("{\"input\": %s}", json.toString());
     }
 
@@ -136,41 +135,42 @@ public class ArtifactHandlerProviderUtil {
         requestInfo.put(SdcArtifactHandlerConstants.SOURCE, templateData.getRequestInformation().getSource());
 
         String serviceDescription = serviceDescriptionData(
-            templateData.getDocumentParameters().getServiceDescription());
+                templateData.getDocumentParameters().getServiceDescription());
 
         JSONObject docParams = new JSONObject();
         docParams.put(SdcArtifactHandlerConstants.SERVICE_UUID, templateData.getDocumentParameters().getResourceUuid());
-        docParams
-            .put(SdcArtifactHandlerConstants.DISTRIBUTION_ID, templateData.getDocumentParameters().getDistributionId());
+        docParams.put(SdcArtifactHandlerConstants.DISTRIBUTION_ID,
+                templateData.getDocumentParameters().getDistributionId());
         docParams.put(SdcArtifactHandlerConstants.SERVICE_NAME, templateData.getDocumentParameters().getServiceName());
         docParams.put(SdcArtifactHandlerConstants.SERVICE_DESCRIPTION, serviceDescription);
         docParams.put(SdcArtifactHandlerConstants.SERVICE_ARTIFACTS,
-            templateData.getDocumentParameters().getServiceArtifacts());
+                templateData.getDocumentParameters().getServiceArtifacts());
         docParams
-            .put(SdcArtifactHandlerConstants.RESOURCE_UUID, templateData.getDocumentParameters().getResourceUuid());
+                .put(SdcArtifactHandlerConstants.RESOURCE_UUID, templateData.getDocumentParameters().getResourceUuid());
         docParams.put(SdcArtifactHandlerConstants.RESOURCE_INSTANCE_NAME,
-            templateData.getDocumentParameters().getResourceInstanceName());
-        docParams.put(SdcArtifactHandlerConstants.REOURCE_NAME, templateData.getDocumentParameters().getResourceName());
+                templateData.getDocumentParameters().getResourceInstanceName());
+        docParams
+                .put(SdcArtifactHandlerConstants.RESOURCE_NAME, templateData.getDocumentParameters().getResourceName());
         docParams.put(SdcArtifactHandlerConstants.RESOURCE_VERSION,
-            templateData.getDocumentParameters().getResourceVersion());
+                templateData.getDocumentParameters().getResourceVersion());
         docParams
-            .put(SdcArtifactHandlerConstants.RESOURCE_TYPE, templateData.getDocumentParameters().getResourceType());
+                .put(SdcArtifactHandlerConstants.RESOURCE_TYPE, templateData.getDocumentParameters().getResourceType());
         docParams
-            .put(SdcArtifactHandlerConstants.ARTIFACT_UUID, templateData.getDocumentParameters().getArtifactUuid());
+                .put(SdcArtifactHandlerConstants.ARTIFACT_UUID, templateData.getDocumentParameters().getArtifactUuid());
         docParams
-            .put(SdcArtifactHandlerConstants.ARTIFACT_NAME, templateData.getDocumentParameters().getArtifactName());
+                .put(SdcArtifactHandlerConstants.ARTIFACT_NAME, templateData.getDocumentParameters().getArtifactName());
         docParams
-            .put(SdcArtifactHandlerConstants.ARTIFACT_TYPE, templateData.getDocumentParameters().getArtifactType());
+                .put(SdcArtifactHandlerConstants.ARTIFACT_TYPE, templateData.getDocumentParameters().getArtifactType());
         docParams.put(SdcArtifactHandlerConstants.ARTIFACT_VERSION,
-            templateData.getDocumentParameters().getArtifactVersion());
-        docParams.put(SdcArtifactHandlerConstants.ARTIFACT_DESRIPTION,
-            templateData.getDocumentParameters().getArtifactDescription());
+                templateData.getDocumentParameters().getArtifactVersion());
+        docParams.put(SdcArtifactHandlerConstants.ARTIFACT_DESCRIPTION,
+                templateData.getDocumentParameters().getArtifactDescription());
 
         docParams.put("artifact-contents", templateData.getDocumentParameters().getArtifactContents());
 
         json.put(SdcArtifactHandlerConstants.REQUEST_INFORMATION, requestInfo);
         json.put(SdcArtifactHandlerConstants.DOCUMENT_PARAMETERS, docParams);
-        log.info("Final data =" + this.templateData);
+        log.info("Final data = " + this.templateData);
         return String.format("{\"input\": %s}", json.toString());
     }
 

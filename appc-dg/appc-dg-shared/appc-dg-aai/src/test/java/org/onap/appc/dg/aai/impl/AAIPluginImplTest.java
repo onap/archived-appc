@@ -3,6 +3,8 @@
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2018 Ericsson
+ * ================================================================================
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -111,8 +113,8 @@ public class AAIPluginImplTest {
         AAIPluginImpl impl = new AAIPluginImpl();
         impl.initialize();
         impl.postGenericVnfData(params, ctx);
-        Assert.assertThat(ctx.getAttribute(org.onap.appc.Constants.ATTRIBUTE_SUCCESS_MESSAGE), CoreMatchers.containsString(
-                "Operation PostGenericVnfData succeed for VNF ID null"));
+        Assert.assertThat(ctx.getAttribute(org.onap.appc.Constants.ATTRIBUTE_SUCCESS_MESSAGE),
+                CoreMatchers.containsString("Operation PostGenericVnfData succeed for VNF ID null"));
     }
 
     @Test
@@ -162,14 +164,15 @@ public class AAIPluginImplTest {
         AAIPluginImpl impl = new AAIPluginImpl();
         impl.initialize();
         impl.getGenericVnfData(params, ctx);
-        Assert.assertThat(ctx.getAttribute(org.onap.appc.Constants.ATTRIBUTE_SUCCESS_MESSAGE), CoreMatchers.containsString(
-                "Operation GetGenericVnfData succeed for VNF ID null"));
+        Assert.assertThat(ctx.getAttribute(org.onap.appc.Constants.ATTRIBUTE_SUCCESS_MESSAGE),
+                CoreMatchers.containsString("Operation GetGenericVnfData succeed for VNF ID null"));
     }
 
     @Test
     public void testGetGenericVnfDataFailureThrownExeption() throws APPCException, SvcLogicException {
-        Mockito.doThrow(new SvcLogicException()).when(aaiClient).query(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(),
-                Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.any(SvcLogicContext.class));
+        Mockito.doThrow(new SvcLogicException()).when(aaiClient).query(Mockito.anyString(), Mockito.anyBoolean(),
+                Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(),
+                Mockito.any(SvcLogicContext.class));
         ctx = new SvcLogicContext();
         AAIPluginImpl impl = new AAIPluginImpl();
         impl.initialize();
@@ -194,8 +197,9 @@ public class AAIPluginImplTest {
 
     @Test
     public void testGetVnfHierarchyAaiExceptionFlow2() throws APPCException, SvcLogicException {
-        Mockito.doThrow(new SvcLogicException()).when(aaiClient).query(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(),
-                Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.any(SvcLogicContext.class));
+        Mockito.doThrow(new SvcLogicException()).when(aaiClient).query(Mockito.anyString(), Mockito.anyBoolean(),
+                Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(),
+                Mockito.any(SvcLogicContext.class));
         ctx = new SvcLogicContext();
         params.put(Constants.RESOURCEKEY, "TEST_RESOURCE_KEY");
         AAIPluginImpl impl = new AAIPluginImpl();
@@ -268,7 +272,7 @@ public class AAIPluginImplTest {
         AAIPluginImpl impl = new AAIPluginImpl();
         impl.initialize();
         impl.getResource(params, ctx);
-        Assert.assertEquals("SUCCESS",ctx.getAttribute("getResource_result"));
+        Assert.assertEquals("SUCCESS", ctx.getAttribute("getResource_result"));
     }
 
     @Test
@@ -281,7 +285,7 @@ public class AAIPluginImplTest {
         AAIPluginImpl impl = new AAIPluginImpl();
         impl.initialize();
         impl.postResource(params, ctx);
-        Assert.assertEquals("SUCCESS",ctx.getAttribute("postResource_result"));
+        Assert.assertEquals("SUCCESS", ctx.getAttribute("postResource_result"));
     }
 
     @Test
@@ -294,6 +298,6 @@ public class AAIPluginImplTest {
         AAIPluginImpl impl = new AAIPluginImpl();
         impl.initialize();
         impl.deleteResource(params, ctx);
-        Assert.assertEquals("SUCCESS",ctx.getAttribute("deleteResource_result"));
+        Assert.assertEquals("SUCCESS", ctx.getAttribute("deleteResource_result"));
     }
 }

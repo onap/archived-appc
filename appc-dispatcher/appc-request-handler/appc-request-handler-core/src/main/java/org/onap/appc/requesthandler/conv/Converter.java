@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
@@ -11,15 +11,14 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
  * ============LICENSE_END=========================================================
  */
 
@@ -67,7 +66,8 @@ public class Converter {
         isoFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
 
-    public static Builder<?> convAsyncResponseToBuilder(VNFOperation vnfOperation, String rpcName, ResponseContext response) {
+    public static Builder<?> convAsyncResponseToBuilder(
+            VNFOperation vnfOperation, String rpcName, ResponseContext response) {
         Builder<?> outObj = null;
         if (response == null) {
             throw new IllegalArgumentException("empty asyncResponse");
@@ -76,7 +76,8 @@ public class Converter {
             throw new IllegalArgumentException("empty asyncResponse.action");
         }
         logger.debug("Entered Converter.convAsyncResponseToBuilder(): Operation Name " + vnfOperation.name());
-        org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.Action action = org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.Action.valueOf(vnfOperation.name());
+        org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.Action action =
+                org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.Action.valueOf(vnfOperation.name());
         logger.debug("After resolving action");
         CommonHeader commonHeader = convAsyncResponseTorev160108CommonHeader(response);
         Status status = convAsyncResponseTorev160108Status(response);
@@ -94,9 +95,9 @@ public class Converter {
                 ((SnapshotOutputBuilder)outObj).setStatus(status);
                 try {
                     ((SnapshotOutputBuilder) outObj)
-                        .setSnapshotId(response.getAdditionalContext().get("output.snapshot-id"));
+                            .setSnapshotId(response.getAdditionalContext().get("output.snapshot-id"));
                 } catch (NullPointerException ignored) {
-                    // in case of negative response, snapshotID does not populated, so just ignore NPL
+                    // in case of negative response, snapshotID is not populated, so just ignore NPL
                 }
                 return outObj;
             case Audit:
@@ -282,7 +283,7 @@ public class Converter {
                 outObj = new AttachVolumeOutputBuilder();
                 ((AttachVolumeOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((AttachVolumeOutputBuilder)outObj).setStatus(status);
-                return outObj;  
+                return outObj;
             case DetachVolume:
                 outObj = new DetachVolumeOutputBuilder();
                 ((DetachVolumeOutputBuilder)outObj).setCommonHeader(commonHeader);
@@ -295,14 +296,14 @@ public class Converter {
                 return outObj;
             case DistributeTrafficCheck:
                 outObj = new DistributeTrafficCheckOutputBuilder();
-                ((DistributeTrafficCheckOutputBuilder) outObj).setCommonHeader(commonHeader);
+                ((DistributeTrafficCheckOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((DistributeTrafficCheckOutputBuilder)outObj).setStatus(status);
                 return outObj;
             case PreConfigure:
                 outObj = new PreConfigureOutputBuilder();
                 ((PreConfigureOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((PreConfigureOutputBuilder)outObj).setStatus(status);
-                 ((PreConfigureOutputBuilder)outObj).setPayload(payload);
+                ((PreConfigureOutputBuilder)outObj).setPayload(payload);
                 return outObj;
             case GetConfig:
                 outObj = new GetConfigOutputBuilder();
@@ -371,7 +372,7 @@ public class Converter {
                 ((StopTrafficOutputBuilder)outObj).setPayload(payload);
                 return outObj;
             case LicenseManagement:
-                 outObj = new LicenseManagementOutputBuilder();
+                outObj = new LicenseManagementOutputBuilder();
                 ((LicenseManagementOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((LicenseManagementOutputBuilder)outObj).setStatus(status);
                 ((LicenseManagementOutputBuilder)outObj).setPayload(payload);
@@ -381,8 +382,8 @@ public class Converter {
         }
     }
 
-    public static Payload convAsyncResponseTorev160108Payload(ResponseContext inObj)  {
-    	logger.debug("Entering convAsyncResponseTorev160108Payload");
+    public static Payload convAsyncResponseTorev160108Payload(ResponseContext inObj) {
+        logger.debug("Entering convAsyncResponseTorev160108Payload");
         Payload payload = null;
         if (inObj.getPayload() != null) {
             payload = new Payload(inObj.getPayload());
@@ -395,23 +396,23 @@ public class Converter {
         String payloadAsString = null;
         if (inObj != null) {
 
-                if (inObj instanceof String) {
-                    payloadAsString = (String)inObj;
-                } else {
-                    try {
-                        ObjectMapper objectMapper = new ObjectMapper();
-                        payloadAsString = objectMapper.writeValueAsString(inObj);
-                    } catch (JsonProcessingException e) {
-                        String errMsg = "Error serialize payload json to string";
-                        throw new ParseException(errMsg + "-" + e.toString(), 0);
-                    }
+            if (inObj instanceof String) {
+                payloadAsString = (String)inObj;
+            } else {
+                try {
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    payloadAsString = objectMapper.writeValueAsString(inObj);
+                } catch (JsonProcessingException e) {
+                    String errMsg = "Error serialize payload json to string";
+                    throw new ParseException(errMsg + "-" + e.toString(), 0);
                 }
+            }
         }
         return payloadAsString;
     }
 
     public static Status convAsyncResponseTorev160108Status(ResponseContext inObj) {
-    	logger.debug("Entering convAsyncResponseTorev160108Status");
+        logger.debug("Entering convAsyncResponseTorev160108Status");
         StatusBuilder statusBuilder = new StatusBuilder();
         statusBuilder.setCode(inObj.getStatus().getCode());
         statusBuilder.setMessage(inObj.getStatus().getMessage());
@@ -420,7 +421,7 @@ public class Converter {
     }
 
     public static CommonHeader convAsyncResponseTorev160108CommonHeader(ResponseContext inObj) {
-    	logger.debug("Entered into convAsyncResponseTorev160108CommonHeader");
+        logger.debug("Entered into convAsyncResponseTorev160108CommonHeader");
         CommonHeader outObj = null;
         if (inObj == null) {
             throw new IllegalArgumentException("empty asyncResponse");
@@ -452,7 +453,7 @@ public class Converter {
             commonHeaderBuilder.setTimestamp(zuluTimestamp);
         }
         outObj = commonHeaderBuilder.build();
-        logger.debug("Exiting from convAsyncResponseTorev160108CommonHeader: Returning outObj::"+ outObj.toString());
+        logger.debug("Exiting from convAsyncResponseTorev160108CommonHeader: Returning outObj: " + outObj.toString());
         return outObj;
 
     }
@@ -462,31 +463,34 @@ public class Converter {
     }
 
     public static org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.common.header.Flags
-    convFlagsMapTorev160108Flags(org.onap.appc.domainmodel.lcm.Flags flags) {
+            convFlagsMapTorev160108Flags(org.onap.appc.domainmodel.lcm.Flags flags) {
         Flags rev160108flags;
         boolean anyFlag = false;
         FlagsBuilder flagsBuilder = new FlagsBuilder();
         /*
-         * TODO: The below flags are related to APP-C request and should not be sent back - uncomment when response flags are introduced.
+         * TODO: The below flags are related to APP-C request and should not be sent back -
+         * uncomment when response flags are introduced.
          */
         /*
-        if(flags.containsKey(FORCE_FLAG)){
+        if (flags.containsKey(FORCE_FLAG)) {
             org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.common.header.Flags.Force force =
-                    org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.common.header.Flags.Force.valueOf(flags.get(FORCE_FLAG).toString());
+                    org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.common.header
+                        .Flags.Force.valueOf(flags.get(FORCE_FLAG).toString());
             flagsBuilder.setForce(force);
             anyFlag = true;
         }
-        if(flags.containsKey(MODE_FLAG)){
+        if (flags.containsKey(MODE_FLAG)) {
             org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.common.header.Flags.Mode mode =
-                    org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.common.header.Flags.Mode.valueOf(flags.get(MODE_FLAG).toString());
+                    org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.common.header
+                        .Flags.Mode.valueOf(flags.get(MODE_FLAG).toString());
             flagsBuilder.setMode(mode);
             anyFlag = true;
         }
-        if(flags.containsKey(TTL_FLAG)){
+        if (flags.containsKey(TTL_FLAG)) {
             flagsBuilder.setTtl(Integer.valueOf(flags.get(TTL_FLAG).toString()));
             anyFlag = true;
         }
-        if(anyFlag){
+        if (anyFlag) {
             rev160108flags = flagsBuilder.build();
         }
          */
@@ -508,7 +512,7 @@ public class Converter {
         objectMapper.addMixIn(Payload.class, MixIn.class);
         objectMapper.addMixIn(ZULU.class, MixIn.class);
 
-//                .configure(SerializationConfig.Feature.SORT_PROPERTIES_ALPHABETICALLY,true)
+//                .configure(SerializationConfig.Feature.SORT_PROPERTIES_ALPHABETICALLY, true)
         ObjectWriter writer = objectMapper
                 .setSerializationInclusion(JsonInclude.Include.NON_NULL)
                 .configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true)
@@ -522,8 +526,8 @@ public class Converter {
             VNFOperation vnfOperation, String rpcName, ResponseContext asyncResponse)
             throws JsonProcessingException {
         logger.debug("Entered Converter.convAsyncResponseToDmaapOutgoingMessageJsonString()");
-    	DmaapOutgoingMessage dmaapOutgoingMessage = 
-    	        convAsyncResponseToDmaapOutgoingMessage(vnfOperation, rpcName, asyncResponse);
+        DmaapOutgoingMessage dmaapOutgoingMessage =
+                convAsyncResponseToDmaapOutgoingMessage(vnfOperation, rpcName, asyncResponse);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.addMixIn(dmaapOutgoingMessage.getBody().getOutput().getClass(), MixInFlagsMessage.class);
         objectMapper.addMixIn(CommonHeader.class, MixInCommonHeader.class);
@@ -532,7 +536,7 @@ public class Converter {
         objectMapper.addMixIn(Payload.class, MixIn.class);
         objectMapper.addMixIn(ZULU.class, MixIn.class);
 
-//                .configure(SerializationConfig.Feature.SORT_PROPERTIES_ALPHABETICALLY,true)
+//                .configure(SerializationConfig.Feature.SORT_PROPERTIES_ALPHABETICALLY, true)
         ObjectWriter writer = objectMapper
                 .setSerializationInclusion(JsonInclude.Include.NON_NULL)
                 .configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true)
@@ -542,10 +546,10 @@ public class Converter {
     }
 
     public static DmaapOutgoingMessage convAsyncResponseToDmaapOutgoingMessage(
-            VNFOperation vnfOperation, String rpcName, ResponseContext asyncResponse) 
+            VNFOperation vnfOperation, String rpcName, ResponseContext asyncResponse)
             throws JsonProcessingException {
-    	logger.debug("Entered Converter.convAsyncResponseToDmaapOutgoingMessage()");
-    	DmaapOutgoingMessage outObj = new DmaapOutgoingMessage();
+        logger.debug("Entered Converter.convAsyncResponseToDmaapOutgoingMessage()");
+        DmaapOutgoingMessage outObj = new DmaapOutgoingMessage();
         String correlationID = getCorrelationID(asyncResponse);
         outObj.setCorrelationID(correlationID);
         outObj.setType("response");
@@ -556,7 +560,7 @@ public class Converter {
         Object messageBody = builder.build();
         DmaapOutgoingMessage.Body body = new DmaapOutgoingMessage.Body(messageBody);
         outObj.setBody(body);
-        logger.debug("Exiting Converter.convAsyncResponseToDmaapOutgoingMessage(): messageBody is:" + body.toString());
+        logger.debug("Exiting Converter.convAsyncResponseToDmaapOutgoingMessage(): messageBody is: " + body.toString());
         return outObj;
     }
 
@@ -586,6 +590,6 @@ public class Converter {
     }
     abstract class MixInFlagsMessage extends MixIn {
         @JsonProperty("common-header")
-        abstract  CommonHeader getCommonHeader();
+        abstract CommonHeader getCommonHeader();
     }
 }

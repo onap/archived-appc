@@ -5,6 +5,8 @@
 * Copyright 2018 TechMahindra
 * ================================================================================
 * Modifications Copyright (C) 2019 Ericsson
+* ================================================================================
+* Modifications Copyright (C) 2019 AT&T Intellectual Property
 *=================================================================================
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -27,21 +29,21 @@ import org.junit.Test;
 import org.onap.appc.dg.aai.impl.Constants.SDC_ARTIFACTS_FIELDS;
 
 public class TestConstants {
-        private SDC_ARTIFACTS_FIELDS c=SDC_ARTIFACTS_FIELDS.SERVICE_NAME;
+    private SDC_ARTIFACTS_FIELDS c = SDC_ARTIFACTS_FIELDS.SERVICE_NAME;
 
-        @Test
-        public void testConstants() {
-            Assert.assertEquals("sdnctl",Constants.NETCONF_SCHEMA);
-        }
+    @Test
+    public void testConstants() {
+        Assert.assertEquals("sdnctl", Constants.NETCONF_SCHEMA);
+    }
 
-        @Test
-        public void testName() {
-            Assert.assertEquals("SERVICE_NAME",c.name());
-        }
+    @Test
+    public void testName() {
+        Assert.assertEquals("SERVICE_NAME", c.name());
+    }
 
-        @Test
-        public void testEqual() {
-            Assert.assertTrue(c.equals(SDC_ARTIFACTS_FIELDS.SERVICE_NAME));
-            Assert.assertFalse(c.equals(null));
-        }
+    @Test
+    public void testEqual() {
+        Assert.assertTrue(c.equals(SDC_ARTIFACTS_FIELDS.SERVICE_NAME));
+        Assert.assertFalse(c.equals(null));
+    }
 }

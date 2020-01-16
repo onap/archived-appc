@@ -17,7 +17,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  * ============LICENSE_END=========================================================
  */
 
@@ -73,8 +72,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.UUID;
 import java.util.TimeZone;
+import java.util.UUID;
+
 import static com.att.eelf.configuration.Configuration.MDC_INSTANCE_UUID;
 import static com.att.eelf.configuration.Configuration.MDC_KEY_REQUEST_ID;
 import static com.att.eelf.configuration.Configuration.MDC_SERVER_FQDN;
@@ -133,8 +133,8 @@ public abstract class AbstractRequestHandlerImpl implements RequestHandler {
      * 3. For the given VNF type and Operation, there exists work-flow definition in the APPC database
      * If any of the validation fails, it returns appropriate response     *
      *
-     * @param input RequestHandlerInput object which contains request header and  other request parameters like
-     *              command , target Id , payload etc.
+     * @param input RequestHandlerInput object which contains request header and other request parameters like
+     *              command, target Id, payload etc.
      * @return response for request as enum with Return code and message.
      */
     @Override
@@ -163,17 +163,17 @@ public abstract class AbstractRequestHandlerImpl implements RequestHandler {
                 storeErrorMessageToLog(runtimeContext, e.getTargetEntity(), e.getTargetService(), e.getLogMessage());
             output = buildRequestHandlerOutput(e.getLcmCommandStatus(), e.getParams());
         } catch (InvalidInputException e) {
-            logger.error("InvalidInputException : " + e.getMessage(), e);
+            logger.error("InvalidInputException: " + e.getMessage(), e);
             errorMessage = e.getMessage() != null ? e.getMessage() : e.toString();
-            output = buildRequestHandlerOutput(LCMCommandStatus.INVALID_INPUT_PARAMETER, new Params().addParam
-                ("errorMsg", errorMessage));
+            output = buildRequestHandlerOutput(LCMCommandStatus.INVALID_INPUT_PARAMETER,
+                    new Params().addParam("errorMsg", errorMessage));
         } catch (LockException e) {
-            logger.error("LockException : " + e.getMessage(), e);
+            logger.error("LockException: " + e.getMessage(), e);
             Params params = new Params().addParam("errorMsg", e.getMessage());
             fillStatus(runtimeContext, LCMCommandStatus.LOCKED_VNF_ID, params);
             output = buildRequestHandlerOutput(LCMCommandStatus.LOCKED_VNF_ID, params);
         } catch (Exception e) {
-            logger.error("Exception : " + e.getMessage(), e);
+            logger.error("Exception: " + e.getMessage(), e);
             storeErrorMessageToLog(runtimeContext, "", "", "Exception = " + e.getMessage());
             errorMessage = e.getMessage() != null ? e.getMessage() : e.toString();
             Params params = new Params().addParam("errorMsg", errorMessage);
@@ -187,15 +187,17 @@ public abstract class AbstractRequestHandlerImpl implements RequestHandler {
                 if (isMetricEnabled)
                     ((DispatchingFuntionMetric) metricRegistry.metric("DISPATCH_FUNCTION")).incrementAcceptedRequest();
             } else {
-                requestStatus = (statusCode == LCMCommandStatus.EXPIRED_REQUEST.getResponseCode()) ? RequestStatus
-                    .TIMEOUT : RequestStatus.REJECTED;
+                requestStatus = (statusCode == LCMCommandStatus.EXPIRED_REQUEST.getResponseCode()) ?
+                        RequestStatus.TIMEOUT : RequestStatus.REJECTED;
                 if (isMetricEnabled)
                     ((DispatchingFuntionMetric) metricRegistry.metric("DISPATCH_FUNCTION")).incrementRejectedRequest();
             }
             try {
-                if (errorMessage != null && logger.isDebugEnabled())
-                    logger.debug("error occurred in handleRequest " + errorMessage);
-                logger.debug("output.getResponseContext().getStatus().getCode():  " + statusCode);
+                if (logger.isDebugEnabled()) {
+                    if (errorMessage != null)
+                        logger.debug("error occurred in handleRequest: " + errorMessage);
+                    logger.debug("output.getResponseContext().getStatus().getCode(): " + statusCode);
+                }
                 runtimeContext.setResponseContext(output.getResponseContext());
             } finally {
                 runtimeContext.getTransactionRecord().setRequestState(requestStatus);
@@ -205,8 +207,8 @@ public abstract class AbstractRequestHandlerImpl implements RequestHandler {
             }
         }
         if (logger.isTraceEnabled()) {
-            logger.trace("Exiting from handleRequest with (RequestHandlerOutput = " +
-                ObjectUtils.toString(output.getResponseContext()) + ")");
+            logger.trace("Exiting from handleRequest with (RequestHandlerOutput = "
+                    + ObjectUtils.toString(output.getResponseContext()) + ")");
         }
         return output;
     }
@@ -286,12 +288,12 @@ public abstract class AbstractRequestHandlerImpl implements RequestHandler {
                                 String additionalMessage) {
         LoggingUtils.logErrorMessage(runtimeContext.getResponseContext().getStatus() != null ?
                 String.valueOf(runtimeContext.getResponseContext().getStatus().getCode()) : "",
-            runtimeContext.getResponseContext().getStatus() != null ?
+                runtimeContext.getResponseContext().getStatus() != null ?
                 String.valueOf(runtimeContext.getResponseContext().getStatus().getMessage()) : "",
-            targetEntity,
-            targetServiceName,
-            additionalMessage,
-            this.getClass().getCanonicalName());
+                targetEntity,
+                targetServiceName,
+                additionalMessage,
+                this.getClass().getCanonicalName());
     }
 
     protected abstract void handleRequest(RuntimeContext runtimeContext);
@@ -329,7 +331,7 @@ public abstract class AbstractRequestHandlerImpl implements RequestHandler {
             MDC.put(MDC_SERVICE_NAME, requestContext.getAction().name());
             MDC.put(LoggingConstants.MDCKeys.TARGET_VIRTUAL_ENTITY, requestContext.getActionIdentifiers().getVnfId());
         } catch (UnknownHostException e) {
-            logger.error("Error occured while setting initial log properties", e);
+            logger.error("Error occurred while setting initial log properties", e);
         }
     }
 
@@ -345,24 +347,24 @@ public abstract class AbstractRequestHandlerImpl implements RequestHandler {
     }
 
     /**
-     * This method perform following operations required after execution of workflow.
+     * This method performs following operations required after execution of workflow.
      * It posts asynchronous response to message bus (DMaaP).
-     * Unlock VNF Id
+     * Unlocks VNF Id.
      * Removes request from request registry.
-     * Generate audit logs.
+     * Generates audit logs.
      * Adds transaction record to database id if transaction logging is enabled.
      */
     @Override
     public void onRequestExecutionEnd(RuntimeContext runtimeContext) {
         if (logger.isTraceEnabled()) {
-            logger.trace("Entering to onRequestExecutionEnd with runtimeContext = " +
-                ObjectUtils.toString(runtimeContext));
+            logger.trace("Entering to onRequestExecutionEnd with runtimeContext = "
+                + ObjectUtils.toString(runtimeContext));
         }
         postMessageToDMaaP(runtimeContext.getRequestContext().getAction(), runtimeContext.getRpcName(),
-            runtimeContext.getResponseContext());
+                runtimeContext.getResponseContext());
         final int statusCode = runtimeContext.getResponseContext().getStatus().getCode();
         RequestStatus requestStatus =
-            (statusCode == LCMCommandStatus.SUCCESS.getResponseCode()) ?
+                (statusCode == LCMCommandStatus.SUCCESS.getResponseCode()) ?
                 RequestStatus.SUCCESSFUL : RequestStatus.FAILED;
         runtimeContext.getTransactionRecord().setRequestState(requestStatus);
         runtimeContext.getTransactionRecord().setResultCode(runtimeContext.getResponseContext().getStatus().getCode());
@@ -372,28 +374,28 @@ public abstract class AbstractRequestHandlerImpl implements RequestHandler {
 
     private void storeAuditLogRecord(RuntimeContext runtimeContext) {
         LoggingUtils.logAuditMessage(runtimeContext.getTimeStart(),
-            Instant.now(),
-            String.valueOf(runtimeContext.getResponseContext().getStatus().getCode()),
-            runtimeContext.getResponseContext().getStatus().getMessage(),
-            this.getClass().getCanonicalName());
+                Instant.now(),
+                String.valueOf(runtimeContext.getResponseContext().getStatus().getCode()),
+                runtimeContext.getResponseContext().getStatus().getMessage(),
+                this.getClass().getCanonicalName());
     }
 
     private void storeMetricLogRecord(RuntimeContext runtimeContext) {
         LoggingUtils.logMetricsMessage(runtimeContext.getTimeStart(),
-            Instant.now(),
-            LoggingConstants.TargetNames.APPC,
-            runtimeContext.getRequestContext().getAction().name(),
-            runtimeContext.getResponseContext().getStatus().getCode() == LCMCommandStatus.ACCEPTED.getResponseCode()
-                ? LoggingConstants.StatusCodes.COMPLETE : LoggingConstants.StatusCodes.ERROR,
-            String.valueOf(runtimeContext.getResponseContext().getStatus().getCode()),
-            runtimeContext.getResponseContext().getStatus().getMessage(),
-            this.getClass().getCanonicalName());
+                Instant.now(),
+                LoggingConstants.TargetNames.APPC,
+                runtimeContext.getRequestContext().getAction().name(),
+                runtimeContext.getResponseContext().getStatus().getCode() == LCMCommandStatus.ACCEPTED.getResponseCode()
+                    ? LoggingConstants.StatusCodes.COMPLETE : LoggingConstants.StatusCodes.ERROR,
+                String.valueOf(runtimeContext.getResponseContext().getStatus().getCode()),
+                runtimeContext.getResponseContext().getStatus().getMessage(),
+                this.getClass().getCanonicalName());
     }
 
     private void postMessageToDMaaP(VNFOperation operation, String rpcName, ResponseContext responseContext) {
         if (logger.isTraceEnabled()) {
-            logger.trace("Entering to postMessageToDMaaP with AsyncResponse = " +
-                ObjectUtils.toString(responseContext));
+            logger.trace("Entering to postMessageToDMaaP with AsyncResponse = "
+                    + ObjectUtils.toString(responseContext));
         }
         logger.debug("In postMessageToDMaap before invoking post()");
         boolean callbackResponse = messageAdapter.post(operation, rpcName, responseContext);
@@ -402,44 +404,41 @@ public abstract class AbstractRequestHandlerImpl implements RequestHandler {
             logger.error("DMaaP posting status: false", "dmaapMessage: " + responseContext);
         }
         if (logger.isTraceEnabled())
-            logger.trace("Exiting from postMessageToDMaaP with (callbackResponse = " +
-                ObjectUtils.toString(callbackResponse) + ")");
+            logger.trace("Exiting from postMessageToDMaaP with (callbackResponse = "
+                    + ObjectUtils.toString(callbackResponse) + ")");
     }
 
     private void initMetric() {
-        if (logger.isDebugEnabled())
-            logger.debug("Metric getting initialized");
+        logger.debug("Metric getting initialized");
         MetricService metricService = getMetricservice();
         // Check for the metric service created before trying to create registry using
         // the metricService object
         if (metricService == null) {
             // Cannot find service reference for org.onap.appc.metricservice.MetricService
-            throw new NullPointerException("org.onap.appc.metricservice.MetricService is null. " +
-                    "Failed to init Metric");
+            throw new NullPointerException("org.onap.appc.metricservice.MetricService is null. "
+                    + "Failed to init Metric");
         }
         metricRegistry = metricService.createRegistry("APPC");
-        DispatchingFuntionMetric dispatchingFuntionMetric = metricRegistry.metricBuilderFactory().
-            dispatchingFunctionCounterBuilder().
-            withName("DISPATCH_FUNCTION").withType(MetricType.COUNTER).
-            withAcceptRequestValue(0)
-            .withRejectRequestValue(0)
-            .build();
+        DispatchingFuntionMetric dispatchingFuntionMetric = metricRegistry.metricBuilderFactory()
+                .dispatchingFunctionCounterBuilder()
+                .withName("DISPATCH_FUNCTION").withType(MetricType.COUNTER)
+                .withAcceptRequestValue(0)
+                .withRejectRequestValue(0)
+                .build();
         if (metricRegistry.register(dispatchingFuntionMetric)) {
             Metric[] metrics = new Metric[]{dispatchingFuntionMetric};
             LogPublisher logPublisher = new LogPublisher(metricRegistry, metrics);
             LogPublisher[] logPublishers = new LogPublisher[1];
             logPublishers[0] = logPublisher;
             PublishingPolicy manuallyScheduledPublishingPolicy = metricRegistry.policyBuilderFactory()
-                .scheduledPolicyBuilder()
-                .withPublishers(logPublishers)
-                .withMetrics(metrics)
-                .build();
+                    .scheduledPolicyBuilder()
+                    .withPublishers(logPublishers)
+                    .withMetrics(metrics)
+                    .build();
 
-            if (logger.isDebugEnabled())
-                logger.debug("Policy getting initialized");
+            logger.debug("Policy getting initialized");
             manuallyScheduledPublishingPolicy.init();
-            if (logger.isDebugEnabled())
-                logger.debug("Metric initialized");
+            logger.debug("Metric initialized");
         }
     }
 
@@ -458,13 +457,11 @@ public abstract class AbstractRequestHandlerImpl implements RequestHandler {
 
     /**
      * This method returns the count of in progress requests
-     * * @return in progress requests count
+     * @return in progress requests count
      */
     @Override
     public int getInprogressRequestCount() throws APPCException {
-        if (logger.isTraceEnabled()) {
-            logger.trace("Entering to getInprogressRequestCount");
-        }
+        logger.trace("Entering to getInprogressRequestCount");
         return transactionRecorder.getInProgressRequestsCount();
     }
 

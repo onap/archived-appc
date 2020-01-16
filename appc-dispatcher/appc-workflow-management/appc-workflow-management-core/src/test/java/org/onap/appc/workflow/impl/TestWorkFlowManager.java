@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
@@ -11,15 +11,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * ============LICENSE_END=========================================================
  */
 
@@ -65,16 +65,17 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.Properties;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ConfigurationFactory.class, DBUtils.class, ObjectMapper.class})
+@PrepareForTest({ConfigurationFactory.class, DBUtils.class, ObjectMapper.class, WorkFlowManagerImpl.class})
 public class TestWorkFlowManager {
 
     @Rule
     public ExpectedException expectedEx = ExpectedException.none();
-    
+
     public TestWorkFlowManager() {
     }
 
@@ -85,7 +86,7 @@ public class TestWorkFlowManager {
     public SvcLogicService svcLogicService;
 
     @Before
-    public void init(){
+    public void init() {
         PowerMockito.mockStatic(ConfigurationFactory.class);
         Configuration mockConfiguration = Mockito.mock(Configuration.class);
         PowerMockito.when(ConfigurationFactory.getConfiguration()).thenReturn(mockConfiguration);
@@ -93,100 +94,120 @@ public class TestWorkFlowManager {
         this.svcLogicService = Mockito.mock(SvcLogicService.class);
         workflowManger.setWorkflowResolver(workflowResolver);
         workflowManger.setSvcLogicServiceRef(svcLogicService);
-
     }
+
     @Test
-    public void testExecuteWorkFlow() throws  SvcLogicException{
+    public void testExecuteWorkFlow() throws SvcLogicException, Exception {
 
-        Mockito.when(workflowResolver.resolve(anyString(), anyString(), anyString(), anyString())).thenReturn(getWorkFlowKey());
-        Mockito.when(svcLogicService.execute(anyString(), anyString(), anyString(), anyString(), anyObject()))
-            .thenReturn(createSvcExexuteSuccessResponse());
+        Mockito.when(workflowResolver.resolve(anyString(), anyString(), anyString(), anyString()))
+                .thenReturn(getWorkFlowKey());
+        // Mockito.when(svcLogicService.execute(anyString(), anyString(), anyString(), anyString(), anyObject()))
+        //        .thenReturn(createSvcExexuteSuccessResponse());
 
-        WorkflowRequest workflowRequest = getWorkflowRequest("vSCP", 300, new Date(), "2.00", "ST_249", "O1652", "uid34",
-                VNFOperation.Lock, "mj13", Constants.PAYLOAD);
+        WorkflowRequest workflowRequest =
+                getWorkflowRequest("vSCP", 300, new Date(), "2.00", "ST_249", "O1652", "uid34",
+                    VNFOperation.Lock, "mj13", Constants.PAYLOAD);
 
-        WorkflowResponse response = workflowManger.executeWorkflow(workflowRequest);
+        WorkFlowManagerImpl mockManager = Mockito.spy(workflowManger);
+        Mockito.when(mockManager.workflowExecute(anyString(), anyString(), anyString(), anyString(), anyObject()))
+                .thenReturn(createSvcExexuteSuccessResponse());
+
+        WorkflowResponse response = mockManager.executeWorkflow(workflowRequest);
         Assert.assertTrue(response.getResponseContext().getStatus().getMessage().equals("success"));
 
 
     }
 
     @Test
-    public  void testExecuteWorkFlowFalse() throws SvcLogicException{
+    public void testExecuteWorkFlowFalse() throws SvcLogicException, Exception {
 
-        Mockito.when(workflowResolver.resolve(anyString(), anyString(), anyString(), anyString())).thenReturn(getWorkFlowKey());
-        Mockito.when(svcLogicService.execute(anyString(), anyString(), anyString(), anyString(), anyObject()))
-            .thenReturn(createSvcExexuteFailureResponse());
+        Mockito.when(workflowResolver.resolve(anyString(), anyString(), anyString(), anyString()))
+                .thenReturn(getWorkFlowKey());
+        // Mockito.when(svcLogicService.execute(anyString(), anyString(), anyString(), anyString(), anyObject()))
+        //        .thenReturn(createSvcExexuteFailureResponse());
 
-        WorkflowRequest workflowRequest = getWorkflowRequest("vSCP", 300, new Date(), "2.00", "ST_249", "O1652", "uid34",
-                VNFOperation.Lock, "mj13", Constants.PAYLOAD);
+        WorkflowRequest workflowRequest =
+                getWorkflowRequest("vSCP", 300, new Date(), "2.00", "ST_249", "O1652", "uid34",
+                    VNFOperation.Lock, "mj13", Constants.PAYLOAD);
 
-        WorkflowResponse response=workflowManger.executeWorkflow(workflowRequest);
+        WorkFlowManagerImpl mockManager = Mockito.spy(workflowManger);
+        Mockito.when(mockManager.workflowExecute(anyString(), anyString(), anyString(), anyString(), anyObject()))
+                .thenReturn(createSvcExexuteFailureResponse());
+
+        WorkflowResponse response = mockManager.executeWorkflow(workflowRequest);
         Assert.assertTrue(response.getResponseContext().getStatus().getMessage().equals("failure"));
 
     }
 
     @Test
-    public void testExecuteWorkFlowAPIVersionStartWithOne() throws SvcLogicException{
-        Mockito.when(workflowResolver.resolve(anyString(), anyString(), anyString(), anyString())).thenReturn(getWorkFlowKey());
-        Mockito.when(svcLogicService.execute(anyString(), anyString(), anyString(), anyString(), anyObject()))
-            .thenReturn(createSvcExexuteSuccessResponse());
+    public void testExecuteWorkFlowAPIVersionStartWithOne() throws SvcLogicException, Exception {
+        Mockito.when(workflowResolver.resolve(anyString(), anyString(), anyString(), anyString()))
+                .thenReturn(getWorkFlowKey());
+        // Mockito.when(svcLogicService.execute(anyString(), anyString(), anyString(), anyString(), anyObject()))
+        //        .thenReturn(createSvcExexuteSuccessResponse());
 
-        WorkflowRequest workflowRequest = getWorkflowRequest("vSCP", 300, new Date(), "1.00", "ST_249", "O1652", "uid34",
-                VNFOperation.Lock, "mj13", Constants.PAYLOAD);
+        WorkflowRequest workflowRequest =
+                getWorkflowRequest("vSCP", 300, new Date(), "1.00", "ST_249", "O1652", "uid34",
+                    VNFOperation.Lock, "mj13", Constants.PAYLOAD);
 
-        WorkflowResponse response=workflowManger.executeWorkflow(workflowRequest);
+        WorkFlowManagerImpl mockManager = Mockito.spy(workflowManger);
+        Mockito.when(mockManager.workflowExecute(anyString(), anyString(), anyString(), anyString(), anyObject()))
+                .thenReturn(createSvcExexuteSuccessResponse());
+
+        WorkflowResponse response = mockManager.executeWorkflow(workflowRequest);
         Assert.assertTrue(response.getResponseContext().getStatus().getMessage().equals("success"));
     }
 
     @Test
-    public void testExecuteWorkFlowException() throws  SvcLogicException{
-        Mockito.when(workflowResolver.resolve(anyString(), anyString(), anyString(), anyString())).thenReturn(getWorkFlowKey());
-        Mockito.when(svcLogicService.execute(anyString(), anyString(), anyString(), anyString(), anyObject()))
-            .thenReturn(createSvcExexuteSuccessResponse());
+    public void testExecuteWorkFlowException() throws SvcLogicException, Exception {
+        Mockito.when(workflowResolver.resolve(anyString(), anyString(), anyString(), anyString()))
+                .thenReturn(getWorkFlowKey());
+        // Mockito.when(svcLogicService.execute(anyString(), anyString(), anyString(), anyString(), anyObject()))
+        //        .thenReturn(createSvcExexuteSuccessResponse());
 
-        WorkflowRequest workflowRequest = Mockito.spy(getWorkflowRequest("vSCP", 300, new Date(), "2.00", "ST_249", "O1652", "uid34",
-                VNFOperation.Lock, "mj13", Constants.PAYLOAD));
+        WorkflowRequest workflowRequest =
+                Mockito.spy(getWorkflowRequest("vSCP", 300, new Date(), "2.00", "ST_249", "O1652", "uid34",
+                    VNFOperation.Lock, "mj13", Constants.PAYLOAD));
         Mockito.when(workflowRequest.getRequestContext()).thenThrow(new RuntimeException());
 
-        WorkflowResponse response = workflowManger.executeWorkflow(workflowRequest);
+        WorkFlowManagerImpl mockManager = Mockito.spy(workflowManger);
+        Mockito.when(mockManager.workflowExecute(anyString(), anyString(), anyString(), anyString(), anyObject()))
+                .thenReturn(createSvcExexuteSuccessResponse());
+
+        WorkflowResponse response = mockManager.executeWorkflow(workflowRequest);
         Mockito.verify(workflowRequest, Mockito.times(2)).getResponseContext();
     }
 
     @Test
-    public  void testExecuteWorkAPIVersion1Exception() throws SvcLogicException{
-        Mockito.when(workflowResolver.resolve(anyString(), anyString(), anyString(), anyString())).thenReturn(getWorkFlowKey());
-        Mockito.when(svcLogicService.execute(anyString(), anyString(), anyString(), anyString(), anyObject()))
-            .thenReturn(createSvcExexuteSuccessResponse());
+    public void testExecuteWorkAPIVersion1Exception() throws SvcLogicException, Exception {
+        Mockito.when(workflowResolver.resolve(anyString(), anyString(), anyString(), anyString()))
+                .thenReturn(getWorkFlowKey());
+        // Mockito.when(svcLogicService.execute(anyString(), anyString(), anyString(), anyString(), anyObject()))
+        //        .thenReturn(createSvcExexuteSuccessResponse());
 
-        WorkflowRequest workflowRequest = getWorkflowRequest("vSCP", 300, new Date(), "1.00", "ST_249", "O1652", "uid34",
-                VNFOperation.Lock, "mj13", Constants.PAYLOAD);
+        WorkflowRequest workflowRequest =
+                getWorkflowRequest("vSCP", 300, new Date(), "1.00", "ST_249", "O1652", "uid34",
+                    VNFOperation.Lock, "mj13", Constants.PAYLOAD);
         PowerMockito.mockStatic(ObjectMapper.class);
         PowerMockito.when(ObjectMapper.map(Mockito.any())).thenThrow(new RuntimeException());
-        WorkflowResponse response=workflowManger.executeWorkflow(workflowRequest);
+        WorkFlowManagerImpl mockManager = Mockito.spy(workflowManger);
+        Mockito.when(mockManager.workflowExecute(anyString(), anyString(), anyString(), anyString(), anyObject()))
+                .thenReturn(createSvcExexuteSuccessResponse());
+
+        WorkflowResponse response = mockManager.executeWorkflow(workflowRequest);
         Assert.assertEquals(501, response.getResponseContext().getStatus().getCode());
     }
 
     @Test
-    public void testWorkFlowExist() throws  SvcLogicException{
-        Mockito.when(workflowResolver.resolve(anyString(), anyString(), anyString(), anyString())).thenReturn(getWorkFlowKey());
-        Mockito.when(svcLogicService.hasGraph(anyString(), anyString(), anyString(), anyString())).thenReturn(true);
+    public void testWorkFlowExist() throws SvcLogicException {
+        Mockito.when(workflowResolver.resolve(anyString(), anyString(), anyString(), anyString()))
+                .thenReturn(getWorkFlowKey());
+        Mockito.when(svcLogicService.hasGraph(anyString(), anyString(), anyString(), anyString()))
+                .thenReturn(true);
 
-        WorkflowRequest workflowRequest = getWorkflowRequest("vSCP", 300, new Date(), "2.00", "ST_249", "O1652", "uid34",
-                VNFOperation.Lock, "mj13", Constants.PAYLOAD);
-
-        WorkflowExistsOutput response = workflowManger.workflowExists(workflowRequest);
-
-        Assert.assertTrue(response.isMappingExist());
-    }
-
-    @Test
-    public void testWorkFlowNotExist() throws  SvcLogicException {
-        Mockito.when(workflowResolver.resolve(anyString(), anyString(), anyString(), anyString())).thenReturn(getWorkFlowKey());
-        Mockito.when(svcLogicService.hasGraph(anyString(), anyString(), anyString(), anyString())).thenReturn(false);
-
-        WorkflowRequest workflowRequest = getWorkflowRequest("vSCP", 300, new Date(), "2.00", "ST_249", "O1652", "uid34",
-                VNFOperation.Lock, "mj13", Constants.PAYLOAD);
+        WorkflowRequest workflowRequest =
+                getWorkflowRequest("vSCP", 300, new Date(), "2.00", "ST_249", "O1652", "uid34",
+                    VNFOperation.Lock, "mj13", Constants.PAYLOAD);
 
         WorkflowExistsOutput response = workflowManger.workflowExists(workflowRequest);
 
@@ -194,11 +215,30 @@ public class TestWorkFlowManager {
     }
 
     @Test
-    public void testWorkFlowExistNullKey() throws  SvcLogicException{
-        Mockito.when(workflowResolver.resolve(anyString(), anyString(), anyString(), anyString())).thenReturn(null);
-        Mockito.when(svcLogicService.hasGraph(anyString(), anyString(), anyString(), anyString())).thenReturn(true);
-        WorkflowRequest workflowRequest = getWorkflowRequest("vSCP", 300, new Date(), "2.00", "ST_249", "O1652", "uid34",
-                VNFOperation.Lock, "mj13", Constants.PAYLOAD);
+    public void testWorkFlowNotExist() throws SvcLogicException {
+        Mockito.when(workflowResolver.resolve(anyString(), anyString(), anyString(), anyString()))
+                .thenReturn(getWorkFlowKey());
+        Mockito.when(svcLogicService.hasGraph(anyString(), anyString(), anyString(), anyString()))
+                .thenReturn(false);
+
+        WorkflowRequest workflowRequest =
+                getWorkflowRequest("vSCP", 300, new Date(), "2.00", "ST_249", "O1652", "uid34",
+                    VNFOperation.Lock, "mj13", Constants.PAYLOAD);
+
+        WorkflowExistsOutput response = workflowManger.workflowExists(workflowRequest);
+
+        Assert.assertTrue(response.isMappingExist());
+    }
+
+    @Test
+    public void testWorkFlowExistNullKey() throws SvcLogicException {
+        Mockito.when(workflowResolver.resolve(anyString(), anyString(), anyString(), anyString()))
+                .thenReturn(null);
+        Mockito.when(svcLogicService.hasGraph(anyString(), anyString(), anyString(), anyString()))
+                .thenReturn(true);
+        WorkflowRequest workflowRequest =
+                getWorkflowRequest("vSCP", 300, new Date(), "2.00", "ST_249", "O1652", "uid34",
+                    VNFOperation.Lock, "mj13", Constants.PAYLOAD);
         WorkflowExistsOutput response = workflowManger.workflowExists(workflowRequest);
         Assert.assertFalse(response.isMappingExist());
     }
@@ -219,8 +259,9 @@ public class TestWorkFlowManager {
         workflowResolver.resolve("ACTION", "VNF_TYPE", "VNF_VERSION", "API_VERSION");
     }
 
-    private WorkflowRequest getWorkflowRequest(String vnfType, int ttl,  Date timeStamp, String apiVersion, String requestId,
-            String originatorID, String subRequestID, VNFOperation action, String vnfId , String payload) {
+    private WorkflowRequest getWorkflowRequest(String vnfType, int ttl, Date timeStamp, String apiVersion,
+            String requestId, String originatorID, String subRequestID, VNFOperation action, String vnfId,
+            String payload) {
         WorkflowRequest workflowRequest = new WorkflowRequest();
         RuntimeContext runtimeContext = createRuntimeContext();
 
@@ -241,10 +282,10 @@ public class TestWorkFlowManager {
         workflowRequest.setResponseContext(runtimeContext.getResponseContext());
         workflowRequest.setVnfContext(runtimeContext.getVnfContext());
 
-        return  workflowRequest;
+        return workflowRequest;
     }
 
-    private RequestContext creatRequestContext(){
+    private RequestContext creatRequestContext() {
         RequestContext requestContext = new RequestContext();
         CommonHeader commonHeader = new CommonHeader();
         Flags flags = new Flags();
@@ -253,10 +294,10 @@ public class TestWorkFlowManager {
         requestContext.setCommonHeader(commonHeader);
         requestContext.setActionIdentifiers(actionIdentifiers);
 
-        return  requestContext;
+        return requestContext;
     }
 
-    private  ResponseContext createResponseContext(){
+    private ResponseContext createResponseContext() {
         ResponseContext responseContext = new ResponseContext();
         CommonHeader commonHeader = new CommonHeader();
         Flags flags = new Flags();
@@ -265,10 +306,10 @@ public class TestWorkFlowManager {
         responseContext.setStatus(status);
         commonHeader.setFlags(flags);
 
-        return  responseContext;
+        return responseContext;
     }
 
-    private RuntimeContext createRuntimeContext(){
+    private RuntimeContext createRuntimeContext() {
         RuntimeContext runtimeContext = new RuntimeContext();
         RequestContext requestContext = creatRequestContext();
         ResponseContext responseContext = createResponseContext();
@@ -280,13 +321,13 @@ public class TestWorkFlowManager {
         return runtimeContext;
     }
 
-    public WorkflowKey getWorkFlowKey(){
+    public WorkflowKey getWorkFlowKey() {
         WorkflowKey workflowKey = new WorkflowKey("APPCDG", "2.0.0.0", "dgModule");
 
         return workflowKey;
     }
 
-    private Properties createSvcExexuteSuccessResponse(){
+    private Properties createSvcExexuteSuccessResponse() {
         Properties properties = new Properties();
         properties.setProperty("output.payload", "success");
         properties.setProperty(Constants.DG_ATTRIBUTE_STATUS, "success");
@@ -296,7 +337,7 @@ public class TestWorkFlowManager {
         return properties;
     }
 
-    private Properties createSvcExexuteFailureResponse(){
+    private Properties createSvcExexuteFailureResponse() {
         Properties properties = new Properties();
         properties.setProperty("output.payload", "failure");
         properties.setProperty(Constants.DG_ATTRIBUTE_STATUS, "failure");

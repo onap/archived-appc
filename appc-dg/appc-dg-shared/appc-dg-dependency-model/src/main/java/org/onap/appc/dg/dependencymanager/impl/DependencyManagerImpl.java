@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
@@ -11,15 +11,14 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
  * ============LICENSE_END=========================================================
  */
 
@@ -44,17 +43,18 @@ public class DependencyManagerImpl implements DependencyManager {
 
     MetadataCache<DependencyModelIdentifier,VnfcDependencyModel> cache;
 
-    DependencyManagerImpl(){
+    DependencyManagerImpl() {
         cache = MetadataCacheFactory.getInstance().getMetadataCache();
     }
 
-    public VnfcDependencyModel getVnfcDependencyModel(DependencyModelIdentifier modelIdentifier,DependencyTypes dependencyType) throws InvalidDependencyModelException, DependencyModelNotFound {
+    public VnfcDependencyModel getVnfcDependencyModel(DependencyModelIdentifier modelIdentifier,
+            DependencyTypes dependencyType) throws InvalidDependencyModelException, DependencyModelNotFound {
         if (logger.isTraceEnabled()) {
-            logger.trace("Entering to getVnfcDependencyModel with DependencyModelIdentifier = "+ modelIdentifier
+            logger.trace("Entering to getVnfcDependencyModel with DependencyModelIdentifier = " + modelIdentifier
                     + " , DependencyTypes = " + dependencyType);
         }
         VnfcDependencyModel dependencyModel = cache.getObject(modelIdentifier);
-        if(dependencyModel == null){
+        if (dependencyModel == null) {
             logger.debug("Dependency model not found in cache, creating strategy for reading it");
             DependencyType strategy = getStrategy(dependencyType);
             // Throw exception if strategy could not be created because it is required
@@ -65,13 +65,13 @@ public class DependencyManagerImpl implements DependencyManager {
             dependencyModel = strategy.getVnfcDependencyModel(modelIdentifier);
         }
         if (logger.isTraceEnabled()) {
-            logger.trace("Returning getVnfcDependencyModel with dependency model = "+ dependencyModel);
+            logger.trace("Returning getVnfcDependencyModel with dependency model = " + dependencyModel);
         }
         return dependencyModel;
     }
 
     private DependencyType getStrategy(DependencyTypes dependencyType) {
-        switch (dependencyType){
+        switch (dependencyType) {
             case RESOURCE:
                 return new ResourceDependency();
         }

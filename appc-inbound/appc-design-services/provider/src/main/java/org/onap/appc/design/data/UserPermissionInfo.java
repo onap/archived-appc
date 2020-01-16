@@ -2,11 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
- * ================================================================================
- * Copyright (C) 2017 Amdocs
- * ================================================================================
- * Modifications (C) 2019 Ericsson
+ * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,19 +18,30 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.appc.dg.netconf.impl;
+package org.onap.appc.design.data;
 
-import org.onap.appc.adapter.netconf.NetconfClient;
-import org.onap.appc.adapter.netconf.NetconfClientFactory;
-import org.onap.appc.adapter.netconf.NetconfClientType;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+public class UserPermissionInfo {
 
-public class NetconfClientFactoryMock extends NetconfClientFactory {
+    @JsonProperty("userID")
+    String userID;
+    @JsonProperty("permission")
+    String permission;
 
-    private final NetconfClientJschMock jschClient = new NetconfClientJschMock();
+    public String getUserID() {
+        return userID;
+    }
 
-    @Override
-    public NetconfClient getNetconfClient(NetconfClientType type) {
-            return jschClient;
+    public String getPermission() {
+        return permission;
+    }
+
+    public void setUserID(String user_id) {
+        this.userID = user_id;
+    }
+
+    public void setPermission(String perm) {
+        this.permission = perm;
     }
 }

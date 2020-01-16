@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2018 Nokia
  * =============================================================================
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -57,7 +59,7 @@ public class XmlToLicenseModelConverterTest {
 
         // WHEN
         converter.convert((a, b) -> {
-        }, anyString(), null);
+                }, anyString(), null);
 
         // THEN
         then(xmlStreamReader).should().close();
@@ -72,9 +74,9 @@ public class XmlToLicenseModelConverterTest {
 
         // WHEN THEN
         assertThatExceptionOfType(XMLStreamException.class)
-            .isThrownBy(() -> converter.convert((a, b) -> {
-                throw new XMLStreamException();
-            }, anyString(), null));
+                .isThrownBy(() -> converter.convert((a, b) -> {
+                    throw new XMLStreamException();
+                }, anyString(), null));
         then(xmlStreamReader).should().close();
     }
 }

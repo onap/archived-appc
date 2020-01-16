@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2019 Ericsson
  * =============================================================================
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -27,7 +29,9 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.onap.appc.dg.flowbuilder.exception.InvalidDependencyModelException;
 import org.onap.appc.dg.objects.VnfcDependencyModel;
 import org.onap.appc.dg.objects.Node;
@@ -37,6 +41,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+@RunWith(MockitoJUnitRunner.class)
 public class DependencyModelParserTest {
 
     @Rule
@@ -54,7 +59,8 @@ public class DependencyModelParserTest {
     }
 
     @Test
-    public void testGenerateDependencyModel() throws InvalidDependencyModelException, JsonProcessingException, IOException {
+    public void testGenerateDependencyModel()
+            throws InvalidDependencyModelException, JsonProcessingException, IOException {
         ObjectNode topologyTemplate = new ObjectNode(JsonNodeFactory.instance);
         topologyTemplate = (ObjectNode) new ObjectMapper().readTree(jsonString);
         Mockito.doReturn(topologyTemplate).when(mockMapper).readTree("VNF_MODEL");
@@ -63,7 +69,8 @@ public class DependencyModelParserTest {
     }
 
     @Test
-    public void testGenerateDependencyModelWithNode() throws InvalidDependencyModelException, JsonProcessingException, IOException {
+    public void testGenerateDependencyModelWithNode()
+            throws InvalidDependencyModelException, JsonProcessingException, IOException {
         ObjectNode topologyTemplate = new ObjectNode(JsonNodeFactory.instance);
         topologyTemplate = (ObjectNode) new ObjectMapper().readTree(jsonString);
         Node<Vnfc> vnfc = new Node(new Vnfc());
@@ -76,32 +83,33 @@ public class DependencyModelParserTest {
     @Test
     public void testGenerateDependencyModelExceptionFlow() throws InvalidDependencyModelException {
         expectedEx.expect(InvalidDependencyModelException.class);
-        expectedEx.expectMessage("Dependency model is missing 'topology_template' or  'node_templates' elements");
+        expectedEx.expectMessage("Dependency model is missing 'topology_template' or 'node_templates' elements");
         VnfcDependencyModel model = parser.generateDependencyModel("VNF_MODEL", "VNF_TYPE");
     }
 
-    private String jsonString = "{\"topology_template\": {" +
-            "        \"node_templates\": {" +
-            "            \"Property Definition_Template\": {" +
-            "                \"type\": \"org.onap.resource.vfc.vnf_type.abstract.nodes.property definition\"," +
-            "                \"properties\": {" +
-            "                    \"mandatory\": \"true\"," +
-            "                    \"high_availablity\": \"Active-Passive\"" +
-            "                },\"requirements\": [" +
-            "        {" +
-            "            \"dependency\": {" +
-            "                \"capability\": \"tosca.capabilities.Node\"," +
-            "                \"node\": \"tosca.nodes.Root\"," +
-            "                \"relationship\": \"tosca.relationships.DependsOn\"," +
-            "                \"occurrences\": [" +
-            "                    0," +
-            "                    \"UNBOUNDED\"" +
-            "                ]" +
-            "            }" +
-            "        }" +
-            "    ]" +
-            "            },\"tosca.nodes.Root\": {\"type\": \"VNFC_NAME\"}" +
-            "        }" +
-            "    }" +
-            "}";
+    private String jsonString =
+            "{\"topology_template\": {"
+            + "        \"node_templates\": {"
+            + "            \"Property Definition_Template\": {"
+            + "                \"type\": \"org.onap.resource.vfc.vnf_type.abstract.nodes.property definition\","
+            + "                \"properties\": {"
+            + "                    \"mandatory\": \"true\","
+            + "                    \"high_availability\": \"Active-Passive\""
+            + "                },\"requirements\": ["
+            + "        {"
+            + "            \"dependency\": {"
+            + "                \"capability\": \"tosca.capabilities.Node\","
+            + "                \"node\": \"tosca.nodes.Root\","
+            + "                \"relationship\": \"tosca.relationships.DependsOn\","
+            + "                \"occurrences\": ["
+            + "                    0,"
+            + "                    \"UNBOUNDED\""
+            + "                ]"
+            + "            }"
+            + "        }"
+            + "    ]"
+            + "            },\"tosca.nodes.Root\": {\"type\": \"VNFC_NAME\"}"
+            + "        }"
+            + "    }"
+            + "}";
 }

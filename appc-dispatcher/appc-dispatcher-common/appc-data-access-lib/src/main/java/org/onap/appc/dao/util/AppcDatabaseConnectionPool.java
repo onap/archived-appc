@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
@@ -19,7 +19,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
  * ============LICENSE_END=========================================================
  */
 
@@ -41,8 +40,8 @@ import java.util.Map;
  * This class implements
  *
  * @see org.onap.appc.dao.util.dbcp.DBConnectionPool
- * that provides concrete implemenation of accessing appc database which basic setup
- * data would be got from global configuration.
+ * that provides a concrete implementation of appc database access
+ * with basic setup data extracted from the global configuration.
  * @see org.onap.appc.configuration.Configuration
  * <p>
  * The singleton instance of this class has been instantiated by blueprint.
@@ -88,8 +87,8 @@ public class AppcDatabaseConnectionPool implements DBConnectionPoolService {
         try {
             connection = dbConnectionPool.getConnection();
         } catch (DBConnectionPoolException e) {
-            logger.error("DB connection pool is created failed." +
-                "Please make sure the provided information is correct.");
+            logger.error("DB connection pool creation failed."
+                    + " Please make sure the provided information is correct.");
         }
 
         if (connection != null) {

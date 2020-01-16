@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
@@ -19,7 +19,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  * ============LICENSE_END=========================================================
  */
 
@@ -106,8 +105,8 @@ public class AppcDatabaseConnectionPoolTest {
 
     @Test
     public void testArgumentConstructor() {
-        AppcDatabaseConnectionPool appcDatabaseConnectionPool = new AppcDatabaseConnectionPool(dbUrl, username,
-            password, driver);
+        AppcDatabaseConnectionPool appcDatabaseConnectionPool =
+                new AppcDatabaseConnectionPool(dbUrl, username, password, driver);
         Object dbConnectionPool = Whitebox.getInternalState(appcDatabaseConnectionPool, "dbConnectionPool");
         Assert.assertNotNull(dbConnectionPool);
     }
