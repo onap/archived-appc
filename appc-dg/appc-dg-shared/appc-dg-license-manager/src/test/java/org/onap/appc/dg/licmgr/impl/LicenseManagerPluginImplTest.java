@@ -3,6 +3,8 @@
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2019 Ericsson
+ * ================================================================================
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,7 +48,8 @@ public class LicenseManagerPluginImplTest {
     public void testRetrieveLicenseModel() throws APPCException {
         LicenseManagerPluginImpl lmImpl = new LicenseManagerPluginImpl();
         lmImpl.setLicenseManager(licenseManagerMock);
-        Mockito.doReturn(licenseModelMock).when(licenseManagerMock).retrieveLicenseModel(Mockito.anyString(), Mockito.anyString());
+        Mockito.doReturn(licenseModelMock).when(licenseManagerMock)
+                .retrieveLicenseModel(Mockito.anyString(), Mockito.anyString());
         Map<String, String> params = new HashMap<>();
         SvcLogicContext ctx = new SvcLogicContext();
         lmImpl.retrieveLicenseModel(params, ctx);

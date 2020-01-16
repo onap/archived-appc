@@ -2,6 +2,8 @@
  * ============LICENSE_START=======================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
  * ================================================================================
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use
  * this file except in compliance with the License. You may obtain a copy of the License at
  *
@@ -84,7 +86,8 @@ public class RequestHandlerImplTest implements LocalRequestHanlderTestHelper {
         lockManager = mock(LockManager.class);
         requestHandler.setLockManager(lockManager);
         List<RequestStatus> result = Arrays.asList(RequestStatus.ACCEPTED);
-        PowerMockito.when(recorder.getRecords(anyString(), anyString(), anyString(), anyString())).thenReturn(result);
+        PowerMockito.when(recorder.getRecords(anyString(), anyString(), anyString(), anyString()))
+                .thenReturn(result);
         final EELFLogger logger = EELFManager.getInstance().getLogger(RequestHandlerImpl.class);
         logger.setLevel(Level.TRACE);
         Whitebox.setInternalState(requestHandler, "logger", logger);
@@ -142,7 +145,7 @@ public class RequestHandlerImplTest implements LocalRequestHanlderTestHelper {
         doNothing().when(requestHandler).fillStatus(Mockito.any(RuntimeContext.class),
                 Mockito.any(LCMCommandStatus.class), Mockito.any());
         doThrow(new APPCException("TEST_APPC_EXCEPTION")).when(commandExecutor)
-        .executeCommand(Mockito.any(CommandExecutorInput.class));
+                .executeCommand(Mockito.any(CommandExecutorInput.class));
         doNothing().when(requestHandler).storeErrorMessageToLog(Mockito.any(RuntimeContext.class), Mockito.anyString(),
                 Mockito.anyString(), Mockito.anyString());
         requestHandler.handleRequest(runtimeContext);

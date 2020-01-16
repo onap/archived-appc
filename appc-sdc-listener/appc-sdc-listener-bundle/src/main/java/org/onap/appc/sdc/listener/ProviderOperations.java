@@ -17,17 +17,17 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  * ============LICENSE_END=========================================================
  */
 
 package org.onap.appc.sdc.listener;
 
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -37,11 +37,9 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
-
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
@@ -61,13 +59,9 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 import org.onap.appc.exceptions.APPCException;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
 
 public class ProviderOperations {
-
     private static final EELFLogger LOG = EELFManager.getInstance().getLogger(ProviderOperations.class);
-
     private static String basic_auth;
     private static URL defaultUrl;
 
@@ -82,9 +76,12 @@ public class ProviderOperations {
             post.setHeader("Content-Type", "application/json");
             post.setHeader("Accept", "application/json");
 
-            // Set Auth
-            if (basic_auth != null) {
+            // Set Auth if Provider URL is specified and basic auth has been configured
+            if (basic_auth != null && defaultUrl != null && url.equals(defaultUrl)) {
                 post.setHeader("Authorization", "Basic " + basic_auth);
+                LOG.debug("ASDCListener ProviderOperations: Using basic authentication for request to url " + url);
+            } else {
+                LOG.debug("ASDCListener ProviderOperations: Not Using basic authentication for request to url " + url);
             }
 
             if (adtl_headers != null) {
@@ -115,17 +112,17 @@ public class ProviderOperations {
     }
 
     /**
-     * Sets the basic authentication header for the given user and password. If either entry is null then set basic auth
-     * to null
+     * Sets the basic authentication header for the given user and password. If either entry is null
+     * then set basic auth to null
      *
-     * @param user
-     *            The user with optional domain name (for AAF)
-     * @param password
-     *            The password for the user
+     * @param user The user with optional domain name (for AAF)
+     * @param password The password for the user
      * @return The new value of the basic auth string that will be used in the request headers
      */
     public static String setAuthentication(String user, String password) {
         if (user != null && password != null) {
+            LOG.debug("SDCListener ProviderOperations:setAuthentication user is: " + user
+                    + " Encrypted password: XXXX");
             String authStr = user + ":" + password;
             basic_auth = new String(Base64.encodeBase64(authStr.getBytes()));
         } else {
@@ -137,15 +134,12 @@ public class ProviderOperations {
     /**
      * Sets the default Provider URL to the provided URL. If the entry is null then sets to null.
      *
-     * @param URL The URL
+     * @param URL url The URL
      */
-    public static void setDefaultUrl(URL URL) {
-        if (URL != null) {
-            defaultUrl = URL;
-        } else {
-            defaultUrl = null;
-        }
+    public static void setDefaultUrl(URL url) {
+        defaultUrl = url;
     }
+
     @SuppressWarnings("deprecation")
     private static HttpClient getHttpClient(URL url) throws APPCException {
         HttpClient client;
@@ -175,7 +169,7 @@ public class ProviderOperations {
             client = new DefaultHttpClient();
         } else {
             throw new APPCException(
-                "The provider.topology.url property is invalid. The url did not start with http[s]");
+                    "The provider.topology.url property is invalid. The url did not start with http[s]");
         }
         return client;
     }
@@ -184,18 +178,16 @@ public class ProviderOperations {
     public static class MySSLSocketFactory extends SSLSocketFactory {
         private SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
 
-        public MySSLSocketFactory(KeyStore truststore) throws NoSuchAlgorithmException, KeyManagementException,
-                        KeyStoreException, UnrecoverableKeyException {
+        public MySSLSocketFactory(KeyStore truststore)
+                throws NoSuchAlgorithmException, KeyManagementException, KeyStoreException, UnrecoverableKeyException {
             super(truststore);
 
             TrustManager tm = new X509TrustManager() {
                 @Override
-                public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-                }
+                public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {}
 
                 @Override
-                public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-                }
+                public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {}
 
                 @Override
                 public X509Certificate[] getAcceptedIssuers() {
@@ -203,14 +195,11 @@ public class ProviderOperations {
                 }
             };
 
-            sslContext.init(null, new TrustManager[] {
-                tm
-            }, null);
+            sslContext.init(null, new TrustManager[] {tm}, null);
         }
 
         @Override
-        public Socket createSocket(Socket socket, String host, int port, boolean autoClose)
-            throws IOException, UnknownHostException {
+        public Socket createSocket(Socket socket, String host, int port, boolean autoClose) throws IOException {
             return sslContext.getSocketFactory().createSocket(socket, host, port, autoClose);
         }
 

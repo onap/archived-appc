@@ -6,6 +6,8 @@
 *=================================================================================
 * Modifications Copyright 2018 IBM.
 *=================================================================================
+* Modifications Copyright (C) 2019 AT&T Intellectual Property
+*=================================================================================
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
@@ -37,28 +39,28 @@ public class TestVnf {
 
     @Before
     public void SetUp() {
-        vnf=new Vnf();
+        vnf = new Vnf();
     }
 
     @Test
     public void testGetVnfId() {
         vnf.setVnfId("Z");
         assertNotNull(vnf.getVnfId());
-        assertEquals(vnf.getVnfId(),"Z");
+        assertEquals(vnf.getVnfId(), "Z");
     }
 
     @Test
     public void testGetvnfType() {
         vnf.setVnfType("A");
         assertNotNull(vnf.getVnfType());
-        assertEquals(vnf.getVnfType(),"A");
+        assertEquals(vnf.getVnfType(), "A");
     }
 
     @Test
     public void testGetVnfVersion() {
         vnf.setVnfVersion("1.0");
         assertNotNull(vnf.getVnfVersion());
-        assertEquals(vnf.getVnfVersion(),"1.0");
+        assertEquals(vnf.getVnfVersion(), "1.0");
     }
 
     @Test
@@ -66,8 +68,8 @@ public class TestVnf {
         List<Vserver> vservers = new LinkedList<>();
         vnf.setVservers(vservers);
         assertNotNull(vnf.getVservers());
-        assertEquals(vnf.getVservers(),vservers);
-        
+        assertEquals(vnf.getVservers(), vservers);
+
     }
 
     @Test
@@ -88,7 +90,7 @@ public class TestVnf {
         vnfc.setVnfcType("B");
         vnfc.setResilienceType("RS1");
         vnfc.setMandatory(true);
-        List<Vserver> vserverList=new LinkedList<>();
+        List<Vserver> vserverList = new LinkedList<>();
         Vserver vserver = new Vserver();
         vserver.setId("V1");
         vserver.setName("V1-Name");
@@ -99,16 +101,16 @@ public class TestVnf {
         vserverList.add(vserver);
         vnfc.addVservers(vserverList);
         vnf.setVservers(vserverList);
-        assertTrue(vnf.getVnfcs()!=null);
+        assertTrue(vnf.getVnfcs() != null);
     }
-    
+
     @Test
     public void testGetSetIdentityUrl()
     {
-      vnf.setIdentityUrl("testIdentityUrl");
-      assertEquals("testIdentityUrl", vnf.getIdentityUrl());
+        vnf.setIdentityUrl("testIdentityUrl");
+        assertEquals("testIdentityUrl", vnf.getIdentityUrl());
     }
-    
+
     @Test
     public void testAddVserver()
     {

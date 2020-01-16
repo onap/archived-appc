@@ -2,6 +2,8 @@
  * ============LICENSE_START=======================================================
  * Copyright (C) 2018-2019 Ericsson. All rights reserved.
  * ================================================================================
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
  * file except in compliance with the License. You may obtain a copy of the License at
  *
@@ -97,7 +99,8 @@ public class AbstractRequestHandlerImplTest implements LocalRequestHanlderTestHe
         recorder = mock(TransactionRecorder.class);
         requestHandler.setTransactionRecorder(recorder);
         List<RequestStatus> result = Arrays.asList(RequestStatus.ACCEPTED);
-        PowerMockito.when(recorder.getRecords(anyString(), anyString(), anyString(), anyString())).thenReturn(result);
+        PowerMockito.when(recorder.getRecords(anyString(), anyString(), anyString(), anyString()))
+                .thenReturn(result);
         final EELFLogger logger = EELFManager.getInstance().getLogger(AbstractRequestHandlerImpl.class);
         logger.setLevel(Level.TRACE);
         Whitebox.setInternalState(requestHandler, "logger", logger);
@@ -210,14 +213,21 @@ public class AbstractRequestHandlerImplTest implements LocalRequestHanlderTestHe
         PowerMockito.when(bundleContext.getService(sref)).thenReturn(metricService);
         MetricRegistry metricRegistry = Mockito.mock(MetricRegistry.class);
         DispatchingFuntionMetric dispatchingFunctionMetric = Mockito.mock(DispatchingFuntionMetric.class);
-        DispatchingFunctionCounterBuilder dispatchingFunctionCounterBuilder = Mockito.mock(DispatchingFunctionCounterBuilder.class);
+        DispatchingFunctionCounterBuilder dispatchingFunctionCounterBuilder =
+                Mockito.mock(DispatchingFunctionCounterBuilder.class);
         MetricBuilderFactory metricBuilderFactory = Mockito.mock(MetricBuilderFactory.class);
-        Mockito.when(dispatchingFunctionCounterBuilder.withName("DISPATCH_FUNCTION")).thenReturn(dispatchingFunctionCounterBuilder);
-        Mockito.when(dispatchingFunctionCounterBuilder.withType(MetricType.COUNTER)).thenReturn(dispatchingFunctionCounterBuilder);
-        Mockito.when(dispatchingFunctionCounterBuilder.withAcceptRequestValue(0)).thenReturn(dispatchingFunctionCounterBuilder);
-        Mockito.when(dispatchingFunctionCounterBuilder.withRejectRequestValue(0)).thenReturn(dispatchingFunctionCounterBuilder);
-        Mockito.when(dispatchingFunctionCounterBuilder.build()).thenReturn(dispatchingFunctionMetric);
-        Mockito.when(metricBuilderFactory.dispatchingFunctionCounterBuilder()).thenReturn(dispatchingFunctionCounterBuilder);
+        Mockito.when(dispatchingFunctionCounterBuilder.withName("DISPATCH_FUNCTION"))
+                .thenReturn(dispatchingFunctionCounterBuilder);
+        Mockito.when(dispatchingFunctionCounterBuilder.withType(MetricType.COUNTER))
+                .thenReturn(dispatchingFunctionCounterBuilder);
+        Mockito.when(dispatchingFunctionCounterBuilder.withAcceptRequestValue(0))
+                .thenReturn(dispatchingFunctionCounterBuilder);
+        Mockito.when(dispatchingFunctionCounterBuilder.withRejectRequestValue(0))
+                .thenReturn(dispatchingFunctionCounterBuilder);
+        Mockito.when(dispatchingFunctionCounterBuilder.build()).
+                thenReturn(dispatchingFunctionMetric);
+        Mockito.when(metricBuilderFactory.dispatchingFunctionCounterBuilder())
+                .thenReturn(dispatchingFunctionCounterBuilder);
         Mockito.when(metricRegistry.metricBuilderFactory()).thenReturn(metricBuilderFactory);
         Mockito.when(metricService.createRegistry("APPC")).thenReturn(metricRegistry);
         Mockito.when(metricRegistry.register(dispatchingFunctionMetric)).thenReturn(true);
@@ -237,8 +247,8 @@ public class AbstractRequestHandlerImplTest implements LocalRequestHanlderTestHe
     @Test
     public void testMetricNullMetricService() throws Exception {
         expectedEx.expect(NullPointerException.class);
-        expectedEx.expectMessage("org.onap.appc.metricservice.MetricService is null. " +
-                    "Failed to init Metric");
+        expectedEx.expectMessage("org.onap.appc.metricservice.MetricService is null. "
+                + "Failed to init Metric");
         Whitebox.invokeMethod(requestHandler, "initMetric");
     }
 

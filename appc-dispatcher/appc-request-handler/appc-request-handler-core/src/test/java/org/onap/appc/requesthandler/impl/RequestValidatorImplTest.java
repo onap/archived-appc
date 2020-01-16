@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
@@ -19,7 +19,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  * ============LICENSE_END=========================================================
  */
 
@@ -127,24 +126,24 @@ public class RequestValidatorImplTest implements LocalRequestHanlderTestHelper {
         AAIService aaiService = Mockito.mock(AAIService.class);
         PowerMockito.when(aaiService.query(
                 anyString(), anyBoolean(), anyString(), anyString(), anyString(), anyString(), anyObject()))
-        .thenAnswer(new Answer<SvcLogicResource.QueryStatus>() {
-            @Override
-            public SvcLogicResource.QueryStatus answer(InvocationOnMock invocation) throws Exception {
-                Object[] args = invocation.getArguments();
-                SvcLogicContext ctx = (SvcLogicContext) args[6];
-                String prefix = (String) args[4];
-                String key = (String) args[3];
-                if (key.contains("'28'")) {
-                    return SvcLogicResource.QueryStatus.FAILURE;
-                } else if (key.contains("'8'")) {
-                    return SvcLogicResource.QueryStatus.NOT_FOUND;
-                } else {
-                    ctx.setAttribute(prefix + ".vnf-type", "FIREWALL");
-                    ctx.setAttribute(prefix + ".orchestration-status", "Instantiated");
+            .thenAnswer(new Answer<SvcLogicResource.QueryStatus>() {
+                @Override
+                public SvcLogicResource.QueryStatus answer(InvocationOnMock invocation) throws Exception {
+                    Object[] args = invocation.getArguments();
+                    SvcLogicContext ctx = (SvcLogicContext) args[6];
+                    String prefix = (String) args[4];
+                    String key = (String) args[3];
+                    if (key.contains("'28'")) {
+                        return SvcLogicResource.QueryStatus.FAILURE;
+                    } else if (key.contains("'8'")) {
+                        return SvcLogicResource.QueryStatus.NOT_FOUND;
+                    } else {
+                        ctx.setAttribute(prefix + ".vnf-type", "FIREWALL");
+                        ctx.setAttribute(prefix + ".orchestration-status", "Instantiated");
+                    }
+                    return SvcLogicResource.QueryStatus.SUCCESS;
                 }
-                return SvcLogicResource.QueryStatus.SUCCESS;
-            }
-        });
+            });
         PowerMockito.mockStatic(FrameworkUtil.class);
         PowerMockito.when(FrameworkUtil.getBundle(AAIService.class)).thenReturn(bundleService);
         PowerMockito.when(bundleService.getBundleContext()).thenReturn(bundleContext);
@@ -209,17 +208,19 @@ public class RequestValidatorImplTest implements LocalRequestHanlderTestHelper {
         transactionRecord.setRequestState(RequestStatus.ACCEPTED);
         runtimeContext.setTransactionRecord(transactionRecord);
         transactionRecordList.add(transactionRecord);
-        Mockito.when(transactionRecorder.getInProgressRequests(Mockito.any(TransactionRecord.class),Mockito.any(int.class)))
-        .thenReturn(transactionRecordList);
+        Mockito.when(transactionRecorder.getInProgressRequests(Mockito.any(TransactionRecord.class),
+                Mockito.any(int.class)))
+            .thenReturn(transactionRecordList);
         impl.setTransactionRecorder(transactionRecorder);
         WorkflowExistsOutput workflowExistsOutput = new WorkflowExistsOutput(true, true);
         WorkFlowManager workflowManager = Mockito.mock(WorkFlowManagerImpl.class);
-        Mockito.when(workflowManager.workflowExists(Mockito.any(WorkflowRequest.class))).thenReturn(workflowExistsOutput);
+        Mockito.when(workflowManager.workflowExists(Mockito.any(WorkflowRequest.class)))
+                .thenReturn(workflowExistsOutput);
         impl.setWorkflowManager(workflowManager);
         ResponseContext responseContext = runtimeContext.getResponseContext();
         returnResponseContextCommonHeader(responseContext);
         RestClientInvoker client = mock(RestClientInvoker.class);
-        HttpResponse httpResponse = new BasicHttpResponse(new ProtocolVersion("HTTP",1,0), 200, "ACCEPTED");
+        HttpResponse httpResponse = new BasicHttpResponse(new ProtocolVersion("HTTP", 1, 0), 200, "ACCEPTED");
         httpResponse.setEntity(getHttpEntity());
         Mockito.when(client.doPost(Mockito.anyString(), Mockito.anyString())).thenReturn(httpResponse);
         impl.setClient(client);
@@ -227,7 +228,8 @@ public class RequestValidatorImplTest implements LocalRequestHanlderTestHelper {
         RuleExecutor ruleExecutor = Mockito.mock(RuleExecutor.class);
         RuleResult ruleResult = RuleResult.REJECT;
         Mockito.when(requestValidationPolicy.getInProgressRuleExecutor()).thenReturn(ruleExecutor);
-        Mockito.when(ruleExecutor.executeRule(Mockito.anyString(), Mockito.anyListOf(VNFOperation.class))).thenReturn(ruleResult);
+        Mockito.when(ruleExecutor.executeRule(Mockito.anyString(), Mockito.anyListOf(VNFOperation.class)))
+                .thenReturn(ruleResult);
         impl.setRequestValidationPolicy(requestValidationPolicy);
         impl.validateRequest(runtimeContext);
     }
@@ -262,14 +264,15 @@ public class RequestValidatorImplTest implements LocalRequestHanlderTestHelper {
         inProgressTransaction.setStartTime(Instant.now().minus(5, ChronoUnit.HOURS));
         inProgressTransaction.setRequestState(RequestStatus.ACCEPTED);
         transactionRecordList.add(inProgressTransaction);
-        Mockito.when(transactionRecorder.getInProgressRequests(Mockito.any(TransactionRecord.class),Mockito.any(int.class)))
+        Mockito.when(transactionRecorder.getInProgressRequests(Mockito.any(TransactionRecord.class),
+                Mockito.any(int.class)))
             .thenReturn(transactionRecordList);
         runtimeContext.setTransactionRecord(inProgressTransaction);
         impl.setTransactionRecorder(transactionRecorder);
         WorkflowExistsOutput workflowExistsOutput = new WorkflowExistsOutput(true, true);
         WorkFlowManager workflowManager = Mockito.mock(WorkFlowManagerImpl.class);
         Mockito.when(workflowManager.workflowExists(Mockito.any(WorkflowRequest.class)))
-            .thenReturn(workflowExistsOutput);
+                .thenReturn(workflowExistsOutput);
         impl.setWorkflowManager(workflowManager);
         ResponseContext responseContext = runtimeContext.getResponseContext();
         returnResponseContextCommonHeader(responseContext);
@@ -302,20 +305,21 @@ public class RequestValidatorImplTest implements LocalRequestHanlderTestHelper {
         inProgressTransaction.setRequestState(RequestStatus.ACCEPTED);
         inProgressTransaction.setStartTime(Instant.now().minus(48, ChronoUnit.HOURS));
         transactionRecordList.add(inProgressTransaction);
-        Mockito.when(transactionRecorder.getInProgressRequests(Mockito.any(TransactionRecord.class),Mockito.any(int.class)))
-        .thenReturn(transactionRecordList);
+        Mockito.when(transactionRecorder.getInProgressRequests(Mockito.any(TransactionRecord.class),
+                Mockito.any(int.class)))
+            .thenReturn(transactionRecordList);
         Mockito.when(transactionRecorder.isTransactionDuplicate(anyObject())).thenReturn(false);
         impl.setTransactionRecorder(transactionRecorder);
         runtimeContext.setTransactionRecord(inProgressTransaction);
         WorkFlowManager workflowManager = Mockito.mock(WorkFlowManagerImpl.class);
         WorkflowExistsOutput workflowExistsOutput = Mockito.spy(new WorkflowExistsOutput(true, true));
         Mockito.when(workflowManager.workflowExists(Mockito.any(WorkflowRequest.class)))
-            .thenReturn(workflowExistsOutput);
+                .thenReturn(workflowExistsOutput);
         impl.setWorkflowManager(workflowManager);
         ResponseContext responseContext = runtimeContext.getResponseContext();
         returnResponseContextCommonHeader(responseContext);
         RestClientInvoker client = mock(RestClientInvoker.class);
-        HttpResponse httpResponse = new BasicHttpResponse(new ProtocolVersion("HTTP",1,0), 200, "ACCEPTED");
+        HttpResponse httpResponse = new BasicHttpResponse(new ProtocolVersion("HTTP", 1, 0), 200, "ACCEPTED");
         httpResponse.setEntity(getHttpEntity());
         Mockito.when(client.doPost(Mockito.anyString(), Mockito.anyString())).thenReturn(httpResponse);
         impl.setClient(client);
@@ -324,7 +328,7 @@ public class RequestValidatorImplTest implements LocalRequestHanlderTestHelper {
         RuleResult ruleResult = RuleResult.ACCEPT;
         Mockito.when(requestValidationPolicy.getInProgressRuleExecutor()).thenReturn(ruleExecutor);
         Mockito.when(ruleExecutor.executeRule(Mockito.anyString(), Mockito.anyListOf(VNFOperation.class)))
-            .thenReturn(ruleResult);
+                .thenReturn(ruleResult);
         impl.setRequestValidationPolicy(requestValidationPolicy);
         RequestContext requestContext = new RequestContext();
         ActionIdentifiers actionIdentifiers = new ActionIdentifiers();
@@ -351,13 +355,13 @@ public class RequestValidatorImplTest implements LocalRequestHanlderTestHelper {
         WorkflowExistsOutput workflowExistsOutput = Mockito.spy(new WorkflowExistsOutput(true, true));
         WorkFlowManager workflowManager = Mockito.mock(WorkFlowManagerImpl.class);
         Mockito.when(workflowManager.workflowExists(Mockito.any(WorkflowRequest.class)))
-            .thenReturn(workflowExistsOutput);
+                .thenReturn(workflowExistsOutput);
         Mockito.when(workflowExistsOutput.isMappingExist()).thenReturn(false);
         impl.setWorkflowManager(workflowManager);
         ResponseContext responseContext = runtimeContext.getResponseContext();
         returnResponseContextCommonHeader(responseContext);
         RestClientInvoker client = mock(RestClientInvoker.class);
-        HttpResponse httpResponse = new BasicHttpResponse(new ProtocolVersion("HTTP",1,0), 200, "ACCEPTED");;
+        HttpResponse httpResponse = new BasicHttpResponse(new ProtocolVersion("HTTP", 1, 0), 200, "ACCEPTED");
         httpResponse.setEntity(getHttpEntity());
         Mockito.when(client.doPost(Mockito.anyString(), Mockito.anyString())).thenReturn(httpResponse);
         impl.setClient(client);
@@ -366,7 +370,7 @@ public class RequestValidatorImplTest implements LocalRequestHanlderTestHelper {
         RuleResult ruleResult = RuleResult.REJECT;
         Mockito.when(requestValidationPolicy.getInProgressRuleExecutor()).thenReturn(ruleExecutor);
         Mockito.when(ruleExecutor.executeRule(Mockito.anyString(), Mockito.anyListOf(VNFOperation.class)))
-            .thenReturn(ruleResult);
+                .thenReturn(ruleResult);
         impl.setRequestValidationPolicy(requestValidationPolicy);
         impl.validateRequest(runtimeContext);
     }
@@ -384,13 +388,13 @@ public class RequestValidatorImplTest implements LocalRequestHanlderTestHelper {
         WorkflowExistsOutput workflowExistsOutput = Mockito.spy(new WorkflowExistsOutput(true, true));
         WorkFlowManager workflowManager = Mockito.mock(WorkFlowManagerImpl.class);
         Mockito.when(workflowManager.workflowExists(Mockito.any(WorkflowRequest.class)))
-            .thenReturn(workflowExistsOutput);
+                .thenReturn(workflowExistsOutput);
         Mockito.when(workflowExistsOutput.isDgExist()).thenReturn(false);
         impl.setWorkflowManager(workflowManager);
         ResponseContext responseContext = runtimeContext.getResponseContext();
         returnResponseContextCommonHeader(responseContext);
         RestClientInvoker client = mock(RestClientInvoker.class);
-        HttpResponse httpResponse = new BasicHttpResponse(new ProtocolVersion("HTTP",1,0), 200, "ACCEPTED");
+        HttpResponse httpResponse = new BasicHttpResponse(new ProtocolVersion("HTTP", 1, 0), 200, "ACCEPTED");
         httpResponse.setEntity(getHttpEntity());
         Mockito.when(client.doPost(Mockito.anyString(), Mockito.anyString())).thenReturn(httpResponse);
         impl.setClient(client);
@@ -399,7 +403,7 @@ public class RequestValidatorImplTest implements LocalRequestHanlderTestHelper {
         RuleResult ruleResult = RuleResult.REJECT;
         Mockito.when(requestValidationPolicy.getInProgressRuleExecutor()).thenReturn(ruleExecutor);
         Mockito.when(ruleExecutor.executeRule(Mockito.anyString(), Mockito.anyListOf(VNFOperation.class)))
-            .thenReturn(ruleResult);
+                .thenReturn(ruleResult);
         impl.setRequestValidationPolicy(requestValidationPolicy);
         impl.validateRequest(runtimeContext);
     }
@@ -458,7 +462,8 @@ public class RequestValidatorImplTest implements LocalRequestHanlderTestHelper {
     private BasicHttpEntity getHttpEntity() {
         BasicHttpEntity httpEntity = new BasicHttpEntity();
         InputStream inputStream = new ByteArrayInputStream(
-                "{\"output\": {\"status\": {\"message\": \"test_messge\",\"code\": \"400\",\"status\":\"test_status\"},\"response-info\": { \"block\": \"true\"}}}".getBytes());
+                "{\"output\": {\"status\": {\"message\": \"test_messge\",\"code\": \"400\",\"status\":\"test_status\"},\"response-info\": { \"block\": \"true\"}}}"
+                .getBytes());
         httpEntity.setContent(inputStream);
         return httpEntity;
     }

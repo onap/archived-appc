@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
@@ -11,15 +11,14 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
  * ============LICENSE_END=========================================================
  */
 
@@ -42,11 +41,11 @@ import org.onap.appc.domainmodel.Vnfc;
 import org.onap.appc.domainmodel.Vserver;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.i18n.Msg;
-import org.onap.ccsdk.sli.adaptors.aai.AAIClient;
-import org.onap.ccsdk.sli.adaptors.aai.AAIService;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
+import org.onap.ccsdk.sli.adaptors.aai.AAIClient;
+import org.onap.ccsdk.sli.adaptors.aai.AAIService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
@@ -117,8 +116,8 @@ public class AAIPluginImpl implements AAIPlugin {
                 ctx.setAttribute(Constants.ATTRIBUTE_ERROR_MESSAGE, msg);
                 throw new APPCException(msg);
             }
-            String msg = EELFResourceManager
-                .format(Msg.SUCCESS_EVENT_MESSAGE, "PostGenericVnfData", STR_VNF_ID + vnfId);
+            String msg =
+                    EELFResourceManager.format(Msg.SUCCESS_EVENT_MESSAGE, "PostGenericVnfData", STR_VNF_ID + vnfId);
             ctx.setAttribute(org.onap.appc.Constants.ATTRIBUTE_SUCCESS_MESSAGE, msg);
 
         } catch (SvcLogicException e) {
@@ -136,8 +135,8 @@ public class AAIPluginImpl implements AAIPlugin {
 
         String key = "vnf-id = '" + vnfId + "'";
         try {
-            SvcLogicResource.QueryStatus response = aaiClient
-                .query(PARAM_GENERIC_VNF, false, null, key, prefix, null, ctx);
+            SvcLogicResource.QueryStatus response =
+                    aaiClient.query(PARAM_GENERIC_VNF, false, null, key, prefix, null, ctx);
             if (SvcLogicResource.QueryStatus.NOT_FOUND.equals(response)) {
                 String msg = EELFResourceManager.format(Msg.VNF_NOT_FOUND, vnfId);
                 ctx.setAttribute(Constants.ATTRIBUTE_ERROR_MESSAGE, msg);
@@ -157,7 +156,7 @@ public class AAIPluginImpl implements AAIPlugin {
             }
 
             ctx.setAttribute(Constants.IS_RELEASE_ENTITLEMENT_REQUIRE,
-                Boolean.toString(!aaiEntitlementPoolUuid.isEmpty()));
+                    Boolean.toString(!aaiEntitlementPoolUuid.isEmpty()));
             ctx.setAttribute(Constants.IS_RELEASE_LICENSE_REQUIRE, Boolean.toString(!aaiLicenseKeyGroupUuid.isEmpty()));
             String msg = EELFResourceManager.format(Msg.SUCCESS_EVENT_MESSAGE, "GetGenericVnfData", STR_VNF_ID + vnfId);
             ctx.setAttribute(org.onap.appc.Constants.ATTRIBUTE_SUCCESS_MESSAGE, msg);
@@ -213,8 +212,9 @@ public class AAIPluginImpl implements AAIPlugin {
                             Vnfc newVnfc = createVnfc(vnfcName, vnfcType);
 
                             if (vnfcSet.contains(newVnfc)) {
-                                Vnfc vnfcFromSet = vnfcSet.stream().filter(vnfc -> vnfc.equals(newVnfc))
-                                    .collect(Collectors.toList()).get(0);
+                                Vnfc vnfcFromSet =
+                                        vnfcSet.stream().filter(vnfc -> vnfc.equals(newVnfc))
+                                            .collect(Collectors.toList()).get(0);
                                 vnfcFromSet.addVserver(vm);
                                 vm.setVnfc(vnfcFromSet);
                             } else {
@@ -232,8 +232,8 @@ public class AAIPluginImpl implements AAIPlugin {
             ctx.setAttribute("getVnfHierarchy_result", "FAILURE");
             String msg = EELFResourceManager.format(Msg.AAI_QUERY_FAILED, vnfId);
             ctx.setAttribute(Constants.ATTRIBUTE_ERROR_MESSAGE, msg);
-            logger.error("Failed in getVnfHierarchy, Error retrieving VNF details. Error message: " + ctx
-                .getAttribute("getResource_result"), e);
+            logger.error("Failed in getVnfHierarchy, Error retrieving VNF details. Error message: "
+                    + ctx.getAttribute("getResource_result"), e);
             logger.warn("Incorrect or Incomplete VNF Hierarchy");
             throw new APPCException("Error Retrieving VNF hierarchy");
         }
@@ -291,22 +291,22 @@ public class AAIPluginImpl implements AAIPlugin {
         String resourceType = "vnfc";
         SvcLogicContext vnfContext = readResource(query, prefix, resourceType);
         String[] additionalProperties = new String[]{PROPERTY_VNFC_TYPE, PROPERTY_VNFC_NAME,
-            PROPERTY_VNFC_FUNC_CODE, PROPERTY_IN_MAINT, PROPERTY_PROV_STATUS,
-            PROPERTY_LOOP_DISABLED, PROPERTY_ORCHESTRATION_STATUS, PROPERTY_RESOURCE_VERSION};
+                PROPERTY_VNFC_FUNC_CODE, PROPERTY_IN_MAINT, PROPERTY_PROV_STATUS,
+                PROPERTY_LOOP_DISABLED, PROPERTY_ORCHESTRATION_STATUS, PROPERTY_RESOURCE_VERSION};
         return readRelationDataAndProperties(prefix, vnfContext, additionalProperties);
     }
 
     protected AAIQueryResult readVM(String vmId, String tenantId, String cloudOwner, String cloudRegionId)
         throws AAIQueryException {
         String query = "vserver.vserver-id = '" + vmId + "' AND tenant.tenant_id = '" + tenantId
-            + "' AND cloud-region.cloud-owner = '"
-            + cloudOwner + "' AND cloud-region.cloud-region-id = '" + cloudRegionId + "'";
+                + "' AND cloud-region.cloud-owner = '" + cloudOwner
+                + "' AND cloud-region.cloud-region-id = '" + cloudRegionId + "'";
         String prefix = "VM";
         String resourceType = "vserver";
         SvcLogicContext vnfContext = readResource(query, prefix, resourceType);
         String[] additionalProperties = new String[]{PROPERTY_VSERVER_ID, PROPERTY_VSERVER_SLINK,
-            PROPERTY_VSERVER_NAME, PROPERTY_IN_MAINT, PROPERTY_PROV_STATUS, PROPERTY_LOOP_DISABLED,
-            PROPERTY_VSERVER_NAME_2, PROPERTY_RESOURCE_VERSION,};
+                PROPERTY_VSERVER_NAME, PROPERTY_IN_MAINT, PROPERTY_PROV_STATUS, PROPERTY_LOOP_DISABLED,
+                PROPERTY_VSERVER_NAME_2, PROPERTY_RESOURCE_VERSION,};
 
         return readRelationDataAndProperties(prefix, vnfContext, additionalProperties);
     }
@@ -317,18 +317,19 @@ public class AAIPluginImpl implements AAIPlugin {
         SvcLogicContext vnfContext = readResource(query, prefix, PARAM_GENERIC_VNF);
 
         String[] additionalProperties = new String[]{PROPERTY_VNF_TYPE, PROPERTY_VNF_NEM,
-            PROPERTY_IN_MAINT, PROPERTY_PROV_STATUS, PROPERTY_HEAT_STACK_ID,
-            PROPERTY_LOOP_DISABLED, PROPERTY_ORCHESTRATION_STATUS, PROPERTY_RESOURCE_VERSION, Constants.AAI_VNF_MODEL_VERSION_ID};
+                PROPERTY_IN_MAINT, PROPERTY_PROV_STATUS, PROPERTY_HEAT_STACK_ID,
+                PROPERTY_LOOP_DISABLED, PROPERTY_ORCHESTRATION_STATUS, PROPERTY_RESOURCE_VERSION,
+                Constants.AAI_VNF_MODEL_VERSION_ID};
 
         return readRelationDataAndProperties(prefix, vnfContext, additionalProperties);
     }
 
     private AAIQueryResult readRelationDataAndProperties(String prefix, SvcLogicContext context,
-        String[] additionalProperties) {
+            String[] additionalProperties) {
         AAIQueryResult result = new AAIQueryResult();
         if (context != null && context.getAttribute(prefix + ".relationship-list.relationship_length") != null) {
-            Integer relationsCount = Integer.parseInt(context.getAttribute(
-                prefix + ".relationship-list.relationship_length"));
+            Integer relationsCount =
+                    Integer.parseInt(context.getAttribute(prefix + ".relationship-list.relationship_length"));
             for (int i = 0; i < relationsCount; i++) {
                 String rsKey = prefix + ".relationship-list.relationship[" + i + "]";
                 Relationship relationShip = new Relationship();
@@ -360,7 +361,7 @@ public class AAIPluginImpl implements AAIPlugin {
             }
         } else {
             logger.error("Relationship-list not present in the SvcLogicContext attributes set."
-                + (context == null ? "" : "Attribute KeySet = " + context.getAttributeKeySet()));
+                    + (context == null ? "" : " Attribute KeySet = " + context.getAttributeKeySet()));
         }
 
         if (context != null) {
@@ -374,8 +375,8 @@ public class AAIPluginImpl implements AAIPlugin {
     protected SvcLogicContext readResource(String query, String prefix, String resourceType) throws AAIQueryException {
         SvcLogicContext resourceContext = new SvcLogicContext();
         try {
-            SvcLogicResource.QueryStatus response = aaiClient
-                .query(resourceType, false, null, query, prefix, null, resourceContext);
+            SvcLogicResource.QueryStatus response =
+                    aaiClient.query(resourceType, false, null, query, prefix, null, resourceContext);
             logger.info(STR_AAI_RESPONSE + response.toString());
             if (!SvcLogicResource.QueryStatus.SUCCESS.equals(response)) {
                 throw new AAIQueryException("Error Retrieving VNF hierarchy from A&AI");
@@ -393,20 +394,18 @@ public class AAIPluginImpl implements AAIPlugin {
         String ctxPrefix = params.get("prefix");
         String resourceKey = params.get(PARAM_RESOURCE_KEY);
         if (logger.isDebugEnabled()) {
-            logger.debug("inside getResorce");
-            logger.debug("Retrieving " + resourceType + " details from A&AI for Key : " + resourceKey);
+            logger.debug("inside getResource");
+            logger.debug("Retrieving " + resourceType + " details from A&AI for Key: " + resourceKey);
         }
         try {
             SvcLogicResource.QueryStatus response =
-                aaiClient.query(resourceType, false, null, resourceKey, ctxPrefix, null, ctx);
+                    aaiClient.query(resourceType, false, null, resourceKey, ctxPrefix, null, ctx);
             logger.info(STR_AAI_RESPONSE + response.toString());
             ctx.setAttribute("getResource_result", response.toString());
         } catch (SvcLogicException e) {
             logger.error(EELFResourceManager.format(Msg.AAI_GET_DATA_FAILED, resourceKey), e);
         }
-        if (logger.isDebugEnabled()) {
-            logger.debug("exiting getResource======");
-        }
+        logger.debug("exiting getResource======");
     }
 
     @Override
@@ -418,8 +417,8 @@ public class AAIPluginImpl implements AAIPlugin {
         String attributeValue = params.get("attributeValue");
         if (logger.isDebugEnabled()) {
             logger.debug("inside postResource");
-            logger.debug("Updating " + resourceType + " details in A&AI for Key : " + resourceKey);
-            logger.debug("Updating " + attributeName + " to : " + attributeValue);
+            logger.debug("Updating " + resourceType + " details in A&AI for Key: " + resourceKey);
+            logger.debug("Updating " + attributeName + " to: " + attributeValue);
         }
         Map<String, String> data = new HashMap<>();
         data.put(attributeName, attributeValue);
@@ -431,9 +430,7 @@ public class AAIPluginImpl implements AAIPlugin {
         } catch (SvcLogicException e) {
             logger.error(EELFResourceManager.format(Msg.AAI_UPDATE_FAILED, resourceKey, attributeValue), e);
         }
-        if (logger.isDebugEnabled()) {
-            logger.debug("exiting postResource======");
-        }
+        logger.debug("exiting postResource======");
     }
 
     @Override
@@ -443,7 +440,7 @@ public class AAIPluginImpl implements AAIPlugin {
 
         if (logger.isDebugEnabled()) {
             logger.debug("inside deleteResource");
-            logger.debug("Deleting " + resourceType + " details From A&AI for Key : " + resourceKey);
+            logger.debug("Deleting " + resourceType + " details from A&AI for Key: " + resourceKey);
         }
         try {
             SvcLogicResource.QueryStatus response = aaiClient.delete(resourceType, resourceKey, ctx);
@@ -452,8 +449,6 @@ public class AAIPluginImpl implements AAIPlugin {
         } catch (SvcLogicException e) {
             logger.error(EELFResourceManager.format(Msg.AAI_DELETE_FAILED, resourceKey), e);
         }
-        if (logger.isDebugEnabled()) {
-            logger.debug("exiting deleteResource======");
-        }
+        logger.debug("exiting deleteResource======");
     }
 }

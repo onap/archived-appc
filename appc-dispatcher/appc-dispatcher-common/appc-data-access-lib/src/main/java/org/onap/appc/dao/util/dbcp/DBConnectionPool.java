@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
@@ -11,15 +11,14 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
  * ============LICENSE_END=========================================================
  */
 
@@ -63,11 +62,10 @@ public class DBConnectionPool implements DBConnectionPoolService {
         this(connectURI, username, password, driverClass, null, null, null, null, null);
     }
 
-    public DBConnectionPool(String connectURI, String username, String password,
-                            String driverClass, Integer initialSize, Integer maxActive,
-                            Integer maxIdle, Integer maxWait, Integer minIdle) {
+    public DBConnectionPool(String connectURI, String username, String password, String driverClass,
+            Integer initialSize, Integer maxActive, Integer maxIdle, Integer maxWait, Integer minIdle) {
         this.dataSource = getBasicDataSource(connectURI, username, password, driverClass,
-            initialSize, maxActive, maxIdle, maxWait, minIdle);
+                initialSize, maxActive, maxIdle, maxWait, minIdle);
     }
 
     /**
@@ -87,8 +85,8 @@ public class DBConnectionPool implements DBConnectionPoolService {
             throw new DBConnectionPoolException(e);
         }
 
-        if(connection == null){
-            //
+        if (connection == null) {
+            // Don't necessarily know why, but can report. . . .
             throw new DBConnectionPoolException("Connection was not created");
         }
 
@@ -125,8 +123,8 @@ public class DBConnectionPool implements DBConnectionPoolService {
     }
 
     protected BasicDataSource getBasicDataSource(String connectURI, String username, String password,
-                                               String driverClass, Integer initialSize, Integer maxtotal,
-                                               Integer maxIdle, Integer maxWaitMillis, Integer minIdle) {
+            String driverClass, Integer initialSize, Integer maxTotal, Integer maxIdle, Integer maxWaitMillis,
+            Integer minIdle) {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName(driverClass);
         dataSource.setUsername(username);
@@ -136,8 +134,8 @@ public class DBConnectionPool implements DBConnectionPoolService {
         if (initialSize != null) {
             dataSource.setInitialSize(initialSize);
         }
-        if (maxtotal != null) {
-            dataSource.setMaxTotal(maxtotal);
+        if (maxTotal != null) {
+            dataSource.setMaxTotal(maxTotal);
         }
         if (maxIdle != null) {
             dataSource.setMaxIdle(maxIdle);

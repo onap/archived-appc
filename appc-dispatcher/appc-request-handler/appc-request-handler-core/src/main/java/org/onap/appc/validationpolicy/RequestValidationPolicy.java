@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
@@ -11,15 +11,14 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
  * ============LICENSE_END=========================================================
  */
 
@@ -41,7 +40,6 @@ import org.onap.appc.validationpolicy.rules.RuleFactory;
 import org.onap.ccsdk.sli.core.dblib.DbLibService;
 
 import javax.sql.rowset.CachedRowSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -66,7 +64,7 @@ public class RequestValidationPolicy {
         this.dbLibService = dbLibService;
     }
 
-    public void initialize(){
+    public void initialize() {
         try {
             String jsonContent = getPolicyJson();
             if (jsonContent == null) return;
@@ -78,29 +76,30 @@ public class RequestValidationPolicy {
             policyList.stream()
                     .filter(policy -> PolicyNames.ActionInProgress.name().equals(policy.getPolicyName()))
                     .forEach(policy -> {
-                Rule[] ruleDTOs = policy.getRules();
-                Map<String, org.onap.appc.validationpolicy.rules.Rule> rules = new HashMap<>();
-                for(Rule ruleDTO : ruleDTOs) {
-                    String action = ruleDTO.getActionReceived();
-                    String validationRule = ruleDTO.getValidationRule();
-                    Set<VNFOperation> inclusionSet = null;
-                    Set<VNFOperation> exclusionSet = null;
-                    if (ruleDTO.getInclusionList() != null && !ruleDTO.getInclusionList().isEmpty()) {
-                        inclusionSet = ruleDTO.getInclusionList().stream()
-                                .map(VNFOperation::findByString).filter(operation -> operation != null)
-                                .collect(Collectors.toSet());
-                    }
-                    if (ruleDTO.getExclusionList() != null && !ruleDTO.getExclusionList().isEmpty()) {
-                        exclusionSet = ruleDTO.getExclusionList().stream()
-                                .map(VNFOperation::findByString).filter(operation -> operation != null)
-                                .collect(Collectors.toSet());
-                    }
-                    org.onap.appc.validationpolicy.rules.Rule rule = RuleFactory
-                            .createRule(validationRule, inclusionSet, exclusionSet);
-                    rules.put(action, rule);
-                }
-                actionInProgressRuleExecutor = new ActionInProgressRuleExecutor(Collections.unmodifiableMap(rules));
-            });
+                            Rule[] ruleDTOs = policy.getRules();
+                            Map<String, org.onap.appc.validationpolicy.rules.Rule> rules = new HashMap<>();
+                            for (Rule ruleDTO : ruleDTOs) {
+                                String action = ruleDTO.getActionReceived();
+                                String validationRule = ruleDTO.getValidationRule();
+                                Set<VNFOperation> inclusionSet = null;
+                                Set<VNFOperation> exclusionSet = null;
+                                if (ruleDTO.getInclusionList() != null && !ruleDTO.getInclusionList().isEmpty()) {
+                                    inclusionSet = ruleDTO.getInclusionList().stream()
+                                            .map(VNFOperation::findByString).filter(operation -> operation != null)
+                                            .collect(Collectors.toSet());
+                                }
+                                if (ruleDTO.getExclusionList() != null && !ruleDTO.getExclusionList().isEmpty()) {
+                                    exclusionSet = ruleDTO.getExclusionList().stream()
+                                            .map(VNFOperation::findByString).filter(operation -> operation != null)
+                                            .collect(Collectors.toSet());
+                                }
+                                org.onap.appc.validationpolicy.rules.Rule rule = RuleFactory
+                                        .createRule(validationRule, inclusionSet, exclusionSet);
+                                rules.put(action, rule);
+                            }
+                            actionInProgressRuleExecutor =
+                                    new ActionInProgressRuleExecutor(Collections.unmodifiableMap(rules));
+                            });
         } catch (Exception e) {
             logger.error("Error reading request validation policies", e);
         }
@@ -108,34 +107,37 @@ public class RequestValidationPolicy {
 
     protected String getPolicyJson() {
         String schema = "sdnctl";
-        String query = "SELECT MAX(INTERNAL_VERSION),ARTIFACT_CONTENT " +
-                       "FROM ASDC_ARTIFACTS " +
-                       "WHERE ARTIFACT_NAME = ? " +
-                       "GROUP BY ARTIFACT_NAME";
+        String query =
+                "SELECT MAX(INTERNAL_VERSION),ARTIFACT_CONTENT "
+                + "FROM ASDC_ARTIFACTS "
+                + "WHERE ARTIFACT_NAME = ? "
+                + "GROUP BY ARTIFACT_NAME";
         ArrayList<String> arguments = new ArrayList<>();
         arguments.add("request_validation_policy");
         String jsonContent = null;
-        try{
+        try {
             CachedRowSet rowSet = dbLibService.getData(query, arguments, schema);
-            if(rowSet.next()){
+            if (rowSet != null && rowSet.next()) {
                 jsonContent = rowSet.getString("ARTIFACT_CONTENT");
             }
-            if(logger.isDebugEnabled()){
+            if (logger.isDebugEnabled()) {
                 logger.debug("request validation policy = " + jsonContent);
             }
-            if(StringUtils.isBlank(jsonContent)){
+            if (StringUtils.isBlank(jsonContent)) {
                 logger.warn("request validation policy not found in app-c database");
             }
-        }
-        catch(SQLException e){
+        } catch(Exception e) {
+            logger.debug("Error while accessing database: " + e.getMessage());
+            logger.info("Error connecting to database: " + e.getMessage());
             logger.error("Error accessing database", e);
             throw new RuntimeException(e);
         }
+        logger.info("Got Policy Json");
         return jsonContent;
     }
 
-    public RuleExecutor getInProgressRuleExecutor(){
-        if(actionInProgressRuleExecutor == null){
+    public RuleExecutor getInProgressRuleExecutor() {
+        if (actionInProgressRuleExecutor == null) {
             throw new RuntimeException("Rule executor not available, initialization of RequestValidationPolicy failed");
         }
         return actionInProgressRuleExecutor;
