@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
@@ -11,15 +11,14 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
  * ============LICENSE_END=========================================================
  */
 
@@ -68,8 +67,8 @@ public class NetconfClientPluginImpl implements NetconfClientPlugin {
 
     public NetconfClientPluginImpl() {
         BundleContext bctx = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
-        ServiceReference<NetconfClientFactory> srefNetconfClientFactory = bctx
-            .getServiceReference(NetconfClientFactory.class);
+        ServiceReference<NetconfClientFactory> srefNetconfClientFactory =
+                bctx.getServiceReference(NetconfClientFactory.class);
         clientFactory = bctx.getService(srefNetconfClientFactory);
     }
 
@@ -79,9 +78,9 @@ public class NetconfClientPluginImpl implements NetconfClientPlugin {
     }
 
     public void configure(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
-
         try {
-            // by default, it uses the jsch Netconf Adapter implementation by calling getNetconfClient(NetconfClientType.SSH).
+            // by default, it uses the jsch Netconf Adapter implementation by calling
+            // getNetconfClient(NetconfClientType.SSH).
             NetconfClient client = clientFactory.getNetconfClient(NetconfClientType.SSH);
             connect(params, client);
         } catch (Exception e) {
@@ -93,8 +92,8 @@ public class NetconfClientPluginImpl implements NetconfClientPlugin {
 
     private void connect(Map<String, String> params, NetconfClient client) throws APPCException {
         try {
-            NetconfConnectionDetails connectionDetails = mapper
-                .readValue(params.get(CONNECTION_DETAILS_PARAM), NetconfConnectionDetails.class);
+            NetconfConnectionDetails connectionDetails =
+                    mapper.readValue(params.get(CONNECTION_DETAILS_PARAM), NetconfConnectionDetails.class);
             String netconfMessage = params.get("file-content");
             client.connect(connectionDetails);
             client.configure(netconfMessage);
@@ -110,7 +109,7 @@ public class NetconfClientPluginImpl implements NetconfClientPlugin {
     public void operationStateValidation(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
         if (logger.isTraceEnabled()) {
             logger.trace("Entering to operationStateValidation with params = " + ObjectUtils.toString(params)
-                + ", SvcLogicContext = " + ObjectUtils.toString(ctx));
+                    + ", SvcLogicContext = " + ObjectUtils.toString(ctx));
         }
         try {
             String paramName = Constants.VNF_TYPE_FIELD_NAME;
@@ -125,15 +124,15 @@ public class NetconfClientPluginImpl implements NetconfClientPlugin {
             //get connectionDetails
             String connectionDetailsStr = params.get(Constants.CONNECTION_DETAILS_FIELD_NAME);
             NetconfConnectionDetails connectionDetails =
-                resolveConnectionDetails(ctx, vnfType, vnfHostIpAddress, connectionDetailsStr);
+                    resolveConnectionDetails(ctx, vnfType, vnfHostIpAddress, connectionDetailsStr);
 
             if (connectionDetails == null) {
                 throw new IllegalStateException("missing connectionDetails for VnfType:" + vnfType.name());
             }
 
             //get operationsStateNetconfMessage
-            OperationalStateValidator operationalStateValidator = OperationalStateValidatorFactory
-                .getOperationalStateValidator(vnfType);
+            OperationalStateValidator operationalStateValidator =
+                    OperationalStateValidatorFactory.getOperationalStateValidator(vnfType);
             String configurationFileName = operationalStateValidator.getConfigurationFileName();
             String operationsStateNetconfMessage = null;
             if (!StringUtils.isEmpty(configurationFileName)) {
@@ -164,8 +163,7 @@ public class NetconfClientPluginImpl implements NetconfClientPlugin {
     }
 
     private NetconfConnectionDetails resolveConnectionDetails(SvcLogicContext ctx, VnfType vnfType,
-        String vnfHostIpAddress, String connectionDetailsStr) throws APPCException, IOException {
-
+            String vnfHostIpAddress, String connectionDetailsStr) throws APPCException, IOException {
         NetconfConnectionDetails connectionDetails;
         if (StringUtils.isEmpty(connectionDetailsStr)) {
             connectionDetails = retrieveConnectionDetails(vnfType);
@@ -184,15 +182,14 @@ public class NetconfClientPluginImpl implements NetconfClientPlugin {
 
     @Override
     public void backupConfiguration(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
-
         NetconfClient client = null;
         try {
             logger.debug("Entered backup to DEVICE_INTERFACE_LOG");
 
             client = clientFactory.getNetconfClient(NetconfClientType.SSH);
             //get connection details
-            NetconfConnectionDetails connectionDetails = mapper
-                .readValue(params.get(CONNECTION_DETAILS_PARAM), NetconfConnectionDetails.class);
+            NetconfConnectionDetails connectionDetails =
+                    mapper.readValue(params.get(CONNECTION_DETAILS_PARAM), NetconfConnectionDetails.class);
             //connect the client and get configuration
             client.connect(connectionDetails);
             String configuration = client.getConfiguration();
@@ -225,8 +222,8 @@ public class NetconfClientPluginImpl implements NetconfClientPlugin {
                 NetconfClientFactory clientFact = (NetconfClientFactory) bctx.getService(sref);
                 client = clientFact.getNetconfClient(NetconfClientType.SSH);
                 //get connection details
-                NetconfConnectionDetails connectionDetails = mapper
-                    .readValue(params.get(CONNECTION_DETAILS_PARAM), NetconfConnectionDetails.class);
+                NetconfConnectionDetails connectionDetails =
+                        mapper.readValue(params.get(CONNECTION_DETAILS_PARAM), NetconfConnectionDetails.class);
                 //connect the client and get configuration
                 client.connect(connectionDetails);
                 String configuration = client.getConfiguration();
@@ -264,7 +261,6 @@ public class NetconfClientPluginImpl implements NetconfClientPlugin {
         }
     }
 
-
     @Override
     public void getRunningConfig(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
         NetconfClient client = null;
@@ -281,8 +277,9 @@ public class NetconfClientPluginImpl implements NetconfClientPlugin {
             connectionDetails.setUsername(params.get("user-name"));
             connectionDetails.setPassword(params.get("password"));
             connectionDetails.setPort(
-                !("".equalsIgnoreCase(params.get("port-number"))) ? Integer.parseInt(params.get("port-number"))
-                    : NetconfConnectionDetails.DEFAULT_PORT);
+                    !("".equalsIgnoreCase(params.get("port-number")))
+                        ? Integer.parseInt(params.get("port-number"))
+                        : NetconfConnectionDetails.DEFAULT_PORT);
             //connect the client and get configuration
             client.connect(connectionDetails);
             String configuration = client.getConfiguration();
@@ -307,7 +304,6 @@ public class NetconfClientPluginImpl implements NetconfClientPlugin {
     }
 
     private String getCurrentDateTime() {
-
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
         return dateFormat.format(date);
@@ -325,7 +321,7 @@ public class NetconfClientPluginImpl implements NetconfClientPlugin {
         if (!dao.retrieveNetconfConnectionDetails(vnfType.getFamilyType().name(), connectionDetails)) {
             logger.error("Missing configuration for " + vnfType.getFamilyType().name());
             throw new APPCException("Missing configuration for " + vnfType.getFamilyType().name() + " in "
-                + Constants.DEVICE_AUTHENTICATION_TABLE_NAME);
+                    + Constants.DEVICE_AUTHENTICATION_TABLE_NAME);
         }
         return connectionDetails;
     }

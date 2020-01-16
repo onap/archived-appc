@@ -19,31 +19,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  * ============LICENSE_END=========================================================
  */
 
 package org.onap.appc.transactionrecorder.impl;
 
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.anyString;
-import static org.hamcrest.CoreMatchers.isA;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.ParseException;
-import java.time.Instant;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import javax.sql.rowset.CachedRowSet;
+import com.sun.rowset.CachedRowSetImpl;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -51,6 +32,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
+
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.anyString;
+import static org.hamcrest.CoreMatchers.isA;
+
 import org.onap.appc.dao.util.dbcp.DBConnectionPool;
 import org.onap.appc.dao.util.helper.DBHelper;
 import org.onap.appc.domainmodel.lcm.Flags;
@@ -61,7 +47,22 @@ import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.transactionrecorder.objects.TransactionConstants;
 import org.onap.appc.transactionrecorder.objects.TransactionConstants.TRANSACTION_ATTRIBUTES;
 import org.onap.ccsdk.sli.core.dblib.DbLibService;
-import com.sun.rowset.CachedRowSetImpl;
+
+import javax.sql.rowset.CachedRowSet;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Test class for TransactionRecorder
@@ -86,26 +87,27 @@ public class TransactionRecorderImplTest {
      * <p>
      * Please ensure this table create script is identical to the source script used in a deployment.
      */
-    private String TRANSACTION_CREATE_TABLE = "CREATE TABLE TRANSACTIONS (" +
-            "  TRANSACTION_ID VARCHAR(75) NOT NULL PRIMARY KEY," +
-            "  ORIGIN_TIMESTAMP DATETIME(3) NOT NULL," +
-            "  REQUEST_ID VARCHAR(256) NOT NULL," +
-            "  SUBREQUEST_ID VARCHAR(256) DEFAULT NULL," +
-            "  ORIGINATOR_ID VARCHAR(256) DEFAULT NULL," +
-            "  START_TIME DATETIME(3) NOT NULL," +
-            "  END_TIME DATETIME(3) DEFAULT NULL," +
-            "  TARGET_ID VARCHAR(256) NOT NULL," +
-            "  TARGET_TYPE VARCHAR(256) DEFAULT NULL," +
-            "  OPERATION VARCHAR(256) NOT NULL," +
-            "  RESULT_CODE INT(11) DEFAULT NULL," +
-            "  DESCRIPTION TEXT," +
-            "  STATE VARCHAR(50) NOT NULL," +
-            "  SERVICE_INSTANCE_ID VARCHAR(256) DEFAULT NULL," +
-            "  VNFC_NAME VARCHAR(256) DEFAULT NULL," +
-            "  VSERVER_ID VARCHAR(256) DEFAULT NULL," +
-            "  VF_MODULE_ID VARCHAR(256) DEFAULT NULL," +
-            "  MODE VARCHAR(50) NOT NULL," +
-            ")";
+    private String TRANSACTION_CREATE_TABLE =
+            "CREATE TABLE TRANSACTIONS ("
+            + "  TRANSACTION_ID VARCHAR(75) NOT NULL PRIMARY KEY,"
+            + "  ORIGIN_TIMESTAMP DATETIME(3) NOT NULL,"
+            + "  REQUEST_ID VARCHAR(256) NOT NULL,"
+            + "  SUBREQUEST_ID VARCHAR(256) DEFAULT NULL,"
+            + "  ORIGINATOR_ID VARCHAR(256) DEFAULT NULL,"
+            + "  START_TIME DATETIME(3) NOT NULL,"
+            + "  END_TIME DATETIME(3) DEFAULT NULL,"
+            + "  TARGET_ID VARCHAR(256) NOT NULL,"
+            + "  TARGET_TYPE VARCHAR(256) DEFAULT NULL,"
+            + "  OPERATION VARCHAR(256) NOT NULL,"
+            + "  RESULT_CODE INT(11) DEFAULT NULL,"
+            + "  DESCRIPTION TEXT,"
+            + "  STATE VARCHAR(50) NOT NULL,"
+            + "  SERVICE_INSTANCE_ID VARCHAR(256) DEFAULT NULL,"
+            + "  VNFC_NAME VARCHAR(256) DEFAULT NULL,"
+            + "  VSERVER_ID VARCHAR(256) DEFAULT NULL,"
+            + "  VF_MODULE_ID VARCHAR(256) DEFAULT NULL,"
+            + "  MODE VARCHAR(50) NOT NULL,"
+            + ")";
     private String TRANSACTION_DROP_TABLE = "DROP TABLE IF EXISTS TRANSACTIONS";
 
     @Rule
@@ -151,8 +153,8 @@ public class TransactionRecorderImplTest {
     public void testStore() throws Exception {
 
         TransactionRecord input = prepareTransactionsInput();
-        Mockito.when(dbLibService.writeData(anyString(), anyObject(), anyString())).thenAnswer(invocation ->
-                testStoreInMemory(invocation.getArguments()));
+        Mockito.when(dbLibService.writeData(anyString(), anyObject(), anyString()))
+                .thenAnswer(invocation -> testStoreInMemory(invocation.getArguments()));
         transactionRecorderImpl.store(input);
 
     }
@@ -175,8 +177,8 @@ public class TransactionRecorderImplTest {
         insertRecord(record1);
         TransactionRecord input = prepareTransactionsInput();
         input.setStartTime(Instant.now());
-        Mockito.when(dbLibService.getData(anyString(), anyObject(), anyString())).thenAnswer(invocation ->
-                inMemoryExecutionWithResultSet(invocation.getArguments()));
+        Mockito.when(dbLibService.getData(anyString(), anyObject(), anyString()))
+                .thenAnswer(invocation -> inMemoryExecutionWithResultSet(invocation.getArguments()));
         Assert.assertEquals(1, transactionRecorderImpl.getInProgressRequests(input, 0).size());
 
     }
@@ -197,22 +199,22 @@ public class TransactionRecorderImplTest {
     @Test
     public void testGetInProgressRequestsWithinTimeInterval() throws SQLException, APPCException {
         TransactionRecord record1 = prepareTransactionsInput();
-        record1.setStartTime(Instant.now().minus(4,ChronoUnit.HOURS));
+        record1.setStartTime(Instant.now().minus(4, ChronoUnit.HOURS));
         insertRecord(record1);
         TransactionRecord input = prepareTransactionsInput();
         input.setStartTime(Instant.now());
-        Mockito.when(dbLibService.getData(anyString(), anyObject(), anyString())).thenAnswer(invocation ->
-                inMemoryExecutionWithResultSet(invocation.getArguments()));
-        List<TransactionRecord> aList= transactionRecorderImpl.getInProgressRequests(input,12);
-        Assert.assertEquals(1, transactionRecorderImpl.getInProgressRequests(input,12).size());
+        Mockito.when(dbLibService.getData(anyString(), anyObject(), anyString()))
+                .thenAnswer(invocation -> inMemoryExecutionWithResultSet(invocation.getArguments()));
+        List<TransactionRecord> aList = transactionRecorderImpl.getInProgressRequests(input, 12);
+        Assert.assertEquals(1, transactionRecorderImpl.getInProgressRequests(input, 12).size());
 
     }
 
     @Test
     public void testIsTransactionDuplicate() throws SQLException, APPCException {
         TransactionRecord input = prepareTransactionsInput();
-        Mockito.when(dbLibService.getData(anyString(), anyObject(), anyString())).thenAnswer(invocation ->
-                inMemoryExecutionWithResultSet(invocation.getArguments()));
+        Mockito.when(dbLibService.getData(anyString(), anyObject(), anyString()))
+                .thenAnswer(invocation -> inMemoryExecutionWithResultSet(invocation.getArguments()));
         Assert.assertFalse(transactionRecorderImpl.isTransactionDuplicate(input));
 
     }
@@ -274,10 +276,10 @@ public class TransactionRecorderImplTest {
         insertRecord(input);
         Map<TransactionConstants.TRANSACTION_ATTRIBUTES, String> updateColumns = new HashMap<>();
         updateColumns.put(TransactionConstants.TRANSACTION_ATTRIBUTES.TARGET_TYPE, "Firewall");
-        Mockito.when(dbLibService.getData(anyString(), anyObject(), anyString())).thenAnswer(invocation ->
-                returnResult(invocation.getArguments()));
-        Mockito.when(dbLibService.writeData(anyString(), anyObject(), anyString())).thenAnswer(invocation ->
-                testUpdateInMemory(invocation.getArguments()));
+        Mockito.when(dbLibService.getData(anyString(), anyObject(), anyString()))
+                .thenAnswer(invocation -> returnResult(invocation.getArguments()));
+        Mockito.when(dbLibService.writeData(anyString(), anyObject(), anyString()))
+                .thenAnswer(invocation -> testUpdateInMemory(invocation.getArguments()));
         transactionRecorderImpl.update(input.getTransactionId(), input.getRequestId(), updateColumns);
         Mockito.verify(dbLibService).getData(anyString(), anyObject(), anyString());
         Mockito.verify(dbLibService).writeData(anyString(), anyObject(), anyString());
@@ -301,11 +303,10 @@ public class TransactionRecorderImplTest {
         TransactionRecord input = prepareTransactionsInput();
         Map<TransactionConstants.TRANSACTION_ATTRIBUTES, String> updateColumns = new HashMap<>();
         updateColumns.put(TransactionConstants.TRANSACTION_ATTRIBUTES.TARGET_TYPE, "Firewall");
-        Mockito.when(dbLibService.getData(anyString(), anyObject(), anyString())).thenAnswer(invocation ->
-                returnPositiveResult(invocation.getArguments()));
-        Mockito.when(dbLibService.writeData(anyString(), anyObject(), anyString())).thenAnswer(invocation ->
-                testUpdateInMemory(invocation.getArguments()));
-
+        Mockito.when(dbLibService.getData(anyString(), anyObject(), anyString()))
+                .thenAnswer(invocation -> returnPositiveResult(invocation.getArguments()));
+        Mockito.when(dbLibService.writeData(anyString(), anyObject(), anyString()))
+                .thenAnswer(invocation -> testUpdateInMemory(invocation.getArguments()));
         transactionRecorderImpl.update(input.getTransactionId(), input.getRequestId(), updateColumns);
         Mockito.verify(dbLibService).getData(anyString(), anyObject(), anyString());
         Mockito.verify(dbLibService).writeData(anyString(), anyObject(), anyString());
@@ -319,9 +320,9 @@ public class TransactionRecorderImplTest {
         insertNullInstanceData(args.get(0));
 
         try (
-             Connection con = dbConnectionPool.getConnection();
-             PreparedStatement ps_second = con.prepareStatement(query)
-             ) {
+                Connection con = dbConnectionPool.getConnection();
+                PreparedStatement ps_second = con.prepareStatement(query)
+                ) {
             for (int i = 1; i <= args.size(); i++) {
                 ps_second.setString(i, args.get(i - 1));
             }
@@ -332,12 +333,13 @@ public class TransactionRecorderImplTest {
     }
 
     private void insertNullInstanceData(String transactionId) throws Exception {
-        final String nullInstanceQuery = (TransactionConstants.INSERT_INTO + TransactionConstants.TRANSACTIONS +
-                                          " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+        final String nullInstanceQuery =
+                TransactionConstants.INSERT_INTO + TransactionConstants.TRANSACTIONS
+                + " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try (
-             Connection con = dbConnectionPool.getConnection();
-             PreparedStatement ps = con.prepareStatement(nullInstanceQuery)
-             ) {
+                Connection con = dbConnectionPool.getConnection();
+                PreparedStatement ps = con.prepareStatement(nullInstanceQuery)
+                ) {
             ArrayList<String> input = new ArrayList<String>();
             input.add(transactionId);
             input.add(dateToStringConverterMillis(Instant.parse("2017-09-12T00:00:01.00Z")));
@@ -374,9 +376,9 @@ public class TransactionRecorderImplTest {
         ArrayList<String> args = (ArrayList<String>) obj[1];
         System.out.println("Query: " + query + "\nArgs: " + args);
         try (
-             Connection con = dbConnectionPool.getConnection();
-             PreparedStatement ps = con.prepareStatement(query)
-             ) {
+                Connection con = dbConnectionPool.getConnection();
+                PreparedStatement ps = con.prepareStatement(query)
+                ) {
             for (int i = 1; i <= args.size(); i++) {
                 ps.setString(i, args.get(i - 1));
             }
@@ -430,9 +432,9 @@ public class TransactionRecorderImplTest {
         ArrayList<String> args = (ArrayList<String>) obj[1];
         // System.out.println("Query: " + query + "\nArgs: " + args);
         try (
-             Connection con = dbConnectionPool.getConnection();
-             PreparedStatement ps = con.prepareStatement(query)
-             ) {
+                Connection con = dbConnectionPool.getConnection();
+                PreparedStatement ps = con.prepareStatement(query)
+                ) {
             for (int i = 1; i <= args.size(); i++) {
                 ps.setString(i, args.get(i - 1));
             }
@@ -446,9 +448,9 @@ public class TransactionRecorderImplTest {
         String query = (String) obj[0];
         ArrayList<String> args = (ArrayList<String>) obj[1];
         try (
-             Connection con = dbConnectionPool.getConnection();
-             PreparedStatement ps = con.prepareStatement(query)
-             ) {
+                Connection con = dbConnectionPool.getConnection();
+                PreparedStatement ps = con.prepareStatement(query)
+                ) {
             for (int i = 1; i <= args.size(); i++) {
                 ps.setString(i, args.get(i - 1));
             }
@@ -460,13 +462,13 @@ public class TransactionRecorderImplTest {
     private boolean isTransactionAborted() throws Exception {
         String query = "SELECT COUNT(*) FROM  TRANSACTIONS WHERE STATE = ?";
         try (
-             Connection con = dbConnectionPool.getConnection();
-             PreparedStatement ps = con.prepareStatement(query)
-             ) {
+                Connection con = dbConnectionPool.getConnection();
+                PreparedStatement ps = con.prepareStatement(query)
+                ) {
             ps.setString(1, RequestStatus.ABORTED.toString());
             try (
-                 ResultSet rs = ps.executeQuery()
-                 ) {
+                    ResultSet rs = ps.executeQuery()
+                    ) {
                 while (rs.next()) {
                     int value = rs.getInt(1);
                     if (value == 1) {
@@ -483,9 +485,9 @@ public class TransactionRecorderImplTest {
         String query = (String) obj[0];
         ArrayList<String> args = (ArrayList<String>) obj[1];
         try (
-             Connection con = dbConnectionPool.getConnection();
-             PreparedStatement ps = con.prepareStatement(query)
-             ) {
+                Connection con = dbConnectionPool.getConnection();
+                PreparedStatement ps = con.prepareStatement(query)
+                ) {
             for (int i = 1; i <= args.size(); i++) {
                 System.out.println("Value at " + i + ": " + args.get(i - 1));
                 ps.setString(i, args.get(i - 1));
@@ -504,9 +506,9 @@ public class TransactionRecorderImplTest {
         String query = (String) obj[0];
         ArrayList<String> args = (ArrayList<String>) obj[1];
         try (
-             Connection con = dbConnectionPool.getConnection();
-             PreparedStatement ps = con.prepareStatement(query)
-             ) {
+                Connection con = dbConnectionPool.getConnection();
+                PreparedStatement ps = con.prepareStatement(query)
+                ) {
             for (int i = 1; i <= args.size(); i++) {
                 ps.setString(i, args.get(i - 1));
             }
@@ -538,12 +540,13 @@ public class TransactionRecorderImplTest {
     }
 
     private void insertRecord(TransactionRecord input) throws SQLException {
-        final String STORE_DATE_QUERY = TransactionConstants.INSERT_INTO + TransactionConstants.TRANSACTIONS +
-                " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        final String STORE_DATE_QUERY =
+                TransactionConstants.INSERT_INTO + TransactionConstants.TRANSACTIONS
+                + " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try (
-             Connection con = dbConnectionPool.getConnection();
-             PreparedStatement ps = con.prepareStatement(STORE_DATE_QUERY)
-             ) {
+                Connection con = dbConnectionPool.getConnection();
+                PreparedStatement ps = con.prepareStatement(STORE_DATE_QUERY)
+                ) {
             ArrayList<String> args = prepareArguments(input);
             args.remove(0);
             args.add(0, "123~" + input.getTransactionId());
@@ -615,21 +618,22 @@ public class TransactionRecorderImplTest {
 
     private String checkIfValueIsUpdated(String key) throws Exception {
         try (
-             Connection con = dbConnectionPool.getConnection();
-             PreparedStatement ps = con.prepareStatement("SELECT TARGET_TYPE,TRANSACTION_ID FROM TRANSACTIONS" +
-                                                         " WHERE TRANSACTION_ID = ?")
-             ) {
+                Connection con = dbConnectionPool.getConnection();
+                PreparedStatement ps = con.prepareStatement(
+                        "SELECT TARGET_TYPE, TRANSACTION_ID FROM TRANSACTIONS"
+                        + " WHERE TRANSACTION_ID = ?")
+                ) {
             ps.setString(1, key);
             try (
-                 ResultSet rs = ps.executeQuery()
-                 ) {
-               while (rs.next()) {
-                   String value = rs.getString("TARGET_TYPE");
-                   String transactionId = rs.getString("TRANSACTION_ID");
-                   System.out.println("Updated data: TRANSACTION_ID: " + transactionId + " TARGET_TYPE: " + value);
-                   return value;
-               }
-               throw new Exception("Value not found");
+                    ResultSet rs = ps.executeQuery()
+                    ) {
+                while (rs.next()) {
+                    String value = rs.getString("TARGET_TYPE");
+                    String transactionId = rs.getString("TRANSACTION_ID");
+                    System.out.println("Updated data: TRANSACTION_ID: " + transactionId + " TARGET_TYPE: " + value);
+                    return value;
+                }
+                throw new Exception("Value not found");
             }
         }
     }

@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2019 IBM.
  * ================================================================================
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -28,10 +30,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class TestVNFResolverDataReader {
-    
+
     VNFResolverDataReader vNFResolverDataReader;
     Collection<String> list = Arrays.asList("action", "api_version", "vnf_type", "vnf_version");
-    String queryStatement = "select vnf_type,vnf_version,api_version,action,dg_name,dg_version,dg_module FROM VNF_DG_MAPPING";
+    String queryStatement =
+            "select vnf_type,vnf_version,api_version,action,dg_name,dg_version,dg_module FROM VNF_DG_MAPPING";
 
     @Before
     public void setUp() {

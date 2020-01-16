@@ -3,6 +3,8 @@
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2019 Ericsson
+ * ================================================================================
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,8 +46,8 @@ public class SshDBPluginImplTest {
     public void testRetrieveConnectionDetails() throws APPCException {
         SshDBPluginImpl impl = new SshDBPluginImpl();
         SshDataAccessService dataAccessServiceMock = Mockito.mock(SshDataAccessService.class);
-        Mockito.doReturn(true).when(dataAccessServiceMock).retrieveConnectionDetails(Mockito.anyString(),
-                Mockito.any(SshConnectionDetails.class));
+        Mockito.doReturn(true).when(dataAccessServiceMock)
+                .retrieveConnectionDetails(Mockito.anyString(), Mockito.any(SshConnectionDetails.class));
         impl.setDataAccessService(dataAccessServiceMock);
         Map<String, String> params = new HashMap<>();
         SvcLogicContext ctx = new SvcLogicContext();
@@ -68,8 +70,8 @@ public class SshDBPluginImplTest {
     public void testRetrieveConnectionDetailsSshDataAccessException() throws APPCException {
         SshDBPluginImpl impl = new SshDBPluginImpl();
         SshDataAccessService dataAccessServiceMock = Mockito.mock(SshDataAccessService.class);
-        Mockito.doThrow(new SshDataAccessException()).when(dataAccessServiceMock).retrieveConnectionDetails(Mockito.anyString(),
-                Mockito.any(SshConnectionDetails.class));
+        Mockito.doThrow(new SshDataAccessException()).when(dataAccessServiceMock)
+                .retrieveConnectionDetails(Mockito.anyString(), Mockito.any(SshConnectionDetails.class));
         impl.setDataAccessService(dataAccessServiceMock);
         Map<String, String> params = new HashMap<>();
         SvcLogicContext ctx = new SvcLogicContext();

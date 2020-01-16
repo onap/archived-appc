@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
@@ -11,15 +11,14 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
  * ============LICENSE_END=========================================================
  */
 
@@ -29,6 +28,7 @@ package org.onap.appc.executor.impl;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.apache.commons.lang.ObjectUtils;
+import org.onap.appc.domainmodel.lcm.CommonHeader;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.executionqueue.ExecutionQueueService;
 import org.onap.appc.executor.CommandExecutor;
@@ -54,7 +54,7 @@ public class CommandExecutorImpl implements CommandExecutor {
      * <p>Used through blueprint.
      */
     public void initialize() {
-        logger.info("initialization started of CommandExecutorImpl");
+        logger.info("initialization of CommandExecutorImpl started");
     }
 
     public void setExecutionQueueService(ExecutionQueueService executionQueueService) {
@@ -78,24 +78,27 @@ public class CommandExecutorImpl implements CommandExecutor {
      */
     @Override
     public void executeCommand (CommandExecutorInput commandExecutorInput) throws APPCException{
-        logger.trace("Entering to executeCommand with CommandExecutorInput = "+ ObjectUtils.toString(commandExecutorInput));
+        logger.trace("Entering executeCommand with CommandExecutorInput = "
+                + ObjectUtils.toString(commandExecutorInput));
         CommandTask commandTask;
         try {
-            commandTask= getCommandTask(requestHandler, workflowManager);
+            commandTask = getCommandTask(requestHandler, workflowManager);
             commandTask.setCommandRequest(new CommandRequest(commandExecutorInput));
             long remainingTTL = getRemainingTTL(commandTask.getCommandRequest());
-            logger.trace("Queuing request with CommandRequest = "+ ObjectUtils.toString(commandTask.getCommandRequest()));
-            executionQueueService.putMessage(commandTask,remainingTTL, TimeUnit.MILLISECONDS);
+            logger.trace("Queuing request with CommandRequest = "
+                    + ObjectUtils.toString(commandTask.getCommandRequest()));
+            executionQueueService.putMessage(commandTask, remainingTTL, TimeUnit.MILLISECONDS);
         } catch (Exception e) {
-            logger.error("Exception: "+e.getMessage());
+            logger.error("Exception: " + e.getMessage());
             throw new APPCException(e);
         }
         logger.trace("Exiting from executeCommand");
     }
 
     private long getRemainingTTL(CommandRequest request) {
-        Date requestTimestamp = request.getCommandExecutorInput().getRuntimeContext().getRequestContext().getCommonHeader().getTimeStamp();
-        int ttl = request.getCommandExecutorInput().getRuntimeContext().getRequestContext().getCommonHeader().getFlags().getTtl();
+        CommonHeader hdr = request.getCommandExecutorInput().getRuntimeContext().getRequestContext().getCommonHeader();
+        Date requestTimestamp = hdr.getTimeStamp();
+        int ttl = hdr.getFlags().getTtl();
         return ttl*1000 + requestTimestamp.getTime() - System.currentTimeMillis();
     }
 

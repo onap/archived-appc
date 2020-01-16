@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
@@ -11,15 +11,14 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
  * ============LICENSE_END=========================================================
  */
 
@@ -51,7 +50,7 @@ import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({FrameworkUtil.class,DependencyManager.class,DependencyModelFactory.class})
+@PrepareForTest({FrameworkUtil.class, DependencyManager.class, DependencyModelFactory.class})
 @SuppressWarnings("unchecked")
 public class VnfExecutionFlowImplTest {
 
@@ -77,7 +76,7 @@ public class VnfExecutionFlowImplTest {
 
         VnfExecutionFlow vnfExecutionFlow = new VnfExecutionFlowImpl();
         Whitebox.setInternalState(vnfExecutionFlow, "logger", logger);
-        vnfExecutionFlow.getVnfExecutionFlowData(params,context);
+        vnfExecutionFlow.getVnfExecutionFlowData(params, context);
     }
 
     @Test
@@ -95,7 +94,7 @@ public class VnfExecutionFlowImplTest {
 
         VnfExecutionFlow vnfExecutionFlow = new VnfExecutionFlowImpl();
         Whitebox.setInternalState(vnfExecutionFlow, "logger", logger);
-        vnfExecutionFlow.getVnfExecutionFlowData(params,context);
+        vnfExecutionFlow.getVnfExecutionFlowData(params, context);
     }
 
     @Test(expected = RuntimeException.class)
@@ -112,18 +111,18 @@ public class VnfExecutionFlowImplTest {
 
         VnfExecutionFlow vnfExecutionFlow = new VnfExecutionFlowImpl();
         Whitebox.setInternalState(vnfExecutionFlow, "logger", logger);
-        vnfExecutionFlow.getVnfExecutionFlowData(params,context);
+        vnfExecutionFlow.getVnfExecutionFlowData(params, context);
     }
 
     private VnfcDependencyModel readCyclicDependencyModel() {
 
-        Vnfc a = createVnfc("A","Active-Passive",null,false);
-        Vnfc b = createVnfc("B","Active-Active",null,false);
-        Vnfc c = createVnfc("C","Active-Active",null,false);
-        Vnfc d = createVnfc("D","Active-Active",null,false);
-        Vnfc e = createVnfc("E","Active-Active",null,false);
-        Vnfc f = createVnfc("F","Active-Active",null,false);
-        Vnfc g = createVnfc("G","Active-Active",null,false);
+        Vnfc a = createVnfc("A", "Active-Passive", null, false);
+        Vnfc b = createVnfc("B", "Active-Active", null, false);
+        Vnfc c = createVnfc("C", "Active-Active", null, false);
+        Vnfc d = createVnfc("D", "Active-Active", null, false);
+        Vnfc e = createVnfc("E", "Active-Active", null, false);
+        Vnfc f = createVnfc("F", "Active-Active", null, false);
+        Vnfc g = createVnfc("G", "Active-Active", null, false);
 
         Node aNode = new Node(a);
         Node bNode = new Node(b);
@@ -153,7 +152,7 @@ public class VnfExecutionFlowImplTest {
 
     }
 
-    private Vnfc createVnfc(String vnfcType,String resilienceType,String vnfcName,boolean mandatory) {
+    private Vnfc createVnfc(String vnfcType, String resilienceType, String vnfcName, boolean mandatory) {
         Vnfc vnfc = new Vnfc();
         vnfc.setVnfcType(vnfcType);
         vnfc.setResilienceType(resilienceType);
@@ -164,69 +163,67 @@ public class VnfExecutionFlowImplTest {
 
     private SvcLogicContext prepareContextForComplexDependency() {
         SvcLogicContext context = new SvcLogicContext();
-        context.setAttribute("input.action-identifiers.vnf-id","1");
-        context.setAttribute("vnf.type","vSCP");
-        context.setAttribute("vnf.vnfcCount","7");
+        context.setAttribute("input.action-identifiers.vnf-id", "1");
+        context.setAttribute("vnf.type", "vSCP");
+        context.setAttribute("vnf.vnfcCount", "7");
 
-        context.setAttribute("vnf.vnfc[0].name","A");
-        context.setAttribute("vnf.vnfc[0].type","A");
-        context.setAttribute("vnf.vnfc[0].vm_count","2");
-        context.setAttribute("vnf.vnfc[0].vm[0].url","A1");
-        context.setAttribute("vnf.vnfc[0].vm[1].url","A2");
+        context.setAttribute("vnf.vnfc[0].name", "A");
+        context.setAttribute("vnf.vnfc[0].type", "A");
+        context.setAttribute("vnf.vnfc[0].vm_count", "2");
+        context.setAttribute("vnf.vnfc[0].vm[0].url", "A1");
+        context.setAttribute("vnf.vnfc[0].vm[1].url", "A2");
 
-        context.setAttribute("vnf.vnfc[1].name","B");
-        context.setAttribute("vnf.vnfc[1].type","B");
-        context.setAttribute("vnf.vnfc[1].vm_count","5");
-        context.setAttribute("vnf.vnfc[1].vm[0].url","B1");
-        context.setAttribute("vnf.vnfc[1].vm[1].url","B2");
-        context.setAttribute("vnf.vnfc[1].vm[2].url","B3");
-        context.setAttribute("vnf.vnfc[1].vm[3].url","B4");
-        context.setAttribute("vnf.vnfc[1].vm[4].url","B5");
+        context.setAttribute("vnf.vnfc[1].name", "B");
+        context.setAttribute("vnf.vnfc[1].type", "B");
+        context.setAttribute("vnf.vnfc[1].vm_count", "5");
+        context.setAttribute("vnf.vnfc[1].vm[0].url", "B1");
+        context.setAttribute("vnf.vnfc[1].vm[1].url", "B2");
+        context.setAttribute("vnf.vnfc[1].vm[2].url", "B3");
+        context.setAttribute("vnf.vnfc[1].vm[3].url", "B4");
+        context.setAttribute("vnf.vnfc[1].vm[4].url", "B5");
 
-        context.setAttribute("vnf.vnfc[2].name","C");
-        context.setAttribute("vnf.vnfc[2].type","C");
-        context.setAttribute("vnf.vnfc[2].vm_count","4");
-        context.setAttribute("vnf.vnfc[2].vm[0].url","C1");
-        context.setAttribute("vnf.vnfc[2].vm[1].url","C2");
-        context.setAttribute("vnf.vnfc[2].vm[2].url","C3");
-        context.setAttribute("vnf.vnfc[2].vm[3].url","C4");
+        context.setAttribute("vnf.vnfc[2].name", "C");
+        context.setAttribute("vnf.vnfc[2].type", "C");
+        context.setAttribute("vnf.vnfc[2].vm_count", "4");
+        context.setAttribute("vnf.vnfc[2].vm[0].url", "C1");
+        context.setAttribute("vnf.vnfc[2].vm[1].url", "C2");
+        context.setAttribute("vnf.vnfc[2].vm[2].url", "C3");
+        context.setAttribute("vnf.vnfc[2].vm[3].url", "C4");
 
-        context.setAttribute("vnf.vnfc[3].name","D");
-        context.setAttribute("vnf.vnfc[3].type","D");
-        context.setAttribute("vnf.vnfc[3].vm_count","3");
-        context.setAttribute("vnf.vnfc[3].vm[0].url","D1");
-        context.setAttribute("vnf.vnfc[3].vm[1].url","D2");
-        context.setAttribute("vnf.vnfc[3].vm[2].url","D3");
+        context.setAttribute("vnf.vnfc[3].name", "D");
+        context.setAttribute("vnf.vnfc[3].type", "D");
+        context.setAttribute("vnf.vnfc[3].vm_count", "3");
+        context.setAttribute("vnf.vnfc[3].vm[0].url", "D1");
+        context.setAttribute("vnf.vnfc[3].vm[1].url", "D2");
+        context.setAttribute("vnf.vnfc[3].vm[2].url", "D3");
 
-        context.setAttribute("vnf.vnfc[4].name","E");
-        context.setAttribute("vnf.vnfc[4].type","E");
-        context.setAttribute("vnf.vnfc[4].vm_count","2");
-        context.setAttribute("vnf.vnfc[4].vm[0].url","E1");
-        context.setAttribute("vnf.vnfc[4].vm[1].url","E2");
+        context.setAttribute("vnf.vnfc[4].name", "E");
+        context.setAttribute("vnf.vnfc[4].type", "E");
+        context.setAttribute("vnf.vnfc[4].vm_count", "2");
+        context.setAttribute("vnf.vnfc[4].vm[0].url", "E1");
+        context.setAttribute("vnf.vnfc[4].vm[1].url", "E2");
 
-        context.setAttribute("vnf.vnfc[5].name","F");
-        context.setAttribute("vnf.vnfc[5].type","F");
-        context.setAttribute("vnf.vnfc[5].vm_count","1");
-        context.setAttribute("vnf.vnfc[5].vm[0].url","F1");
+        context.setAttribute("vnf.vnfc[5].name", "F");
+        context.setAttribute("vnf.vnfc[5].type", "F");
+        context.setAttribute("vnf.vnfc[5].vm_count", "1");
+        context.setAttribute("vnf.vnfc[5].vm[0].url", "F1");
 
-        context.setAttribute("vnf.vnfc[6].name","G");
-        context.setAttribute("vnf.vnfc[6].type","G");
-        context.setAttribute("vnf.vnfc[6].vm_count","1");
-        context.setAttribute("vnf.vnfc[6].vm[0].url","G1");
-
+        context.setAttribute("vnf.vnfc[6].name", "G");
+        context.setAttribute("vnf.vnfc[6].type", "G");
+        context.setAttribute("vnf.vnfc[6].vm_count", "1");
+        context.setAttribute("vnf.vnfc[6].vm[0].url", "G1");
 
         return context;
     }
 
     private VnfcDependencyModel readComplexDependencyModel() {
-        Vnfc a = createVnfc("A","Active-Passive",null,false);
-        Vnfc b = createVnfc("B","Active-Active",null,false);
-        Vnfc c = createVnfc("C","Active-Active",null,false);
-        Vnfc d = createVnfc("D","Active-Active",null,false);
-        Vnfc e = createVnfc("E","Active-Active",null,false);
-        Vnfc f = createVnfc("F","Active-Active",null,false);
-        Vnfc g = createVnfc("G","Active-Active",null,false);
-
+        Vnfc a = createVnfc("A", "Active-Passive", null, false);
+        Vnfc b = createVnfc("B", "Active-Active", null, false);
+        Vnfc c = createVnfc("C", "Active-Active", null, false);
+        Vnfc d = createVnfc("D", "Active-Active", null, false);
+        Vnfc e = createVnfc("E", "Active-Active", null, false);
+        Vnfc f = createVnfc("F", "Active-Active", null, false);
+        Vnfc g = createVnfc("G", "Active-Active", null, false);
 
         Node aNode = new Node(a);
         Node bNode = new Node(b);
@@ -261,10 +258,9 @@ public class VnfExecutionFlowImplTest {
 
     private VnfcDependencyModel readDependencyModel() {
 
-        Vnfc smp = createVnfc("SMP","Active-Passive",null,false);
-        Vnfc be = createVnfc("BE","Active-Active",null,false);
-        Vnfc fe = createVnfc("FE","Active-Active",null,false);
-
+        Vnfc smp = createVnfc("SMP", "Active-Passive", null, false);
+        Vnfc be = createVnfc("BE", "Active-Active", null, false);
+        Vnfc fe = createVnfc("FE", "Active-Active", null, false);
 
         Node smpNode = new Node(smp);
         Node beNode = new Node(be);
@@ -283,41 +279,41 @@ public class VnfExecutionFlowImplTest {
     }
 
     private Map<String, String> prepareParams() {
-        Map<String,String> params = new HashMap<>();
-        params.put(Constants.DEPENDENCY_TYPE,"RESOURCE");
-        params.put(Constants.FLOW_STRATEGY,"FORWARD");
+        Map<String, String> params = new HashMap<>();
+        params.put(Constants.DEPENDENCY_TYPE, "RESOURCE");
+        params.put(Constants.FLOW_STRATEGY, "FORWARD");
 
-        params.put(Constants.VNF_TYPE,"vSCP");
-        params.put(Constants.VNF_VERION,"1.00");
+        params.put(Constants.VNF_TYPE, "vSCP");
+        params.put(Constants.VNF_VERION, "1.00");
         return params;
     }
 
     private SvcLogicContext prepareContext() {
         SvcLogicContext context = new SvcLogicContext();
-        context.setAttribute("input.action-identifiers.vnf-id","1");
-        context.setAttribute("vnf.type","vSCP");
-        context.setAttribute("vnf.vnfcCount","3");
+        context.setAttribute("input.action-identifiers.vnf-id", "1");
+        context.setAttribute("vnf.type", "vSCP");
+        context.setAttribute("vnf.vnfcCount", "3");
 
-        context.setAttribute("vnf.vnfc[0].name","SMPname");
-        context.setAttribute("vnf.vnfc[0].type","SMP");
-        context.setAttribute("vnf.vnfc[0].vm_count","2");
-        context.setAttribute("vnf.vnfc[0].vm[0].url","SMP_URL1");
-        context.setAttribute("vnf.vnfc[0].vm[1].url","SMP_URL2");
+        context.setAttribute("vnf.vnfc[0].name", "SMPname");
+        context.setAttribute("vnf.vnfc[0].type", "SMP");
+        context.setAttribute("vnf.vnfc[0].vm_count", "2");
+        context.setAttribute("vnf.vnfc[0].vm[0].url", "SMP_URL1");
+        context.setAttribute("vnf.vnfc[0].vm[1].url", "SMP_URL2");
 
-        context.setAttribute("vnf.vnfc[1].name","BEname");
-        context.setAttribute("vnf.vnfc[1].type","BE");
-        context.setAttribute("vnf.vnfc[1].vm_count","5");
-        context.setAttribute("vnf.vnfc[1].vm[0].url","BE_URL1");
-        context.setAttribute("vnf.vnfc[1].vm[1].url","BE_URL2");
-        context.setAttribute("vnf.vnfc[1].vm[2].url","BE_URL3");
-        context.setAttribute("vnf.vnfc[1].vm[3].url","BE_URL4");
-        context.setAttribute("vnf.vnfc[1].vm[4].url","BE_URL5");
+        context.setAttribute("vnf.vnfc[1].name", "BEname");
+        context.setAttribute("vnf.vnfc[1].type", "BE");
+        context.setAttribute("vnf.vnfc[1].vm_count", "5");
+        context.setAttribute("vnf.vnfc[1].vm[0].url", "BE_URL1");
+        context.setAttribute("vnf.vnfc[1].vm[1].url", "BE_URL2");
+        context.setAttribute("vnf.vnfc[1].vm[2].url", "BE_URL3");
+        context.setAttribute("vnf.vnfc[1].vm[3].url", "BE_URL4");
+        context.setAttribute("vnf.vnfc[1].vm[4].url", "BE_URL5");
 
-        context.setAttribute("vnf.vnfc[2].name","FEname");
-        context.setAttribute("vnf.vnfc[2].type","FE");
-        context.setAttribute("vnf.vnfc[2].vm_count","2");
-        context.setAttribute("vnf.vnfc[2].vm[0].url","FE_URL1");
-        context.setAttribute("vnf.vnfc[2].vm[1].url","FE_URL2");
+        context.setAttribute("vnf.vnfc[2].name", "FEname");
+        context.setAttribute("vnf.vnfc[2].type", "FE");
+        context.setAttribute("vnf.vnfc[2].vm_count", "2");
+        context.setAttribute("vnf.vnfc[2].vm[0].url", "FE_URL1");
+        context.setAttribute("vnf.vnfc[2].vm[1].url", "FE_URL2");
 
         return context;
     }
@@ -326,12 +322,12 @@ public class VnfExecutionFlowImplTest {
     public void testMissingVnfcTypeInDependencyModel() throws DependencyModelNotFound, InvalidDependencyModelException {
         Map<String, String> params = prepareParams();
         SvcLogicContext context = prepareContext();
-        context.setAttribute("vnf.vnfc[3].name","XEname");
-        context.setAttribute("vnf.vnfc[3].type","XE");
-        context.setAttribute("vnf.vnfc[3].vm_count","2");
-        context.setAttribute("vnf.vnfc[3].vm[0].url","XE_URL1");
-        context.setAttribute("vnf.vnfc[3].vm[1].url","XE_URL2");
-        context.setAttribute("vnf.vnfcCount","4");
+        context.setAttribute("vnf.vnfc[3].name", "XEname");
+        context.setAttribute("vnf.vnfc[3].type", "XE");
+        context.setAttribute("vnf.vnfc[3].vm_count", "2");
+        context.setAttribute("vnf.vnfc[3].vm[0].url", "XE_URL1");
+        context.setAttribute("vnf.vnfc[3].vm[1].url", "XE_URL2");
+        context.setAttribute("vnf.vnfcCount", "4");
 
         VnfcDependencyModel dependencyModel = readDependencyModel();
 
@@ -343,16 +339,17 @@ public class VnfExecutionFlowImplTest {
                 .thenReturn(dependencyModel);
 
         VnfExecutionFlow vnfExecutionFlow = new VnfExecutionFlowImpl();
-        vnfExecutionFlow.getVnfExecutionFlowData(params,context);
+        vnfExecutionFlow.getVnfExecutionFlowData(params, context);
     }
 
     @Test(expected = RuntimeException.class)
-    public void testMissingMandatoryVnfcTypeInInventoryModel() throws DependencyModelNotFound, InvalidDependencyModelException {
+    public void testMissingMandatoryVnfcTypeInInventoryModel()
+            throws DependencyModelNotFound, InvalidDependencyModelException {
         Map<String, String> params = prepareParams();
         SvcLogicContext context = prepareContext();
         VnfcDependencyModel dependencyModel = readDependencyModel();
 
-        Vnfc xe = createVnfc("XE","Active-Active",null, true);
+        Vnfc xe = createVnfc("XE", "Active-Active", null, true);
         Node xeNode = new Node(xe);
         dependencyModel.getDependencies().add(xeNode);
 
@@ -364,16 +361,17 @@ public class VnfExecutionFlowImplTest {
                 .thenReturn(dependencyModel);
 
         VnfExecutionFlow vnfExecutionFlow = new VnfExecutionFlowImpl();
-        vnfExecutionFlow.getVnfExecutionFlowData(params,context);
+        vnfExecutionFlow.getVnfExecutionFlowData(params, context);
     }
 
     @Test
-    public void testMissingOptionalVnfcTypeInInventoryModel() throws DependencyModelNotFound, InvalidDependencyModelException {
+    public void testMissingOptionalVnfcTypeInInventoryModel()
+            throws DependencyModelNotFound, InvalidDependencyModelException {
         Map<String, String> params = prepareParams();
         SvcLogicContext context = prepareContext();
         VnfcDependencyModel dependencyModel = readDependencyModel();
 
-        Vnfc xe = createVnfc("XE","Active-Active",null, false);
+        Vnfc xe = createVnfc("XE", "Active-Active", null, false);
         Node xeNode = new Node(xe);
         dependencyModel.getDependencies().add(xeNode);
 
@@ -385,24 +383,25 @@ public class VnfExecutionFlowImplTest {
                 .thenReturn(dependencyModel);
 
         VnfExecutionFlow vnfExecutionFlow = new VnfExecutionFlowImpl();
-        vnfExecutionFlow.getVnfExecutionFlowData(params,context);
+        vnfExecutionFlow.getVnfExecutionFlowData(params, context);
     }
 
     @Test
-    public void testMissingOptionalVnfcTypeInInventoryModelWithDependentChild() throws DependencyModelNotFound, InvalidDependencyModelException {
+    public void testMissingOptionalVnfcTypeInInventoryModelWithDependentChild()
+            throws DependencyModelNotFound, InvalidDependencyModelException {
         Map<String, String> params = prepareParams();
         SvcLogicContext context = prepareContext();
-        context.setAttribute("vnf.vnfc[3].name","YEname");
-        context.setAttribute("vnf.vnfc[3].type","YE");
-        context.setAttribute("vnf.vnfc[3].vm_count","2");
-        context.setAttribute("vnf.vnfc[3].vm[0].url","YE_URL1");
-        context.setAttribute("vnf.vnfc[3].vm[1].url","YE_URL2");
-        context.setAttribute("vnf.vnfcCount","4");
+        context.setAttribute("vnf.vnfc[3].name", "YEname");
+        context.setAttribute("vnf.vnfc[3].type", "YE");
+        context.setAttribute("vnf.vnfc[3].vm_count", "2");
+        context.setAttribute("vnf.vnfc[3].vm[0].url", "YE_URL1");
+        context.setAttribute("vnf.vnfc[3].vm[1].url", "YE_URL2");
+        context.setAttribute("vnf.vnfcCount", "4");
 
         VnfcDependencyModel dependencyModel = readDependencyModel();
 
-        Vnfc xe = createVnfc("XE","Active-Active",null, false);
-        Vnfc ye = createVnfc("YE","Active-Active",null, true);
+        Vnfc xe = createVnfc("XE", "Active-Active", null, false);
+        Vnfc ye = createVnfc("YE", "Active-Active", null, true);
         Node xeNode = new Node(xe);
         Node yeNode = new Node(ye);
         yeNode.addParent(xe);
@@ -418,8 +417,6 @@ public class VnfExecutionFlowImplTest {
                 .thenReturn(dependencyModel);
 
         VnfExecutionFlow vnfExecutionFlow = new VnfExecutionFlowImpl();
-        vnfExecutionFlow.getVnfExecutionFlowData(params,context);
+        vnfExecutionFlow.getVnfExecutionFlowData(params, context);
     }
-
-
 }

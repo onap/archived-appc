@@ -2,22 +2,22 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * ============LICENSE_END=========================================================
  */
 
@@ -26,24 +26,26 @@ package org.onap.appc.artifact.handler.utils;
 public class SdcArtifactHandlerConstants {
 
     public static final String DOCUMENT_PARAMETERS = "document-parameters";
-    public static final String SERVICE_UUID  = "service-uuid";
-    public static final String DISTRIBUTION_ID  = "distribution-id";
+    public static final String SERVICE_UUID = "service-uuid";
+    public static final String DISTRIBUTION_ID = "distribution-id";
     public static final String REQUEST_ID = "request-id";
-    public static final String REQUEST_ACTION = "request-action"; 
+    public static final String REQUEST_ACTION = "request-action";
     public static final String SOURCE = "source";
-    public static final String SERVICE_NAME = "service-name"; 
-    public static final String SERVICE_DESCRIPTION ="service-description"; 
-    public static final String SERVICE_ARTIFACTS = "service-artifacts"; 
-    public static final String RESOURCE_UUID ="resource-uuid"; 
+    public static final String SERVICE_NAME = "service-name";
+    public static final String SERVICE_DESCRIPTION = "service-description";
+    public static final String SERVICE_ARTIFACTS = "service-artifacts";
+    public static final String RESOURCE_UUID = "resource-uuid";
     public static final String RESOURCE_INSTANCE_NAME = "resource-instance-name";
-    public static final String REOURCE_NAME = "resource-name";
-    public static final String RESOURCE_VERSION ="resource-version";
-    public static final String RESOURCE_TYPE= "resource-type"; 
-    public static final String ARTIFACT_UUID ="artifact-uuid";
-    public static final String ARTIFACT_NAME = "artifact-name"; 
-    public static final String ARTIFACT_TYPE = "artifact-type"; 
+    public static final String RESOURCE_NAME = "resource-name";
+    public static final String REOURCE_NAME = "resource-name"; // misspelling that was once supported
+    public static final String RESOURCE_VERSION = "resource-version";
+    public static final String RESOURCE_TYPE = "resource-type";
+    public static final String ARTIFACT_UUID = "artifact-uuid";
+    public static final String ARTIFACT_NAME = "artifact-name";
+    public static final String ARTIFACT_TYPE = "artifact-type";
     public static final String ARTIFACT_VERSION = "artifact-version";
-    public static final String ARTIFACT_DESRIPTION = "artifact-description";
+    public static final String ARTIFACT_DESCRIPTION = "artifact-description";
+    public static final String ARTIFACT_DESRIPTION = "artifact-description"; // misspelling that was once supported
     public static final String ARTIFACT_CONTENTS = "artifact-contents";
     public static final String REQUEST_INFORMATION = "request-information";
     public static final String INTERNAL_VERSION = "internal-versoin";
@@ -58,8 +60,8 @@ public class SdcArtifactHandlerConstants {
     public static final String VNFC_FUNCTION_CODE = "vnfc-function-code";
     public static final String VNFC_FUNCTION_CODE_LIST = "vnfc-function-code-list";
     public static final String GROUP_NOTATION = "group-notation";
-    public static final String IPADDRESS_V4_OAM_VIP  = "ipaddress-v4-oam-vip";
-    public static final String GROUP_NOTATION_TYPE  = "group-notation-type";
+    public static final String IPADDRESS_V4_OAM_VIP = "ipaddress-v4-oam-vip";
+    public static final String GROUP_NOTATION_TYPE = "group-notation-type";
     public static final String GROUP_NOTATION_VALUE = "group-notation-value";
     public static final String TEMPLATE_ID = "template-id";
     public static final String REFERENCE = "reference";
@@ -71,7 +73,8 @@ public class SdcArtifactHandlerConstants {
     public static final String PORT_NUMBER = "port-number";
     public static final String DOWNLOAD_DG_REFERENCE = "download-dg-reference";
     public static final String VNFC_TYPE_LIST = "vnfc-type-list";
-    
+
+
     public static final String DB_DOWNLOAD_DG_REFERENCE = "DOWNLOAD_DG_REFERENCE";
     public static final String DB_SDC_REFERENCE = "ASDC_REFERENCE";
     public static final String DB_DEVICE_INTERFACE_PROTOCOL = "DEVICE_INTERFACE_PROTOCOL";
@@ -83,17 +86,16 @@ public class SdcArtifactHandlerConstants {
     public static final String TOSCA_MODEL = "tosca_model";
     public static final String DESIGN_TOOL = "Design-tool";
     public static final String ACTION_LEVEL_VNFC = "VNFC";
-    public static final String ACTION_LEVEL_VF_MODULE ="VF-MODULE";
+    public static final String ACTION_LEVEL_VF_MODULE = "VF-MODULE";
     public static final String ACTION_LEVEL_VNF = "VNF";
     public static final String ACTION_LEVEL_VM = "VM";
     public static final String CAPABILITY = "capability";
     public static final String TEMPLATE = "template";
     public static final String ARTIFACT_NAME_REFERENCE = "reference";
     public static final String ARTIFACT_NAME_CAPABILITY = "capability";
-    public static final String APPC_CONFIG_DIR="/opt/appcauth";
-    public static final String URL="url";
-    public static final String OPENSTACK = "OS"; 
-    public static final String ANSIBLE = "ansible"; 
-
+    public static final String APPC_CONFIG_DIR = "/opt/appcauth";
+    public static final String URL = "url";
+    public static final String OPENSTACK = "OS";
+    public static final String ANSIBLE = "ansible";
 }
 

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
@@ -11,15 +11,14 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
  * ============LICENSE_END=========================================================
  */
 
@@ -30,15 +29,6 @@ import com.att.eelf.configuration.EELFManager;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Feature;
-import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,13 +39,19 @@ import java.util.Properties;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 import javax.ws.rs.HttpMethod;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Feature;
 import javax.ws.rs.core.MediaType;
-
+import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 
 public class ArtifactHandlerClient {
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(ArtifactHandlerClient.class);
-    static final String SDNC_CONFIG_DIR_VAR = "SDNC_CONFIG_DIR";
+    public static final String SDNC_CONFIG_DIR_VAR = "SDNC_CONFIG_DIR";
     private Properties props = new Properties();
 
     public ArtifactHandlerClient() throws IOException {
@@ -122,7 +118,6 @@ public class ArtifactHandlerClient {
             sslContext = SSLContext.getInstance("SSL");
             sslContext.init(null, new javax.net.ssl.TrustManager[]{secureRestClientTrustManager}, null);
 
-
             client = ClientBuilder.newBuilder().sslContext(sslContext).hostnameVerifier(getHostnameVerifier()).build();
 
             String password = et.decrypt(props.getProperty("appc.upload.pass"));
@@ -133,9 +128,9 @@ public class ArtifactHandlerClient {
             if (HttpMethod.GET.equalsIgnoreCase(rpc)) {
                 clientResponse = webResource.request(responseDataType).get(Response.class);
             } else if (HttpMethod.POST.equalsIgnoreCase(rpc)) {
-                clientResponse = webResource.request(requestDataType).post(Entity.json(payload),Response.class);
+                clientResponse = webResource.request(requestDataType).post(Entity.json(payload), Response.class);
             } else if (HttpMethod.PUT.equalsIgnoreCase(rpc)) {
-                clientResponse = webResource.request(requestDataType).put(Entity.json(payload),Response.class);
+                clientResponse = webResource.request(requestDataType).put(Entity.json(payload), Response.class);
             } else if (HttpMethod.DELETE.equalsIgnoreCase(rpc)) {
                 clientResponse = webResource.request().delete(Response.class);
             }
@@ -144,7 +139,7 @@ public class ArtifactHandlerClient {
 
         } catch (Exception e) {
             log.debug("failed in RESTCONT Action", e);
-            throw new IOException("Error While Sending Rest Request" + e.getMessage(), e);
+            throw new IOException("Error While Sending Rest Request: " + e.getMessage(), e);
         } finally {
             // clean up.
             if (client != null) {

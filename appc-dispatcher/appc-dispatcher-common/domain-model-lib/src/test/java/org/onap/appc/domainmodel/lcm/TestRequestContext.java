@@ -6,6 +6,8 @@
 *=================================================================================
 * Modifications Copyright 2018 IBM.
 *=================================================================================
+* Modifications Copyright 2019 AT&T Intellectual Property
+*=================================================================================
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
@@ -42,26 +44,26 @@ public class TestRequestContext {
     @Test
     public void testGetActionLevel_ValidEnumConstant() {
         requestContext.setActionLevel(ActionLevel.VM);
-        Assert.assertNotNull(requestContext. getActionLevel());
-        Assert.assertEquals(requestContext. getActionLevel(),ActionLevel.VM);
+        Assert.assertNotNull(requestContext.getActionLevel());
+        Assert.assertEquals(requestContext.getActionLevel(), ActionLevel.VM);
     }
 
     @Test
     public void testgetAdditionalContext() {
-        testadditionalContext=new HashMap<String, String>();
+        testadditionalContext = new HashMap<String, String>();
         testadditionalContext.put("A", "a");
         requestContext.setAdditionalContext(testadditionalContext);
         Assert.assertNotNull(requestContext.getAdditionalContext());
         Assert.assertTrue(requestContext.getAdditionalContext().containsKey("A"));
         Assert.assertTrue(requestContext.getAdditionalContext().containsValue("a"));
     }
-    
+
     @Test
     public void testAddKeyValueToAdditionalContext() {
-        String key="key1";
-        String value="value1";
+        String key = "key1";
+        String value = "value1";
         requestContext.addKeyValueToAdditionalContext(key, value);
-        Map<String, String> additionalContext= requestContext.getAdditionalContext();
+        Map<String, String> additionalContext = requestContext.getAdditionalContext();
         Assert.assertEquals("value1", additionalContext.get("key1"));
     }
 
@@ -82,27 +84,24 @@ public class TestRequestContext {
     public void testToString_ContainsString() {
         assertTrue(requestContext.toString().contains("RequestContext{commonHeader"));
     }
-    
+
     @Test
-    public void testGetSetCommonHeader()
-    {
+    public void testGetSetCommonHeader() {
         CommonHeader commonHeader = new CommonHeader();
         requestContext.setCommonHeader(commonHeader);
         assertEquals(commonHeader, requestContext.getCommonHeader());
     }
-    
+
     @Test
-    public void testGetSetActionIdentifiers()
-    {
-        ActionIdentifiers actionIdentifiers= new ActionIdentifiers();
+    public void testGetSetActionIdentifiers() {
+        ActionIdentifiers actionIdentifiers = new ActionIdentifiers();
         requestContext.setActionIdentifiers(actionIdentifiers);
         assertEquals(actionIdentifiers, requestContext.getActionIdentifiers());
     }
-    
+
     @Test
-    public void testGetSetAction()
-    {
-        VNFOperation action= VNFOperation.ActionStatus;
+    public void testGetSetAction() {
+        VNFOperation action = VNFOperation.ActionStatus;
         requestContext.setAction(action);
         assertEquals(action, requestContext.getAction());
     }
