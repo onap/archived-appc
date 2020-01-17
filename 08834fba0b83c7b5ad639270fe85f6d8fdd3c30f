@@ -1,0 +1,418 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e367d3c_8e98d556",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-dependency-model/src/main/java/org/onap/appc/dg/dependencymanager/helper/DependencyModelParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-01-17T20:06:00Z",
+      "side": 1,
+      "message": "wondering why \"concat(vnfcType)\" can be omitted.",
+      "range": {
+        "startLine": 96,
+        "startChar": 14,
+        "endLine": 96,
+        "endChar": 74
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4a187e5_2c1f3d9d",
+        "filename": "appc-dispatcher/appc-dispatcher-common/transaction-recorder/src/main/java/org/onap/appc/transactionrecorder/impl/TransactionRecorderImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-01-17T20:06:00Z",
+      "side": 1,
+      "message": "not sure why you add \"append\"...",
+      "range": {
+        "startLine": 308,
+        "startChar": 15,
+        "endLine": 308,
+        "endChar": 22
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74f0687d_57348bea",
+        "filename": "appc-dispatcher/appc-dispatcher-common/transaction-recorder/src/main/java/org/onap/appc/transactionrecorder/impl/TransactionRecorderImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-01-17T20:06:00Z",
+      "side": 1,
+      "message": "change append to \"+\"?",
+      "range": {
+        "startLine": 390,
+        "startChar": 11,
+        "endLine": 390,
+        "endChar": 18
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ef746c0_26f5fee0",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/main/java/org/onap/appc/requesthandler/conv/Converter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-01-17T20:06:00Z",
+      "side": 1,
+      "message": "How does \"Action\" refer to \"org.opendaylight.gen....\" class?\n\nI think we should revert back. we faced some issue where sometimes class not found issue occurred.",
+      "range": {
+        "startLine": 79,
+        "startChar": 7,
+        "endLine": 79,
+        "endChar": 14
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c01741d6_2a16a9b8",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/main/java/org/onap/appc/requesthandler/conv/Converter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-01-17T20:06:00Z",
+      "side": 1,
+      "message": "same here for org.opendaylight....",
+      "range": {
+        "startLine": 464,
+        "startChar": 18,
+        "endLine": 464,
+        "endChar": 24
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e66be65b_9ee83666",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/main/java/org/onap/appc/requesthandler/conv/Converter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-01-17T20:06:00Z",
+      "side": 1,
+      "message": "same here for org.opendaylight....",
+      "range": {
+        "startLine": 474,
+        "startChar": 12,
+        "endLine": 474,
+        "endChar": 17
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "069e83ae_6521fdf1",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/main/java/org/onap/appc/requesthandler/conv/Converter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-01-17T20:06:00Z",
+      "side": 1,
+      "message": "same here for org.opendaylight....",
+      "range": {
+        "startLine": 479,
+        "startChar": 11,
+        "endLine": 479,
+        "endChar": 17
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63e4f7cc_32b92dc3",
+        "filename": "appc-dispatcher/appc-workflow-management/appc-workflow-management-core/src/main/java/org/onap/appc/workflow/impl/WorkFlowManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-01-17T20:06:00Z",
+      "side": 1,
+      "message": "Do you know any reason why \"svcLogic.execute\" needs a wrapper \"workflowExecute\"",
+      "range": {
+        "startLine": 436,
+        "startChar": 24,
+        "endLine": 436,
+        "endChar": 39
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdb79cff_9e933b0b",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-01-17T20:06:00Z",
+      "side": 1,
+      "message": "would you explain why original can be changed to \"artifacrMap.keySet()\" instead?",
+      "range": {
+        "startLine": 222,
+        "startChar": 12,
+        "endLine": 222,
+        "endChar": 48
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ad3b09d_8049c836",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-01-17T20:06:00Z",
+      "side": 1,
+      "message": "same here.",
+      "range": {
+        "startLine": 224,
+        "startChar": 32,
+        "endLine": 224,
+        "endChar": 54
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "142d50a4_53dbd56d",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-01-17T20:06:00Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 226,
+        "startChar": 36,
+        "endLine": 226,
+        "endChar": 56
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc99dc97_842c1aff",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-01-17T20:06:00Z",
+      "side": 1,
+      "message": "why need to add \"RESOURCE_NAME\"?",
+      "range": {
+        "startLine": 369,
+        "startChar": 8,
+        "endLine": 369,
+        "endChar": 70
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0681d264_e62a679a",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-01-17T20:06:00Z",
+      "side": 1,
+      "message": "why do we need this change?",
+      "range": {
+        "startLine": 626,
+        "startChar": 16,
+        "endLine": 628,
+        "endChar": 76
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d46fd2ad_d958597e",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/test/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNodeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-01-17T20:06:00Z",
+      "side": 1,
+      "message": "i think this is related to the code change",
+      "range": {
+        "startLine": 490,
+        "startChar": 53,
+        "endLine": 490,
+        "endChar": 65
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "448aa9ff_63365854",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/data/DesignInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-01-17T20:06:00Z",
+      "side": 1,
+      "message": "for those new added methods, are they using for junit purpose?",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 35
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "909c3fe3_828d08a8",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/data/DesignResponse.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-01-17T20:06:00Z",
+      "side": 1,
+      "message": "for junit purpose?",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 32
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4beaef66_9fdbc7db",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/data/UserPermissionInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-01-17T20:06:00Z",
+      "side": 1,
+      "message": "Could you point out where the new code refers to this new class?",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 31
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74611ea3_2b27d7b9",
+        "filename": "appc-sdc-listener/appc-sdc-listener-bundle/src/main/java/org/onap/appc/sdc/listener/SdcListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-01-17T20:06:00Z",
+      "side": 1,
+      "message": "shouldn\u0027t we remove this line?",
+      "range": {
+        "startLine": 210,
+        "startChar": 2339,
+        "endLine": 210,
+        "endChar": 2341
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
