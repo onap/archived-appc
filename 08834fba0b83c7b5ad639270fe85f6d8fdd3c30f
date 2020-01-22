@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "215a7766_051dd308",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-dependency-model/src/main/java/org/onap/appc/dg/dependencymanager/helper/DependencyModelParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 3477
+      },
+      "writtenOn": "2020-01-22T16:33:31Z",
+      "side": 1,
+      "message": "Ack.  I can\u0027t defend my change.  The code could be made more efficient, however.  I\u0027ve submitted an update to do that.",
+      "parentUuid": "0e367d3c_8e98d556",
+      "range": {
+        "startLine": 96,
+        "startChar": 14,
+        "endLine": 96,
+        "endChar": 74
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b4a187e5_2c1f3d9d",
         "filename": "appc-dispatcher/appc-dispatcher-common/transaction-recorder/src/main/java/org/onap/appc/transactionrecorder/impl/TransactionRecorderImpl.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2020-01-17T20:06:00Z",
       "side": 1,
       "message": "not sure why you add \"append\"...",
+      "range": {
+        "startLine": 308,
+        "startChar": 15,
+        "endLine": 308,
+        "endChar": 22
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebdacaff_2fc0a4cb",
+        "filename": "appc-dispatcher/appc-dispatcher-common/transaction-recorder/src/main/java/org/onap/appc/transactionrecorder/impl/TransactionRecorderImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 3477
+      },
+      "writtenOn": "2020-01-22T16:33:31Z",
+      "side": 1,
+      "message": "As I understand it, the whole rationale for using StringBuilder is to buy efficiency and limit the need for garbage collection.  It seems to me that if you\u0027ve gone to that trouble, you shouldn\u0027t risk that the java machine may not handle the + operator efficiently.  (The discussion at URL https://stackoverflow.com/questions/1532461/stringbuilder-vs-string-concatenation-in-tostring-in-java may have some bearing.)",
+      "parentUuid": "b4a187e5_2c1f3d9d",
       "range": {
         "startLine": 308,
         "startChar": 15,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "1ddaec75_fa5fbd8d",
+        "filename": "appc-dispatcher/appc-dispatcher-common/transaction-recorder/src/main/java/org/onap/appc/transactionrecorder/impl/TransactionRecorderImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 3477
+      },
+      "writtenOn": "2020-01-22T16:33:31Z",
+      "side": 1,
+      "message": "See previous response.",
+      "parentUuid": "74f0687d_57348bea",
+      "range": {
+        "startLine": 390,
+        "startChar": 11,
+        "endLine": 390,
+        "endChar": 18
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9ef746c0_26f5fee0",
         "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/main/java/org/onap/appc/requesthandler/conv/Converter.java",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2020-01-17T20:06:00Z",
       "side": 1,
       "message": "How does \"Action\" refer to \"org.opendaylight.gen....\" class?\n\nI think we should revert back. we faced some issue where sometimes class not found issue occurred.",
+      "range": {
+        "startLine": 79,
+        "startChar": 7,
+        "endLine": 79,
+        "endChar": 14
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba935c17_cda67f7b",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/main/java/org/onap/appc/requesthandler/conv/Converter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 3477
+      },
+      "writtenOn": "2020-01-22T16:33:31Z",
+      "side": 1,
+      "message": "Types Action and Flags are fully qualified in the import lines.  Why must they be fully qualified elsewhere in the file?  (Note that Flags was not uniformly full qualified elsewhere in the file.)",
+      "parentUuid": "9ef746c0_26f5fee0",
       "range": {
         "startLine": 79,
         "startChar": 7,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "2403d13e_1cc80755",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/main/java/org/onap/appc/requesthandler/conv/Converter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 3477
+      },
+      "writtenOn": "2020-01-22T16:33:31Z",
+      "side": 1,
+      "message": "See previous response.",
+      "parentUuid": "c01741d6_2a16a9b8",
+      "range": {
+        "startLine": 464,
+        "startChar": 18,
+        "endLine": 464,
+        "endChar": 24
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e66be65b_9ee83666",
         "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/main/java/org/onap/appc/requesthandler/conv/Converter.java",
         "patchSetId": 1
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "14b4c4d3_0cdd19cf",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/main/java/org/onap/appc/requesthandler/conv/Converter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 3477
+      },
+      "writtenOn": "2020-01-22T16:33:31Z",
+      "side": 1,
+      "message": "See previous response.",
+      "parentUuid": "e66be65b_9ee83666",
+      "range": {
+        "startLine": 474,
+        "startChar": 12,
+        "endLine": 474,
+        "endChar": 17
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "069e83ae_6521fdf1",
         "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/main/java/org/onap/appc/requesthandler/conv/Converter.java",
         "patchSetId": 1
@@ -151,6 +295,30 @@
       "writtenOn": "2020-01-17T20:06:00Z",
       "side": 1,
       "message": "same here for org.opendaylight....",
+      "range": {
+        "startLine": 479,
+        "startChar": 11,
+        "endLine": 479,
+        "endChar": 17
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b20f05d2_170dcde8",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/main/java/org/onap/appc/requesthandler/conv/Converter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 3477
+      },
+      "writtenOn": "2020-01-22T16:33:31Z",
+      "side": 1,
+      "message": "See previous response.",
+      "parentUuid": "069e83ae_6521fdf1",
       "range": {
         "startLine": 479,
         "startChar": 11,
@@ -209,6 +377,30 @@
     },
     {
       "key": {
+        "uuid": "fc15d404_15cf23a0",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 3477
+      },
+      "writtenOn": "2020-01-22T16:33:31Z",
+      "side": 1,
+      "message": "The original logic loops over the mappings and for different keys ensures that there is no mapped value overlap.  The replacement logic loops over the keys and ensures that for each key there is no mapped value overlap.  I find the replacement version slightly easier to read, perhaps because there are fewer angle brackets involved, but I have no reason to believe that they will arrive at different results.  Do you?  Is there reason to believe that one approach is more efficient than the other?  If so, which is which?",
+      "parentUuid": "bdb79cff_9e933b0b",
+      "range": {
+        "startLine": 222,
+        "startChar": 12,
+        "endLine": 222,
+        "endChar": 48
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2ad3b09d_8049c836",
         "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
         "patchSetId": 1
@@ -220,6 +412,30 @@
       "writtenOn": "2020-01-17T20:06:00Z",
       "side": 1,
       "message": "same here.",
+      "range": {
+        "startLine": 224,
+        "startChar": 32,
+        "endLine": 224,
+        "endChar": 54
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bae94a9a_f5466c0a",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 3477
+      },
+      "writtenOn": "2020-01-22T16:33:31Z",
+      "side": 1,
+      "message": "See previous response.",
+      "parentUuid": "2ad3b09d_8049c836",
       "range": {
         "startLine": 224,
         "startChar": 32,
@@ -255,6 +471,30 @@
     },
     {
       "key": {
+        "uuid": "ed087c0e_8a9fd15c",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 3477
+      },
+      "writtenOn": "2020-01-22T16:33:31Z",
+      "side": 1,
+      "message": "See previous response.",
+      "parentUuid": "142d50a4_53dbd56d",
+      "range": {
+        "startLine": 226,
+        "startChar": 36,
+        "endLine": 226,
+        "endChar": 56
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fc99dc97_842c1aff",
         "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
         "patchSetId": 1
@@ -266,6 +506,30 @@
       "writtenOn": "2020-01-17T20:06:00Z",
       "side": 1,
       "message": "why need to add \"RESOURCE_NAME\"?",
+      "range": {
+        "startLine": 369,
+        "startChar": 8,
+        "endLine": 369,
+        "endChar": 70
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04b51367_0c6b825b",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 3477
+      },
+      "writtenOn": "2020-01-22T16:33:31Z",
+      "side": 1,
+      "message": "Another developer with significantly more APP-C experience than I have suggested this was necessary.  I didn\u0027t press for an explanation.",
+      "parentUuid": "fc99dc97_842c1aff",
       "range": {
         "startLine": 369,
         "startChar": 8,
@@ -301,6 +565,30 @@
     },
     {
       "key": {
+        "uuid": "faeb1df9_3df9df3e",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 3477
+      },
+      "writtenOn": "2020-01-22T16:33:31Z",
+      "side": 1,
+      "message": "A more experienced APP-C developer than I insisted that, despite the recent introduction of method isContentActionConfig, much more nuanced action checking was required.  I\u0027ve reflected her views in my update.",
+      "parentUuid": "0681d264_e62a679a",
+      "range": {
+        "startLine": 626,
+        "startChar": 16,
+        "endLine": 628,
+        "endChar": 76
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d46fd2ad_d958597e",
         "filename": "appc-inbound/appc-artifact-handler/provider/src/test/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNodeTest.java",
         "patchSetId": 1
@@ -312,6 +600,30 @@
       "writtenOn": "2020-01-17T20:06:00Z",
       "side": 1,
       "message": "i think this is related to the code change",
+      "range": {
+        "startLine": 490,
+        "startChar": 53,
+        "endLine": 490,
+        "endChar": 65
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abe43f6c_09e961f4",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/test/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNodeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 3477
+      },
+      "writtenOn": "2020-01-22T16:33:31Z",
+      "side": 1,
+      "message": "Yes, this change is tied to the change in ArtifactHandlerNode.java , line 369.",
+      "parentUuid": "d46fd2ad_d958597e",
       "range": {
         "startLine": 490,
         "startChar": 53,
@@ -347,6 +659,30 @@
     },
     {
       "key": {
+        "uuid": "270c615e_ee6f9d42",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/data/DesignInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 3477
+      },
+      "writtenOn": "2020-01-22T16:33:31Z",
+      "side": 1,
+      "message": "The two \"set\" functions are used explicitly in appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/dbervices/DesignDBService.java.  Does the @JsonProperty annotation for the underlying data fields in this file necessitate the introduction of the \"get\" functions?",
+      "parentUuid": "448aa9ff_63365854",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 35
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "909c3fe3_828d08a8",
         "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/data/DesignResponse.java",
         "patchSetId": 1
@@ -358,6 +694,30 @@
       "writtenOn": "2020-01-17T20:06:00Z",
       "side": 1,
       "message": "for junit purpose?",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 32
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32163d4b_4f2f92f3",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/data/DesignResponse.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 3477
+      },
+      "writtenOn": "2020-01-22T16:33:31Z",
+      "side": 1,
+      "message": "Does the @JsonProperty annotation for the underlying data fields necessitate the introduction of the \"get\" functions?  Both \"set\" functions appear in appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/dbervices/DesignDBService.java and method setUsers also appears in appc-inbound/appc-design-services/provider/src/test/java/org/onap/appc/design/validator/TestDesigndata.java .  Oddly (to me), while the latter file exercises various methods, even when it invokes a \"set\" method and then the associated \"get\" method, it doesn\u0027t validate that the latter returns the expected value.  Ought this to be addressed?",
+      "parentUuid": "909c3fe3_828d08a8",
       "range": {
         "startLine": 79,
         "startChar": 0,
@@ -393,6 +753,30 @@
     },
     {
       "key": {
+        "uuid": "4629a9e1_622badc1",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/data/UserPermissionInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 3477
+      },
+      "writtenOn": "2020-01-22T16:33:31Z",
+      "side": 1,
+      "message": "This class is referenced in file appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/dbervices/DesignDBService.java, lines 930-949.",
+      "parentUuid": "4beaef66_9fdbc7db",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 31
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "74611ea3_2b27d7b9",
         "filename": "appc-sdc-listener/appc-sdc-listener-bundle/src/main/java/org/onap/appc/sdc/listener/SdcListener.java",
         "patchSetId": 1
@@ -404,6 +788,30 @@
       "writtenOn": "2020-01-17T20:06:00Z",
       "side": 1,
       "message": "shouldn\u0027t we remove this line?",
+      "range": {
+        "startLine": 210,
+        "startChar": 2339,
+        "endLine": 210,
+        "endChar": 2341
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c73998e4_6b65ee32",
+        "filename": "appc-sdc-listener/appc-sdc-listener-bundle/src/main/java/org/onap/appc/sdc/listener/SdcListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 3477
+      },
+      "writtenOn": "2020-01-22T16:33:31Z",
+      "side": 1,
+      "message": "Unless we think it likely that someone will want to uncomment this code to test it out, it won\u0027t be missed if we remove it.",
+      "parentUuid": "74611ea3_2b27d7b9",
       "range": {
         "startLine": 210,
         "startChar": 2339,
