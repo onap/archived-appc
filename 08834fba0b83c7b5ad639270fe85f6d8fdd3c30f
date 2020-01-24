@@ -401,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "f2569311_1c2fd19e",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2020-01-24T18:09:02Z",
+      "side": 1,
+      "message": "The change to using the Entry was made in the past year it looks like. I\u0027m not sure which method might be more efficient though.",
+      "parentUuid": "fc15d404_15cf23a0",
+      "range": {
+        "startLine": 222,
+        "startChar": 12,
+        "endLine": 222,
+        "endChar": 48
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2ad3b09d_8049c836",
         "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
         "patchSetId": 1
@@ -718,6 +742,30 @@
       "side": 1,
       "message": "Does the @JsonProperty annotation for the underlying data fields necessitate the introduction of the \"get\" functions?  Both \"set\" functions appear in appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/dbervices/DesignDBService.java and method setUsers also appears in appc-inbound/appc-design-services/provider/src/test/java/org/onap/appc/design/validator/TestDesigndata.java .  Oddly (to me), while the latter file exercises various methods, even when it invokes a \"set\" method and then the associated \"get\" method, it doesn\u0027t validate that the latter returns the expected value.  Ought this to be addressed?",
       "parentUuid": "909c3fe3_828d08a8",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 32
+      },
+      "revId": "08834fba0b83c7b5ad639270fe85f6d8fdd3c30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbc58cd7_06fb04ca",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/data/DesignResponse.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2020-01-24T18:09:02Z",
+      "side": 1,
+      "message": "I don\u0027t think having the JsonProperty necessarily requires that a get method be present. Maybe in a case where we are changing this class into json it could be needed, but I\u0027m not sure.\nFor your question about the test cases, yes it should validate the return value. I see a lot of tests where methods are just executed with absolutely no checks being done, which is not a real test.",
+      "parentUuid": "32163d4b_4f2f92f3",
       "range": {
         "startLine": 79,
         "startChar": 0,
