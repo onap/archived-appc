@@ -6,7 +6,7 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
- * Modifications Copyright (C) 2018-2019 Orange
+ * Modifications Copyright (C) 2018-2019 Orange Nokia
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -138,6 +138,7 @@ module appc-provider-lcm {
             enum "StartTraffic";
             enum "StatusTraffic";
             enum "StopTraffic";
+            enum "ConfigScaleIn";
         }
         description "The action to be taken by APP-C, e.g. Restart, Rebuild, Migrate";
     }
@@ -1755,6 +1756,33 @@ module appc-provider-lcm {
     }
 
     /**********************************************************************************
-     * Additional RPCs added here...
+     * Define the VNF ConfigScaleIn service
+     **********************************************************************************/
+    rpc config-scale-in {
+            description "An operation to Modify the configuration or other action to support
+            a ConfigScaleIn of a VNF.";
+            input {
+                uses common-header;
+                leaf action {
+                    type action;
+                    mandatory true;
+                }
+                uses action-identifiers;
+                leaf payload {
+                    type payload;
+                    mandatory false;
+                }
+            }
+            output {
+                uses common-header;
+                uses status;
+                leaf payload {
+                     type payload;
+                     mandatory false;
+                }
+            }
+        }
+    /**********************************************************************************
+     *  Additional RPCs added here...
      **********************************************************************************/
 }

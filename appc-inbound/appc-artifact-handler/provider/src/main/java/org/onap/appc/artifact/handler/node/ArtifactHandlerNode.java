@@ -126,7 +126,8 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
     private static final String PRE_REBUILD = "PreRebuild";
     private static final String POST_REBUILD = "PostRebuild";
     private static final String STOP_TRAFFIC = "StopTraffic";
-
+    private static final String CONFIG_SCALE_IN_PARAM = "ConfigScaleIn";
+    
     public void processArtifact(Map<String, String> inParams, SvcLogicContext ctx) throws ArtifactProcessorException {
 
         if (inParams == null || inParams.isEmpty()) {
@@ -626,6 +627,7 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
             if (contentsActionEquals(content, CONFIGURE_PARAM)
                     || contentsActionEquals(content, CONFIG_MODIFY_PARAM)
                     || contentsActionEquals(content, CONFIG_SCALE_OUT_PARAM)
+                    || contentsActionEquals(content, CONFIG_SCALE_IN_PARAM)
                     || contentsActionEquals(content, GET_CONFIG)
                     || contentsActionEquals(content, POST_EVACUATE)
                     || contentsActionEquals(content, PRE_EVACUATE)
@@ -659,10 +661,11 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
     private void tryProcessInterfaceProtocol(JSONObject content, DBService dbservice, SvcLogicContext context)
             throws SvcLogicException, SQLException, ConfigurationException, DBException {
 
-        if (contentsActionEquals(content, CONFIGURE_PARAM) || contentsActionEquals(content, CONFIG_SCALE_OUT_PARAM)) {
+        if (contentsActionEquals(content, CONFIGURE_PARAM) || contentsActionEquals(content, CONFIG_SCALE_OUT_PARAM)
+                || contentsActionEquals(content, CONFIG_SCALE_IN_PARAM)) {
             boolean isUpdateRequired = dbservice.isArtifactUpdateRequired(context, DB_DEVICE_INTERFACE_PROTOCOL);
-            if (contentsActionEquals(content, CONFIGURE_PARAM)
-                    || (contentsActionEquals(content, CONFIG_SCALE_OUT_PARAM)
+            if (contentsActionEquals(content, CONFIGURE_PARAM) || (contentsActionEquals(content, CONFIG_SCALE_OUT_PARAM)
+                    || contentsActionEquals(content, CONFIG_SCALE_IN_PARAM)
                         && !isUpdateRequired)) {
 
                 dbservice.processDeviceInterfaceProtocol(context, isUpdateRequired);
@@ -711,7 +714,8 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
     private void tryProcessVnfcReference(JSONObject content, SvcLogicContext context, DBService dbservice)
             throws SvcLogicException {
         if (content.getString(ACTION).equals(CONFIGURE_PARAM)
-                || content.getString(ACTION).equals(CONFIG_SCALE_OUT_PARAM)) {
+                || content.getString(ACTION).equals(CONFIG_SCALE_OUT_PARAM)
+                || content.getString(ACTION).equals(CONFIG_SCALE_IN_PARAM)) {
 
             dbservice.processVnfcReference(context, false);
         }

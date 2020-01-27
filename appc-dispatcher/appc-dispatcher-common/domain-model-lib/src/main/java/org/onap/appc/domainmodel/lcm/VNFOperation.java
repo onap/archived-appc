@@ -6,7 +6,7 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
- * Modifications Copyright (C) 2018-2019 Orange
+ * Modifications Copyright (C) 2018-2019 Orange Nokia
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -81,7 +81,8 @@ public enum VNFOperation {
     UpgradeSoftware,
     UpgradePostCheck,
     UpgradeBackup,
-    UpgradeBackout;
+    UpgradeBackout,
+    ConfigScaleIn;
 
     private boolean builtIn;
 
