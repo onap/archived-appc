@@ -43,7 +43,7 @@ public class VnfMetaDataReader implements StateMetaDataReader {
         ConfigScaleOut,ConfigRestore,Backup, Snapshot,
         SoftwareUpload, LiveUpgrade, Rollback, Sync, Audit, Test_lic, Migrate, Evacuate,
         ConfigBackup, ConfigBackupDelete, ConfigExport,
-        Lock(true), Unlock(true), CheckLock(true), StartApplication,StopApplication;
+        Lock(true), Unlock(true), CheckLock(true), StartApplication,StopApplication, ConfigScaleIn;
 
         private boolean builtIn;
 
@@ -137,6 +137,7 @@ public class VnfMetaDataReader implements StateMetaDataReader {
         Event configBackupDelete = new Event(VNFOperation.ConfigBackupDelete.toString());
         Event configExport = new Event(VNFOperation.ConfigExport.toString());
         Event stopApplication= new Event(VNFOperation.StopApplication.toString());
+        Event configScaleIn = new Event(VNFOperation.ConfigScaleIn.toString());
 
         Event lock = new Event(VNFOperation.Lock.toString());
         Event unlock = new Event(VNFOperation.Unlock.toString());
@@ -204,6 +205,7 @@ public class VnfMetaDataReader implements StateMetaDataReader {
         builder = builder.addEvent(configBackupDelete);
         builder = builder.addEvent(configExport);
         builder = builder.addEvent(stopApplication);
+        builder = builder.addEvent(configScaleIn);
 
         builder = builder.addTransition(notOrchestrated,configure,configuring);
         builder = builder.addTransition(notOrchestrated,test,testing);
@@ -229,6 +231,7 @@ public class VnfMetaDataReader implements StateMetaDataReader {
         builder = builder.addTransition(notOrchestrated,startApplication,starting);
         builder = builder.addTransition(notOrchestrated,stopApplication,stopping);
         builder = builder.addTransition(notOrchestrated,configBackup,notOrchestrated);
+        builder = builder.addTransition(notOrchestrated,configScaleIn,configuring);
 
         builder = builder.addTransition(created,configure,configuring);
         builder = builder.addTransition(created,test,testing);
@@ -254,6 +257,7 @@ public class VnfMetaDataReader implements StateMetaDataReader {
         builder = builder.addTransition(created,startApplication,starting);
         builder = builder.addTransition(created,stopApplication,stopping);
         builder = builder.addTransition(created,configBackup,created);
+        builder = builder.addTransition(created,configScaleIn,configuring);
 
         builder = builder.addTransition(instantiated,configure,configuring);
         builder = builder.addTransition(instantiated,test,testing);
@@ -276,6 +280,7 @@ public class VnfMetaDataReader implements StateMetaDataReader {
         builder = builder.addTransition(instantiated,lock,instantiated);
         builder = builder.addTransition(instantiated,unlock,instantiated);
         builder = builder.addTransition(instantiated,checklock,instantiated);
+        builder = builder.addTransition(instantiated,configScaleIn,configuring);
 
         builder = builder.addTransition(configured,configure,configuring);
         builder = builder.addTransition(configured,test,testing);
@@ -304,6 +309,7 @@ public class VnfMetaDataReader implements StateMetaDataReader {
         builder = builder.addTransition(configured,configBackupDelete,configured);
         builder = builder.addTransition(configured,configExport,configured);
         builder = builder.addTransition(configured,stopApplication,stopping);
+        builder = builder.addTransition(configured,configScaleIn,configuring);
 
         builder = builder.addTransition(tested,configure,configuring);
         builder = builder.addTransition(tested,test,testing);
@@ -332,6 +338,7 @@ public class VnfMetaDataReader implements StateMetaDataReader {
         builder = builder.addTransition(tested,configBackupDelete,tested);
         builder = builder.addTransition(tested,configExport,tested);
         builder = builder.addTransition(tested,stopApplication,stopping);
+        builder = builder.addTransition(tested,configScaleIn,configuring);
 
         builder = builder.addTransition(running,configure,configuring);
         builder = builder.addTransition(running,test,testing);
@@ -360,6 +367,7 @@ public class VnfMetaDataReader implements StateMetaDataReader {
         builder = builder.addTransition(running,configBackupDelete,running);
         builder = builder.addTransition(running,configExport,running);
         builder = builder.addTransition(running,stopApplication,stopping);
+        builder = builder.addTransition(running,configScaleIn,configuring);
 
         builder = builder.addTransition(error,configure,configuring);
         builder = builder.addTransition(error,test,testing);
@@ -388,6 +396,7 @@ public class VnfMetaDataReader implements StateMetaDataReader {
         builder = builder.addTransition(error,configBackupDelete,error);
         builder = builder.addTransition(error,configExport,error);
         builder = builder.addTransition(error,stopApplication,stopping);
+        builder = builder.addTransition(error,configScaleIn,configuring);
 
         builder = builder.addTransition(unknown,configure,configuring);
         builder = builder.addTransition(unknown,test,testing);
@@ -416,6 +425,7 @@ public class VnfMetaDataReader implements StateMetaDataReader {
         builder = builder.addTransition(unknown,configBackupDelete,unknown);
         builder = builder.addTransition(unknown,configExport,unknown);
         builder = builder.addTransition(unknown,stopApplication,stopping);
+        builder = builder.addTransition(unknown,configScaleIn,configuring);
 
         builder = builder.addTransition(stopped,configure,configuring);
         builder = builder.addTransition(stopped,test,testing);
@@ -437,6 +447,7 @@ public class VnfMetaDataReader implements StateMetaDataReader {
         builder = builder.addTransition(stopped,lock,stopped);
         builder = builder.addTransition(stopped,unlock,stopped);
         builder = builder.addTransition(stopped,checklock,stopped);
+        builder = builder.addTransition(stopped,configScaleIn,configuring);
 
         builder = builder.addTransition(configuring,success,configured);
         builder = builder.addTransition(configuring,failure,error);

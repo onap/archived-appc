@@ -127,6 +127,8 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
     private static final String PRE_REBUILD = "PreRebuild";
     private static final String POST_REBUILD = "PostRebuild";
     private static final String STOP_TRAFFIC = "StopTraffic";
+    private static final String CONFIG_SCALE_IN_PARAM = "ConfigScaleIn";
+    
     public void processArtifact(Map<String, String> inParams, SvcLogicContext ctx) throws ArtifactProcessorException {
 
         if (inParams == null || inParams.isEmpty()) {
@@ -652,7 +654,8 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
     private boolean isContentActionConfig(JSONObject content) {
         return contentsActionEquals(content, CONFIGURE_PARAM)
                 || contentsActionEquals(content, CONFIG_MODIFY_PARAM)
-                || contentsActionEquals(content, CONFIG_SCALE_OUT_PARAM);
+                || contentsActionEquals(content, CONFIG_SCALE_OUT_PARAM)
+                || contentsActionEquals(content, CONFIG_SCALE_IN_PARAM);
     }
 
     private boolean contentsActionEquals(JSONObject content, String action) {
@@ -696,7 +699,8 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
     private void tryProcessVnfcReference(JSONObject content, SvcLogicContext context, DBService dbservice)
             throws SvcLogicException {
         if (content.getString(ACTION).equals(CONFIGURE_PARAM)
-                || content.getString(ACTION).equals(CONFIG_SCALE_OUT_PARAM)) {
+                || content.getString(ACTION).equals(CONFIG_SCALE_OUT_PARAM)
+                || content.getString(ACTION).equals(CONFIG_SCALE_IN_PARAM)) {
 
             dbservice.processVnfcReference(context, false);
         }

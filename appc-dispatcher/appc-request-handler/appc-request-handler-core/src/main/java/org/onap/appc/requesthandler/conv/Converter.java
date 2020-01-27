@@ -376,6 +376,12 @@ public class Converter {
                 ((LicenseManagementOutputBuilder)outObj).setStatus(status);
                 ((LicenseManagementOutputBuilder)outObj).setPayload(payload);
                 return outObj;
+            case ConfigScaleIn:
+                outObj = new ConfigScaleInOutputBuilder();
+                ((ConfigScaleInOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((ConfigScaleInOutputBuilder)outObj).setStatus(status);
+                ((ConfigScaleInOutputBuilder)outObj).setPayload(payload);
+                return outObj;
             default:
                 throw new IllegalArgumentException(action+" action is not supported");
         }

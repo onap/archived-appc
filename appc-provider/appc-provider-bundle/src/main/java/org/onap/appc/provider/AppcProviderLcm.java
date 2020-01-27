@@ -61,6 +61,7 @@ import org.onap.appc.provider.lcm.service.LicenseManagementService;
 import org.onap.appc.provider.lcm.service.StartTraffic;
 import org.onap.appc.provider.lcm.service.StatusTraffic;
 import org.onap.appc.provider.lcm.service.StopTraffic;
+import org.onap.appc.provider.lcm.service.ConfigScaleInService;
 import org.onap.appc.provider.lcm.util.RequestInputBuilder;
 import org.onap.appc.provider.lcm.util.ValidationService;
 import org.onap.appc.requesthandler.objects.RequestHandlerInput;
@@ -773,6 +774,14 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
         logger.debug("Input received : " + input.toString());
         ConfigScaleOutOutputBuilder outputBuilder = new ConfigScaleOutService().process(input);
         RpcResult<ConfigScaleOutOutput> result = RpcResultBuilder.<ConfigScaleOutOutput> status(true).withResult(outputBuilder.build()).build();
+        return Futures.immediateFuture(result);
+    }
+    
+    @Override
+    public ListenableFuture<RpcResult<ConfigScaleInOutput>> configScaleIn(ConfigScaleInInput input) {
+        logger.debug("Input received : " + input.toString());
+        ConfigScaleInOutputBuilder outputBuilder = new ConfigScaleInService().process(input);
+        RpcResult<ConfigScaleInOutput> result = RpcResultBuilder.<ConfigScaleInOutput> status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 

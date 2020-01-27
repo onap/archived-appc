@@ -67,6 +67,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;enumeration value="ConfigBackup"/>
  *     &lt;enumeration value="ConfigBackupDelete"/>
  *     &lt;enumeration value="ConfigExport"/>
+ *     &lt;enumeration value="ConfigScaleIn"/>
  *   &lt;/restriction>
  * &lt;/simpleType>
  * </pre>
@@ -127,7 +128,9 @@ public enum Vnflist {
     @XmlEnumValue("ConfigBackupDelete")
     CONFIG_BACKUP_DELETE("ConfigBackupDelete"),
     @XmlEnumValue("ConfigExport")
-    CONFIG_EXPORT("ConfigExport");
+    CONFIG_EXPORT("ConfigExport"),
+    @XmlEnumValue("ConfigScaleIn")
+    CONFIG_SCALE_IN("ConfigScaleIn");
     private final String value;
 
     Vnflist(String v) {

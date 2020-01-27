@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018-2019 Ericsson
  * ================================================================================
- * Modifications Copyright (C) 2019 Orange
+ * Modifications Copyright (C) 2019 Orange Nokia
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -82,6 +82,7 @@ import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradeBackupInp
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradePostCheckInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradePreCheckInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradeSoftwareInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigScaleInInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ZULU;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.action.identifiers.ActionIdentifiersBuilder;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.CommonHeaderBuilder;
@@ -737,6 +738,15 @@ public class AppcProviderLcmTest {
     public void closeTest() throws Exception {
         underTest.close();
         Mockito.verify(rpcRegistration).close();
+    }
+    
+    @Test
+    public void configScaleInTest() {
+        ConfigScaleInInput configScaleInInput = mock(ConfigScaleInInput.class);
+        Mockito.doReturn(Action.ConfigScaleIn).when(configScaleInInput).getAction();
+        Mockito.doReturn(getCommonHeaderBuilder().build()).when(configScaleInInput)
+                .getCommonHeader();
+        assertTrue(underTest.configScaleIn(configScaleInInput).isDone());
     }
 
     private CommonHeaderBuilder getCommonHeaderBuilder() {
