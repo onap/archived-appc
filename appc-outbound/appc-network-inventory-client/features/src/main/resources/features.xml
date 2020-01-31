@@ -39,6 +39,7 @@
 		<bundle>mvn:commons-collections/commons-collections/3.2.2</bundle>		
 		<bundle>wrap:mvn:com.att.eelf/eelf-core/${eelf.version}</bundle>
 		<bundle>mvn:com.sun.jersey/jersey-client/1.17</bundle>
+                <bundle>mvn:org.yaml/snakeyaml/1.25</bundle>
 		<bundle>mvn:ch.qos.logback/logback-core/${logback.version}</bundle>
 		<bundle>mvn:ch.qos.logback/logback-classic/${logback.version}</bundle>		
 		<bundle>mvn:org.onap.appc/appc-config-params-provider/${project.version}</bundle>

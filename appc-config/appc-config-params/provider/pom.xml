@@ -120,7 +120,7 @@
 							org.onap.sdnc.config.params.parser,org.onap.sdnc.config.params.transformer,
 							org.onap.sdnc.config.params.transformer.tosca,org.onap.sdnc.config.params.transformer.tosca.exceptions</Export-Package>
 						<Import-Package>groovy.lang;resolution:=optional,org.codehaus.groovy.*;resolution:=optional,!com.google.common.collect,*</Import-Package>
-						<Embed-Dependency>guava,jackson-databind,jackson-core,jackson-dataformat-yaml,eelf-core,logback-core,logback-classic</Embed-Dependency>
+						<Embed-Dependency>snakeyaml,guava,jackson-databind,jackson-core,jackson-dataformat-yaml,eelf-core,logback-core,logback-classic</Embed-Dependency>
 					</instructions>
 				</configuration>
 			</plugin>
