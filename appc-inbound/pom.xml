@@ -33,7 +33,6 @@
 
     <properties>
         <jackson.version>2.3.2</jackson.version>
-        <snakeyaml.version>1.12</snakeyaml.version>
         <velocity.version>1.7</velocity.version>
         <jettison.version>1.3.7</jettison.version>
         <commons.collections.version>3.2.2</commons.collections.version>
