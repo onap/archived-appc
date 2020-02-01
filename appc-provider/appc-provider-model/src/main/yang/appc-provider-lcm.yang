@@ -139,6 +139,8 @@ module appc-provider-lcm {
             enum "StatusTraffic";
             enum "StopTraffic";
             enum "ConfigScaleIn";
+            enum "DownloadNESw";
+            enum "ActivateNESw";
         }
         description "The action to be taken by APP-C, e.g. Restart, Rebuild, Migrate";
     }
@@ -704,6 +706,10 @@ module appc-provider-lcm {
         output {
             uses common-header;
             uses status;
+            leaf payload {
+                type payload;
+                mandatory false;
+            }
         }
     }
 
@@ -1782,6 +1788,61 @@ module appc-provider-lcm {
                 }
             }
         }
+
+    /**********************************************************************************
+     * Define the downloadNESw operation
+     **********************************************************************************/
+    rpc download-n-e-sw {
+        description "An operation to download NE software";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory true;
+           }
+        }
+        output {
+            uses common-header;
+            uses status;
+            leaf payload {
+                type payload;
+                mandatory true;
+            }
+        }
+    }
+
+    /**********************************************************************************
+     * Define the activateNESw operation
+     **********************************************************************************/
+    rpc activate-n-e-sw {
+        description "An operation to activate NE software";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory true;
+           }
+        }
+        output {
+            uses common-header;
+            uses status;
+            leaf payload {
+                type payload;
+                mandatory true;
+            }
+        }
+    }
+
     /**********************************************************************************
      *  Additional RPCs added here...
      **********************************************************************************/
