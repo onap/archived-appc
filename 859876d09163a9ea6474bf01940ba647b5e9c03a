@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8d2a872_b209419e",
+        "filename": "appc-provider/appc-provider-bundle/src/main/java/org/onap/appc/provider/lcm/service/AbstractBaseUtils.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-02-01T22:13:04Z",
+      "side": 1,
+      "message": "can you explain for 151 and 152 lines changes?",
+      "range": {
+        "startLine": 152,
+        "startChar": 41,
+        "endLine": 152,
+        "endChar": 45
+      },
+      "revId": "859876d09163a9ea6474bf01940ba647b5e9c03a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26a6561e_c7cffb73",
+        "filename": "appc-provider/appc-provider-model/src/main/yang/appc-provider-lcm.yang",
+        "patchSetId": 12
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-02-01T22:13:04Z",
+      "side": 1,
+      "message": "why do you need payload even mandatory \u003d\u003d false?",
+      "range": {
+        "startLine": 709,
+        "startChar": 10,
+        "endLine": 711,
+        "endChar": 32
+      },
+      "revId": "859876d09163a9ea6474bf01940ba647b5e9c03a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4256470b_d96703e4",
+        "filename": "appc-provider/appc-provider-model/src/main/yang/appc-provider-lcm.yang",
+        "patchSetId": 12
+      },
+      "lineNbr": 1795,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-02-01T22:13:04Z",
+      "side": 1,
+      "message": "shall we change the rpc name?\nthat would revert the change in getRpcName?",
+      "range": {
+        "startLine": 1795,
+        "startChar": 8,
+        "endLine": 1795,
+        "endChar": 23
+      },
+      "revId": "859876d09163a9ea6474bf01940ba647b5e9c03a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10a798a7_69ebfc68",
+        "filename": "appc-provider/appc-provider-model/src/main/yang/appc-provider-lcm.yang",
+        "patchSetId": 12
+      },
+      "lineNbr": 1822,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-02-01T22:13:04Z",
+      "side": 1,
+      "message": "shall we change the rpc name?",
+      "range": {
+        "startLine": 1822,
+        "startChar": 8,
+        "endLine": 1822,
+        "endChar": 23
+      },
+      "revId": "859876d09163a9ea6474bf01940ba647b5e9c03a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
