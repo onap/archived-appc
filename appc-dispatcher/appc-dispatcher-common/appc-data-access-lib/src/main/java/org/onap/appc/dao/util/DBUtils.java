@@ -25,6 +25,7 @@ package org.onap.appc.dao.util;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
+import java.util.Properties;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
 import java.sql.*;
@@ -60,9 +61,18 @@ public class DBUtils {
     public static Connection getConnection(String schema) throws SQLException {
         DriverManager.registerDriver(new org.mariadb.jdbc.Driver());
         String dbURL = configuration.getProperty(String.format("org.onap.appc.db.url.%s", schema), "");
-        String userName = configuration.getProperty(String.format("org.onap.appc.db.user.%s", schema), "");
-        String password = configuration.getProperty(String.format("org.onap.appc.db.pass.%s", schema), "");
+        String userName = getValue(configuration.getProperty(String.format("org.onap.appc.db.user.%s", schema), ""));
+        String password = getValue(configuration.getProperty(String.format("org.onap.appc.db.pass.%s", schema), ""));
         return DriverManager.getConnection(dbURL, userName, password);
+    }
+
+    private static String getValue(final String value) {
+        if (value != null && value.matches("[$][{].*[}]$")) {
+            String envVariable = System.getenv(value.substring(2, value.length() - 1));
+            return envVariable == null ? "" : envVariable;
+        } else {
+            return value;
+        }
     }
 
     public static boolean clearResources(ResultSet resultSet, PreparedStatement ptmt, Connection connection) {
