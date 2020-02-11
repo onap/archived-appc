@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "da573ae4_a7178125",
+        "filename": "appc-provider/appc-provider-bundle/src/main/java/org/onap/appc/provider/lcm/service/AbstractBaseUtils.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 5302
+      },
+      "writtenOn": "2020-02-11T09:45:41Z",
+      "side": 1,
+      "message": "For the old one, when there are two continuous capital letters, such as downloadNESw, it will convert to download-nesw, and the correct format is download-n-e-sw. These changes make the convertion between camel case and lower hyphen to be compatible with the YANG models.",
+      "parentUuid": "f8d2a872_b209419e",
+      "range": {
+        "startLine": 152,
+        "startChar": 41,
+        "endLine": 152,
+        "endChar": 45
+      },
+      "revId": "859876d09163a9ea6474bf01940ba647b5e9c03a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "26a6561e_c7cffb73",
         "filename": "appc-provider/appc-provider-model/src/main/yang/appc-provider-lcm.yang",
         "patchSetId": 12
@@ -36,6 +60,30 @@
       "writtenOn": "2020-02-01T22:13:04Z",
       "side": 1,
       "message": "why do you need payload even mandatory \u003d\u003d false?",
+      "range": {
+        "startLine": 709,
+        "startChar": 10,
+        "endLine": 711,
+        "endChar": 32
+      },
+      "revId": "859876d09163a9ea6474bf01940ba647b5e9c03a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25291bb7_2cfdaa3a",
+        "filename": "appc-provider/appc-provider-model/src/main/yang/appc-provider-lcm.yang",
+        "patchSetId": 12
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 5302
+      },
+      "writtenOn": "2020-02-11T09:45:41Z",
+      "side": 1,
+      "message": "It is used to be backward compatibility.",
+      "parentUuid": "26a6561e_c7cffb73",
       "range": {
         "startLine": 709,
         "startChar": 10,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "68fdaa53_1543df91",
+        "filename": "appc-provider/appc-provider-model/src/main/yang/appc-provider-lcm.yang",
+        "patchSetId": 12
+      },
+      "lineNbr": 1795,
+      "author": {
+        "id": 5302
+      },
+      "writtenOn": "2020-02-11T09:45:41Z",
+      "side": 1,
+      "message": "The RPC names downloadNESw and ActivateNESw are referenced to 3GPP TS 32.532 (SwM), and are also aligned with Building Blocks of SO.",
+      "parentUuid": "4256470b_d96703e4",
+      "range": {
+        "startLine": 1795,
+        "startChar": 8,
+        "endLine": 1795,
+        "endChar": 23
+      },
+      "revId": "859876d09163a9ea6474bf01940ba647b5e9c03a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "10a798a7_69ebfc68",
         "filename": "appc-provider/appc-provider-model/src/main/yang/appc-provider-lcm.yang",
         "patchSetId": 12
@@ -82,6 +154,30 @@
       "writtenOn": "2020-02-01T22:13:04Z",
       "side": 1,
       "message": "shall we change the rpc name?",
+      "range": {
+        "startLine": 1822,
+        "startChar": 8,
+        "endLine": 1822,
+        "endChar": 23
+      },
+      "revId": "859876d09163a9ea6474bf01940ba647b5e9c03a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73a95612_80b133c3",
+        "filename": "appc-provider/appc-provider-model/src/main/yang/appc-provider-lcm.yang",
+        "patchSetId": 12
+      },
+      "lineNbr": 1822,
+      "author": {
+        "id": 5302
+      },
+      "writtenOn": "2020-02-11T09:45:41Z",
+      "side": 1,
+      "message": "The RPC names downloadNESw and ActivateNESw are referenced to 3GPP TS 32.532 (SwM), and are also aligned with Building Blocks of SO.",
+      "parentUuid": "10a798a7_69ebfc68",
       "range": {
         "startLine": 1822,
         "startChar": 8,
