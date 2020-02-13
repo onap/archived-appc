@@ -49,7 +49,6 @@ import org.onap.sdnc.dgtestlibrary.DGTestCase;
 import org.onap.sdnc.dgtestlibrary.GraphKey;
 */
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-import org.onap.ccsdk.sli.core.sli.provider.SvcLogicAdaptorFactory;
 
 
 public class TestGetVfModuleInfo /* extends AbstractDGTestCase */ {
