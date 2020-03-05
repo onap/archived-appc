@@ -1,0 +1,471 @@
+[
+    {
+        "id": "254d686a.d66818",
+        "type": "dgstart",
+        "name": "DGSTART",
+        "outputs": 1,
+        "x": 95,
+        "y": 65,
+        "z": "b24d0e57.9fffb",
+        "wires": [
+            [
+                "2e4e8b6a.a82bbc"
+            ]
+        ]
+    },
+    {
+        "id": "2e4e8b6a.a82bbc",
+        "type": "service-logic",
+        "name": "APPC 4.0.0",
+        "module": "APPC",
+        "version": "4.0.0",
+        "comments": "",
+        "xml": "<service-logic xmlns='http://www.onap.org/sdnc/svclogic' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.onap.org/sdnc/svclogic ./svclogic.xsd' module='APPC' version='4.0.0'>",
+        "outputs": 1,
+        "x": 259,
+        "y": 65,
+        "z": "b24d0e57.9fffb",
+        "wires": [
+            [
+                "2b3ddb56.b80f24"
+            ]
+        ]
+    },
+    {
+        "id": "2b3ddb56.b80f24",
+        "type": "method",
+        "name": "self-serve-resolve-parameters",
+        "xml": "<method rpc='self-serve-resolve-parameters' mode='sync'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 510.0000305175781,
+        "y": 64,
+        "z": "b24d0e57.9fffb",
+        "wires": [
+            [
+                "a0732854.d6605"
+            ]
+        ]
+    },
+    {
+        "id": "a0732854.d6605",
+        "type": "block",
+        "name": "block atomic",
+        "xml": "<block atomic=\"true\">\n",
+        "atomic": "false",
+        "comments": "",
+        "outputs": 1,
+        "x": 221.16664123535156,
+        "y": 157.33333015441895,
+        "z": "b24d0e57.9fffb",
+        "wires": [
+            [
+                "90cae853.bf78",
+                "bdbb5f83.8e6ea8",
+                "a25a0c5.0a4f57",
+                "1696e043.117038",
+                "1c5ce4fc.16b8a3",
+                "cae740ee.2e7c08",
+                "bb9cd91e.2db828",
+                "14e52e98.3c6151",
+                "ec826b7b.844308",
+                "2d609cf2.5d6444",
+                "412332d7.d7300c",
+                "7f97ad53.4b38bc",
+                "224d8e71.dc5622"
+            ]
+        ]
+    },
+    {
+        "id": "1c5ce4fc.16b8a3",
+        "type": "set",
+        "name": "set",
+        "xml": "<set>\n   <parameter name=\"cds\" value=\"execution-service_process.\"/>\n   <parameter name=\"`$cds + 'commonHeader.requestId'`\" value=\"`$tmp.return.requestId`\"/>\n   <parameter name=\"resource-type\" value=\"`$vnf-type`\" />  \n   <parameter name=\"`$cds + 'commonHeader.subRequestId'`\" value=\"`$input.common-header.request-id`\" />   \n   <parameter name=\"`$cds + 'actionIdentifiers.actionName'`\" value=\"`$request-action`\"/> \n   <parameter name=\"responsePrefix\" value=\"`$responsePrefix`\" />\n   <parameter name=\"`$cds + 'isNonAppend'`\" value=\"true\"/>\n   <parameter name=\"`$cds + 'commonHeader.originatorId'`\" value=\"APPC_DG\"/>\n   <parameter name=\"`$cds + 'actionIdentifiers.mode'`\" value=\"sync\"/>\n   <parameter name=\"action-name\" value=\"`$request-action`\"/>\n   <parameter name=\"request-id\" value=\"`$tmp.return.requestId`\"/>\n   <parameter name=\"sub-request-id\" value=\"`$input.common-header.request-id`\"/>\n   <parameter name=\"time-stamp\" value=\"`$input.common-header.timestamp`\"/>\n   <parameter name=\"vnf-id\" value=\"`$input.action-identifiers.vnf-id`\"/>\n   <parameter name=\"vf-module-id\" value=\"`$request-parameters.vf-module-id`\"/>\n   <parameter name=\"resolution-key\" value=\"`$cds.resolution-key`\"/>\n   <parameter name=\"service-instance-id\" value=\"`$service-instance-id`\"/>\n\n   \n   \n\n",
+        "comments": "",
+        "x": 461.9166564941406,
+        "y": 397.08331298828125,
+        "z": "b24d0e57.9fffb",
+        "wires": []
+    },
+    {
+        "id": "90cae853.bf78",
+        "type": "set",
+        "name": "set configScaleOut JsonString",
+        "xml": "<set>\n<parameter name=\"tmp.config-name-value-payload1\" value=\"`$tmp.config-name-value-other-payload + '&quot;service-instance-id&quot;:&quot;' + $service-instance-id   + '&quot;,'`\"/>\n<parameter name=\"tmp.config-name-value-payload2\" value=\"`$tmp.config-name-value-payload1 + '&quot;vnf-id&quot;:&quot;' + $input.action-identifiers.vnf-id + '&quot;,'`\"/>\n<parameter name=\"tmp.config-name-value-payload3\" value=\"`$tmp.config-name-value-payload2 + '&quot;vf-module-id&quot;:&quot;' + $input.action-identifiers.vf-module-id + '&quot;'`\"/>\n\n\n",
+        "comments": "",
+        "x": 533.9999084472656,
+        "y": 486.0000305175781,
+        "z": "b24d0e57.9fffb",
+        "wires": []
+    },
+    {
+        "id": "ec826b7b.844308",
+        "type": "execute",
+        "name": "execute BlueprintProcessingClient",
+        "xml": "<execute plugin='org.onap.ccsdk.sli.plugins.restapicall.RestapiCallNode' method='sendRequest' >\n<parameter name=\"templateFileName\" value=\"`$prop.restapi.templateDir + '/' + $prop.restapi.cd.templatefile`\" />\n<parameter name='restapiUrl' value=\"`$prop.cds.url + '/' + 'v1/execution-service/process'`\" />\n<parameter name='restapiUser' value=\"`$prop.cds.user`\"/>\n<parameter name='restapiPassword' value=\"`$prop.cds.pwd`\" />\n<parameter name='format' value='json' />\n<parameter name='httpMethod' value='POST' />\n<parameter name=\"responsePrefix\" value=\"response\" />\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 549.333251953125,
+        "y": 620,
+        "z": "b24d0e57.9fffb",
+        "wires": [
+            [
+                "1274f376.89293d",
+                "be3bc466.65c38"
+            ]
+        ]
+    },
+    {
+        "id": "1274f376.89293d",
+        "type": "failure",
+        "name": "failure",
+        "xml": "<outcome value='failure'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 823.3333740234375,
+        "y": 585,
+        "z": "b24d0e57.9fffb",
+        "wires": [
+            [
+                "5e97e3a4.322174"
+            ]
+        ]
+    },
+    {
+        "id": "5e97e3a4.322174",
+        "type": "returnFailure",
+        "name": "return failure",
+        "xml": "<return status='failure'>\n\t<parameter name='ack-final' value='Y'/>\n\t<parameter name=\"error-code\" value=\"500\" />\n    <parameter name=\"error-message\" value=\"Error from ConfigAssignmentNode\" />\n",
+        "comments": "",
+        "x": 1034.3333740234375,
+        "y": 605,
+        "z": "b24d0e57.9fffb",
+        "wires": []
+    },
+    {
+        "id": "be3bc466.65c38",
+        "type": "failure",
+        "name": "not-found",
+        "xml": "<outcome value='not-found'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 826.3333740234375,
+        "y": 641,
+        "z": "b24d0e57.9fffb",
+        "wires": [
+            [
+                "5e97e3a4.322174"
+            ]
+        ]
+    },
+    {
+        "id": "bdbb5f83.8e6ea8",
+        "type": "set",
+        "name": "set updateJsonPayload",
+        "xml": "<set>\n<parameter name=\"tmp.json-payload\" value=\"`'{' + $tmp.config-name-value-payload3 + '}'`\" />\n<parameter name=\"`$cds + 'actionIdentifiers.blueprintName'`\" value=\"appc_CDS\" />\n<parameter name=\"`$cds + 'actionIdentifiers.blueprintVersion'`\" value=\"1.0.0\" />\n<parameter name=\"`$cds + 'payload.resource-assignment-request.template-prefix[0]'`\" value=\"sdnc-artifact-name\" />\n<parameter name=\"`$cds + 'payload.resource-assignment-request.resource-assignment-properties'`\" value='`$tmp.json-payload`' />",
+        "comments": "",
+        "x": 527.0000305175781,
+        "y": 546.0000610351562,
+        "z": "b24d0e57.9fffb",
+        "wires": []
+    },
+    {
+        "id": "8feeace9.02d0b8",
+        "type": "returnFailure",
+        "name": "return failure",
+        "xml": "<return status='failure'>\n\t<parameter name='ack-final' value='Y'/>\n\t<parameter name=\"error-code\" value=\"500\" />\n    <parameter name=\"error-message\" value=\"generateUUID is failed\" />\n",
+        "comments": "",
+        "x": 812.6666259765625,
+        "y": 127.33332824707031,
+        "z": "b24d0e57.9fffb",
+        "wires": []
+    },
+    {
+        "id": "e8d86d0.a59e01",
+        "type": "failure",
+        "name": "failure",
+        "xml": "<outcome value='failure'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 641.6666259765625,
+        "y": 126.33332824707031,
+        "z": "b24d0e57.9fffb",
+        "wires": [
+            [
+                "8feeace9.02d0b8"
+            ]
+        ]
+    },
+    {
+        "id": "a25a0c5.0a4f57",
+        "type": "execute",
+        "name": "execute requestId",
+        "xml": " <execute plugin=\"org.onap.ccsdk.sli.core.slipluginutils.SliPluginUtils\" method=\"generateUUID\" > \n <parameter name=\"ctx-destination\" value=\"tmp.return.requestId\" /> \n ",
+        "comments": "",
+        "outputs": 1,
+        "x": 454.6666564941406,
+        "y": 131.3333282470703,
+        "z": "b24d0e57.9fffb",
+        "wires": [
+            [
+                "e8d86d0.a59e01"
+            ]
+        ]
+    },
+    {
+        "id": "1696e043.117038",
+        "type": "set",
+        "name": "set name-value other JsonString",
+        "xml": "<set>\n<parameter name=\"tmp.config-name-value-other-payload\" value=\"\"/>\n\n",
+        "comments": "",
+        "x": 543.6666259765625,
+        "y": 437.3333740234375,
+        "z": "b24d0e57.9fffb",
+        "wires": []
+    },
+    {
+        "id": "bb9cd91e.2db828",
+        "type": "get-resource",
+        "name": "get-resource: A&AI Data for VNF",
+        "xml": "<get-resource plugin=\"org.onap.ccsdk.sli.adaptors.aai.AAIService\" resource=\"generic-vnf\" key=\"generic-vnf.vnf-id = $vnf-id\" pfx=\"tmp.aai-data-vnf\" >\n\n\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 543.8831787109375,
+        "y": 248.88333129882812,
+        "z": "b24d0e57.9fffb",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "14e52e98.3c6151",
+        "type": "for",
+        "name": "for relationship list",
+        "xml": "<for silentFailure='true' index='ridx' start='0' end=\"`$tmp.aai-data-vnf.relationship-list.relationship_length`\" >\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 496.8833312988281,
+        "y": 300.8833312988281,
+        "z": "b24d0e57.9fffb",
+        "wires": [
+            [
+                "ce039446.a87eb8"
+            ]
+        ]
+    },
+    {
+        "id": "ce039446.a87eb8",
+        "type": "switchNode",
+        "name": "switch relationship-key",
+        "xml": "<switch test='`$tmp.aai-data-vnf.relationship-list.relationship[$ridx].related-to`'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 735.0833740234375,
+        "y": 300.8833312988281,
+        "z": "b24d0e57.9fffb",
+        "wires": [
+            [
+                "4611c7b7.2416f8"
+            ]
+        ]
+    },
+    {
+        "id": "4611c7b7.2416f8",
+        "type": "outcome",
+        "name": "outcome: service-instance",
+        "xml": "<outcome value='service-instance'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1001.0833740234375,
+        "y": 298.8833312988281,
+        "z": "b24d0e57.9fffb",
+        "wires": [
+            [
+                "bd4dce57.815bd8"
+            ]
+        ]
+    },
+    {
+        "id": "bd4dce57.815bd8",
+        "type": "for",
+        "name": "for relationship data",
+        "xml": "<for silentFailure='true' index='rdidx' start='0' end=\"`$tmp.aai-data-vnf.relationship-list.relationship[$ridx].relationship-data_length`\" >\n\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1286.0833740234375,
+        "y": 295.8833312988281,
+        "z": "b24d0e57.9fffb",
+        "wires": [
+            [
+                "1497eb13.400be5"
+            ]
+        ]
+    },
+    {
+        "id": "1497eb13.400be5",
+        "type": "switchNode",
+        "name": "switch relationship-key",
+        "xml": "<switch test='`$tmp.aai-data-vnf.relationship-list.relationship[$ridx].relationship-data[$rdidx].relationship-key`'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1516.4666748046875,
+        "y": 298.8833312988281,
+        "z": "b24d0e57.9fffb",
+        "wires": [
+            [
+                "6511c0d7.96659"
+            ]
+        ]
+    },
+    {
+        "id": "6511c0d7.96659",
+        "type": "other",
+        "name": "service-instance.service-instance-id",
+        "xml": "<outcome value='service-instance.service-instance-id'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1826.966796875,
+        "y": 296.2999572753906,
+        "z": "b24d0e57.9fffb",
+        "wires": [
+            [
+                "d94de14c.ebdae8"
+            ]
+        ]
+    },
+    {
+        "id": "d94de14c.ebdae8",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic=\"true\">",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 2138.3834228515625,
+        "y": 297.0500793457031,
+        "z": "b24d0e57.9fffb",
+        "wires": [
+            [
+                "b71db4e6.61f978"
+            ]
+        ]
+    },
+    {
+        "id": "b71db4e6.61f978",
+        "type": "set",
+        "name": "set service-instance-id",
+        "xml": "<set>\n<parameter name='service-instance-id' value='`$tmp.aai-data-vnf.relationship-list.relationship[$ridx].relationship-data[$rdidx].relationship-value`' />\n\n\n",
+        "comments": "",
+        "x": 2392.6083984375,
+        "y": 305.5960998535156,
+        "z": "b24d0e57.9fffb",
+        "wires": []
+    },
+    {
+        "id": "cae740ee.2e7c08",
+        "type": "set",
+        "name": "set",
+        "xml": "<set>\n     <parameter name=\"vnf-id\" value=\"`$input.action-identifiers.vnf-id`\"/>\n\n\n   \n   \n\n",
+        "comments": "",
+        "x": 469.3332824707031,
+        "y": 209.88333129882812,
+        "z": "b24d0e57.9fffb",
+        "wires": []
+    },
+    {
+        "id": "2d609cf2.5d6444",
+        "type": "execute",
+        "name": "execute Convert payload to DG Context ",
+        "xml": "<execute plugin=\"org.onap.sdnc.config.generator.convert.ConvertNode\" method=\"convertJson2DGContext\">\n<parameter name=\"jsonData\" value=\"`$response.payload.ConfigScaleOut-response.dry-run-output.baseconfig`\" />\n<parameter name=\"isEscaped\" value=\"N\" />\n<parameter name=\"blockKeys\" value=\"baseconfig,configuration.configuration-string,configuration.configuration-json\" />\n<parameter name=\"responsePrefix\" value=\"cdsResponseCtx\" />",
+        "comments": "",
+        "outputs": 1,
+        "x": 574.88330078125,
+        "y": 675.083251953125,
+        "z": "b24d0e57.9fffb",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "412332d7.d7300c",
+        "type": "execute",
+        "name": "execute resolution-key",
+        "xml": " <execute plugin=\"org.onap.ccsdk.sli.core.slipluginutils.SliPluginUtils\" method=\"generateUUID\" > \n <parameter name=\"ctx-destination\" value=\"cds.resolution-key\" /> \n ",
+        "comments": "",
+        "outputs": 1,
+        "x": 529.88330078125,
+        "y": 350.8833312988281,
+        "z": "b24d0e57.9fffb",
+        "wires": [
+            [
+                "3a154b41.39f70c"
+            ]
+        ]
+    },
+    {
+        "id": "3a154b41.39f70c",
+        "type": "failure",
+        "name": "failure",
+        "xml": "<outcome value='failure'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 718.88330078125,
+        "y": 355.8833312988281,
+        "z": "b24d0e57.9fffb",
+        "wires": [
+            [
+                "84bf2ba4.6be55"
+            ]
+        ]
+    },
+    {
+        "id": "84bf2ba4.6be55",
+        "type": "returnFailure",
+        "name": "return failure",
+        "xml": "<return status='failure'>\n\t<parameter name='ack-final' value='Y'/>\n\t<parameter name=\"error-code\" value=\"500\" />\n    <parameter name=\"error-message\" value=\"generateUUID is failed\" />\n",
+        "comments": "",
+        "x": 884.88330078125,
+        "y": 351.8833312988281,
+        "z": "b24d0e57.9fffb",
+        "wires": []
+    },
+    {
+        "id": "7f97ad53.4b38bc",
+        "type": "execute",
+        "name": "execute properties",
+        "xml": "<execute plugin='org.onap.ccsdk.sli.plugins.prop.PropertiesNode' method='readProperties' >\n    <parameter name='fileName' value=\"/opt/onap/appc/data/properties/cds-dg-service.properties\" />\n    <parameter name='contextPrefix' value='prop' />\n\n ",
+        "comments": "",
+        "outputs": 1,
+        "x": 490.8833312988281,
+        "y": 172.88333129882812,
+        "z": "b24d0e57.9fffb",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5a9eb782.70b0e8",
+        "type": "get-resource",
+        "name": "get-resource: A&AI Data for VNF",
+        "xml": "<get-resource plugin=\"org.onap.ccsdk.sli.adaptors.aai.AAIService\" resource=\"generic-vnf\" key=\"generic-vnf.vnf-id = $vnf-id\" pfx=\"tmp.aai-data-vnf\" >\n\n\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1431.88330078125,
+        "y": 604.88330078125,
+        "z": "b24d0e57.9fffb",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "224d8e71.dc5622",
+        "type": "returnSuccess",
+        "name": "return success",
+        "xml": "<return status='success'>\n\n",
+        "comments": "",
+        "x": 492.1888732910156,
+        "y": 730.8554553985596,
+        "z": "b24d0e57.9fffb",
+        "wires": []
+    }
+]
