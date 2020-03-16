@@ -570,6 +570,8 @@ Commands, or actions, may be currently supported on all VNF types or a limited s
 +-----------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
 |     ConfigRestore           | Yes       |                  |                |          | Chef and Ansible only (requires self-service onboarding)   |
 +-----------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
+|     ConfigScaleIn           | Yes       |                  | Yes            | Yes      | Chef and Ansible only (requires self-service onboarding)   |
++-----------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
 |     ConfigScaleOut          | Yes       |                  |                |          |     Any (requires self-service onboarding)                 |
 +-----------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
 |     DetachVolume            |           |                  |                | Yes      |     Any (uses OpenStack command)                           |
@@ -1192,6 +1194,63 @@ ConfigRestore Response
 If successful, the return payload contains the ‘upload_config_id’ and values associated with the configuration stored in the APPC DB.  In addition, the configuration is sent to the ONAP Data Router bus which may be received by an external configuration storage system.
 
 **Failure:** A failed ConfigRestore returns a failure code 401 and the failure message.
+
+
+ConfigScaleIn
+-------------
+
+The ConfigScaleIn command is used to apply any actions on a VNF as part of a ScaleIn flow. Actions could include updating the VNF configuration or running a set of other tasks.
+
+The ConfigScaleIn action can have multiple APPC templates associated with it.  APPC retrieves the VfModuleModelName from A&AI (model.model-vers.model-name), which is used as the unique identifier to select the correct APPC template.
+APPC creates or updates VNFC records in A&AI for the newly instantiated VM’s.  The orchestration-status of the VNFC’s is set to CONFIGURED.
+
+This action is supported via the Netconf (limited to configuration changes), Chef, and Ansible protocols.
+
+|
+
++------------------------------+------------------------------------------------------------------------------------------+
+|     **Target URL**           |     /restconf /operations/appc-provider-lcm:config-scale-in                              |
++------------------------------+------------------------------------------------------------------------------------------+
+|     **Action**               |     ConfigScaleIn                                                                        |
++------------------------------+------------------------------------------------------------------------------------------+
+|     **Action-Identifiers**   |     Vnf-id                                                                               |
++------------------------------+------------------------------------------------------------------------------------------+
+|     **Payload Parameters**   |     See below                                                                            |
++------------------------------+------------------------------------------------------------------------------------------+
+|     **Revision History**     |     New in Frankfurt                                                                     |
++------------------------------+------------------------------------------------------------------------------------------+
+
+|
+
++---------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+---------------------------------------------+
+|     **Payload Parameter**       |     **Description**                                                                                                                                              |     **Required?**   |     **Example**                             |
++=================================+==================================================================================================================================================================+=====================+=============================================+
+|     request-parameters          |     vnf-host-ip-address: optional if Netconf or other direct interface to the VNF.   If not provided, the vnf-host-ip-address will be obtained from A&AI.        |     No              |      "payload":                             |
+|                                 +------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+      "{\\"request-parameters \\":           |
+|                                 |     vf-module-id:  used to determine the A&AI VM inventory associated with ConfigScaleIn.                                                                        |     Yes             |      {                                      |
+|                                 +------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+      \\"vnf-host-ip-address\\":             |
+|                                 |     controller-template-id: optional. This is a unique identifier that will identify the template associated with the ConfigScaleIn.                             |                     |      \\”value\\”,                           |
+|                                 |     Will be needed if A&AI does not contain the template identifier.                                                                                             |     No              |      \\”vf-module-id\\”: \\”value\\”,       |
++---------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+      \\”controller-template-id\\”:          |             
+|     configuration-parameters    |     A set of instance specific configuration parameters should be specified. If provided, APP-C replaces variables in the configuration template with the        |     No              |      \\”value\\”                            |
+|                                 |     values supplied.                                                                                                                                             |                     |      }                                      |
+|                                 |                                                                                                                                                                  |                     |                                             |
+|                                 |                                                                                                                                                                  |                     |      \\"configuration-parameters\\":        |
+|                                 |                                                                                                                                                                  |                     |        {\\"<CONFIG- PARAMS>\\"}             |
+|                                 |                                                                                                                                                                  |                     |                                             |
++---------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+---------------------------------------------+
+
+ConfigScaleIn Response
+^^^^^^^^^^^^^^^^^^^^^^
+
+**Success:**
+
+ - A successful ConfigScaleIn returns a success status code 400 when completed.
+
+**Failure:**
+
+ - A failed ConfigScaleIn returns a failure code 401 and the failure message.
+ - If the ConfigScaleIn is successfully performed on the VNF but there is a failure to update A&AI inventory, an intermediate failure message with failure code 501 is returned prior to the final 400 success message.
 
 
 
