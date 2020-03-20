@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7134bf99_996e7b6c",
+        "filename": "docs/APPC LCM API Guide/APPC LCM API Guide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 1204,
+      "author": {
+        "id": 6307
+      },
+      "writtenOn": "2020-03-20T01:21:27Z",
+      "side": 1,
+      "message": "should be ConfigScaleIn?",
+      "range": {
+        "startLine": 1204,
+        "startChar": 4,
+        "endLine": 1204,
+        "endChar": 18
+      },
+      "revId": "ecfe1dfc3f93439ff4c1bc8b4fc63b197a2ff16c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
