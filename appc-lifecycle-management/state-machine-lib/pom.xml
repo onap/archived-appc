@@ -30,7 +30,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>state-machine-lib</artifactId>
     <groupId>org.onap.appc</groupId>
-    <version>1.7.1-SNAPSHOT</version>
+    <version>1.7.1</version>
     <packaging>bundle</packaging>
 
     <name>state-machine-lib</name>
@@ -40,7 +40,7 @@
         <dependency>
             <groupId>org.onap.appc</groupId>
             <artifactId>appc-lifecycle-management-api</artifactId>
-            <version>1.7.1-SNAPSHOT</version>
+            <version>1.7.1</version>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
