@@ -24,8 +24,11 @@
     package org.onap.appc;
 
 import org.onap.appc.encryption.EncryptionTool;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 
 public class CmdLine {
+    private static final EELFLogger logger = EELFManager.getInstance().getLogger(CmdLine.class);
 
         public static void main(String[] args) {
 
@@ -40,15 +43,18 @@ public class CmdLine {
             {
                 String clearText = args[1];
                 String encrypted = EncryptionTool.getInstance().encrypt(clearText);
-                System.out.println(encrypted);
-                return;
+                logger.info("encrypted");
+                //System.out.println(encrypted);
+                //return;
             } else {
                 printUsage();
             }
         }
         
         private static void printUsage(){
-            System.out.println("Usage: java -jar <this jar> ...");
-            System.out.println("\tencrypt <your text> \t\t(Encrypts your text)");
+            logger.info("Usage: java -jar <this jar> ...");
+            logger.info("\tencrypt <your text> \t\t(Encrypts your text)");
+            //System.out.println("Usage: java -jar <this jar> ...");
+            //System.out.println("\tencrypt <your text> \t\t(Encrypts your text)");
         }
 }

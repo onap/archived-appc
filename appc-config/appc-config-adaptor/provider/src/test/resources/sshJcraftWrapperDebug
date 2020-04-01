@@ -1,0 +1,61 @@
+04/01/2020 18:57:46  : : SshJcraftWrapper.receiveUntil delimeters=']]>]]>' timeout=3000 cmdThatWasSent='No cmd was sent, just waiting'
+04/01/2020 18:57:46  : : SshJcraftWrapper.receiveUntil After reader.read cmd: len=12
+04/01/2020 18:57:46  : : SshJcraftWrapper.receiveUntil readCounts=1  Reader read 12 of data
+04/01/2020 18:57:46  : : SshJcraftWrapper.receiveUntil Trace 1
+04/01/2020 18:57:46  : : SshJcraftWrapper.checkIfReceivedStringMatchesDelimeter Entered:  delimeters=']]>]]> cmdThatWasSent='No cmd was sent, just waiting' receivedString='hello
+]]>]]>'
+04/01/2020 18:57:46  : : SshJcraftWrapper.checkIfReceivedStringMatchesDelimeter Looking for an delimeter of:']]>]]>'
+04/01/2020 18:57:46  : : SshJcraftWrapper.checkIfReceivedStringMatchesDelimeter receivedString='hello
+]]>]]>04/01/2020 18:57:46  : : SshJcraftWrapper.receiveUntil Trace 2
+04/01/2020 18:57:46  : : SshJcraftWrapper.receiveUntil Match was true, breaking...
+04/01/2020 18:57:46  : : SshJcraftWrapper.send: Sending: 'TEST COMMAND
+04/01/2020 18:57:46  : : SshJcraftWrapper.send: Leaving method
+04/01/2020 18:57:47  : : SshJcraftWrapper.receiveUntil delimeters=']]>]]>' timeout=10000 cmdThatWasSent='No cmd was sent, just waiting'
+04/01/2020 18:57:47  : : SshJcraftWrapper.receiveUntil After reader.read cmd: len=-1
+04/01/2020 18:57:47  : : SshJcraftWrapper.checkIfReceivedStringMatchesDelimeter Entered:  delimeters=']]>]]> cmdThatWasSent='show config' receivedString=']]>]]>
+ #'
+04/01/2020 18:57:47  : : SshJcraftWrapper.checkIfReceivedStringMatchesDelimeterIn the block for 'show config'
+04/01/2020 18:57:47  : : SshJcraftWrapper.checkIfReceivedStringMatchesDelimeterreceivedString=
+']]>]]>
+ #'
+04/01/2020 18:57:47  : : SshJcraftWrapper.checkIfReceivedStringMatchesDelimeterReturning true for the 'show config' command. We found our real delmeter. 
+
+04/01/2020 18:57:47  : : SshJcraftWrapper.receiveUntil delimeters=']]>]]>' timeout=10000 cmdThatWasSent='No cmd was sent, just waiting'
+04/01/2020 18:57:47  : : SshJcraftWrapper.receiveUntil After reader.read cmd: len=12
+04/01/2020 18:57:47  : : SshJcraftWrapper.receiveUntil readCounts=1  Reader read 12 of data
+04/01/2020 18:57:47  : : SshJcraftWrapper.receiveUntil Trace 1
+04/01/2020 18:57:47  : : SshJcraftWrapper.checkIfReceivedStringMatchesDelimeter Entered:  delimeters=']]>]]> cmdThatWasSent='No cmd was sent, just waiting' receivedString='hello
+]]>]]>'
+04/01/2020 18:57:47  : : SshJcraftWrapper.checkIfReceivedStringMatchesDelimeter Looking for an delimeter of:']]>]]>'
+04/01/2020 18:57:47  : : SshJcraftWrapper.checkIfReceivedStringMatchesDelimeter receivedString='hello
+]]>]]>04/01/2020 18:57:47  : : SshJcraftWrapper.receiveUntil Trace 2
+04/01/2020 18:57:47  : : SshJcraftWrapper.receiveUntil Match was true, breaking...
+04/01/2020 18:57:47  : : SshJcraftWrapper.send: Sending: 'TEST COMMAND
+04/01/2020 18:57:47  : : SshJcraftWrapper.receiveUntil delimeters='' timeout=0 cmdThatWasSent=''
+04/01/2020 18:57:47  : : SshJcraftWrapper.receiveUntil delimeters='' timeout=3000 cmdThatWasSent=''
+04/01/2020 18:57:47  : : SshJcraftWrapper.receiveUntil After reader.read cmd: len=0
+04/01/2020 18:57:47  : : SshJcraftWrapper.receiveUntil delimeters=':~#' timeout=5000 cmdThatWasSent='No cmd was sent, just waiting'
+04/01/2020 18:57:47  : : SshJcraftWrapper.receiveUntil After reader.read cmd: len=9
+04/01/2020 18:57:47  : : SshJcraftWrapper.receiveUntil readCounts=1  Reader read 9 of data
+04/01/2020 18:57:47  : : SshJcraftWrapper.receiveUntil Trace 1
+04/01/2020 18:57:47  : : SshJcraftWrapper.checkIfReceivedStringMatchesDelimeter Entered:  delimeters=':~# cmdThatWasSent='No cmd was sent, just waiting' receivedString='hello
+:~#'
+04/01/2020 18:57:47  : : SshJcraftWrapper.checkIfReceivedStringMatchesDelimeter Looking for an delimeter of:':~#'
+04/01/2020 18:57:47  : : SshJcraftWrapper.checkIfReceivedStringMatchesDelimeter receivedString='hello
+:~#04/01/2020 18:57:47  : : SshJcraftWrapper.receiveUntil Trace 2
+04/01/2020 18:57:47  : : SshJcraftWrapper.receiveUntil Match was true, breaking...
+04/01/2020 18:57:47  : : SshJcraftWrapper.checkIfReceivedStringMatchesDelimeter Entered:  delimeters='#$ cmdThatWasSent='' receivedString=''
+04/01/2020 18:57:47  : : SshJcraftWrapper.checkIfReceivedStringMatchesDelimeter IOS XR, CLI command
+04/01/2020 18:57:47  : : SshJcraftWrapper.checkIfReceivedStringMatchesDelimeter :::cmdThatWasSent=''  x=-1 y=-1
+04/01/2020 18:57:47  : : SshJcraftWrapper.receiveUntil delimeters=']]>]]>' timeout=3000 cmdThatWasSent='IOS_XR_uploadedSwConfigCmd
+OTHER
+XML>'
+04/01/2020 18:57:47  : : SshJcraftWrapper.receiveUntil After reader.read cmd: len=3
+04/01/2020 18:57:47  : : SshJcraftWrapper.receiveUntil Wrote 3 bytes to the disk
+04/01/2020 18:57:47  : : SshJcraftWrapper.checkIfReceivedStringMatchesDelimeter::: x=2 c=0
+04/01/2020 18:57:47  : : SshJcraftWrapper.checkIfReceivedStringMatchesDelimeter::: Will read the tail end of the file from the disk, x=2 len=3 str::'' routerFileName='OTHER'
+04/01/2020 18:57:47  : : SshJcraftWrapper.checkIfReceivedStringMatchesDelimeter::: str in break is:'
+XML> delimeter='
+XML>''
+04/01/2020 18:57:47  : : tail='
+line2'
