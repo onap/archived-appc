@@ -43,5 +43,5 @@
 		<module>appc-metric-installer</module>
 	</modules>
   
-	<version>1.7.1-SNAPSHOT</version>
+	<version>1.7.2-SNAPSHOT</version>
 </project>
