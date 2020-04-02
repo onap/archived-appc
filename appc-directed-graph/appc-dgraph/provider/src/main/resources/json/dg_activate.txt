@@ -108,3 +108,9 @@ APPC:VM_Stop:2.0.0:sync
 APPC:AttachVolumeVM:4.0.0:sync
 APPC:DetachVolumeVM:4.0.0:sync
 APPC:RebootVM:4.0.0:sync
+
+# Appc CDS POC configscaleout
+APPC:POCProcessInputParams:4.0.0:sync
+APPC:POCScaleOut:4.0.0:sync
+APPC:self-serve-resolve-parameters:4.0.0:sync
+
