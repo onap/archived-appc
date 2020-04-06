@@ -24,7 +24,6 @@ package org.onap.appc.data.services;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Properties;
 
 import org.onap.appc.data.services.node.ConfigResourceNode;
 import org.osgi.framework.BundleActivator;
