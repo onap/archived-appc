@@ -29,20 +29,13 @@ import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
-import org.onap.appc.configuration.ConfigurationFactory;
 import org.onap.appc.dg.common.IntermediateMessageSender;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.srvcomm.messaging.MessagingConnector;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.ServiceReference;
+
 
 public class IntermediateMessageSenderImpl implements IntermediateMessageSender {
 
