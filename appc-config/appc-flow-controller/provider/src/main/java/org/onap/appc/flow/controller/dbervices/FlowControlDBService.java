@@ -31,11 +31,9 @@ import org.apache.commons.lang.StringUtils;
 import org.onap.appc.flow.controller.data.Transaction;
 import org.onap.appc.flow.controller.utils.EscapeUtils;
 import org.onap.appc.flow.controller.utils.FlowControllerConstants;
-import org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource;
 import org.onap.ccsdk.sli.core.dblib.DbLibService;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
-import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource.QueryStatus;
 
 public class FlowControlDBService {

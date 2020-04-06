@@ -23,15 +23,12 @@
 package org.onap.appc.data.services.db;
 
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
-import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource.QueryStatus;
-import org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource;
 
 import org.onap.appc.data.services.AppcDataServiceConstant;
 import org.onap.appc.data.services.utils.EscapeUtils;

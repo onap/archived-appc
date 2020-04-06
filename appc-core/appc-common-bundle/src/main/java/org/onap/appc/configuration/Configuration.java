@@ -25,9 +25,6 @@ package org.onap.appc.configuration;
 
 import java.util.Properties;
 
-import org.slf4j.Logger;
-
-
 
 /**
  * This interface defines the common configuration support that is available to the application.

@@ -32,7 +32,6 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource.QueryStatus;
-import org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
