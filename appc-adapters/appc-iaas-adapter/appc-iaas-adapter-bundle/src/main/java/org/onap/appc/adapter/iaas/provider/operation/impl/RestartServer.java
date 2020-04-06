@@ -47,11 +47,8 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.slf4j.MDC;
 import org.onap.appc.logging.LoggingConstants;
 import org.onap.appc.logging.LoggingUtils;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
-import java.util.TimeZone;
 import static org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation.RESTART_SERVICE;
 import static org.onap.appc.adapter.utils.Constants.ADAPTER_NAME;
 

@@ -23,7 +23,6 @@
 package org.onap.appc.adapter.restHealthcheck;
 
 import org.onap.appc.adapter.restHealthcheck.impl.RestHealthcheckAdapterImpl;
-import org.onap.appc.configuration.Configuration;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.osgi.framework.BundleActivator;

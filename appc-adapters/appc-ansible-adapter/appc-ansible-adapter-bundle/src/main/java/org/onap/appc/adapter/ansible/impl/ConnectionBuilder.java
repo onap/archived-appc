@@ -58,7 +58,6 @@ import org.onap.appc.adapter.ansible.model.AnsibleResultCodes;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.json.JSONObject;
-import org.onap.appc.exceptions.APPCException;
 import org.apache.commons.lang.StringUtils;
 
 /**
