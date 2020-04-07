@@ -33,7 +33,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import org.apache.commons.lang.StringUtils;
 import org.onap.appc.dg.objects.InventoryModel;
 import org.onap.appc.dg.objects.Node;
