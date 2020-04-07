@@ -27,7 +27,6 @@ import org.onap.appc.dg.objects.InventoryModel;
 import org.onap.appc.dg.objects.VnfcDependencyModel;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class SequenceGeneratorInputBuilder {
