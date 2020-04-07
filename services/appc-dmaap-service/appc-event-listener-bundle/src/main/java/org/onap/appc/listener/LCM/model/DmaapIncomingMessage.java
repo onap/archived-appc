@@ -24,10 +24,7 @@
 package org.onap.appc.listener.LCM.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.json.JSONObject;
-import org.onap.appc.listener.util.Mapper;
 
 /**
  * This class represents a message being sent out to DMaaP by APPC to update listeners on the status of a request

@@ -35,7 +35,6 @@ import org.json.JSONObject;
 import org.onap.appc.listener.LCM.model.DmaapMessage;
 import org.onap.appc.listener.LCM.model.DmaapOutgoingMessage;
 import org.onap.appc.listener.util.Mapper;
-import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 
 public class Converter {
 
