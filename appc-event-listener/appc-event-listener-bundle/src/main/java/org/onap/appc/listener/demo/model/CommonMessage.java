@@ -26,7 +26,6 @@
 package org.onap.appc.listener.demo.model;
 
 import java.io.Serializable;
-import java.util.Collection;
 
 import org.json.JSONObject;
 import org.onap.appc.listener.util.Mapper;

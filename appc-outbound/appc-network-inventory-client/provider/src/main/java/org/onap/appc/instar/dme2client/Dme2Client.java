@@ -47,7 +47,6 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Feature;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 
 public class Dme2Client {
