@@ -24,7 +24,6 @@ package org.onap.appc.sdc.listener;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import com.google.common.collect.Lists;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;

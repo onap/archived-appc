@@ -36,7 +36,6 @@ import com.att.eelf.configuration.EELFManager;
 
 import org.onap.appc.adapter.message.MessageAdapterFactory;
 import org.onap.appc.adapter.message.Producer;
-import org.onap.appc.adapter.messaging.dmaap.http.HttpDmaapProducerImpl;
 
 @Service
 public class PublishService {
