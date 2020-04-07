@@ -21,11 +21,6 @@
 
 package org.onap.appc.services.dmaapService;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Properties;
-import java.util.Set;
 import org.onap.appc.listener.AppcEventListenerActivator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

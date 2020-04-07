@@ -28,7 +28,6 @@ package org.onap.appc.requesthandler.impl;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * This class represents a message being sent out to DMaaP by APPC as async response.
