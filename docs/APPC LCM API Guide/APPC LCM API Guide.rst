@@ -44,6 +44,7 @@ A virtual application is composed of the following layers of network technology:
 - Virtual Network Function Component (VNFC)
 - Virtual Machine (VM)
 
+
 A Life Cycle Management (LCM) command may affect one or more of these layers.
 
 An LCM command is sent as a request to the APPC using an HTTP POST request or in a message on a message bus (DMaaP).  A request may result in either a single synchronous response or multiple asynchronous responses:
