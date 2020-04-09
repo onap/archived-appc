@@ -50,7 +50,7 @@ NOTE: All three containers are hosted on Ubuntu 14.04 LTS OS.
 
 # Deployment Mode for APPC
 The docker containers described above are set up to be deployed on the same Virtual Machine. **Docker Compose** is Docker's deployment tool that allows to configure and deploy multiple containers at once.
-
+testing gerrit
 # Compiling and Building APPC
 
 APPC (structured as a Maven project) uses the Maven tool to help compile, build, and deploy APPC Artifacts (usually made up of Java packages) into a Maven Repository. In order to compile and build APPC, a `mvn clean install` is executed, which checks for any errors and Java exceptions during compilation process.
