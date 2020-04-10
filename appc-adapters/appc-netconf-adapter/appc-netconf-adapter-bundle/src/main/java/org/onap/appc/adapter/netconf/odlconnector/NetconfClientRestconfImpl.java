@@ -37,11 +37,13 @@ import com.att.eelf.configuration.EELFManager;
 
 import java.util.Properties;
 
+
 public class NetconfClientRestconfImpl implements NetconfClient, NetconfClientRestconf {
 
     private EELFLogger logger = EELFManager.getInstance().getLogger(NetconfClientRestconfImpl.class);
 
     private NetconfConnectionDetails connectionDetails;
+	private static final String appFormat = "application/json";
 
     public NetconfClientRestconfImpl(){
         //constructor
@@ -52,11 +54,11 @@ public class NetconfClientRestconfImpl implements NetconfClient, NetconfClientRe
     @SuppressWarnings("deprecation")
     @Override
     public void configure(String configuration, String deviceMountPointName, String moduleName, String nodeName) throws APPCException {
-
-        logger.info("Configuring device " + deviceMountPointName + " with configuration " + configuration);
+		
+		logger.info("Configuring device " + deviceMountPointName + " with configuration " + configuration);
 
         int httpCode = httpClient.putMethod(Constants.PROTOCOL,Constants.CONTROLLER_IP,Constants.CONTROLLER_PORT,
-                getModuleConfigurePath(deviceMountPointName, moduleName, nodeName), configuration, "application/json");
+                getModuleConfigurePath(deviceMountPointName, moduleName, nodeName), configuration, appFormat);
 
         if (httpCode != HttpStatus.SC_OK) {
             logger.error("Configuration request failed. throwing Exception !");
@@ -71,7 +73,7 @@ public class NetconfClientRestconfImpl implements NetconfClient, NetconfClientRe
         logger.info("Connecting device " + deviceMountPointName);
 
         int httpCode = httpClient.postMethod(Constants.PROTOCOL, Constants.CONTROLLER_IP, Constants.CONTROLLER_PORT,
-                getConnectPath(), payload, "application/json");
+                getConnectPath(), payload, appFormat);
 
         if(httpCode != HttpStatus.SC_NO_CONTENT){
             logger.error("Connect request failed with code " + httpCode + ". throwing Exception !");
@@ -84,7 +86,7 @@ public class NetconfClientRestconfImpl implements NetconfClient, NetconfClientRe
         logger.info("Checking device " + deviceMountPointName + " connectivity");
 
         String result = httpClient.getMethod(Constants.PROTOCOL, Constants.CONTROLLER_IP,
-                Constants.CONTROLLER_PORT, getCheckConnectivityPath(deviceMountPointName), "application/json");
+                Constants.CONTROLLER_PORT, getCheckConnectivityPath(deviceMountPointName), appFormat);
 
         return result != null;
     }
@@ -94,7 +96,7 @@ public class NetconfClientRestconfImpl implements NetconfClient, NetconfClientRe
         logger.info("Disconnecting " + deviceMountPointName);
 
         int httpCode = httpClient.deleteMethod(Constants.PROTOCOL, Constants.CONTROLLER_IP, Constants.CONTROLLER_PORT,
-                getDisconnectPath(deviceMountPointName), "application/json");
+                getDisconnectPath(deviceMountPointName), appFormat);
 
         if(httpCode != HttpStatus.SC_OK){
             logger.error("Disconnection of device " + deviceMountPointName + " failed!");
@@ -107,7 +109,7 @@ public class NetconfClientRestconfImpl implements NetconfClient, NetconfClientRe
         logger.info("Getting configuration of device " + deviceMountPointName);
 
         String result = httpClient.getMethod(Constants.PROTOCOL, Constants.CONTROLLER_IP, Constants.CONTROLLER_PORT,
-                getModuleConfigurePath(deviceMountPointName, moduleName, nodeName), "application/json");
+                getModuleConfigurePath(deviceMountPointName, moduleName, nodeName), appFormat);
 
         if (result == null) {
             logger.error("Configuration request failed. throwing Exception !");
