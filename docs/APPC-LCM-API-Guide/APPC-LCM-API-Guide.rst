@@ -16,7 +16,7 @@
 .. ============LICENSE_END============================================
 .. ECOMP is a trademark and service mark of AT&T Intellectual Property.
 
-.. _appc_api_guide:
+.. _appc_lcm_api_guide:
 
 ==================
 APPC LCM API Guide
