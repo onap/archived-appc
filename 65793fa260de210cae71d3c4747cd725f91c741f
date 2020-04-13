@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "830db397_616c4cee",
+        "filename": "appc-adapters/appc-netconf-adapter/appc-netconf-adapter-bundle/src/main/java/org/onap/appc/adapter/netconf/odlconnector/NetconfClientRestconfImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-04-13T17:29:17Z",
+      "side": 1,
+      "message": "minor thing. base on the code style: https://wiki.onap.org/display/DW/Java+code+style\nwe are using spaces instead",
+      "range": {
+        "startLine": 57,
+        "startChar": 1,
+        "endLine": 57,
+        "endChar": 2
+      },
+      "revId": "65793fa260de210cae71d3c4747cd725f91c741f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
