@@ -42,7 +42,7 @@ public class NetconfClientRestconfImpl implements NetconfClient, NetconfClientRe
     private EELFLogger logger = EELFManager.getInstance().getLogger(NetconfClientRestconfImpl.class);
 
     private NetconfConnectionDetails connectionDetails;
-	private String appFormat = "application/json";
+    private String appFormat = "application/json";
 
     public NetconfClientRestconfImpl(){
         //constructor
