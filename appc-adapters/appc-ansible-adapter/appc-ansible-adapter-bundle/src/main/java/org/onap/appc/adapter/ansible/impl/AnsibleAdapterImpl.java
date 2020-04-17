@@ -95,7 +95,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
     private static final String PASSWORD = "Password";
     private static final String APPC_PROPS = "/appc.properties";
     private static final String SDNC_CONFIG_DIR = "SDNC_CONFIG_DIR";
-    private static final String propDir = System.getenv(SDNC_CONFIG_DIR);
+    private static final String PROPDIR = System.getenv(SDNC_CONFIG_DIR);
     private static final String SERVERIP = "ServerIP";
     private Properties props;
     private int defaultTimeout = 600 * 1000;
@@ -109,7 +109,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
     /**
      * Connection object
      **/
-    private ConnectionBuilder httpClient;
+    //private ConnectionBuilder httpClient;
 
     /**
      * Ansible API Message Handlers
@@ -174,7 +174,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
      * data
      */
     private void initialize() {
-        String path = propDir + APPC_PROPS;
+        String path = PROPDIR + APPC_PROPS;
         File propFile = new File(path);
         props = new Properties();
         try {
@@ -217,7 +217,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
 
     private ConnectionBuilder getHttpConn(int timeout, String serverIP) {
 
-        String path = propDir + APPC_PROPS;
+        String path = PROPDIR + APPC_PROPS;
         File propFile = new File(path);
         props = new Properties();
         InputStream input;
@@ -347,10 +347,9 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
               doFailure(ctx, testResult.getStatusCode(),
                         "Error posting request. Reason = " + testResult.getStatusMessage());
             }
-            String output = StringUtils.EMPTY;
             code = testResult.getStatusCode();
             message = testResult.getStatusMessage();
-            output = testResult.getOutput();
+            String output = testResult.getOutput();
             ctx.setAttribute(OUTPUT_ATTRIBUTE_NAME, output);
             String serverIp = testResult.getServerIp();
             if (StringUtils.isBlank(serverIp))
@@ -414,6 +413,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
             String vmKey = "tmp.vnfInfo.vm[" + Integer.toString(i) + "]";
             logger.info("Looking for attributes of: " + vmKey);
             if (ctx.getAttribute(vmKey + ".vnfc-name") != null) {
+                String debugText = "Auto Node List candidate ";
                 String vmVnfcName = ctx.getAttribute(vmKey + ".vnfc-name");
                 String vmVnfcIpv4Address = ctx.getAttribute(vmKey + ".vnfc-ipaddress-v4-oam-vip");
                 String vmVnfcType = ctx.getAttribute(vmKey + ".vnfc-type");
@@ -423,31 +423,31 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
                     if (vServerId != null) {
                         String vmVserverId = ctx.getAttribute(vmKey + ".vserver-id");
                         if (vmVserverId == null || !vmVserverId.equals(vServerId)) {
-                            logger.debug("Auto Node List candidate " + vmVnfcName + " dropped. vserver-id mismatch");
+                            logger.debug(debugText + vmVnfcName + " dropped. vserver-id mismatch");
                             continue;
                         }
                     }
                     if (vfModuleId != null) {
                         String vmVfModuleId = ctx.getAttribute(vmKey + ".vf-module-id");
                         if (vmVfModuleId == null || !vmVfModuleId.equals(vfModuleId)) {
-                            logger.debug("Auto Node List candidate " + vmVnfcName + " dropped. vf-module-id mismatch");
+                            logger.debug(debugText + vmVnfcName + " dropped. vf-module-id mismatch");
                             continue;
                         }
                     }
                     if (vnfcName != null) {
                         if (!vmVnfcName.equals(vnfcName)) {
-                            logger.debug("Auto Node List candidate " + vmVnfcName + " dropped. vnfc-name mismatch");
+                            logger.debug(debugText + vmVnfcName + " dropped. vnfc-name mismatch");
                             continue;
                         }
                     }
                     if (vnfcType != null) {
                         if (!vmVnfcType.equals(vnfcType)) {
-                            logger.debug("Auto Node List candidate " + vmVnfcType + " dropped. vnfc-type mismatch");
+                            logger.debug(debugText + vmVnfcType + " dropped. vnfc-type mismatch");
                             continue;
                         }
                     }
 
-                    logger.info("Auto Node List candidate " + vmVnfcName + " [" + vmVnfcIpv4Address + "," + vmVnfcType + "]");
+                    logger.info(debugText + vmVnfcName + " [" + vmVnfcIpv4Address + "," + vmVnfcType + "]");
 
                     JSONObject vnfTypeCandidates = null;
                     JSONArray vmList = null;
