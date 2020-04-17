@@ -22,6 +22,30 @@
       "revId": "1076ae8b7e4cbdf69d62660f645b778d2d987acf",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f65239fe_8e20a97a",
+        "filename": "appc-adapters/appc-netconf-adapter/appc-netconf-adapter-bundle/src/main/java/org/onap/appc/adapter/netconf/odlconnector/NetconfClientRestconfImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5568
+      },
+      "writtenOn": "2020-04-17T11:49:41Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8db6af4a_ad7754c1",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 1
+      },
+      "revId": "1076ae8b7e4cbdf69d62660f645b778d2d987acf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
