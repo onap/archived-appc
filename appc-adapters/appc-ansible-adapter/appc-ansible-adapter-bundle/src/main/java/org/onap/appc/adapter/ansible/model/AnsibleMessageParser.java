@@ -257,15 +257,12 @@ public class AnsibleMessageParser {
                     if (subCode != 200 || !(("SUCCESS").equals(message))) {
                         finalCode = AnsibleResultCodes.REQ_FAILURE.getValue();
                     }
-                   if ((hostResponse.optJSONObject("Output")) != null) {
-                        if ((hostResponse.optJSONObject("Output").optJSONObject("info")) != null) {
-                            if ((hostResponse.optJSONObject("Output").optJSONObject("info")
-                                    .optJSONObject("configData")) != null) {
-                                config = hostResponse.optJSONObject("Output").optJSONObject("info")
-                                        .optJSONObject("configData");
-                                
-                                ansibleResult.setconfigData(config.toString());
-                            }
+                    if ((hostResponse.optJSONObject(OUTPUT_OPT_KEY)) != null) {
+                        JSONObject hostResponseObjectInfo = hostResponse.optJSONObject("Output").optJSONObject("info");
+                        JSONObject hostResponseConfigData = hostResponseObjectInfo.optJSONObject("configData");
+                        if ((hostResponseObjectInfo  != null) && hostResponseConfigData != null) {
+                            config = hostResponseConfigData;
+                            ansibleResult.setconfigData(config.toString());
                         }
                     }
                 } catch (JSONException e) {
@@ -387,14 +384,14 @@ public class AnsibleMessageParser {
     }
 
 
-    private boolean varObjContainsNoData(Object obj) {
+    /*private boolean varObjContainsNoData(Object obj) {
         if (obj instanceof String) {
             if (StringUtils.startsWith(obj.toString(), "$") || StringUtils.isEmpty(obj.toString()))
                 return true;
         }
         return false;
 
-    }
+    }*/
 
     private boolean dataIsVariable(String payload) {
         if (StringUtils.startsWith(payload, "$") || StringUtils.isEmpty(payload))
