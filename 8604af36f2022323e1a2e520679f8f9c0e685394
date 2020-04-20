@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ecaa8a2e_95767c90",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/model/AnsibleMessageParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-04-20T19:52:05Z",
+      "side": 1,
+      "message": "shall we change to OUTPUT_OPT_KEY for \"Output\"?",
+      "range": {
+        "startLine": 261,
+        "startChar": 87,
+        "endLine": 261,
+        "endChar": 95
+      },
+      "revId": "8604af36f2022323e1a2e520679f8f9c0e685394",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
