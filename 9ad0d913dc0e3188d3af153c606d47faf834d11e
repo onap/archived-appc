@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca8f8076_9b64ba3b",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/DettachVolumeServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2020-04-27T22:47:11Z",
+      "side": 0,
+      "message": "I think the flag \u003d false; assignments are needed here. This code is running in a loop, and in any given iteration, the \"flag\" variable could be set to true or false. Then, after the loop, the flag variable is checked (on line 227).",
+      "revId": "9ad0d913dc0e3188d3af153c606d47faf834d11e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
