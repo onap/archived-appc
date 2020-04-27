@@ -177,7 +177,7 @@ public class DettachVolumeServer extends ProviderServerOperation {
         if (map != null && !(map.isEmpty())) {
             Iterator<Entry<String, String>> it = map.entrySet().iterator();
             while (it.hasNext()) {
-                Map.Entry volumes = (Map.Entry) it.next();
+                Map.Entry<String, String> volumes = it.next();
                 logger.info("volumes available in before detach");
                 logger.info("device" + volumes.getKey() + "volume" + volumes.getValue());
                 if (volumes.getValue().equals(volumeId)) {
@@ -190,7 +190,7 @@ public class DettachVolumeServer extends ProviderServerOperation {
     }
 
     protected boolean validateDetach(RequestContext rc, ComputeService ser, String vm, String volumeId)
-            throws RequestFailedException, ZoneException {
+            throws ZoneException {
         boolean flag = false;
         String msg = null;
         config.setProperty(Constants.PROPERTY_RETRY_DELAY, "10");
@@ -201,7 +201,7 @@ public class DettachVolumeServer extends ProviderServerOperation {
                 Iterator<Entry<String, String>> it = map.entrySet().iterator();
                 logger.info("volumes available after  detach ");
                 while (it.hasNext()) {
-                    Map.Entry volumes = (Map.Entry) it.next();
+                    Map.Entry<String, String> volumes = it.next();
                     logger.info(" devices " + volumes.getKey() + " volumes" + volumes.getValue());
                     if (volumes.getValue().equals(volumeId)) {
                         logger.info("Device" + volumes.getKey() + "Volume" + volumes.getValue());
@@ -209,13 +209,12 @@ public class DettachVolumeServer extends ProviderServerOperation {
                         break;
                     } else {
                         flag = false;
-                    }
+                    }                    
                     logger.info("Dettachvolume flag-->" + flag + "Attempts" + rc.getAttempts());
                 }
                 if (flag) {
                     rc.delay();
                 } else {
-                    flag = false;
                     break;
                 }
             } else {
