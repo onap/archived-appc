@@ -51,7 +51,7 @@ import static org.onap.appc.adapter.utils.Constants.ADAPTER_NAME;
 
 public class LookupServer extends ProviderServerOperation {
 
-    private static final EELFLogger logger = EELFManager.getInstance().getLogger(EvacuateServer.class);
+    private static final EELFLogger logger = EELFManager.getInstance().getLogger(LookupServer.class);
     private static final Configuration configuration = ConfigurationFactory.getConfiguration();
     private static final String SERVERFOUND = "serverFound";
 
