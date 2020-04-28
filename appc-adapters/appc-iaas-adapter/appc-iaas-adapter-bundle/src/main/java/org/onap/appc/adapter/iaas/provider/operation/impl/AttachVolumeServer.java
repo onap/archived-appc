@@ -65,7 +65,7 @@ public class AttachVolumeServer extends ProviderServerOperation {
     private final EELFLogger logger = EELFManager.getInstance().getLogger(AttachVolumeServer.class);
     private static final Configuration config = ConfigurationFactory.getConfiguration();
 
-    private Server attachVolume(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
+    private Server attachVolume(Map<String, String> params, SvcLogicContext ctx) {
         Server server = null;
         RequestContext requestContext = new RequestContext(ctx);
         requestContext.isAlive();
@@ -79,6 +79,10 @@ public class AttachVolumeServer extends ProviderServerOperation {
         }
         VMURL vm = VMURL.parseURL(vmUrl);
         Context context;
+        final String volumeStatus = "VOLUME_STATUS";
+        final String statusFail = "FAILURE";
+        final String statusSuccess = "SUCCESS";
+        final String statusNotFound = "CONTEXT_NOT_FOUND";
         String tenantName = "Unknown";// to be used also in case of exception
         try {
             if (validateVM(requestContext, appName, vmUrl, vm)) {
@@ -105,18 +109,18 @@ public class AttachVolumeServer extends ProviderServerOperation {
                 }
                 ComputeService service = contx.getComputeService();
                 if ((volumeId == null || volumeId.isEmpty()) || (device == null || device.isEmpty())) {
-                    ctx.setAttribute("VOLUME_STATUS", "FAILURE");
+                    ctx.setAttribute(volumeStatus, statusFail);
                     doFailure(requestContext, HttpStatus.BAD_REQUEST_400, "Both Device or Volumeid are mandatory");
                 }
                 VolumeService volumeService = contx.getVolumeService();
                 logger.info("collecting volume status for volume -id:" + volumeId);
-                List<Volume> volumes = volumeService.getVolumes();
+                //List<Volume> volumes = volumeService.getVolumes();
                 Volume volume = new Volume();
                 boolean isAttached = false;
                 if (validateAttach(service, vm.getServerId(), volumeId, device)) {
                     String msg = "Volume with volume id " + volumeId + " cannot be attached as it already exists";
                     logger.info("Already volumes exists:");
-                    ctx.setAttribute("VOLUME_STATUS", "FAILURE");
+                    ctx.setAttribute(volumeStatus, statusFail);
                     doFailure(requestContext, HttpStatus.METHOD_NOT_ALLOWED_405, msg);
                     isAttached = false;
                 } else {
@@ -127,31 +131,31 @@ public class AttachVolumeServer extends ProviderServerOperation {
                 }
                 if (isAttached) {
                     if (validateAttach(requestContext, service, vm.getServerId(), volumeId, device)) {
-                        ctx.setAttribute("VOLUME_STATUS", "SUCCESS");
+                        ctx.setAttribute(volumeStatus, statusSuccess);
                         doSuccess(requestContext);
                     } else {
                         String msg = "Volume with " + volumeId + " unable  to attach";
                         logger.info("Volume with " + volumeId + " unable to attach");
-                        ctx.setAttribute("VOLUME_STATUS", "FAILURE");
+                        ctx.setAttribute(volumeStatus, statusFail);
                         doFailure(requestContext, HttpStatus.CONFLICT_409, msg);
                     }
                 }
                 context.close();
             } else {
-                ctx.setAttribute("VOLUME_STATUS", "CONTEXT_NOT_FOUND");
+                ctx.setAttribute(volumeStatus, statusNotFound);
             }
         } catch (ZoneException e) {
             String msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, e, vmUrl);
             logger.error(msg);
-            ctx.setAttribute("VOLUME_STATUS", "FAILURE");
+            ctx.setAttribute(volumeStatus, statusFail);
             doFailure(requestContext, HttpStatus.NOT_FOUND_404, msg);
         } catch (RequestFailedException e) {
-            ctx.setAttribute("VOLUME_STATUS", "FAILURE");
+            ctx.setAttribute(volumeStatus, statusFail);
             doFailure(requestContext, e.getStatus(), e.getMessage());
         } catch (Exception ex) {
             String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, ex, ex.getClass().getSimpleName(),
                     ATTACHVOLUME_SERVICE.toString(), vmUrl, tenantName);
-            ctx.setAttribute("VOLUME_STATUS", "FAILURE");
+            ctx.setAttribute(volumeStatus, statusFail);
             try {
                 ExceptionMapper.mapException((OpenStackBaseException) ex);
             } catch (ZoneException e1) {
@@ -171,24 +175,22 @@ public class AttachVolumeServer extends ProviderServerOperation {
     }
 
     protected boolean validateAttach(ComputeService ser, String vm, String volumeId, String device)
-            throws RequestFailedException, ZoneException {
+            throws ZoneException {
         boolean isValid = false;
         Map<String, String> map = ser.getAttachments(vm);
         Iterator<Entry<String, String>> it = map.entrySet().iterator();
         while (it.hasNext()) {
-            Map.Entry volumes = (Map.Entry) it.next();
-            if (map != null && !(map.isEmpty())) {
-                logger.info("volumes available before attach");
-                logger.info("device" + volumes.getKey() + " Values " + volumes.getValue());
-                if (StringUtils.isBlank(device)) {
-                    if (volumes.getValue().equals(volumeId)) {
-                        logger.info("Device " + volumes.getKey() + " Volumes " + volumes.getValue());
-                        isValid = true;
-                    }
-                } else if (volumes.getKey().equals(device) && (volumes.getValue().equals(volumeId))) {
+            Map.Entry<String, String> volumes = it.next();
+            logger.info("volumes available before attach");
+            logger.info("device" + volumes.getKey() + " Values " + volumes.getValue());
+            if (StringUtils.isBlank(device)) {
+                if (volumes.getValue().equals(volumeId)) {
                     logger.info("Device " + volumes.getKey() + " Volumes " + volumes.getValue());
                     isValid = true;
                 }
+            } else if (volumes.getKey().equals(device) && (volumes.getValue().equals(volumeId))) {
+                logger.info("Device " + volumes.getKey() + " Volumes " + volumes.getValue());
+                isValid = true;
             }
         }
         logger.info("AttachVolumeFlag " + isValid);
@@ -196,7 +198,7 @@ public class AttachVolumeServer extends ProviderServerOperation {
     }
 
     protected boolean validateAttach(RequestContext rc, ComputeService ser, String vm, String volumeId, String device)
-            throws RequestFailedException, ZoneException {
+            throws ZoneException {
         boolean isValid = false;
         String msg = null;
         config.setProperty(Constants.PROPERTY_RETRY_DELAY, "10");
@@ -207,14 +209,12 @@ public class AttachVolumeServer extends ProviderServerOperation {
                 Iterator<Entry<String, String>> it = map.entrySet().iterator();
                 logger.info("volumes available after attach ");
                 while (it.hasNext()) {
-                    Map.Entry volumes = (Map.Entry) it.next();
+                    Map.Entry<String, String> volumes = it.next();
                     logger.info(" devices " + volumes.getKey() + " volumes " + volumes.getValue());
-                    if (StringUtils.isBlank(device)) {
-                        if (volumes.getValue().equals(volumeId)) {
-                            logger.info("Device " + volumes.getKey() + "Volumes " + volumes.getValue());
-                            isValid = true;
-                            break;
-                        }
+                    if (StringUtils.isBlank(device) && (volumes.getValue().equals(volumeId))) {
+                        logger.info("Device " + volumes.getKey() + "Volumes " + volumes.getValue());
+                        isValid = true;
+                        break;
                     } else if (volumes.getKey().equals(device) && (volumes.getValue().equals(volumeId))) {
                         logger.info("Device " + volumes.getKey() + " Volume " + volumes.getValue());
                         isValid = true;
