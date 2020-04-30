@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d07eb0d_f64a6c67",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/AttachVolumeServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2020-04-30T21:27:35Z",
+      "side": 1,
+      "message": "We should probably set these as constant variables with the \"final\" keyword since they are not supposed to have their values changed.",
+      "revId": "a8275bb02eccea6484bd910c13301de5de8999f0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
