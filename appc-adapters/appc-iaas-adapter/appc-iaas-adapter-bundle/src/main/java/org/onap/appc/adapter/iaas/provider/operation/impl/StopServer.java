@@ -72,10 +72,10 @@ public class StopServer extends ProviderServerOperation {
         try {
             validateParametersExist(params, ProviderAdapter.PROPERTY_INSTANCE_URL,
                     ProviderAdapter.PROPERTY_PROVIDER_NAME);
-            String vm_url = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
+            String vmUrl = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
             ctx.setAttribute("STOP_STATUS", "SUCCESS");
-            VMURL vm = VMURL.parseURL(vm_url);
-            if (validateVM(rc, appName, vm_url, vm))
+            VMURL vm = VMURL.parseURL(vmUrl);
+            if (validateVM(rc, appName, vmUrl, vm))
                 return null;
             IdentityURL ident = IdentityURL.parseURL(params.get(ProviderAdapter.PROPERTY_IDENTITY_URL));
             String identStr = (ident == null) ? null : ident.toString();
@@ -87,11 +87,11 @@ public class StopServer extends ProviderServerOperation {
                 skipHypervisorCheck = ctx.getAttribute(ProviderAdapter.SKIP_HYPERVISOR_CHECK);
             }
             try {
-                context = getContext(rc, vm_url, identStr);
+                context = getContext(rc, vmUrl, identStr);
                 if (context != null) {
                     rc.reset();
                     server = lookupServer(rc, context, vm.getServerId());
-                    logger.debug(Msg.SERVER_FOUND, vm_url, context.getTenantName(), server.getStatus().toString());
+                    logger.debug(Msg.SERVER_FOUND, vmUrl, context.getTenantName(), server.getStatus().toString());
                     // Always perform Hypervisor check
                     // unless the skip is set to true
                     if (skipHypervisorCheck == null || (!skipHypervisorCheck.equalsIgnoreCase("true"))) {
@@ -167,18 +167,18 @@ public class StopServer extends ProviderServerOperation {
                     context.close();
                     doSuccess(rc);
                     ctx.setAttribute("STOP_STATUS", "SUCCESS");
-                    msg = EELFResourceManager.format(Msg.SUCCESS_EVENT_MESSAGE, "StopServer", vm_url);
+                    msg = EELFResourceManager.format(Msg.SUCCESS_EVENT_MESSAGE, "StopServer", vmUrl);
                     ctx.setAttribute(org.onap.appc.Constants.ATTRIBUTE_SUCCESS_MESSAGE, msg);
                 } else {
                     ctx.setAttribute("STOP_STATUS", "CONTEXT_NOT_FOUND");
                 }
             } catch (ResourceNotFoundException e) {
-                String msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, e, vm_url);
+                String msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, e, vmUrl);
                 logger.error(msg);
                 doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
             } catch (Exception e1) {
                 String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1,
-                        e1.getClass().getSimpleName(), STOP_SERVICE.toString(), vm_url,
+                        e1.getClass().getSimpleName(), STOP_SERVICE.toString(), vmUrl,
                         context == null ? "Unknown" : context.getTenantName());
                 logger.error(msg, e1);
                 doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
