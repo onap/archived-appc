@@ -381,9 +381,9 @@ public class RebuildServer extends ProviderServerOperation {
             validateParametersExist(params, ProviderAdapter.PROPERTY_INSTANCE_URL,
                     ProviderAdapter.PROPERTY_PROVIDER_NAME);
             String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
-            String vm_url = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
-            VMURL vm = VMURL.parseURL(vm_url);
-            if (validateVM(rc, appName, vm_url, vm))
+            String vmUrl = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
+            VMURL vm = VMURL.parseURL(vmUrl);
+            if (validateVM(rc, appName, vmUrl, vm))
                 return null;
             IdentityURL ident = IdentityURL.parseURL(params.get(ProviderAdapter.PROPERTY_IDENTITY_URL));
             String identStr = (ident == null) ? null : ident.toString();
@@ -391,12 +391,12 @@ public class RebuildServer extends ProviderServerOperation {
             Context context = null;
             String tenantName = "Unknown";// to be used also in case of exception
             try {
-                context = getContext(rc, vm_url, identStr);
+                context = getContext(rc, vmUrl, identStr);
                 if (context != null) {
                     tenantName = context.getTenantName();// this varaible also is used in case of exception
                     rc.reset();
                     server = lookupServer(rc, context, vm.getServerId());
-                    logger.debug(Msg.SERVER_FOUND, vm_url, tenantName, server.getStatus().toString());
+                    logger.debug(Msg.SERVER_FOUND, vmUrl, tenantName, server.getStatus().toString());
                     // Manually checking image service until new PAL release
                     if (hasImageAccess(rc, context)) {
                         rebuildServer(rc, server, ctx);
@@ -421,14 +421,14 @@ public class RebuildServer extends ProviderServerOperation {
                 doFailure(rc, e.getStatus(), e.getMessage());
                 ctx.setAttribute("REBUILD_STATUS", "ERROR");
             } catch (ResourceNotFoundException e) {
-                msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, e, vm_url);
+                msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, e, vmUrl);
                 ctx.setAttribute("REBUILD_STATUS", "ERROR");
                 logger.error(msg);
                 metricsLogger.error(msg);
                 doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
             } catch (Exception e1) {
                 msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1, e1.getClass().getSimpleName(),
-                        STOP_SERVICE.toString(), vm_url, tenantName);
+                        STOP_SERVICE.toString(), vmUrl, tenantName);
                 ctx.setAttribute("REBUILD_STATUS", "ERROR");
                 logger.error(msg, e1);
                 metricsLogger.error(msg);
