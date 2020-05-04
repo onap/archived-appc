@@ -72,9 +72,9 @@ public class ProviderAdapterImpl implements ProviderAdapter {
     /**
      * The username, password, and domain to use for dynamically created connections
      */
-    private static String DEFAULT_USER;
-    private static String DEFAULT_PASS;
-    private static String DEFAULT_DOMAIN;
+    private static String defaultUser;
+    private static String defaultPass;
+    private static String defaultDomain;
 
     /**
      * This default constructor is used as a work around because the activator wasnt getting called
@@ -108,54 +108,54 @@ public class ProviderAdapterImpl implements ProviderAdapter {
     public Server restartServer(Map<String, String> params, SvcLogicContext context) throws APPCException {
         IProviderOperation op = factory.getOperationObject(Operation.RESTART_SERVICE);
         op.setProviderCache(this.providerCache);
-        op.setDefaultPassword(DEFAULT_PASS);
-        op.setDefaultUser(DEFAULT_USER);
-        op.setDefaultDomain(DEFAULT_DOMAIN);
+        op.setDefaultPassword(defaultPass);
+        op.setDefaultUser(defaultUser);
+        op.setDefaultDomain(defaultDomain);
         return (Server) op.doOperation(params, context);
     }
     @Override
     public Server stopServer(Map<String, String> params, SvcLogicContext context) throws APPCException {
         IProviderOperation op = factory.getOperationObject(Operation.STOP_SERVICE);
         op.setProviderCache(this.providerCache);
-        op.setDefaultPassword(DEFAULT_PASS);
-        op.setDefaultUser(DEFAULT_USER);
-        op.setDefaultDomain(DEFAULT_DOMAIN);
+        op.setDefaultPassword(defaultPass);
+        op.setDefaultUser(defaultUser);
+        op.setDefaultDomain(defaultDomain);
         return (Server) op.doOperation(params, context);
     }
     @Override
     public Server startServer(Map<String, String> params, SvcLogicContext context) throws APPCException {
         IProviderOperation op = factory.getOperationObject(Operation.START_SERVICE);
         op.setProviderCache(this.providerCache);
-        op.setDefaultPassword(DEFAULT_PASS);
-        op.setDefaultUser(DEFAULT_USER);
-        op.setDefaultDomain(DEFAULT_DOMAIN);
+        op.setDefaultPassword(defaultPass);
+        op.setDefaultUser(defaultUser);
+        op.setDefaultDomain(defaultDomain);
         return (Server) op.doOperation(params, context);
     }
     @Override
     public Server rebuildServer(Map<String, String> params, SvcLogicContext context) throws APPCException {
         IProviderOperation op = factory.getOperationObject(Operation.REBUILD_SERVICE);
         op.setProviderCache(this.providerCache);
-        op.setDefaultPassword(DEFAULT_PASS);
-        op.setDefaultUser(DEFAULT_USER);
-        op.setDefaultDomain(DEFAULT_DOMAIN);
+        op.setDefaultPassword(defaultPass);
+        op.setDefaultUser(defaultUser);
+        op.setDefaultDomain(defaultDomain);
         return (Server) op.doOperation(params, context);
     }
     @Override
     public Server terminateServer(Map<String, String> params, SvcLogicContext context) throws APPCException {
         IProviderOperation op = factory.getOperationObject(Operation.TERMINATE_SERVICE);
         op.setProviderCache(this.providerCache);
-        op.setDefaultPassword(DEFAULT_PASS);
-        op.setDefaultUser(DEFAULT_USER);
-        op.setDefaultDomain(DEFAULT_DOMAIN);
+        op.setDefaultPassword(defaultPass);
+        op.setDefaultUser(defaultUser);
+        op.setDefaultDomain(defaultDomain);
         return (Server) op.doOperation(params, context);
     }
     @Override
     public Server evacuateServer(Map<String, String> params, SvcLogicContext context) throws APPCException {
         IProviderOperation op = factory.getOperationObject(Operation.EVACUATE_SERVICE);
         op.setProviderCache(this.providerCache);
-        op.setDefaultPassword(DEFAULT_PASS);
-        op.setDefaultUser(DEFAULT_USER);
-        op.setDefaultDomain(DEFAULT_DOMAIN);
+        op.setDefaultPassword(defaultPass);
+        op.setDefaultUser(defaultUser);
+        op.setDefaultDomain(defaultDomain);
         // pass this object's reference to EvacuateServer to allow rebuild after evacuate
         ((EvacuateServer) op).setProvideAdapterRef(this);
         return (Server) op.doOperation(params, context);
@@ -164,63 +164,63 @@ public class ProviderAdapterImpl implements ProviderAdapter {
     public Server migrateServer(Map<String, String> params, SvcLogicContext context) throws APPCException {
         IProviderOperation op = factory.getOperationObject(Operation.MIGRATE_SERVICE);
         op.setProviderCache(this.providerCache);
-        op.setDefaultPassword(DEFAULT_PASS);
-        op.setDefaultUser(DEFAULT_USER);
-        op.setDefaultDomain(DEFAULT_DOMAIN);
+        op.setDefaultPassword(defaultPass);
+        op.setDefaultUser(defaultUser);
+        op.setDefaultDomain(defaultDomain);
         return (Server) op.doOperation(params, context);
     }
     @Override
     public Server vmStatuschecker(Map<String, String> params, SvcLogicContext context) throws APPCException {
         IProviderOperation op = factory.getOperationObject(Operation.VMSTATUSCHECK_SERVICE);
         op.setProviderCache(this.providerCache);
-        op.setDefaultPassword(DEFAULT_PASS);
-        op.setDefaultUser(DEFAULT_USER);
-        op.setDefaultDomain(DEFAULT_DOMAIN);
+        op.setDefaultPassword(defaultPass);
+        op.setDefaultUser(defaultUser);
+        op.setDefaultDomain(defaultDomain);
         return (Server) op.doOperation(params, context);
     }
     @Override
     public Stack terminateStack(Map<String, String> params, SvcLogicContext context) throws APPCException {
         IProviderOperation op = factory.getOperationObject(Operation.TERMINATE_STACK);
         op.setProviderCache(this.providerCache);
-        op.setDefaultPassword(DEFAULT_PASS);
-        op.setDefaultUser(DEFAULT_USER);
-        op.setDefaultDomain(DEFAULT_DOMAIN);
+        op.setDefaultPassword(defaultPass);
+        op.setDefaultUser(defaultUser);
+        op.setDefaultDomain(defaultDomain);
         return (Stack) op.doOperation(params, context);
     }
     @Override
     public Stack snapshotStack(Map<String, String> params, SvcLogicContext context) throws APPCException {
         IProviderOperation op = factory.getOperationObject(Operation.SNAPSHOT_STACK);
         op.setProviderCache(this.providerCache);
-        op.setDefaultPassword(DEFAULT_PASS);
-        op.setDefaultUser(DEFAULT_USER);
-        op.setDefaultDomain(DEFAULT_DOMAIN);
+        op.setDefaultPassword(defaultPass);
+        op.setDefaultUser(defaultUser);
+        op.setDefaultDomain(defaultDomain);
         return (Stack) op.doOperation(params, context);
     }
     @Override
     public Stack restoreStack(Map<String, String> params, SvcLogicContext context) throws APPCException {
         IProviderOperation op = factory.getOperationObject(Operation.RESTORE_STACK);
         op.setProviderCache(this.providerCache);
-        op.setDefaultPassword(DEFAULT_PASS);
-        op.setDefaultUser(DEFAULT_USER);
-        op.setDefaultDomain(DEFAULT_DOMAIN);
+        op.setDefaultPassword(defaultPass);
+        op.setDefaultUser(defaultUser);
+        op.setDefaultDomain(defaultDomain);
         return (Stack) op.doOperation(params, context);
     }
     @Override
     public Server lookupServer(Map<String, String> params, SvcLogicContext context) throws APPCException {
         IProviderOperation op = factory.getOperationObject(Operation.LOOKUP_SERVICE);
         op.setProviderCache(this.providerCache);
-        op.setDefaultPassword(DEFAULT_PASS);
-        op.setDefaultUser(DEFAULT_USER);
-        op.setDefaultDomain(DEFAULT_DOMAIN);
+        op.setDefaultPassword(defaultPass);
+        op.setDefaultUser(defaultUser);
+        op.setDefaultDomain(defaultDomain);
         return (Server) op.doOperation(params, context);
     }
     @Override
     public Image createSnapshot(Map<String, String> params, SvcLogicContext context) throws APPCException {
         IProviderOperation op = factory.getOperationObject(Operation.SNAPSHOT_SERVICE);
         op.setProviderCache(this.providerCache);
-        op.setDefaultPassword(DEFAULT_PASS);
-        op.setDefaultUser(DEFAULT_USER);
-        op.setDefaultDomain(DEFAULT_DOMAIN);
+        op.setDefaultPassword(defaultPass);
+        op.setDefaultUser(defaultUser);
+        op.setDefaultDomain(defaultDomain);
         return (Image) op.doOperation(params, context);
     }
     /**
@@ -279,17 +279,17 @@ public class ProviderAdapterImpl implements ProviderAdapter {
                                 break;
                             case Property.PROVIDER_TENANT_USERID:
                                 userId = node2.getValue();
-                                ProviderAdapterImpl.DEFAULT_USER = node2.getValue();
+                                ProviderAdapterImpl.defaultUser = node2.getValue();
                                 break;
                             case Property.PROVIDER_TENANT_PASSWORD:
                                 //The passwords are automatically decrpyted by the appc Configuration
                                 //class and require no additional method calls to decrypt.
                                 password = node2.getValue();
-                                ProviderAdapterImpl.DEFAULT_PASS = node2.getValue();
+                                ProviderAdapterImpl.defaultPass = node2.getValue();
                                 break;
                             case Property.PROVIDER_TENANT_DOMAIN:
                                 domain = node2.getValue();
-                                ProviderAdapterImpl.DEFAULT_DOMAIN = node2.getValue();
+                                ProviderAdapterImpl.defaultDomain = node2.getValue();
                                 break;
                             default:
                                 break;
@@ -315,25 +315,25 @@ public class ProviderAdapterImpl implements ProviderAdapter {
     public Server attachVolume(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
           IProviderOperation op = factory.getOperationObject(Operation.ATTACHVOLUME_SERVICE);
             op.setProviderCache(this.providerCache);
-            op.setDefaultPassword(DEFAULT_PASS);
-            op.setDefaultUser(DEFAULT_USER);
+            op.setDefaultPassword(defaultPass);
+            op.setDefaultUser(defaultUser);
             return (Server) op.doOperation(params, ctx);
     }
     @Override
     public Server dettachVolume(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
          IProviderOperation op = factory.getOperationObject(Operation.DETACHVOLUME_SERVICE);
             op.setProviderCache(this.providerCache);
-            op.setDefaultPassword(DEFAULT_PASS);
-            op.setDefaultUser(DEFAULT_USER);
+            op.setDefaultPassword(defaultPass);
+            op.setDefaultUser(defaultUser);
             return (Server) op.doOperation(params, ctx);
     }
     @Override
     public Server rebootServer(Map<String, String> params, SvcLogicContext context) throws APPCException {
         IProviderOperation op = factory.getOperationObject(Operation.REBOOT_SERVICE);
         op.setProviderCache(this.providerCache);
-        op.setDefaultPassword(DEFAULT_PASS);
-        op.setDefaultUser(DEFAULT_USER);
-        op.setDefaultDomain(DEFAULT_DOMAIN);
+        op.setDefaultPassword(defaultPass);
+        op.setDefaultUser(defaultUser);
+        op.setDefaultDomain(defaultDomain);
         return (Server) op.doOperation(params, context);
     }
 
