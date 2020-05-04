@@ -191,39 +191,39 @@ public class RestartServer extends ProviderServerOperation {
         try {
             validateParametersExist(params, ProviderAdapter.PROPERTY_INSTANCE_URL,
                     ProviderAdapter.PROPERTY_PROVIDER_NAME);
-            String vm_url = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
-            VMURL vm = VMURL.parseURL(vm_url);
-            if (validateVM(rc, appName, vm_url, vm))
+            String vmUrl = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
+            VMURL vm = VMURL.parseURL(vmUrl);
+            if (validateVM(rc, appName, vmUrl, vm))
                 return null;
             IdentityURL ident = IdentityURL.parseURL(params.get(ProviderAdapter.PROPERTY_IDENTITY_URL));
             String identStr = (ident == null) ? null : ident.toString();
             Context context = null;
             String tenantName = "Unknown";// to be used also in case of exception
             try {
-                context = getContext(rc, vm_url, identStr);
+                context = getContext(rc, vmUrl, identStr);
                 if (context != null) {
                     tenantName = context.getTenantName();// this varaible also is used in case of exception
                     rc.reset();
                     server = lookupServer(rc, context, vm.getServerId());
-                    logger.debug(Msg.SERVER_FOUND, vm_url, tenantName, server.getStatus().toString());
+                    logger.debug(Msg.SERVER_FOUND, vmUrl, tenantName, server.getStatus().toString());
                     rc.reset();
                     restartServer(rc, server, ctx);
                     context.close();
                     doSuccess(rc);
                     ctx.setAttribute("RESTART_STATUS", "SUCCESS");
-                    String msg = EELFResourceManager.format(Msg.SUCCESS_EVENT_MESSAGE, "RestartServer", vm_url);
+                    String msg = EELFResourceManager.format(Msg.SUCCESS_EVENT_MESSAGE, "RestartServer", vmUrl);
                     ctx.setAttribute(org.onap.appc.Constants.ATTRIBUTE_SUCCESS_MESSAGE, msg);
                 }
             } catch (RequestFailedException e) {
                 doFailure(rc, e.getStatus(), e.getMessage());
             } catch (ResourceNotFoundException e) {
-                String msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, e, vm_url);
+                String msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, e, vmUrl);
                 logger.error(msg);
                 metricsLogger.error(msg);
                 doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
             } catch (Exception e1) {
                 String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1,
-                        e1.getClass().getSimpleName(), RESTART_SERVICE.toString(), vm_url, tenantName);
+                        e1.getClass().getSimpleName(), RESTART_SERVICE.toString(), vmUrl, tenantName);
                 logger.error(msg, e1);
                 metricsLogger.error(msg, e1);
                 doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
