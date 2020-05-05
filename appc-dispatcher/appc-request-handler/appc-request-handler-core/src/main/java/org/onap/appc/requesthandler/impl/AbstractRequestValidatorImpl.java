@@ -30,7 +30,6 @@ import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.onap.appc.domainmodel.lcm.RequestContext;
 import org.onap.appc.domainmodel.lcm.RuntimeContext;
-import org.onap.appc.domainmodel.lcm.TransactionRecord;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.requesthandler.constant.Constants;
 import org.onap.appc.configuration.Configuration;

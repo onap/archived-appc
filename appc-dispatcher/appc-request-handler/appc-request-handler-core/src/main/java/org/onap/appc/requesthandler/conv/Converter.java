@@ -24,7 +24,6 @@
 
 package org.onap.appc.requesthandler.conv;
 
-import org.apache.commons.lang3.StringUtils;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
@@ -48,7 +47,6 @@ import org.opendaylight.yangtools.concepts.Builder;
 import org.opendaylight.yangtools.yang.binding.DataContainer;
 import org.onap.appc.domainmodel.lcm.ResponseContext;
 import org.onap.appc.domainmodel.lcm.VNFOperation;
-import org.onap.appc.requesthandler.impl.AbstractRequestHandlerImpl;
 import org.onap.appc.requesthandler.impl.DmaapOutgoingMessage;
 
 import java.text.ParseException;
@@ -59,9 +57,9 @@ import java.util.TimeZone;
 
 public class Converter {
     private static final String ISO_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-    private final static String DMaaP_ROOT_VALUE = "output";
+    private static final String DMaaP_ROOT_VALUE = "output";
     private static final SimpleDateFormat isoFormatter = new SimpleDateFormat(ISO_FORMAT);
-    private final static EELFLogger logger = EELFManager.getInstance().getLogger(Converter.class);
+    private static final EELFLogger logger = EELFManager.getInstance().getLogger(Converter.class);
     static {
         isoFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
     }

@@ -27,10 +27,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class DesignInfo{
 
     @JsonProperty("vnf-type")
-    String vnf_type;
+    String vnfType;
 
     @JsonProperty("vnfc-type")
-    String vnfc_type;
+    String vnfcType;
 
     @JsonProperty("protocol")
     String protocol;
@@ -78,19 +78,19 @@ public class DesignInfo{
     }
 
     public String getVnf_type() {
-        return vnf_type;
+        return vnfType;
     }
 
-    public void setVnf_type(String vnf_type) {
-        this.vnf_type = vnf_type;
+    public void setvnfType(String vnfType) {
+        this.vnfType = vnfType;
     }
 
     public String getVnfc_type() {
-        return vnfc_type;
+        return vnfcType;
     }
 
-    public void setVnfc_type(String vnfc_type) {
-        this.vnfc_type = vnfc_type;
+    public void setVnfc_type(String vnfcType) {
+        this.vnfcType = vnfcType;
     }
 
     public String getProtocol() {
@@ -127,7 +127,7 @@ public class DesignInfo{
 
     @Override
     public String toString() {
-        return "DesignInfo [vnf_type=" + vnf_type + ", vnfc_type=" + vnfc_type + ", protocol=" + protocol + ", inCart="
+        return "DesignInfo [vnfType=" + vnfType + ", vnfcType=" + vnfcType + ", protocol=" + protocol + ", inCart="
                 + inCart + "]";
     }
 
