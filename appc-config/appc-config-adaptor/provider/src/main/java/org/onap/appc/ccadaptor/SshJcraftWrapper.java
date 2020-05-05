@@ -67,13 +67,13 @@ public class SshJcraftWrapper {
     private TelnetListener listener = null;
     private String routerLogFileName = null;
     private String host = null;
-    private String RouterName = null;
-    private int BUFFER_SIZE = 512000;
-    char[] charBuffer = new char[BUFFER_SIZE];
+    private String routerName = null;
+    private int bufferSize = 512000;
+    char[] charBuffer = new char[bufferSize];
     private DataInputStream dis = null;
     private BufferedReader reader = null;
     private BufferedWriter out = null;
-    private File _tmpFile = null;
+    private File tmpFile = null;
     private JSch jsch = null;
     private Session session = null;
     private Channel channel = null;
@@ -105,7 +105,7 @@ public class SshJcraftWrapper {
             "Attempting to connect to " + hostname + " username=" + username + " prompt='"
                 + prompt + "' timeOut=" + timeOut);
         DebugLog.printRTAriDebug(fn, "Trace A");
-        RouterName = hostname;
+        routerName = hostname;
         hostName = hostname;
         userName = username;
         passWord = password;
@@ -121,7 +121,7 @@ public class SshJcraftWrapper {
             ((ChannelShell) channel).setPtyType("vt102");
             inputStream = channel.getInputStream();
             dis = new DataInputStream(inputStream);
-            reader = new BufferedReader(new InputStreamReader(dis), BUFFER_SIZE);
+            reader = new BufferedReader(new InputStreamReader(dis), bufferSize);
             channel.connect();
             DebugLog.printRTAriDebug(fn, "Successfully connected.");
             DebugLog.printRTAriDebug(fn, "Flushing input buffer");
@@ -143,11 +143,11 @@ public class SshJcraftWrapper {
         DebugLog.printRTAriDebug(fn,
             ":Attempting to connect to " + hostname + " username=" + username + " prompt='"
                 + prompt + "' timeOut=" + timeOut + " portNum=" + portNum);
-        RouterName = hostname;
+        routerName = hostname;
         hostName = hostname;
         userName = username;
         passWord = password;
-        RouterName = hostname;
+        routerName = hostname;
         jsch = getJSch();
         try {
             session = jsch.getSession(username, hostname, portNum);
@@ -164,7 +164,7 @@ public class SshJcraftWrapper {
             ((ChannelShell) channel).setPtyType("vt102");
             inputStream = channel.getInputStream();
             dis = new DataInputStream(inputStream);
-            reader = new BufferedReader(new InputStreamReader(dis), BUFFER_SIZE);
+            reader = new BufferedReader(new InputStreamReader(dis), bufferSize);
             channel.connect();
             DebugLog.printRTAriDebug(fn, ":Successfully connected.");
             DebugLog.printRTAriDebug(fn, ":Flushing input buffer");
@@ -208,8 +208,8 @@ public class SshJcraftWrapper {
             while (!match) {
                 if (new Date().getTime() > deadline) {
                     DebugLog.printRTAriDebug(fn,
-                        "Throwing a TimedOutException: time in routine has exceed our deadline: RouterName:"
-                            + RouterName + " CmdThatWasSent=" + CmdThatWasSent);
+                        "Throwing a TimedOutException: time in routine has exceed our deadline: routerName:"
+                            + routerName + " CmdThatWasSent=" + CmdThatWasSent);
                     throw new TimedOutException("Timeout: time in routine has exceed our deadline");
                 }
                 try {
@@ -217,12 +217,12 @@ public class SshJcraftWrapper {
                 } catch (java.lang.InterruptedException ee) {
                     Thread.currentThread().interrupt();
                 }
-                int len = reader.read(charBuffer, 0, BUFFER_SIZE);
+                int len = reader.read(charBuffer, 0, bufferSize);
                 appendToFile(debugLogFileName, fn + " After reader.read cmd: len=" + len + "\n");
                 if (len <= 0) {
                     DebugLog.printRTAriDebug(fn,
-                        "Reader read " + len + " bytes. Looks like we timed out, router=" + RouterName);
-                    throw new TimedOutException("Received a SocketTimeoutException router=" + RouterName);
+                        "Reader read " + len + " bytes. Looks like we timed out, router=" + routerName);
+                    throw new TimedOutException("Received a SocketTimeoutException router=" + routerName);
                 }
                 if (!cliPromptCmd) {
                     if (cmdThatWasSent.indexOf("IOS_XR_uploadedSwConfigCmd") != -1) {
@@ -236,15 +236,15 @@ public class SshJcraftWrapper {
                             routerFileName = st.nextToken();
                             fileWriter = new FileWriter(routerFileName);
                             out = new BufferedWriter(fileWriter);
-                            routerLogFileName = "/tmp/" + RouterName;
-                            _tmpFile = new File(routerLogFileName);
+                            routerLogFileName = "/tmp/" + routerName;
+                            tmpFile = new File(routerLogFileName);
                             DebugLog.printRTAriDebug(fn,
                                 "Will write the swConfigFile to disk, routerFileName=" + routerFileName);
                         }
                         out.write(charBuffer, 0, len);
                         out.flush();
                         appendToFile(debugLogFileName, fn + " Wrote " + len + " bytes to the disk\n");
-                        if (_tmpFile.exists()) {
+                        if (tmpFile.exists()) {
                             appendToRouterFile(routerLogFileName, len);
                         }
                         match = checkIfReceivedStringMatchesDelimeter(len, "\nXML>");
@@ -267,7 +267,7 @@ public class SshJcraftWrapper {
                                 sb2.append((char) charBuffer[i]);
                             }
                         }
-                        appendToRouterFile("/tmp/" + RouterName, len);
+                        appendToRouterFile("/tmp/" + routerName, len);
                         if (listener != null) {
                             listener.receivedString(sb2.toString());
                         }
@@ -716,7 +716,7 @@ public class SshJcraftWrapper {
     }
 
     public String getRouterName() {
-        return (RouterName);
+        return (routerName);
     }
 
     // Routine does reads until it has read 'nchars' or times out.
@@ -739,11 +739,11 @@ public class SshJcraftWrapper {
                             + ncharsSent + " ncharsTotalReceived=" + ncharsTotalReceived);
                     throw new TimedOutException("Timeout: time in routine has exceed our deadline");
                 }
-                ncharsRead = reader.read(charBuffer, 0, BUFFER_SIZE);
+                ncharsRead = reader.read(charBuffer, 0, bufferSize);
                 if (listener != null) {
                     listener.receivedString(String.copyValueOf(charBuffer, 0, ncharsRead));
                 }
-                appendToRouterFile("/tmp/" + RouterName, ncharsRead);
+                appendToRouterFile("/tmp/" + routerName, ncharsRead);
                 ncharsTotalReceived = ncharsTotalReceived + ncharsRead;
                 if (ncharsTotalReceived >= ncharsSent) {
                     DebugLog.printRTAriDebug(fn,
@@ -868,7 +868,7 @@ public class SshJcraftWrapper {
         DebugLog.printRTAriDebug(fn,
             ":::Attempting to connect to " + hostname + " username=" + username + " prompt='"
                 + prompt + "' timeOut=" + timeOut + " portNum=" + portNum + " subsystem=" + subsystem);
-        RouterName = hostname;
+        routerName = hostname;
         jsch = getJSch();
         try {
             session = jsch.getSession(username, hostname, portNum);
@@ -885,7 +885,7 @@ public class SshJcraftWrapper {
 
             inputStream = channel.getInputStream();
             dis = new DataInputStream(inputStream);
-            reader = new BufferedReader(new InputStreamReader(dis), BUFFER_SIZE);
+            reader = new BufferedReader(new InputStreamReader(dis), bufferSize);
             channel.connect();
             DebugLog.printRTAriDebug(fn, "Successfully connected.");
             DebugLog.printRTAriDebug(fn, "Five second sleep....");
@@ -906,7 +906,7 @@ public class SshJcraftWrapper {
         DebugLog.printRTAriDebug(fn,
             "::Attempting to connect to " + hostName + " username=" + username + " portNumber=" + portNumber);
         DebugLog.printRTAriDebug(fn, "Trace C");
-        RouterName = hostName;
+        routerName = hostName;
         this.hostName = hostName;
         userName = username;
         passWord = password;
@@ -925,7 +925,7 @@ public class SshJcraftWrapper {
             ((ChannelShell) channel).setPtyType("vt102");
             inputStream = channel.getInputStream();
             dis = new DataInputStream(inputStream);
-            reader = new BufferedReader(new InputStreamReader(dis), BUFFER_SIZE);
+            reader = new BufferedReader(new InputStreamReader(dis), bufferSize);
             channel.connect();
             DebugLog.printRTAriDebug(fn, "::Successfully connected.");
             DebugLog.printRTAriDebug(fn, "::Flushing input buffer");
