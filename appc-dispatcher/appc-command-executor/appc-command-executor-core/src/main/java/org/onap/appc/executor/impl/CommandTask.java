@@ -148,17 +148,17 @@ public class CommandTask implements Runnable {
         }
     }
 
-    private SvcLogicContext getVnfdata(String vnf_id, String prefix, SvcLogicContext ctx) {
-        String key = "generic-vnf.vnf-id = '" + vnf_id + "'" + " AND http-header.Real-Time = 'true'";
+    private SvcLogicContext getVnfdata(String vnfId, String prefix, SvcLogicContext ctx) {
+        String key = "generic-vnf.vnf-id = '" + vnfId + "'" + " AND http-header.Real-Time = 'true'";
         logger.debug("inside getVnfdata=== " + key);
         try {
             SvcLogicResource.QueryStatus response =
                     aaiService.query("generic-vnf", false, null, key, prefix, null, ctx);
             if (SvcLogicResource.QueryStatus.NOT_FOUND.equals(response)) {
-                logger.warn("VNF " + vnf_id + " not found while updating A&AI");
-                throw new RuntimeException("VNF not found for vnf_id = " + vnf_id);
+                logger.warn("VNF " + vnfId + " not found while updating A&AI");
+                throw new RuntimeException("VNF not found for vnfId = " + vnfId);
             } else if (SvcLogicResource.QueryStatus.FAILURE.equals(response)) {
-                throw new RuntimeException("Error Querying AAI with vnfID = " + vnf_id);
+                throw new RuntimeException("Error Querying AAI with vnfID = " + vnfId);
             }
             logger.info("AAIResponse: " + response.toString());
         } catch (SvcLogicException e) {
@@ -209,12 +209,12 @@ public class CommandTask implements Runnable {
         }
     }
 
-    public boolean deleteGenericVnfData(String vnf_id, String resourceVersion) throws AAIServiceException {
+    public boolean deleteGenericVnfData(String vnfId, String resourceVersion) throws AAIServiceException {
         boolean response = false;
 
         try {
             AAIRequest request = aaiService.getRequestFromResource("generic-vnf");
-            request.addRequestProperty("generic-vnf.vnf-id", vnf_id);
+            request.addRequestProperty("generic-vnf.vnf-id", vnfId);
             response = aaiService.delete(request, resourceVersion);
         } catch (AAIServiceException aaiexc) {
             throw aaiexc;
