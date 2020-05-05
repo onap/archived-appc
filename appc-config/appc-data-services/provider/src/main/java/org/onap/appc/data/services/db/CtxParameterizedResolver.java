@@ -40,7 +40,7 @@ import com.att.eelf.configuration.EELFManager;
 
 public class CtxParameterizedResolver {
 
-    private static String CRYPT_KEY = "QtfJMKggVk";
+    private static String cryptKey = "QtfJMKggVk";
     private static final EELFLogger log = EELFManager.getInstance().getLogger(CtxParameterizedResolver.class);
     
     protected static String resolveCtxVars(String key, SvcLogicContext ctx, ArrayList<String> arguments) {
@@ -92,7 +92,7 @@ public class CtxParameterizedResolver {
 
         if (ctxVarName.indexOf('[') == -1) {
             // Ctx variable contains no arrays
-            if ("CRYPT_KEY".equals(ctxVarName)) {
+            if ("cryptKey".equals(ctxVarName)) {
                 // Handle crypt key as special case. If it's set as a context
                 // variable, use it. Otherwise, use
                 // configured crypt key.
@@ -100,7 +100,7 @@ public class CtxParameterizedResolver {
                 if ((cryptKey != null) && (cryptKey.length() > 0)) {
                     return (cryptKey);
                 } else {
-                    return (CRYPT_KEY);
+                    return (cryptKey);
                 }
             }
             return (ctx.getAttribute(ctxVarName));
@@ -204,7 +204,7 @@ public class CtxParameterizedResolver {
                    PreparedStatement stmt = conn.prepareStatement("SELECT CAST(AES_DECRYPT(?, ?) AS CHAR(50)) FROM DUAL")) {
 
                     stmt.setBytes(1, colValue);
-                    stmt.setString(2, CRYPT_KEY);
+                    stmt.setString(2, cryptKey);
                     results = stmt.executeQuery();
 
                     if ((results != null) && results.next()) {
