@@ -662,10 +662,10 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
             throws SvcLogicException, SQLException, ConfigurationException, DBException {
 
         if (contentsActionEquals(content, CONFIGURE_PARAM) || contentsActionEquals(content, CONFIG_SCALE_OUT_PARAM)
-                || contentsActionEquals(content, CONFIG_SCALE_IN_PARAM)) {
+                || contentsActionEquals(content, CONFIG_MODIFY_PARAM) || contentsActionEquals(content, CONFIG_SCALE_IN_PARAM)) {
             boolean isUpdateRequired = dbservice.isArtifactUpdateRequired(context, DB_DEVICE_INTERFACE_PROTOCOL);
             if (contentsActionEquals(content, CONFIGURE_PARAM) || (contentsActionEquals(content, CONFIG_SCALE_OUT_PARAM)
-                    || contentsActionEquals(content, CONFIG_SCALE_IN_PARAM)
+                    || contentsActionEquals(content, CONFIG_MODIFY_PARAM) || contentsActionEquals(content, CONFIG_SCALE_IN_PARAM)
                         && !isUpdateRequired)) {
 
                 dbservice.processDeviceInterfaceProtocol(context, isUpdateRequired);
