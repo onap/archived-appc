@@ -44,8 +44,8 @@ import java.util.concurrent.Future;
  * Utility class provides general bundle operational helps.
  */
 public class BundleHelper {
-    private final static String PROP_BUNDLE_TO_STOP = "appc.OAM.ToStop.properties";
-    private final static String PROP_BUNDLES_TO_NOT_STOP = "appc.OAM.ToNotStop.properties";
+    private static final String PROP_BUNDLE_TO_STOP = "appc.OAM.ToStop.properties";
+    private static final String PROP_BUNDLES_TO_NOT_STOP = "appc.OAM.ToNotStop.properties";
 
     private final EELFLogger logger;
     private final StateHelper stateHelper;

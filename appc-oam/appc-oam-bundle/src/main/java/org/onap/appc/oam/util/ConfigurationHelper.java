@@ -35,8 +35,8 @@ import java.util.concurrent.TimeUnit;
  * Utility class provides general configuration helps
  */
 public class ConfigurationHelper {
-    final static String PROP_KEY_APPC_NAME = Constants.PROPERTY_APPLICATION_NAME;
-    final static String PROP_KEY_METRIC_STATE = "metric.enabled";
+    static final String PROP_KEY_APPC_NAME = Constants.PROPERTY_APPLICATION_NAME;
+    static final String PROP_KEY_METRIC_STATE = "metric.enabled";
     private final String OAM_OPERATION_TIMEOUT_SECOND = "appc.OAM.api.timeout";
     /** Default operation timeout set to 1 minute */
     private final int DEFAULT_OAM_OPERATION_TIMEOUT = 60;
