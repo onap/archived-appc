@@ -27,7 +27,6 @@ package org.onap.appc.oam;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
@@ -91,7 +90,7 @@ public class AppcOam implements AutoCloseable, AppcOamService {
     /**
      * Invalid state message format with fliexible operation, appc name and state values
      */
-    public final static String INVALID_STATE_MESSAGE_FORMAT = "%s API is not allowed when %s is in the %s state.";
+    public static final String INVALID_STATE_MESSAGE_FORMAT = "%s API is not allowed when %s is in the %s state.";
 
     private final EELFLogger logger = EELFManager.getInstance().getLogger(AppcOam.class);
 

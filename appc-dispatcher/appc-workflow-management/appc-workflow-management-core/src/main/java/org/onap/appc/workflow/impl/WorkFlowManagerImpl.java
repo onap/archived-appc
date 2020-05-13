@@ -23,7 +23,6 @@
 package org.onap.appc.workflow.impl;
 
 import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.onap.appc.common.constant.Constants;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
@@ -45,12 +44,10 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 import java.util.ArrayList;
-import java.util.List;
 import org.onap.ccsdk.sli.core.dblib.DbLibService;
 import org.onap.ccsdk.sli.core.sli.SvcLogicGraph;
 import javax.sql.rowset.CachedRowSet;
 import java.sql.SQLException;
-import java.sql.Blob;
 import java.io.ObjectInputStream;
 import java.io.IOException;
 import org.slf4j.MDC;
