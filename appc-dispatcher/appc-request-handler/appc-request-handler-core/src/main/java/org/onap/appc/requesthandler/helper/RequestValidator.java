@@ -24,7 +24,6 @@
 package org.onap.appc.requesthandler.helper;
 
 import org.onap.appc.domainmodel.lcm.RuntimeContext;
-import org.onap.appc.exceptions.InvalidInputException;
 
 public interface RequestValidator {
     void validateRequest(RuntimeContext runtimeContext) throws Exception;

@@ -25,7 +25,6 @@ package org.onap.appc.dao.util;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import java.util.Properties;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
 import java.sql.*;
