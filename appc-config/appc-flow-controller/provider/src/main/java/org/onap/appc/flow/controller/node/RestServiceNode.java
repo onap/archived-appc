@@ -20,7 +20,6 @@
 
 package org.onap.appc.flow.controller.node;
 
-import static org.onap.appc.flow.controller.utils.FlowControllerConstants.APPC_SOUTHBOUND;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_PARAM_RESPONSE_PREFIX;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.OUTPUT_PARAM_ERROR_MESSAGE;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.OUTPUT_PARAM_STATUS;
