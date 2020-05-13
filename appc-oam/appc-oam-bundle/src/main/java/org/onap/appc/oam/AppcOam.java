@@ -91,7 +91,7 @@ public class AppcOam implements AutoCloseable, AppcOamService {
     /**
      * Invalid state message format with fliexible operation, appc name and state values
      */
-    public final static String INVALID_STATE_MESSAGE_FORMAT = "%s API is not allowed when %s is in the %s state.";
+    public static final String INVALID_STATE_MESSAGE_FORMAT = "%s API is not allowed when %s is in the %s state.";
 
     private final EELFLogger logger = EELFManager.getInstance().getLogger(AppcOam.class);
 
