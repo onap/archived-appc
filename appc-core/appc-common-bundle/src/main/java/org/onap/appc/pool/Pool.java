@@ -28,7 +28,6 @@ package org.onap.appc.pool;
 import java.io.Closeable;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 import java.util.ListIterator;

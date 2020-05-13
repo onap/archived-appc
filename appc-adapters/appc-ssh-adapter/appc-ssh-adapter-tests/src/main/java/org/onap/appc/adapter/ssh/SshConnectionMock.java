@@ -28,8 +28,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.onap.appc.adapter.ssh.SshConnection;
-
 public class SshConnectionMock implements SshConnection {
 
 	private static final int DEF_SUCCESS_STATUS = 0;

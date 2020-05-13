@@ -32,7 +32,7 @@ import java.util.function.Supplier;
 public class RequestFactory {
     private final EELFLogger logger = EELFManager.getInstance().getLogger(RequestFactory.class);
 
-    final static Map<String, Supplier<HttpRequestBase>> map = new HashMap<>();
+     static final Map<String, Supplier<HttpRequestBase>> map = new HashMap<>();
 
     static {
         map.put("GET", HttpGet::new);

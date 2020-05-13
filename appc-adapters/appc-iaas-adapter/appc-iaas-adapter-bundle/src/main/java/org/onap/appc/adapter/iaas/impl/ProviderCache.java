@@ -57,7 +57,7 @@ public class ProviderCache {
     /**
      * The map of tenant cache objects by tenant id
      */
-    private Map<String /* tenant id */, TenantCache> tenants = new HashMap<String, TenantCache>();
+    private Map<String /* tenant id */, TenantCache> tenants = new HashMap<>();
 
     /**
      * @return the value of providerType

@@ -25,7 +25,7 @@ package org.onap.appc.dg.aai.impl;
 
 
 public class Constants {
-    public final static String VNF_ID_PARAM_NAME = "aai.vnfID";
+    public static final String VNF_ID_PARAM_NAME = "aai.vnfID";
     public static final String AAI_PREFIX_PARAM_NAME = "aai.prefix";
     public static final String AAI_INPUT_DATA = "aai.input.data";
     public static final String AAI_ERROR_MESSAGE = "org.onap.appc.dg.error";

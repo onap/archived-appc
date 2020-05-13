@@ -45,8 +45,8 @@ class CoreManager{
     private final ITimerService timerService;
     private final TaskQueueManager queueManager;
     private String DEFAULT_TIMEOUT = "300000";
-    private final static String RESPONSE_TIMEOUT = "client.response.timeout";
-    private final static String GRACEFUL_SHUTDOWN_TIMEOUT = "client.graceful.shutdown.timeout";
+    private static final String RESPONSE_TIMEOUT = "client.response.timeout";
+    private static final String GRACEFUL_SHUTDOWN_TIMEOUT = "client.graceful.shutdown.timeout";
     private boolean isForceShutdown = false;
     private AtomicBoolean isGracefulShutdown = new AtomicBoolean(false);
     private long shutdownTimeout;
