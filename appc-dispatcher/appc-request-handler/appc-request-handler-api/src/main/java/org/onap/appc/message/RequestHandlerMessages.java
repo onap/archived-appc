@@ -25,6 +25,6 @@ package org.onap.appc.message;
 
 
 public class RequestHandlerMessages {
-    public final static String  VNF_WORKING_STATE_UPDATED = "VNF WorkingState for vnfId ${vnfId} was updated to ${workingState} at attempt ${attempt} out of ${maxAttempts} with ownerId = ${ownerId} and forceFlag = ${forceFlag}";
-    public final static String  VNF_WORKING_STATE_WAS_NOT_UPDATED = "VNF WorkingState for vnfId ${vnfId} was not updated to ${workingState} attempt ${attempt} out of ${maxAttempts} with ownerId = ${ownerId} and forceFlag = ${forceFlag}";
+    public static final String  VNF_WORKING_STATE_UPDATED = "VNF WorkingState for vnfId ${vnfId} was updated to ${workingState} at attempt ${attempt} out of ${maxAttempts} with ownerId = ${ownerId} and forceFlag = ${forceFlag}";
+    public static final String  VNF_WORKING_STATE_WAS_NOT_UPDATED = "VNF WorkingState for vnfId ${vnfId} was not updated to ${workingState} attempt ${attempt} out of ${maxAttempts} with ownerId = ${ownerId} and forceFlag = ${forceFlag}";
 }

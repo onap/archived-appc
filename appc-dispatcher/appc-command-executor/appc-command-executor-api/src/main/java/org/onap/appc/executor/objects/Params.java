@@ -23,7 +23,6 @@
 
 package org.onap.appc.executor.objects;
 
-import java.lang.Object;
 import java.util.HashMap;
 import java.util.Map;
 
