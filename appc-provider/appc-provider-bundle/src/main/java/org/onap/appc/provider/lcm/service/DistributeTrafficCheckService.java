@@ -23,13 +23,9 @@ package org.onap.appc.provider.lcm.service;
 
 import org.onap.appc.executor.objects.LCMCommandStatus;
 import org.onap.appc.requesthandler.objects.RequestHandlerInput;
-import org.onap.appc.util.JsonUtil;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.Action;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.DistributeTrafficCheckInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.DistributeTrafficCheckOutputBuilder;
-
-import java.io.IOException;
-import java.util.Map;
 
 
 /**

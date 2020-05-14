@@ -84,11 +84,11 @@ public class TopologyService {
     private final EELFLogger auditLogger = EELFManager.getInstance().getAuditLogger();
     private final EELFLogger metricsLogger = EELFManager.getInstance().getMetricsLogger();
     private final EELFLogger performanceLogger = EELFManager.getInstance().getPerformanceLogger();
-    private final static String RESTART_INITIATED_STR = "Metrics Logger: App-C Restart initiated. Start Time: [%s]. Request ID: [%s]";
-    private final static String TARGET_PARAM = "target";
-    private final static String SUCCESS_PARAM = "SUCCESS";
-    private final static String FAILURE_PARAM = "FAILURE";
-    private final static String ERROR_STR = "An error occurred";
+    private static final String RESTART_INITIATED_STR = "Metrics Logger: App-C Restart initiated. Start Time: [%s]. Request ID: [%s]";
+    private static final String TARGET_PARAM = "target";
+    private static final String SUCCESS_PARAM = "SUCCESS";
+    private static final String FAILURE_PARAM = "FAILURE";
+    private static final String ERROR_STR = "An error occurred";
 
     /**
      * The provider we are servicing
