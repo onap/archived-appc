@@ -33,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DmaapOutgoingMessage extends DmaapMessage{
-    private final static String defaultCambriaPartition = "MSO";
+    private static final String defaultCambriaPartition = "MSO";
 
     public DmaapOutgoingMessage() {
         super();

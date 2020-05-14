@@ -43,7 +43,7 @@ public class GenericProviderOperationRequestFormatter implements ProviderOperati
 
     //@formatter:off
     @SuppressWarnings("nls")
-    private final static String TEMPLATE = "{\"input\": %s}";
+    private static final String TEMPLATE = "{\"input\": %s}";
     //@formatter:on
 
     @Override

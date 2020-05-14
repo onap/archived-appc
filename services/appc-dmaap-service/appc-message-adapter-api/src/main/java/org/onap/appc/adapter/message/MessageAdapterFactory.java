@@ -25,9 +25,6 @@ package org.onap.appc.adapter.message;
 import java.util.Collection;
 import java.util.Set;
 
-import org.onap.appc.adapter.message.Consumer;
-import org.onap.appc.adapter.message.Producer;
-
 public interface MessageAdapterFactory {
 	
 	// TODO: how do you configure the MessageService type?

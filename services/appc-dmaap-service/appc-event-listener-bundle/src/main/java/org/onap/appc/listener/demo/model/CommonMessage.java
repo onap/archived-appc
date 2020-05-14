@@ -26,7 +26,6 @@
 package org.onap.appc.listener.demo.model;
 
 import java.io.Serializable;
-import java.util.Collection;
 
 import org.json.JSONObject;
 import org.onap.appc.listener.util.Mapper;
@@ -293,7 +292,7 @@ public class CommonMessage implements Serializable {
 
 
 
-    };
+    }
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Streams {
         
@@ -308,6 +307,6 @@ public class CommonMessage implements Serializable {
             this.activeStreams = activeStreams;
         }
         
-    };
+    }
 
 }

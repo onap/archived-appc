@@ -54,7 +54,7 @@ public class ProviderOperations {
 
     //@formatter:off
     @SuppressWarnings("nls")
-    private final static String TEMPLATE = "{\"input\": {\"common-request-header\": {\"service-request-id\": \"%s\"},\"config-payload\": {\"config-url\": \"%s\",\"config-json\":\"%s\"}}}";
+    private static final String TEMPLATE = "{\"input\": {\"common-request-header\": {\"service-request-id\": \"%s\"},\"config-payload\": {\"config-url\": \"%s\",\"config-json\":\"%s\"}}}";
     //@formatter:on 
 
     /**
