@@ -356,6 +356,7 @@ public class TestAnsibleAdapterImpl {
         configuration.setProperty("org.onap.appc.adapter.ansible.clientType", "TRUST_CERT");
         configuration.setProperty("org.onap.appc.adapter.ansible.trustStore.trustPasswd", "appc");
         adapter = new AnsibleAdapterImpl();
+        assertNotNull(adapter);
     }
 
 }

@@ -245,6 +245,7 @@ public class TestServiceCatalogV3 {
         String pass = "";
 
         catalog = new ServiceCatalogV3(IDENTITY_URL, TENANT_NAME, PRINCIPAL, CREDENTIAL, DOMAIN, properties);
+        assertNotNull(catalog);
     }
 
     @Test

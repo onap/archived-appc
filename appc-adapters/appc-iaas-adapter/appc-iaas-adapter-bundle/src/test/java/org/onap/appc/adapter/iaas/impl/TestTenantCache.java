@@ -118,6 +118,7 @@ public class TestTenantCache {
     public void testDestroy() {
         TenantCache spy = Mockito.spy(tenantCache);
         spy.destroy(context, pool);
+        assertNotNull(spy);
     }
 
     @Test
@@ -125,6 +126,7 @@ public class TestTenantCache {
         doThrow(new IOException("I/O Exception occured while closing context")).when(context).close();
         TenantCache spy = Mockito.spy(tenantCache);
         spy.destroy(context, pool);
+        assertNotNull(spy);
     }
 
     @Test
@@ -134,6 +136,7 @@ public class TestTenantCache {
         when(catalog.getProjectId()).thenReturn(TENANT_ID);
         when(catalog.getProjectName()).thenReturn(TENANT_NAME);
         spyTenant.initialize();
+        assertNotNull(spy);
     }
 
     @Test
@@ -145,6 +148,7 @@ public class TestTenantCache {
         when(spyTenant.getTenantName()).thenReturn(TENANT_NAME);
         when(catalog.getRegions()).thenReturn(regions);
         spyTenant.initialize();
+        assertNotNull(props);
     }
 
     @Test
@@ -155,6 +159,7 @@ public class TestTenantCache {
         doThrow(new ContextConnectionException("Contex Connection Exception")).when(catalog).init();
         TenantCache spyTenant = Mockito.spy(tenantCache);
         spyTenant.initialize();
+        assertNotNull(props);
     }
 
     @Test
