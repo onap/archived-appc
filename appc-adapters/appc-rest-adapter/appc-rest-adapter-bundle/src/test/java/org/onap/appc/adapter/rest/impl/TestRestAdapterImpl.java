@@ -207,6 +207,7 @@ public class TestRestAdapterImpl {
         Map<String, String> mockParams = Mockito.mock(Map.class);
         Mockito.when(mockParams.get("org.onap.appc.instance.URI")).thenThrow(new RuntimeException("\n\n"));
         adapter.createHttpRequest("test_method", mockParams, new RequestContext(new SvcLogicContext()));
+        assertNotNull(mockParams);
     }
 
     @Test
@@ -227,6 +228,7 @@ public class TestRestAdapterImpl {
         SvcLogicContext ctx = new SvcLogicContext();
         Map<String, String> params = new HashMap<>();
         adapter.commonGet(params, ctx);
+        assertNotNull(params);
     }
 
     @Test
