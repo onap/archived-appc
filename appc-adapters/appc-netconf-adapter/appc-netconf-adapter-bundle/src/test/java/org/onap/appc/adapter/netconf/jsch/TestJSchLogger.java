@@ -48,6 +48,7 @@ public class TestJSchLogger {
         jSchLogger.log(3, "test-error");
         jSchLogger.log(4, "test-fatal");
         jSchLogger.log(5, "test-other");
+        assertNotNull(jSchLogger);
 
     }
 }

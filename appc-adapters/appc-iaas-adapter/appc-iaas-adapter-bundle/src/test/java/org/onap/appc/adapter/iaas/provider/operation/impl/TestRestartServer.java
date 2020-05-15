@@ -84,6 +84,7 @@ public class TestRestartServer {
         RestartServer rbs = new RestartServer();
         rbs.setProviderCache(mg.getProviderCacheMap());
         rbs.executeProviderOperation(mg.getParams(), mg.getSvcLogicContext());
+        assertNotNull(mg);
             
     }
 }

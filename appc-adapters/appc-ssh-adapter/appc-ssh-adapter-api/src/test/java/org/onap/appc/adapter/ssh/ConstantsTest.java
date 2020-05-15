@@ -57,5 +57,6 @@ public class ConstantsTest {
         Constructor<Constants> c = Constants.class.getDeclaredConstructor();
         c.setAccessible(true);
         c.newInstance();
+        assertNotNull(c);
     }
 }
