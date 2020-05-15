@@ -257,6 +257,7 @@ public class TestServiceCatalogV2 {
 
         String out = catalog.toString();
         System.out.println(out);
+        assertNotNull(catalog);
     }
 
     @Test
