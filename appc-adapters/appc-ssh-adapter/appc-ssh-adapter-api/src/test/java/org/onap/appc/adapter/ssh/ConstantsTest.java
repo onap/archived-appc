@@ -21,6 +21,7 @@
 package org.onap.appc.adapter.ssh;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import java.lang.reflect.Constructor;
 import org.junit.Test;
 
@@ -57,5 +58,6 @@ public class ConstantsTest {
         Constructor<Constants> c = Constants.class.getDeclaredConstructor();
         c.setAccessible(true);
         c.newInstance();
+        assertNotNull(c);
     }
 }

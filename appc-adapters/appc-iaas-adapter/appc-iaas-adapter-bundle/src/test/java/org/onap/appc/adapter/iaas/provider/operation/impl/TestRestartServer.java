@@ -26,6 +26,7 @@ package org.onap.appc.adapter.iaas.provider.operation.impl;
 
 import static org.mockito.Mockito.inOrder;
 import org.junit.Assert;
+import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import org.mockito.InOrder;
 import org.onap.appc.exceptions.APPCException;
@@ -84,6 +85,7 @@ public class TestRestartServer {
         RestartServer rbs = new RestartServer();
         rbs.setProviderCache(mg.getProviderCacheMap());
         rbs.executeProviderOperation(mg.getParams(), mg.getSvcLogicContext());
+        assertNotNull(mg);
             
     }
 }

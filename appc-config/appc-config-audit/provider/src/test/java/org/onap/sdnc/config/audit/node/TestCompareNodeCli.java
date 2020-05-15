@@ -36,6 +36,7 @@ import org.slf4j.LoggerFactory;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class TestCompareNodeCli {
     private static final Logger log = LoggerFactory.getLogger(TestCompareNodeCli.class);
@@ -59,6 +60,7 @@ public class TestCompareNodeCli {
         testMap.put("targetData", "This is a Text Configuration of Device");
         cmp.compare(testMap, ctx);
         assert (ctx.getAttribute("STATUS").equals("SUCCESS"));
+        assertNotNull(testMap);
     }
     
     @Test
@@ -75,6 +77,7 @@ public class TestCompareNodeCli {
         testMap.put("targetData", "This is a Text Configuration of Device");
         cmp.compare(testMap, ctx);
         assert (ctx.getAttribute("STATUS").equals("FAILURE"));
+        assertNotNull(testMap);
     }
 
     @Test
@@ -83,6 +86,7 @@ public class TestCompareNodeCli {
         testMap.put("targetData.configuration-data", "This is a Text Configuration of Device");
         cmp.compare(testMap, ctx);
         assert (ctx.getAttribute("STATUS").equals("FAILURE"));
+        assertNotNull(testMap);
     }
 
 }

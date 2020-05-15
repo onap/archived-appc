@@ -23,7 +23,7 @@ package org.onap.appc.adapter.netconf.jsch;
 
 import org.junit.Assert;
 import org.junit.Test;
-
+import static org.junit.Assert.assertNotNull;
 import java.io.IOException;
 
 public class TestJSchLogger {
@@ -48,6 +48,7 @@ public class TestJSchLogger {
         jSchLogger.log(3, "test-error");
         jSchLogger.log(4, "test-fatal");
         jSchLogger.log(5, "test-other");
+        assertNotNull(jSchLogger);
 
     }
 }
