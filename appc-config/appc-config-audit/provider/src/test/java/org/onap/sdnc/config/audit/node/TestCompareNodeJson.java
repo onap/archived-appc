@@ -33,6 +33,7 @@ import org.onap.sdnc.config.audit.node.CompareNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
@@ -61,6 +62,7 @@ public class TestCompareNodeJson {
         testMap.put("targetData", testJson);
         cmp.compare(testMap, ctx);
         assert (ctx.getAttribute("STATUS").equals("SUCCESS"));
+        assertNotNull(testMap);
     }
     
     @Test
@@ -85,6 +87,7 @@ public class TestCompareNodeJson {
         testMap.put("targetData", testJson);
         cmp.compare(testMap, ctx);
         assert (ctx.getAttribute("STATUS").equals("FAILURE"));
+        assertNotNull(testJson);
     }
     
     @Test

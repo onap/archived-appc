@@ -34,6 +34,8 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class TestCompareNodeXml {
     private static final Logger log = LoggerFactory.getLogger(TestCompareNodeXml.class);
@@ -60,6 +62,7 @@ public class TestCompareNodeXml {
         testMap.put("targetData", t);
         cmp.compare(testMap, ctx);
         assert (ctx.getAttribute("123." + "STATUS").equals("SUCCESS"));
+        assertNotNull(s);
     }
 
     @Test
@@ -72,6 +75,7 @@ public class TestCompareNodeXml {
                 "<SipIfTermination><udpPortInUse>true</udpPortInUse><udpPort>5060</udpPort><tcpPortInUse>true</tcpPortInUse><tcpPort>5060</tcpPort><id>2</id></SipIfTermination>");
         cmp.compare(testMap, ctx);
         assert (ctx.getAttribute("STATUS").equals("SUCCESS"));
+        assertNotNull(testMap);
     }
 
     @Test
@@ -82,6 +86,7 @@ public class TestCompareNodeXml {
         testMap.put("targetData", "<SipIfTermination><id>2</id></SipIfTermination>");
         cmp.compare(testMap, ctx);
         assert (ctx.getAttribute("STATUS").equals("SUCCESS"));
+        assertNotNull(testMap);
     }
 
 }
