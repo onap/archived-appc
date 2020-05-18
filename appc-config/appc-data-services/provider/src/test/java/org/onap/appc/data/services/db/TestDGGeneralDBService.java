@@ -26,6 +26,7 @@ package org.onap.appc.data.services.db;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -274,6 +275,7 @@ public class TestDGGeneralDBService {
         String prefix="test";
         String templateModelId = "template001";
         dbService.getVnfcReferenceByVnfTypeNActionWithTemplateModelId(ctx, prefix, templateModelId);
+        assertNotNull(dbService);
     }
 
     @Test
@@ -310,6 +312,7 @@ public class TestDGGeneralDBService {
         String templateModelId = "template001";
         String fileCategory="testCategory";
         dbService.getTemplateByVnfTypeNActionWithTemplateModelId(ctx, prefix, fileCategory, templateModelId);
+        assertNotNull(dbService);
     }
 
     @Test
