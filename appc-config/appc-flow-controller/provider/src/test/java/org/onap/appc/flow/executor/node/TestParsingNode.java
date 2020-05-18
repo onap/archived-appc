@@ -28,6 +28,7 @@ import org.junit.Test;
 import org.onap.appc.flow.controller.node.JsonParsingNode;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
+import static org.junit.Assert.assertNotNull;
 
 public class TestParsingNode {
 
@@ -43,6 +44,7 @@ public class TestParsingNode {
             String parmName = (String) key;
             String parmValue = ctx.getAttribute(parmName);
         }
+        assertNotNull(ctx);
         
     }
     

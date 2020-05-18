@@ -62,6 +62,7 @@ public class ParametersTest {
         param.setParamName("2");
         param.setParamValue("def");
         System.out.println("param hashcode is " + param.hashCode());
+        assertNotNull(param);
     }
 
     @Test
