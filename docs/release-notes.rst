@@ -27,6 +27,127 @@ Release Notes
 ..	* This note must be removed after content has been added.
 
 
+Abstract
+========
+
+This document provides the release notes for the Application Controller Project's Frankfurt release.
+
+Summary
+=======
+
+The Application Controller (APPC) performs functions to manage the lifecycle of VNFs and their components providing model driven configuration, abstracts cloud/VNF interfaces for repeatable actions, uses vendor agnostic mechanisms (NETCONF, Chef via Chef Server and Ansible) and enables automation.
+
+Release Data
+============
+
+Version: 1.7.2
+--------------
+
+:Release Date: 2020-6-4 (TBD)
+
+
+New features
+------------
+
+         - Upgraded OpenDaylight (ODL) version to Neon SR1
+
+         - Added support for the following LCM actions (a desciption of all of the above LCM actions can be found in the APPC LCM API Guide on readthedoc):
+
+                - ActivateNESw
+
+                - ConfigScaleIn
+
+                - DownloadNESw
+
+                - GetConfig
+
+                - LicenseManagement
+
+                - PostEvacuate
+
+                - PostMigrate
+
+                - PostRebuild
+
+                - PreConfigure
+
+                - PreEvacuate
+
+                - PreMigrate
+
+                - PreRebuild
+
+                - Provisioning
+
+                - StartTraffic
+
+                - StatusTraffic
+
+                - StopTraffic
+
+         - Move northbound DMAAP adapter out from ODL OSGI Karaf base
+
+         - vnfc/vf-module/v-server operations support for ansible LCMs
+
+         - Resource resolution via CDS
+
+
+Known Limitations, Issues and Workarounds
+=========================================
+
+System Limitations
+------------------
+
+ - OpenStack Restriction:
+
+                - Currently APPC only supports OpenStack.
+
+                - Admin level access for Tenant level operations.
+
+                - OpenStack Hypervisorcheck is turned off by default.
+
+ - Netconf Restriction:
+
+                - Currently APPC only tested with Honeycomb. 
+
+Known Vulnerabilities
+---------------------
+
+* `AAF-987 <https://jira.onap.org/browse/POLICY-2221>`_ - Bath function in AAF can not be functioned with different users and roles, which are associated with Opendaylight AAA users. 
+
+Workarounds
+-----------
+
+
+Security Notes
+--------------
+
+ - Password removal from helm charts
+
+ - Allow overriding of keystore and truststore in APPC helm charts
+
+References
+==========
+
+For more information on the ONAP Frankfurt release, please see:
+
+#. `ONAP Home Page`_
+#. `ONAP Documentation`_
+#. `ONAP Release Downloads`_
+#. `ONAP Wiki Page`_
+
+
+.. _`ONAP Home Page`: https://www.onap.org
+.. _`ONAP Wiki Page`: https://wiki.onap.org
+.. _`ONAP Documentation`: https://docs.onap.org
+.. _`ONAP Release Downloads`: https://git.onap.org
+
+
+..      ==========================
+..      * * *     EL ALTO    * * *
+..      ==========================
+
+
 Version: 1.6.4
 --------------
 
