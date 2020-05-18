@@ -30,6 +30,7 @@ import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -55,6 +56,7 @@ public class TestSQLSaveQuery {
                     + " SET request_id = $request-id , message_type  =  'request' ,  message        =  $log_message ;";
             String resolvedContext = resolveCtxVars(key, ctx);
             ctx.setAttribute("log_message", null);
+            assertNotNull(message);
         } catch (IOException e) {
 
         }

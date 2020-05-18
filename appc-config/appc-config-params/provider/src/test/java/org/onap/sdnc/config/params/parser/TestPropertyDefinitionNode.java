@@ -226,6 +226,7 @@ public class TestPropertyDefinitionNode {
 
         PropertyDefinition propertyDefinition = transformer.convertYAMLToPD(yamlData);
         String yaml = transformer.convertPDToYaml(propertyDefinition);
+        assertNotNull(transformer);
     }
 
     @Test

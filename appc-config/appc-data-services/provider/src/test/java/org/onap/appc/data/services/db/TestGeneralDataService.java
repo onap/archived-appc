@@ -32,6 +32,8 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicResource.QueryStatus;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(DGGeneralDBService.class)
@@ -58,6 +60,7 @@ public class TestGeneralDataService {
     PowerMockito.when(dGGeneralDBService.saveConfigTransactionLog(anyObject(), eq("")))
         .thenReturn(QueryStatus.SUCCESS);
     generalDataService.saveTransactionLog(inParams, ctx);
+    assertNotNull(testSaveTransactionLog());
   }
 
   @Test(expected = Exception.class)
