@@ -37,6 +37,7 @@ import org.onap.appc.encryptiontool.wrapper.EncryptionToolDGWrapper;
 import org.onap.appc.encryptiontool.wrapper.WrapperEncryptionTool;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class TestEncryptionTool {
 
@@ -81,6 +82,7 @@ public class TestEncryptionTool {
     public void decrypt() throws Exception {
         EncryptionTool et = EncryptionTool.getInstance();
         System.out.println(et.decrypt("enc:Ai8KLw=="));
+        assertNotNull(et);
     }
 
     //@Test(expected=Exception.class)

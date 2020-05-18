@@ -60,7 +60,7 @@ public class TestGeneralDataService {
     PowerMockito.when(dGGeneralDBService.saveConfigTransactionLog(anyObject(), eq("")))
         .thenReturn(QueryStatus.SUCCESS);
     generalDataService.saveTransactionLog(inParams, ctx);
-    assertNotNull(testSaveTransactionLog());
+    assertNotNull(dGGeneralDBService);
   }
 
   @Test(expected = Exception.class)

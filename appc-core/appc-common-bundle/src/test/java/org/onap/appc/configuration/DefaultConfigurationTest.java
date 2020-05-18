@@ -41,6 +41,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.reflect.Whitebox;
 import org.powermock.modules.junit4.PowerMockRunner;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(EncryptionTool.class)
@@ -356,6 +357,7 @@ public class DefaultConfigurationTest {
         Mockito.doThrow(new IOException("testing exception")).when(mockProp).load(mockIS);
         Whitebox.setInternalState(defaultConfiguration, "properties", mockProp);
         defaultConfiguration.setProperties(mockIS);
+        assertNotNull(mockIS);
         // Should come here without exception
     }
 
