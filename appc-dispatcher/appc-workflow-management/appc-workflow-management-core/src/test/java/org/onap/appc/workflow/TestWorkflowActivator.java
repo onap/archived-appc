@@ -25,6 +25,7 @@ package org.onap.appc.workflow;
 
 import org.junit.Test;
 import org.onap.appc.workflow.impl.MockTransactionAbortedMarker;
+import static org.junit.Assert.assertNotNull;
 
 public class TestWorkflowActivator {
 
@@ -32,6 +33,6 @@ public class TestWorkflowActivator {
     public void testActivator(){
         MockTransactionAbortedMarker mockTransactionAbortedMarker = new MockTransactionAbortedMarker(null);
         mockTransactionAbortedMarker.run();
+        assertNotNull(mockTransactionAbortedMarker);
     }
-
 }

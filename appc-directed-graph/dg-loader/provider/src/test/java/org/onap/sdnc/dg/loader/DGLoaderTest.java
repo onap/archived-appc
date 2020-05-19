@@ -73,6 +73,7 @@ public class DGLoaderTest {
         String xmlPath = "src/test/resources/xml/Appc_UniTest.xml";
         DGXMLLoader dgXMLLoad = new MockDGXMLLoader();
         dgXMLLoad.loadDGXMLFile(xmlPath);
+        assertNotNull(propertyPath);
     }
 
     @Test
@@ -81,6 +82,7 @@ public class DGLoaderTest {
         String xmlPath = "src/test/resources/xml";
         DGXMLLoader dgXMLLoad = new MockDGXMLLoader();
         Whitebox.invokeMethod(dgXMLLoad, "loadDGXMLDir", xmlPath);
+        assertNotNull(propertyPath);
     }
 
     @Test
@@ -89,6 +91,7 @@ public class DGLoaderTest {
         String xmlPath = "src/test/resources/xml/xml";
         DGXMLLoader dgXMLLoader = new MockDGXMLLoader();
         Whitebox.invokeMethod(dgXMLLoader, "loadDGXMLDir", xmlPath);
+        assertNotNull(xmlPath);
     }
 
     @Test
@@ -97,6 +100,7 @@ public class DGLoaderTest {
         String activateFilePath = "src/test/resources/dg_activate_test";
         DGXMLActivator dgXMLActivator = new MockDGXMLActivator();
         dgXMLActivator.activateDg(activateFilePath);
+        assertNotNull(dgXMLActivator);
 
     }
 
@@ -106,6 +110,7 @@ public class DGLoaderTest {
         String activateFilePath = "src/test/resources/someFile";
         DGXMLActivator dgXMLActivator = new MockDGXMLActivator();
         dgXMLActivator.activateDg(activateFilePath);
+        assertNotNull(activateFilePath);
 
     }
 

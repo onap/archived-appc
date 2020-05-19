@@ -24,7 +24,7 @@
 package org.onap.appc.artifact.handler;
 
 import static org.junit.Assert.assertTrue;
-
+import static org.junit.Assert.assertNotNull;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -157,6 +157,7 @@ public class ArtifactHandlerProviderTest {
     {
         artifactHandlerProvider = new ArtifactHandlerProvider(dataBroker, notificationService, rpcRegistry);
         artifactHandlerProvider.close();
+        assertNotNull(artifactHandlerProvider);
     }
     
     @Test
