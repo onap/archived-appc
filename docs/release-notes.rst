@@ -113,7 +113,7 @@ System Limitations
 Known Vulnerabilities
 ---------------------
 
-* `AAF-987 <https://jira.onap.org/browse/POLICY-2221>`_ - Bath function in AAF can not be functioned with different users and roles, which are associated with Opendaylight AAA users. 
+* `AAF-987 <https://jira.onap.org/browse/AAF-987>`_ - Bath function in AAF can not be functioned with different users and roles, which are associated with Opendaylight AAA users. 
 
 Workarounds
 -----------
