@@ -42,6 +42,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({MDSALStoreImpl.class, MDSALStoreFactory.class})
@@ -80,6 +81,7 @@ public class TestVNFConfiguratorImpl {
         params.put("configJSON", "configJSON");
         params.put("requestId", "requestId");
         configurator.storeConfig(params, new SvcLogicContext());
+        assertNotNull(configurator);
     }
 
     @Test
@@ -104,6 +106,7 @@ public class TestVNFConfiguratorImpl {
         params.put("configJSON", "configJSON");
         params.put("requestId", "requestId");
         configurator.storeConfig(params, new SvcLogicContext());
+        assertNotNull(configurator);
 
     }
 }

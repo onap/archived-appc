@@ -48,6 +48,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({FrameworkUtil.class, DependencyManager.class, DependencyModelFactory.class})
@@ -77,6 +78,7 @@ public class VnfExecutionFlowImplTest {
         VnfExecutionFlow vnfExecutionFlow = new VnfExecutionFlowImpl();
         Whitebox.setInternalState(vnfExecutionFlow, "logger", logger);
         vnfExecutionFlow.getVnfExecutionFlowData(params, context);
+        assertNotNull(params);
     }
 
     @Test
@@ -95,6 +97,7 @@ public class VnfExecutionFlowImplTest {
         VnfExecutionFlow vnfExecutionFlow = new VnfExecutionFlowImpl();
         Whitebox.setInternalState(vnfExecutionFlow, "logger", logger);
         vnfExecutionFlow.getVnfExecutionFlowData(params, context);
+        assertNotNull(params);
     }
 
     @Test(expected = RuntimeException.class)
@@ -384,6 +387,7 @@ public class VnfExecutionFlowImplTest {
 
         VnfExecutionFlow vnfExecutionFlow = new VnfExecutionFlowImpl();
         vnfExecutionFlow.getVnfExecutionFlowData(params, context);
+        assertNotNull(params);
     }
 
     @Test
@@ -418,5 +422,6 @@ public class VnfExecutionFlowImplTest {
 
         VnfExecutionFlow vnfExecutionFlow = new VnfExecutionFlowImpl();
         vnfExecutionFlow.getVnfExecutionFlowData(params, context);
+        assertNotNull(params);
     }
 }

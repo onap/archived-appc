@@ -171,6 +171,7 @@ public class TestTenantCache {
         TenantCache spyTenant = Mockito.spy(tenantCache);
         when(spyTenant.getServiceCatalogFactory(anyString(), anyString(), anyObject())).thenReturn(catalog);
         spyTenant.initialize();
+        assertNotNull(props);
     }
 
     /**
