@@ -30,6 +30,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.isA;
 import static org.hamcrest.beans.HasPropertyWithValue.hasProperty;
 import static org.mockito.Matchers.anyObject;
+import static org.junit.Assert.assertNotNull;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -143,6 +144,7 @@ public class TestCommandTask {
                 VNFOperation.Terminate, "2", "1.0"));
         setResponseContext(100, task.getCommandRequest().getCommandExecutorInput().getRuntimeContext());
         task.run();
+        assertNotNull(mockAai);
     }
 
     @Test

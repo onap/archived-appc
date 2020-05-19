@@ -35,6 +35,7 @@ import org.onap.appc.metadata.objects.DependencyModelIdentifier;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(MetadataCacheFactory.class)
@@ -58,6 +59,7 @@ public class DependencyManagerImplTest {
         DependencyTypes dependencyType = DependencyTypes.findByString("resource");
         Mockito.when(cache.getObject(Mockito.any(DependencyModelIdentifier.class))).thenReturn(new VnfcDependencyModel(null));
         dmImpl.getVnfcDependencyModel(modelIdentifier, dependencyType);
+        assertNotNull(dmImpl);
     }
 
 }
