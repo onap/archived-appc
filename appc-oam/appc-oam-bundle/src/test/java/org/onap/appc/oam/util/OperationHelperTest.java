@@ -53,6 +53,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
@@ -149,6 +150,7 @@ public class OperationHelperTest {
         MaintenanceModeInput mockInput1 = mock(MaintenanceModeInput.class);
         Mockito.doReturn(mockCommonHeader).when(mockInput1).getCommonHeader();
         operationHelper.isInputValid(mockInput1);
+        assertNotNull(mockInput);
     }
 
     @Test

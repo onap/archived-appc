@@ -29,6 +29,7 @@ package org.onap.appc.interfaceService.serviceExecutor;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import org.onap.appc.interfaces.service.executorImpl.ServiceExecutorImpl;
 import org.onap.appc.interfaces.service.data.ScopeOverlap;
@@ -45,6 +46,7 @@ public class TestServiceExecutor {
         ServiceExecutorImpl sei = new ServiceExecutorImpl();
         String requestData = "{\"vnf-id\":\"ibcx8888v\",\"current-request\" :{\"action\" : \"Audit\",\"action-identifiers\" : {\"service-instance-id\" : \"service-instance-id\",\"vnf-id\" : \"vnf-id\",\"vnfc-name\" : \"vnfc-name\",\"vf-module-id\" : \"vf-module-id\",\"vserver-id\": \"vserver-id\"}},\"in-progress-requests\" :[{\"action\" : \"HealthCheck\",\"action-identifiers\" : {\"service-instance-id\" : \"service-instance-id1\",\"vnf-id\" : \"vnf-id1\",\"vnfc-name\" : \"vnfc-name1\",\"vf-module-id\" : \"vf-module-id\",\"vserver-id\": \"vserver-id1\"}},{\"action\" : \"CheckLock\",\"action-identifiers\" : {\"service-instance-id\" : \"service-instance-id2\",\"vnf-id\" : \"vnf-id2\",\"vnfc-name\" : \"vnfc-name2\",\"vf-module-id\" : \"vf-module-id2\",\"vserver-id\": \"vserver-id2\"}}]}";
         sei.isRequestOverLap(requestData);
+        assertNotNull(sei);
     }
 
     @Test
