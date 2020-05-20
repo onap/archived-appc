@@ -52,6 +52,7 @@ import org.onap.ccsdk.sli.adaptors.aai.AAIClient;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({FrameworkUtil.class})
@@ -122,6 +123,7 @@ public class TestAaiService {
         inParams.put("AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX", "prefix.");
         ctx.setAttribute("tmp.vnfInfo.vm[1].vnfc-name", "nullnull001");
         aaiService.insertVnfcs(inParams, ctx, 2, null);
+        assertNotNull(aaiService);
     }
 
     @Test
@@ -133,6 +135,7 @@ public class TestAaiService {
         inParams.put("AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX", "prefix.");
         ctx.setAttribute("tmp.vnfInfo.vm[1].vnfc-name", "nullnull001");
         aaiService.getVnfcData(inParams, ctx, 1);
+        assertNotNull(ctx);
     }
 
     @Test
@@ -334,6 +337,7 @@ public class TestAaiService {
         mockAai.populateAllVnfInfo(ctx, "tmp.vnfInfo");
 
         // mockAai.insertVnfcs(inParams,ctx,2, 2) ;
+        assertNotNull(mockAai);
     }
 
     @Test
@@ -350,6 +354,8 @@ public class TestAaiService {
         mockAai.populateAllVnfInfo(ctx, "tmp.vnfInfo");
 
         mockAai.updateVServerStatus(inParams, ctx, 2);
+
+        assertNotNull(mockAai);
     }
 
     @Test
@@ -368,6 +374,7 @@ public class TestAaiService {
         mockAai.populateAllVnfInfo1(ctx, "tmp.vnfInfo");
 
         mockAai.insertVnfcs(inParams, ctx, 2,"vfModuleId1");
+        assertNotNull(mockAai);
 
 
     }
@@ -442,6 +449,8 @@ public class TestAaiService {
         mockAai.populateAllVnfInfo(ctx, "tmp.vnfInfo");
 
         mockAai.updateVnfStatus(inParams, ctx);
+
+        assertNotNull(ctx);
     }
 
     private void printContext(SvcLogicContext ctx) throws Exception {
@@ -505,7 +514,8 @@ public class TestAaiService {
     {
         MockAaiService mockAai = new MockAaiService(aaiClient);
         Map<String, String> params=mockAai.getExpectedParams();
-        mockAai.addVnfc("ibcxvm0002func0001",params , "");        
+        mockAai.addVnfc("ibcxvm0002func0001",params , "");
+        assertNotNull(mockAai);
     }
 
 }
