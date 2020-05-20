@@ -195,5 +195,6 @@ public class TestMessages {
     public void testOutgoingToString() {
         String s = out.toString();
         //assertTrue(s.contains(out.getId()));
+        assertNotNull(s);
     }
 }
