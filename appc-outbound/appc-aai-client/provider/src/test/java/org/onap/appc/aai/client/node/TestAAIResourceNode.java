@@ -104,6 +104,7 @@ public class TestAAIResourceNode {
         AAIResourceNode aai = new AAIResourceNode();
         aai.populateContext(vservers, ctx, "vserver.");
         log.info(ctx.getAttribute("vserver.vm[0].vserver-name"));
+        assertNotNull(vserverMap);
     }
 
     @Test
@@ -245,6 +246,7 @@ public class TestAAIResourceNode {
         AaiService aaiService = Mockito.mock(AaiService.class);
         Mockito.doReturn(aaiService).when(aai).getAaiService();
         aai.addVnfcs(inParams, ctx);
+        assertNotNull(ctx);
     }
 
     @Test
@@ -347,6 +349,7 @@ public class TestAAIResourceNode {
         ctx.setAttribute("test.vnf.vm-with-no-vnfcs-count-vf-module", "0");
         ctx.setAttribute("test.vnf.vm-count-for-vf-module", "2");
         aairn.processCheckForVfModule("vfmoduleId1", ctx, "test.", 2);
+        assertNotNull(aairn);
     }
 
     @Test

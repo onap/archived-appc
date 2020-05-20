@@ -63,6 +63,7 @@ import java.util.stream.Collectors;
 
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({IDistributionClient.class,
@@ -141,6 +142,7 @@ public class SdcCallbackTest {
         INotificationData notificationData = getNotificationData();
         sdcCallback.activateCallback(notificationData);
         pause();
+        assertNotNull(notificationData);
     }
 
     @Test

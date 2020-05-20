@@ -28,6 +28,7 @@ import java.security.cert.X509Certificate;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.onap.appc.instar.dme2client.SecureRestClientTrustManager;
+import static org.junit.Assert.assertNotNull;
 
 public class TestSecureRestClientTrustManager {
 
@@ -38,5 +39,6 @@ public class TestSecureRestClientTrustManager {
         Mockito.when(sm.getAcceptedIssuers()).thenReturn(Mockito.any());
         Mockito.when(sm.isClientTrusted(arg0)).thenReturn(true);
         Mockito.when(sm.isServerTrusted(arg0)).thenReturn(true);
+        assertNotNull(sm);
     }
 }

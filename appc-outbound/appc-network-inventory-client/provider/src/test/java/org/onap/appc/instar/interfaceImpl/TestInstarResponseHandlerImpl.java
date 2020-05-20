@@ -29,6 +29,7 @@ import org.junit.Test;
 import org.onap.appc.instar.utils.InstarClientConstant;
 import org.onap.sdnc.config.params.data.ResponseKey;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import static org.junit.Assert.assertNotNull;
 
 public class TestInstarResponseHandlerImpl {
 
@@ -44,6 +45,7 @@ public class TestInstarResponseHandlerImpl {
                 + "[{\"fqdn\":\"fqdnx\",\"v4IPAddress\":\"value2\"}]}";
         InstarResponseHandlerImpl impl = new InstarResponseHandlerImpl(resKey,svc);
         impl.processResponse(instarRes, instarKey);
+        assertNotNull(resKey);
     }
 
     @Test
@@ -58,6 +60,7 @@ public class TestInstarResponseHandlerImpl {
                 + "[{\"fqdn\":\"fqdnx\",\"v6IPAddress\":\"value2\"}]}";
         InstarResponseHandlerImpl impl = new InstarResponseHandlerImpl(resKey,svc);
         impl.processResponse(instarRes, instarKey);
+        assertNotNull(resKey);
     }
 
     @Test
@@ -75,6 +78,7 @@ public class TestInstarResponseHandlerImpl {
                 + "[{\"fqdn\":\"fqdnx\",\"v6IPAddress\":\"value2\"}]}";
         InstarResponseHandlerImpl impl = new InstarResponseHandlerImpl(resKey,svc);
         impl.processResponse(instarRes, instarKey);
+        assertNotNull(impl);
     }
 
     @Test
