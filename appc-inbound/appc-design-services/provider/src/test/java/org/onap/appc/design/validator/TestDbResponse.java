@@ -26,6 +26,7 @@ package org.onap.appc.design.validator;
 
 import org.junit.Test;
 import org.onap.appc.design.dbervices.DbResponseProcessor;
+import static org.junit.Assert.assertNotNull;
 
 public class TestDbResponse {
 
@@ -45,5 +46,6 @@ public class TestDbResponse {
         dbResponse.parseResponse("Test", "getAppcTimestampUTC");
         dbResponse.parseResponse("Test", "retrieveVnfPermissions");
         dbResponse.parseResponse("Test", "saveVnfPermissions");
+        assertNotNull(dbResponse);
     }
 }
