@@ -70,6 +70,8 @@ public class EncryptionToolTest {
 
     @Test
     public final void testIsEncrytpedWithNull() {
+
         String encrypted = EncryptionTool.getInstance().encrypt(null);
+        assertNull(encrypted);
     }
 }
