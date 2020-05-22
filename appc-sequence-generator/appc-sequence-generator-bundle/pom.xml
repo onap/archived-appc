@@ -31,7 +31,7 @@
 	</parent>
         <groupId>org.onap.appc</groupId>
     <artifactId>appc-sequence-generator-bundle</artifactId>
-    <version>2.7.2-SNAPSHOT</version>
+    <version>1.7.3-SNAPSHOT</version>
     <name>appc-sequence-generator-bundle</name>
     <packaging>bundle</packaging>
 

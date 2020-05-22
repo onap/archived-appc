@@ -37,7 +37,7 @@ limitations under the License.
 	</properties>
 
 	<artifactId>appc-sdc-listener-bundle</artifactId>
-    <version>2.7.2-SNAPSHOT</version>
+    <version>1.7.3-SNAPSHOT</version>
 	<packaging>bundle</packaging>
 
 	<dependencies>

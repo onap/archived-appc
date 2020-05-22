@@ -30,7 +30,7 @@
   <groupId>org.onap.appc</groupId>
 
     <artifactId>appc-config-data-services-installer</artifactId>
-    <version>2.7.2-SNAPSHOT</version>
+    <version>1.7.3-SNAPSHOT</version>
     <name>Config Component Data Services - Installer</name>
     <packaging>pom</packaging>
     <properties>
@@ -56,7 +56,7 @@
         <dependency>
             <groupId>org.onap.appc</groupId>
             <artifactId>appc-config-data-services-provider</artifactId>
-            <version>2.7.2-SNAPSHOT</version>
+            <version>1.7.3-SNAPSHOT</version>
         </dependency>
     </dependencies>
     <build>

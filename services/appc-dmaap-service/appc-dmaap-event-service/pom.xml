@@ -23,7 +23,7 @@
   <groupId>org.onap.appc.services.dmaap</groupId>
   <artifactId>dmaap-event-service</artifactId>
   <packaging>jar</packaging>
-  <version>2.7.2-SNAPSHOT</version>
+  <version>1.7.3-SNAPSHOT</version>
   <name>dmaapService</name>
     <parent>
         <groupId>org.springframework.boot</groupId>

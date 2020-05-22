@@ -32,7 +32,7 @@ limitations under the License.
         <groupId>org.onap.appc</groupId>
 
 	<artifactId>appc-sdc-listener</artifactId>
-    <version>2.7.2-SNAPSHOT</version>
+    <version>1.7.3-SNAPSHOT</version>
 	<name>SDC Event Listener</name>
 	<description>Listener to read and write events from DMaaP (Cambria) or DMaaP.</description>
 	<packaging>pom</packaging>

@@ -23,7 +23,7 @@
   <groupId>org.onap.appc.services</groupId>
   <artifactId>appc-services-root</artifactId>
   <packaging>pom</packaging>
-  <version>2.7.2-SNAPSHOT</version>
+  <version>1.7.3-SNAPSHOT</version>
   <name>appc-services-root</name>
   <modules>
   <module>appc-dmaap-service</module>
@@ -37,6 +37,6 @@
   <parent>
       <groupId>org.onap.appc</groupId>
       <artifactId>appc</artifactId>
-      <version>2.7.2-SNAPSHOT</version>
+      <version>1.7.3-SNAPSHOT</version>
   </parent>
 </project>

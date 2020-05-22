@@ -31,7 +31,7 @@ limitations under the License.
 
     <groupId>org.onap.appc</groupId>
     <artifactId>features-appc-service-communicator</artifactId>
-    <version>2.7.2-SNAPSHOT</version>
+    <version>1.7.3-SNAPSHOT</version>
     <packaging>feature</packaging>
 
     <name></name>

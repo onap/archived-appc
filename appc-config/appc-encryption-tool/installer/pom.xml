@@ -30,7 +30,7 @@
   <groupId>org.onap.appc</groupId>
 
     <artifactId>appc-config-encryption-tool-installer</artifactId>
-    <version>2.7.2-SNAPSHOT</version>
+    <version>1.7.3-SNAPSHOT</version>
     <name>Config Component Encryption Tool - Installer</name>
     <packaging>pom</packaging>
     <properties>
@@ -56,7 +56,7 @@
         <dependency>
             <groupId>org.onap.appc</groupId>
             <artifactId>appc-config-encryption-tool-provider</artifactId>
-            <version>2.7.2-SNAPSHOT</version>
+            <version>1.7.3-SNAPSHOT</version>
         </dependency>
     </dependencies>
     <build>
