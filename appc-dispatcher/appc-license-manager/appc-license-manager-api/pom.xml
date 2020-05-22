@@ -31,7 +31,7 @@
     </parent>
     <artifactId>appc-license-manager-api</artifactId>
     <groupId>org.onap.appc</groupId>
-    <version>2.7.2-SNAPSHOT</version>
+    <version>1.7.2</version>
     <name>APPC License Manager - API</name>
     <packaging>bundle</packaging>
     <url>http://maven.apache.org</url>

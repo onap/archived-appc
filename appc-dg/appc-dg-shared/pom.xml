@@ -47,6 +47,6 @@
     	<module>appc-dg-domain-model-lib</module>
 		<module>appc-dg-mdsal-store</module>
   </modules>
-	<version>2.7.2-SNAPSHOT</version>
+	<version>1.7.2</version>
 	<groupId>org.onap.appc</groupId>
 </project>

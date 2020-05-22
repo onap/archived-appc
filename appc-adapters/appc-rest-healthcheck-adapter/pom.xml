@@ -144,5 +144,5 @@
     <module>appc-rest-healthcheck-adapter-features</module>
     <module>appc-rest-healthcheck-adapter-installer</module>
   </modules>
-  <version>2.7.2-SNAPSHOT</version>
+  <version>1.7.2</version>
 </project>

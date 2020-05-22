@@ -45,5 +45,5 @@
     </modules>
 
     <groupId>org.onap.appc</groupId>
-    <version>2.7.2-SNAPSHOT</version>
+    <version>1.7.2</version>
 </project>

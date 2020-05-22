@@ -32,7 +32,7 @@ limitations under the License.
         <groupId>org.onap.appc</groupId>
 
     <artifactId>appc-yang-generator</artifactId>
-    <version>2.7.2-SNAPSHOT</version>
+    <version>1.7.2</version>
     <packaging>jar</packaging>
 
     <properties>

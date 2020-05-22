@@ -32,7 +32,7 @@
         <groupId>org.onap.appc</groupId>
 
     <artifactId>appc-network-inventory-client-provider</artifactId>
-    <version>2.7.2-SNAPSHOT</version>
+    <version>1.7.2</version>
     <packaging>bundle</packaging>
     <name>APPC Network Client - Provider</name>
 

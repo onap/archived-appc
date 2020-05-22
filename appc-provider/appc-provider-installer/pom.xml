@@ -29,7 +29,7 @@
   
   <groupId>org.onap.appc</groupId>
   <artifactId>appc-provider-installer</artifactId>
-  <version>2.7.2-SNAPSHOT</version>
+  <version>1.7.2</version>
   <packaging>pom</packaging>
 
   <name>APPC Provider - Karaf Installer</name>

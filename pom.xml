@@ -32,7 +32,7 @@ limitations under the License.
     <packaging>pom</packaging>
     <groupId>org.onap.appc</groupId>
     <artifactId>appc</artifactId>
-    <version>2.7.2-SNAPSHOT</version>
+    <version>1.7.2</version>
     <name>appc</name>
     <description>Construct the Application Controller component for the ECOMP project.</description>
     <inceptionYear>2015-07-20</inceptionYear>
