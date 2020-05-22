@@ -31,7 +31,7 @@ limitations under the License.
 	</parent>
         <groupId>org.onap.appc</groupId>
 	<artifactId>appc-sdc-listener-installer</artifactId>
-	<version>1.8.0-SNAPSHOT</version>
+	<version>2.7.2-SNAPSHOT</version>
 	<name>SDC Listener - Karaf Installer</name>
 	<packaging>pom</packaging>
 

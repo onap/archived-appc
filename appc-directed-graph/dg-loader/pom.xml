@@ -26,14 +26,14 @@
     <parent>
         <groupId>org.onap.appc</groupId>
         <artifactId>appc-directed-graph</artifactId>
-        <version>1.8.0-SNAPSHOT</version>
+        <version>2.7.2-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.onap.appc.plugins</groupId>
     <artifactId>dg-loader</artifactId>
-    <version>1.8.0-SNAPSHOT</version>
+    <version>2.7.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Directed Graph Loader Node</name>

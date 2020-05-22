@@ -144,5 +144,5 @@
     <module>appc-rest-adapter-features</module>
     <module>appc-rest-adapter-installer</module>
   </modules>
-  <version>1.8.0-SNAPSHOT</version>
+  <version>2.7.2-SNAPSHOT</version>
 </project>

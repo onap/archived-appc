@@ -30,7 +30,7 @@ limitations under the License.
 
     <groupId>org.onap.appc</groupId>
     <artifactId>onap-appc-sequence-generator</artifactId>
-    <version>1.8.0-SNAPSHOT</version>
+    <version>2.7.2-SNAPSHOT</version>
     <packaging>feature</packaging>
 
     <name/>

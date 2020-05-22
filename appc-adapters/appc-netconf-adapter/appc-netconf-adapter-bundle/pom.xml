@@ -30,7 +30,7 @@
 
     <artifactId>appc-netconf-adapter-bundle</artifactId>
     <groupId>org.onap.appc</groupId>
-    <version>1.8.0-SNAPSHOT</version>
+    <version>2.7.2-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <name>NETCONF Adapter - bundle</name>
     <properties>
