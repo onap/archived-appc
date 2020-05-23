@@ -43,7 +43,7 @@ Release Data
 Version: 1.7.2
 --------------
 
-:Release Date: 2020-6-4 (TBD)
+:Release Date: 2020-5-23
 
 
 New features
