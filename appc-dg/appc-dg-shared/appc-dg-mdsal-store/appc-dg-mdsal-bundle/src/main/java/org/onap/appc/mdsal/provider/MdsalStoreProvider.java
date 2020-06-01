@@ -59,7 +59,7 @@ public class MdsalStoreProvider implements MdsalStoreService ,AutoCloseable{
     protected BindingAwareBroker.RpcRegistration<MdsalStoreService> rpcRegistration;
     private final EELFLogger log = EELFManager.getInstance().getLogger(MdsalStoreProvider.class);
     private final ExecutorService executor;
-    private final static String APP_NAME = "MdsalStoreProvider";
+    private static final String APP_NAME = "MdsalStoreProvider";
 
     public MdsalStoreProvider(DataBroker dataBroker2, NotificationPublishService notificationProviderService
             , RpcProviderRegistry rpcRegistry2){
