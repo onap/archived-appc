@@ -92,8 +92,8 @@ public class ServiceExecutorImpl {
 
         AaiService aaiService = getAaiService(aaiClient);
         SvcLogicContext ctx = getSvcLogicContext();
-        Map<String, String> params = new HashMap<String, String>();
-        List<String> inProgressVServerIds = new ArrayList<String>();
+        Map<String, String> params = new HashMap<>();
+        List<String> inProgressVServerIds = new ArrayList<>();
         String currentVnfcVserverId = new String();
         String currentRequestVnfcName = scopeOverlap.getCurrentRequest().getActionIdentifiers().getVnfcName();
         String currentRequestVServerId = scopeOverlap.getCurrentRequest().getActionIdentifiers().getvServerId();
@@ -101,10 +101,10 @@ public class ServiceExecutorImpl {
         params.put("vnfId", scopeOverlap.getVnfId());
         try {
             aaiService.getGenericVnfInfo(params, ctx);
-            int vm_count = Integer.parseInt(ctx.getAttribute("vm-count"));
+            int vmCount = Integer.parseInt(ctx.getAttribute("vm-count"));
                 for(Request inprogressRequest:inProgressRequests){
                     if(inprogressRequest.getActionIdentifiers().getVnfcName() != null){
-                        for (int i = 0; i < vm_count; i++) {
+                        for (int i = 0; i < vmCount; i++) {
                             if (ctx.getAttribute("vm[" + i + "].vnfc-name") != null && ctx.getAttribute("vm[" + i + "].vnfc-name")
                                     .equals(inprogressRequest.getActionIdentifiers().getVnfcName())) {
                                 String newInProgressVserverId = ctx.getAttribute("vm[" + i + "].vserver-id");
@@ -118,7 +118,7 @@ public class ServiceExecutorImpl {
                 if(inProgVserverIds.getActionIdentifiers().getvServerId() != null)
                     inProgressVServerIds.add(inProgVserverIds.getActionIdentifiers().getvServerId());
             if(currentRequestVnfcName != null){
-                for (int i = 0; i < vm_count; i++) {
+                for (int i = 0; i < vmCount; i++) {
                     if (ctx.getAttribute("vm[" + i + "].vnfc-name") != null && ctx.getAttribute("vm[" + i + "].vnfc-name")
                             .equals(currentRequestVnfcName)) {
                         currentVnfcVserverId = ctx.getAttribute("vm[" + i + "].vserver-id");

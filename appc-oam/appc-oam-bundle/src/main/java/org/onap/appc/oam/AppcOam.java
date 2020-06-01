@@ -80,7 +80,6 @@ import org.onap.appc.statemachine.impl.readers.AppcOamMetaDataReader.AppcOperati
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Future;
 
 /**
  * RPC class of APP-C OAM API.

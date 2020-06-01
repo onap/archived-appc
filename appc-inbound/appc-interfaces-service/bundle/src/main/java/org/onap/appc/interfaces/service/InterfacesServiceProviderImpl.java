@@ -50,7 +50,7 @@ public class InterfacesServiceProviderImpl implements InterfacesServiceService{
 
         log.info("Received Request: " + input.getRequest().getRequestId() + " Action : " + 
                 input.getRequest().getAction() + " with RequestData  :" + input.getRequest().getRequestData() + " and data-Type : " + input.getRequest().getRequestDataType());
-        String request_id = input.getRequest().getRequestId();
+        String requestId = input.getRequest().getRequestId();
         String action = input.getRequest().getAction();
         ResponseInfoBuilder responseInfoBuilder = new ResponseInfoBuilder();
         ExecuteServiceOutputBuilder executeServicebuilder = new ExecuteServiceOutputBuilder();
@@ -59,7 +59,7 @@ public class InterfacesServiceProviderImpl implements InterfacesServiceService{
         try{
             String response = serviceExecutor.execute(action, input.getRequest().getRequestData(), input.getRequest().getRequestDataType());
             responseInfoBuilder.setBlock(response);
-            responseInfoBuilder.setRequestId(request_id);
+            responseInfoBuilder.setRequestId(requestId);
             statusBuilder.setCode("400");
             statusBuilder.setMessage("success");
         }
