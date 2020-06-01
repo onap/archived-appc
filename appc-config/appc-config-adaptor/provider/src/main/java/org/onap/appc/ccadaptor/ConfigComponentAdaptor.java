@@ -318,32 +318,32 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
         if (key.equals("GetCliRunningConfig")) {
             DebugLog.printRTAriDebug(fnName, "key was: GetCliRunningConfig: ");
             log.debug("key was: GetCliRunningConfig: ");
-            String User_name = parameters.get("User_name");
-            String Host_ip_address = parameters.get("Host_ip_address");
-            String Password = parameters.get("Password");
-            Password = EncryptionTool.getInstance().decrypt(Password);
-            String Port_number = parameters.get("Port_number");
-            String Get_config_template = parameters.get("Get_config_template");
+            String userName = parameters.get("User_name");
+            String hostIpAddress = parameters.get("Host_ip_address");
+            String password = parameters.get("Password");
+            password = EncryptionTool.getInstance().decrypt(password);
+            String portNumber = parameters.get("Port_number");
+            String getConfigTemplate = parameters.get("Get_config_template");
             SshJcraftWrapper sshJcraftWrapper = getSshJcraftWrapper();
             log.debug("GetCliRunningConfig: sshJcraftWrapper was instantiated");
             DebugLog.printRTAriDebug(fnName, "GetCliRunningConfig: sshJcraftWrapper was instantiated");
             try {
-                DebugLog.printAriDebug(fnName, "GetCliRunningConfig: User_name=" + User_name +
-                        " Host_ip_address=" + Host_ip_address + " Port_number="
-                        + Port_number);
-                log.debug("GetCliRunningConfig: Attempting to login: Host_ip_address=" + Host_ip_address +
-                        " User_name=" + User_name + " Port_number=" + Port_number);
+                DebugLog.printAriDebug(fnName, "GetCliRunningConfig: User_name=" + userName +
+                        " Host_ip_address=" + hostIpAddress + " Port_number="
+                        + portNumber);
+                log.debug("GetCliRunningConfig: Attempting to login: Host_ip_address=" + hostIpAddress +
+                        " User_name=" + userName + " Port_number=" + portNumber);
                 String response = "";
                 String CliResponse = "";
                 boolean showConfigFlag = false;
-                sshJcraftWrapper.connect(Host_ip_address,
-                        User_name,
-                        Password,
+                sshJcraftWrapper.connect(hostIpAddress,
+                        userName,
+                        password,
                         "",
                         30000,
-                        Integer.parseInt(Port_number));
+                        Integer.parseInt(portNumber));
                 DebugLog.printAriDebug(fnName, "GetCliRunningConfig: On the VNF device");
-                StringTokenizer st = new StringTokenizer(Get_config_template, "\n");
+                StringTokenizer st = new StringTokenizer(getConfigTemplate, "\n");
                 String command = null;
                 try {
                     while (st.hasMoreTokens()) {
@@ -404,27 +404,27 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
         }
         if (key.equals("xml-download")) {
             log(fnName, "key was:    xml-download");
-            String User_name = parameters.get("User_name");
-            String Host_ip_address = parameters.get("Host_ip_address");
-            String Password = parameters.get("Password");
-            Password = EncryptionTool.getInstance().decrypt(Password);
-            String Port_number = parameters.get("Port_number");
+            String userName = parameters.get("User_name");
+            String hostIpAddress = parameters.get("Host_ip_address");
+            String password = parameters.get("Password");
+            password = EncryptionTool.getInstance().decrypt(password);
+            String portNumber = parameters.get("Port_number");
             String Contents = parameters.get("Contents");
             String netconfHelloCmd = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n <hello xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n    <capabilities>\n   <capability>urn:ietf:params:netconf:base:1.0</capability>\n  <capability>urn:com:ericsson:ebase:1.1.0</capability> </capabilities>\n </hello>";
             String terminateConnectionCmd = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n    <rpc message-id=\"terminateConnection\" xmlns:netconf=\"urn:ietf:params:xml:ns:netconf:base:1.0\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n <close-session/> \n </rpc>\n ]]>]]>";
             String commitCmd = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n <rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"1\"> <commit/> </rpc>\n ]]>]]>";
 
             log(fnName,
-                    "xml-download: User_name=" + User_name + " Host_ip_address=" + Host_ip_address
-                    + " Port_number=" + Port_number);
+                    "xml-download: User_name=" + userName + " Host_ip_address=" + hostIpAddress
+                    + " Port_number=" + portNumber);
             SshJcraftWrapper sshJcraftWrapper = getSshJcraftWrapper();
             try {
-                sshJcraftWrapper.connect(Host_ip_address,
-                        User_name,
-                        Password,
+                sshJcraftWrapper.connect(hostIpAddress,
+                        userName,
+                        password,
                         "]]>]]>",
                         30000,
-                        Integer.parseInt(Port_number),
+                        Integer.parseInt(portNumber),
                         "netconf");
                 String NetconfHelloCmd = netconfHelloCmd;
                 NetconfHelloCmd = NetconfHelloCmd + "]]>]]>";
@@ -483,26 +483,26 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
         if (key.equals("xml-getrunningconfig")) {
             log(fnName, "key was: : xml-getrunningconfig");
             String xmlGetRunningConfigCmd = "<?xml version=\"1.0\" encoding=\"UTF-8\"?> <rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"1\">    <get-config> <source> <running /> </source> </get-config> </rpc>\n";
-            String Host_ip_address = parameters.get("Host_ip_address");
-            String User_name = parameters.get("User_name");
-            String Password = parameters.get("Password");
-            Password = EncryptionTool.getInstance().decrypt(Password);
-            String Port_number = parameters.get("Port_number");
+            String hostIpAddress = parameters.get("Host_ip_address");
+            String userName = parameters.get("User_name");
+            String password = parameters.get("Password");
+            password = EncryptionTool.getInstance().decrypt(password);
+            String portNumber = parameters.get("Port_number");
             String Protocol = parameters.get("Protocol");
             String netconfHelloCmd = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n <hello xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n    <capabilities>\n   <capability>urn:ietf:params:netconf:base:1.0</capability>\n <capability>urn:com:ericsson:ebase:1.1.0</capability> </capabilities>\n </hello>";
             String terminateConnectionCmd = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n    <rpc message-id=\"terminateConnection\" xmlns:netconf=\"urn:ietf:params:xml:ns:netconf:base:1.0\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n <close-session/> \n </rpc>\n ]]>]]>";
             log(fnName,
-                    "xml-getrunningconfig: User_name=" + User_name + " Host_ip_address=" + Host_ip_address
-                    + " Port_number=" + Port_number);
+                    "xml-getrunningconfig: User_name=" + userName + " Host_ip_address=" + hostIpAddress
+                    + " Port_number=" + portNumber);
             SshJcraftWrapper sshJcraftWrapper = getSshJcraftWrapper();
             try {
                 String NetconfHelloCmd = netconfHelloCmd;
-                sshJcraftWrapper.connect(Host_ip_address,
-                        User_name,
-                        Password,
+                sshJcraftWrapper.connect(hostIpAddress,
+                        userName,
+                        password,
                         "]]>]]>",
                         30000,
-                        Integer.parseInt(Port_number),
+                        Integer.parseInt(portNumber),
                         "netconf");
                 NetconfHelloCmd = NetconfHelloCmd + "]]>]]>";
                 log(fnName, ":Sending the hello command");
@@ -533,12 +533,12 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
         if (key.equals("DownloadCliConfig")) {
             DebugLog.printRTAriDebug(fnName, "key was: DownloadCliConfig: ");
             log.debug("key was: DownloadCliConfig: ");
-            String User_name = parameters.get("User_name");
-            String Host_ip_address = parameters.get("Host_ip_address");
-            String Password = parameters.get("Password");
-            Password = EncryptionTool.getInstance().decrypt(Password);
-            String Port_number = parameters.get("Port_number");
-            String Download_config_template = parameters.get("Download_config_template");
+            String userName = parameters.get("User_name");
+            String hostIpAddress = parameters.get("Host_ip_address");
+            String password = parameters.get("Password");
+            password = EncryptionTool.getInstance().decrypt(password);
+            String portNumber = parameters.get("Port_number");
+            String downloadConfigTemplate = parameters.get("Download_config_template");
             String Config_contents = parameters.get("Config_contents");
             DebugLog.printAriDebug(fnName, "Contents of the 'Config_contents' are: " + Config_contents);
             SshJcraftWrapper sshJcraftWrapper = getSshJcraftWrapper();
@@ -546,20 +546,20 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
             DebugLog.printRTAriDebug(fnName, "DownloadCliConfig: sshJcraftWrapper was instantiated");
             int timeout = 4 * 60 * 1000;
             try {
-                DebugLog.printAriDebug(fnName, "DownloadCliConfig: User_name=" + User_name +
-                        " Host_ip_address=" + Host_ip_address + " Port_number="
-                        + Port_number);
-                log.debug("DownloadCliConfig: Attempting to login: Host_ip_address=" + Host_ip_address +
-                        " User_name=" + User_name + " Port_number=" + Port_number);
+                DebugLog.printAriDebug(fnName, "DownloadCliConfig: User_name=" + userName +
+                        " Host_ip_address=" + hostIpAddress + " Port_number="
+                        + portNumber);
+                log.debug("DownloadCliConfig: Attempting to login: Host_ip_address=" + hostIpAddress +
+                        " User_name=" + userName + " Port_number=" + portNumber);
                 String CliResponse = "";
-                sshJcraftWrapper.connect(Host_ip_address,
-                        User_name,
-                        Password,
+                sshJcraftWrapper.connect(hostIpAddress,
+                        userName,
+                        password,
                         "",
                         30000,
-                        Integer.parseInt(Port_number));
+                        Integer.parseInt(portNumber));
                 DebugLog.printAriDebug(fnName, "DownloadCliConfig: On the VNF device");
-                StringTokenizer st = new StringTokenizer(Download_config_template, "\n");
+                StringTokenizer st = new StringTokenizer(downloadConfigTemplate, "\n");
                 String command = null;
                 String executeConfigContentsDelemeter = null;
                 try {
@@ -1102,15 +1102,15 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
         Properties props = null;
         System.out.println("*************************Hello*****************************");
         ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
-        String Get_config_template = _readFile("/home/userID/data/Get_config_template");
-        String Download_config_template = _readFile("/home/userID/data/Download_config_template_2");
+        String getConfigTemplate = _readFile("/home/userID/data/Get_config_template");
+        String downloadConfigTemplate = _readFile("/home/userID/data/Download_config_template_2");
         String key = "GetCliRunningConfig";
         Map<String, String> parameters = new HashMap();
         parameters.put("Host_ip_address", "000.00.000.00");
         parameters.put("User_name", "root");
         parameters.put("Password", "!bootstrap");
         parameters.put("Port_number", "22");
-        parameters.put("Get_config_template", Get_config_template);
+        parameters.put("Get_config_template", getConfigTemplate);
 
         SvcLogicContext ctx = null;
         System.out.println("*************************TRACE 1*****************************");
