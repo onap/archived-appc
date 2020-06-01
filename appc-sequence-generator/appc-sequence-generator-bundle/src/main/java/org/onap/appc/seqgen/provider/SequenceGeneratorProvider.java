@@ -89,7 +89,7 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
     protected BindingAwareBroker.RpcRegistration<SequenceGeneratorService> rpcRegistration;
     private final EELFLogger log = EELFManager.getInstance().getLogger(SequenceGeneratorProvider.class);
     private final ExecutorService executor;
-    private final static String APP_NAME = "SequenceGeneratorProvider";
+    private static final String APP_NAME = "SequenceGeneratorProvider";
 
     public SequenceGeneratorProvider(DataBroker dataBroker2, NotificationPublishService notificationProviderService,
             RpcProviderRegistry rpcRegistry2) {

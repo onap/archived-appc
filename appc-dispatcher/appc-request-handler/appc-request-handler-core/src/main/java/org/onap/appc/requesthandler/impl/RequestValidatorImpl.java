@@ -434,12 +434,12 @@ public class RequestValidatorImpl extends AbstractRequestValidatorImpl {
         return vnfContext;
     }
 
-    private SvcLogicContext getVnfdata(String vnf_id, String prefix, SvcLogicContext ctx) throws VNFNotFoundException {
+    private SvcLogicContext getVnfdata(String vnfId, String prefix, SvcLogicContext ctx) throws VNFNotFoundException {
         if (logger.isTraceEnabled()) {
-            logger.trace("Entering to getVnfdata with vnfid = " + ObjectUtils.toString(vnf_id) + ", prefix = "
+            logger.trace("Entering to getVnfdata with vnfid = " + ObjectUtils.toString(vnfId) + ", prefix = "
                     + ObjectUtils.toString(prefix) + ", SvcLogicContext" + ObjectUtils.toString(ctx));
         }
-        String key = "vnf-id = '" + vnf_id + "'";
+        String key = "vnf-id = '" + vnfId + "'";
         logger.debug("inside getVnfdata=== " + key);
         try {
             Date beginTimestamp = new Date();
@@ -452,9 +452,9 @@ public class RequestValidatorImpl extends AbstractRequestValidatorImpl {
                     LoggingConstants.TargetNames.AAI, LoggingConstants.TargetServiceNames.AAIServiceNames.QUERY, status,
                     "", response.name(), this.getClass().getCanonicalName());
             if (SvcLogicResource.QueryStatus.NOT_FOUND.equals(response)) {
-                throw new VNFNotFoundException("VNF not found for vnf_id = " + vnf_id, vnf_id);
+                throw new VNFNotFoundException("VNF not found for vnf_id = " + vnfId, vnfId);
             } else if (SvcLogicResource.QueryStatus.FAILURE.equals(response)) {
-                throw new RuntimeException("Error Querying AAI with vnfID = " + vnf_id);
+                throw new RuntimeException("Error Querying AAI with vnfID = " + vnfId);
             }
             logger.info("AAIResponse: " + response.toString());
         } catch (SvcLogicException e) {

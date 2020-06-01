@@ -33,7 +33,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DmaapIncomingMessage extends DmaapMessage{
-    private final static String defaultCambriaPartition = "APP-C";
+    private static final String defaultCambriaPartition = "APP-C";
 
     public DmaapIncomingMessage() {
         super();
