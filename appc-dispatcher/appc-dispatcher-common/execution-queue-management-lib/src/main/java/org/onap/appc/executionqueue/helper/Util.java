@@ -35,10 +35,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Util {
 
-    private int default_queue_size = 10;
-    private int default_threadpool_size = 10;
-    private String queue_size_key = "appc.dispatcher.executionqueue.backlog.size";
-    private String threadpool_size_key = "appc.dispatcher.executionqueue.threadpool.size";
+    private int defaultQueueSize = 10;
+    private int defaultThreadpoolSize = 10;
+    private String queueSizeKey = "appc.dispatcher.executionqueue.backlog.size";
+    private String threadpoolSizeKey = "appc.dispatcher.executionqueue.threadpool.size";
     private EELFLogger logger = EELFManager.getInstance().getLogger(Util.class);
 
     private Configuration configuration;
@@ -52,9 +52,9 @@ public class Util {
     }
 
     public int getExecutionQueueSize() {
-        String sizeStr = configuration.getProperty(queue_size_key, String.valueOf(default_queue_size));
+        String sizeStr = configuration.getProperty(queueSizeKey, String.valueOf(defaultQueueSize));
 
-        int size = default_queue_size;
+        int size = defaultQueueSize;
         try {
             size = Integer.parseInt(sizeStr);
         } catch (NumberFormatException e) {
@@ -65,9 +65,9 @@ public class Util {
     }
 
     public int getThreadPoolSize() {
-        String sizeStr = configuration.getProperty(threadpool_size_key, String.valueOf(default_threadpool_size));
+        String sizeStr = configuration.getProperty(threadpoolSizeKey, String.valueOf(defaultThreadpoolSize));
 
-        int size = default_threadpool_size;
+        int size = defaultThreadpoolSize;
         try {
             size = Integer.parseInt(sizeStr);
         } catch (NumberFormatException e) {
