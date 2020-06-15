@@ -30,12 +30,12 @@ import java.util.regex.Pattern;
 
 
 public class MessageFormatter {
-    private final static String paramNameRegexGroupName = "paramName";
+    private static final String paramNameRegexGroupName = "paramName";
 
     /**
      * start with ${ and after there is one or more characters that are not $ and not } and ended with }
      */
-    private final static String paramRegex = "\\$\\{(?<paramName>[^}$]+)\\}";
+    private static final String paramRegex = "\\$\\{(?<paramName>[^}$]+)\\}";
 
     public static String format(String messageTemplate, Map<String, Object> params) {
         if (StringUtils.isEmpty(messageTemplate))

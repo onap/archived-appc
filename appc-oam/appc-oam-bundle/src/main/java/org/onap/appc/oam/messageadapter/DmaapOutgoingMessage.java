@@ -42,7 +42,7 @@ public class DmaapOutgoingMessage {
     @JsonProperty("correlation-id")
     private String correlationID;
 
-    private final static String defaultCambriaPartition = "MSO";
+    private static final String defaultCambriaPartition = "MSO";
     @JsonProperty("cambria.partition")
     private String cambriaPartition = defaultCambriaPartition;
 
