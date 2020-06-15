@@ -40,7 +40,7 @@ public class ParamsHandlerActivator implements BundleActivator {
     
     private static final String STR_PROPERTY_DEFINITION_FAILED = "Failed while getting PropertyDefinitionNode";
 
-    private List<ServiceRegistration> registrations = new LinkedList<ServiceRegistration>();
+    private List<ServiceRegistration> registrations = new LinkedList<>();
 
 
     private static final EELFLogger log =

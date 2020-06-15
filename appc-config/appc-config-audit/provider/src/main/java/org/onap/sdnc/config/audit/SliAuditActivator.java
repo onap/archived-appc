@@ -36,7 +36,7 @@ import com.att.eelf.configuration.EELFManager;
 
 public class SliAuditActivator implements BundleActivator{
 
-    private List<ServiceRegistration> registrations = new LinkedList<ServiceRegistration>();
+    private List<ServiceRegistration> registrations = new LinkedList<>();
 
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(SliAuditActivator.class);

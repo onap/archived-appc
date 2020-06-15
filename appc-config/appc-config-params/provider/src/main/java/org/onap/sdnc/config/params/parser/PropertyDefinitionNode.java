@@ -152,7 +152,7 @@ public class PropertyDefinitionNode implements SvcLogicJavaPlugin {
 
             if (StringUtils.isBlank(requestParamJson)) {
                 //throw new MissingParameterException(STR_JSON_DATA_MISSING);
-                Map <String,String> tempMap=new HashMap<String, String> ();
+                Map <String,String> tempMap=new HashMap<> ();
                 requestParamJson = tempMap.toString();
                 log.info("mergeJsonData()::"+STR_JSON_DATA_MISSING);
             }
@@ -331,7 +331,7 @@ public class PropertyDefinitionNode implements SvcLogicJavaPlugin {
 
             if (StringUtils.isBlank(configParams)) {
                 //throw new MissingParameterException("Request Param (configParams) is Missing ..");
-                Map <String,String> tempMap=new HashMap<String, String> ();
+                Map <String,String> tempMap=new HashMap<> ();
                 configParams = tempMap.toString();
                 log.info("validateParams():: Request Param (configParams) is Missing ..");
                 

@@ -36,7 +36,7 @@ import com.att.eelf.configuration.EELFManager;
 public class AppcDataServiceActivator implements BundleActivator {
 
 	private static final EELFLogger log = EELFManager.getInstance().getLogger(AppcDataServiceActivator.class);
-	private List<ServiceRegistration> registrations = new LinkedList<ServiceRegistration>();
+	private List<ServiceRegistration> registrations = new LinkedList<>();
 	
 	@Override
 	public void start(BundleContext ctx) throws Exception {

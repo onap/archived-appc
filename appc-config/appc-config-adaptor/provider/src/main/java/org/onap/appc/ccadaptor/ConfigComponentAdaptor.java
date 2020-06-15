@@ -636,7 +636,7 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
         String nd = buildNetworkData2(ctx, ndTemplate, operation);
 
         String reqTemplate = readFile("/config-request.xml");
-        Map<String, String> param = new HashMap<String, String>();
+        Map<String, String> param = new HashMap<>();
         param.put("request-id", ctx.getAttribute("service-data.appc-request-header.svc-request-id"));
         param.put("request-type", requestType);
         param.put("callback-url", configCallbackUrl);
@@ -666,7 +666,7 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
 
     private ConfigStatus activate(SvcLogicContext ctx, boolean change) {
         String reqTemplate = readFile("/config-request.xml");
-        Map<String, String> param = new HashMap<String, String>();
+        Map<String, String> param = new HashMap<>();
         param.put("request-id", ctx.getAttribute("service-data.appc-request-header.svc-request-id"));
         param.put("callback-url", configCallbackUrl);
         param.put("action", change ? "DownloadChange" : "DownloadBase");
@@ -690,7 +690,7 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
 
     private ConfigStatus audit(SvcLogicContext ctx, String auditLevel) {
         String reqTemplate = readFile("/audit-request.xml");
-        Map<String, String> param = new HashMap<String, String>();
+        Map<String, String> param = new HashMap<>();
         param.put("request-id", ctx.getAttribute("service-data.appc-request-header.svc-request-id"));
         param.put("callback-url", auditCallbackUrl);
         param.put("equipment-name", ctx.getAttribute("service-data.service-information.service-instance-id"));
