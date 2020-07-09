@@ -238,6 +238,16 @@ module appc-provider-lcm {
                 mandatory false;
             }
 
+            leaf x-onap-requestorid {
+                description "This is the user who initiated the LCM action. The content of the
+                             header should be in the format of attuid@domain or mechid@domain.
+                             If id or domain is missing, return an error. This parameter is
+                             mandatory for v2.01 and optional for v2.00. The Yang model has it as
+                             optional and software makes determination";
+                type string;
+                mandatory false;
+            }
+
 
             /**********************************************************************************
              * Flags are generic flags that apply to any and all commands, all are optional
