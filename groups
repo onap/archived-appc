@@ -1,4 +1,5 @@
 # UUID                                                               	Group Name
 #
+055e8acebb5330ad8eec3d9b9366c5af5663a65d                             	saml/onap-gerrit-appc-committers
 daebbf523be390041a1a9c0e340a6d833aae5043                             	GitHub Replication
 ldap:cn=onap-gerrit-appc-committers,ou=Groups,dc=freestandards,dc=org	ldap/onap-gerrit-appc-committers
