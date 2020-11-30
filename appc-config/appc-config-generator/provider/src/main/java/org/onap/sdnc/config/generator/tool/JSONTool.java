@@ -66,7 +66,7 @@ public class JSONTool {
                     String oString = o.toString();
                     //Add escape characters to the string in case it is a string representation
                     //of a json object.
-                    oString = JSONObject.quote(oString);
+                    oString = JSONObject.quote(oString, false);
                     //Remove the surrouding quotes added by the JSONObject.quote() method.
                     //JSONObject.quote() will always return, at minimum, a string with two quotes,
                     //even if a null string is passed to it. So this substring method does not
