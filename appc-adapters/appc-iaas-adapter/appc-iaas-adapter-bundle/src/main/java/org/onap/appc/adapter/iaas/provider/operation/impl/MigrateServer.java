@@ -107,6 +107,7 @@ public class MigrateServer extends ProviderServerOperation {
         }
 
         boolean inConfirmPhase = false;
+        rc.reset();
         try {
             while (rc.attempt()) {
                 try {
