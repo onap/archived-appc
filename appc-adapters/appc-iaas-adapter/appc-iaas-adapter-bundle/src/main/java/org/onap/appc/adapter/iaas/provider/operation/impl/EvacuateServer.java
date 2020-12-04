@@ -123,6 +123,7 @@ public class EvacuateServer extends ProviderServerOperation {
             String targetHost) throws ZoneException, RequestFailedException {
         String msg;
         Context ctx = server.getContext();
+        rcCtx.reset();
         while (rcCtx.attempt()) {
             try {
                 logger.debug("Calling CDP moveServer - server id = " + server.getId());
