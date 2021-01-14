@@ -267,6 +267,16 @@ public final class ConfigurationFactory {
         return local;
     }
 
+    private static void logPropertyValue(String key, String value) {
+        if ((!StringUtils.containsIgnoreCase(key, "pass")) && (!StringUtils.containsIgnoreCase(key, "secret"))) {
+            logger.info(Msg.PROPERTY_VALUE, key, value);
+        } else if (logger.isDebugEnabled()) {
+            logger.debug(Msg.PROPERTY_VALUE, key, value);
+        } else {
+            logger.info(Msg.PROPERTY_VALUE, key, value.replaceAll(".", "*"));
+        }
+    }
+
     /**
      * This method will clear the current configuration and then re-initialize it with the default
      * values, application-specific configuration file, user-supplied properties (if any), and then
@@ -313,10 +323,7 @@ public final class ConfigurationFactory {
                 }
             }
             for (String key : config.getProperties().stringPropertyNames()) {
-                if ((!StringUtils.containsIgnoreCase(key, "pass"))&&(!StringUtils.containsIgnoreCase(key, "secret")))
-                    logger.info(Msg.PROPERTY_VALUE, key, config.getProperty(key));
-                else
-                    logger.info(Msg.PROPERTY_VALUE, key, config.getProperty(key));
+                logPropertyValue(key, config.getProperty(key));
             }
         } else {
             logger.info(Msg.NO_DEFAULTS_FOUND, DEFAULT_PROPERTIES);
@@ -363,7 +370,11 @@ public final class ConfigurationFactory {
                     stream = new BufferedInputStream(new FileInputStream(file));
                     fileProperties.load(stream);
                     for (String key : fileProperties.stringPropertyNames()) {
+<<<<<<< HEAD   (38c36a Fix LCM evacuate issue)
                         logger.debug(Msg.PROPERTY_VALUE, key, fileProperties.getProperty(key));
+=======
+                        logPropertyValue(key, fileProperties.getProperty(key));
+>>>>>>> CHANGE (0a5c2d Refactor property logging)
                         config.setProperty(key, fileProperties.getProperty(key));
                     }
                     found = true;
@@ -392,7 +403,11 @@ public final class ConfigurationFactory {
         if (props != null) {
             logger.info(Msg.LOADING_APPLICATION_OVERRIDES);
             for (String key : props.stringPropertyNames()) {
+<<<<<<< HEAD   (38c36a Fix LCM evacuate issue)
                 logger.debug(Msg.PROPERTY_VALUE, key, props.getProperty(key));
+=======
+                logPropertyValue(key, props.getProperty(key));
+>>>>>>> CHANGE (0a5c2d Refactor property logging)
                 config.setProperty(key, props.getProperty(key));
             }
         } else {
