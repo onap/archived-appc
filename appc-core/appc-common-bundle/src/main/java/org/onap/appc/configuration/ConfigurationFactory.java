@@ -363,7 +363,7 @@ public final class ConfigurationFactory {
                     stream = new BufferedInputStream(new FileInputStream(file));
                     fileProperties.load(stream);
                     for (String key : fileProperties.stringPropertyNames()) {
-                        logger.debug(Msg.PROPERTY_VALUE, key, fileProperties.getProperty(key));
+                        logger.info(Msg.PROPERTY_VALUE, key, fileProperties.getProperty(key));
                         config.setProperty(key, fileProperties.getProperty(key));
                     }
                     found = true;
@@ -392,7 +392,7 @@ public final class ConfigurationFactory {
         if (props != null) {
             logger.info(Msg.LOADING_APPLICATION_OVERRIDES);
             for (String key : props.stringPropertyNames()) {
-                logger.debug(Msg.PROPERTY_VALUE, key, props.getProperty(key));
+                logger.info(Msg.PROPERTY_VALUE, key, props.getProperty(key));
                 config.setProperty(key, props.getProperty(key));
             }
         } else {
